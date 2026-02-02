@@ -36,10 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Sylpha.Messaging\Sylpha.Messaging.csproj" />
   </ItemGroup>
 

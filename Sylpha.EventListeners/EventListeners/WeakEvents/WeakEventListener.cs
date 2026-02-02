@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
-using JetBrains.Annotations;
 
 namespace Sylpha.EventListeners.WeakEvents {
 	/// <summary>
@@ -10,7 +9,6 @@ namespace Sylpha.EventListeners.WeakEvents {
 	/// </summary>
 	/// <typeparam name="THandler">対象のイベントのイベントハンドラ型</typeparam>
 	/// <typeparam name="TEventArgs">対象のイベントのイベント引数型</typeparam>
-	[PublicAPI]
 	public class WeakEventListener<THandler, TEventArgs> : IDisposable where THandler : Delegate where TEventArgs : EventArgs {
 
 #pragma warning disable CS8618 // null 非許容のフィールドには、コンストラクターの終了時に非 null 値が入っていなければなりません。'required' 修飾子を追加するか、null 許容として宣言することを検討してください。

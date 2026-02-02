@@ -2,14 +2,12 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Markup;
-using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
 	/// 画面遷移アクション用のメッセージです。
 	/// </summary>
 	[ContentProperty( nameof( ViewModel ) )]
-	[PublicAPI]
 	public class ShowWindowMessage : RequestMessage<bool?> {
 		#region Register ViewModel
 		/// <summary>
@@ -129,7 +127,6 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	/// <typeparam name="TWindow">ウインドウタイプ</typeparam>
 	[ContentProperty( nameof( ViewModel ) )]
-	[PublicAPI]
 	public class ShowWindowMessage<TWindow> : ShowWindowMessage where TWindow : Window {
 		public ShowWindowMessage() : base( typeof( TWindow ) ) { }
 
@@ -166,7 +163,6 @@ namespace Sylpha.Messaging {
 	/// <typeparam name="TWindow">ウインドウタイプ</typeparam>
 	/// <typeparam name="TViewModel">ViewModelのタイプ</typeparam>
 	[ContentProperty( nameof( ViewModel ) )]
-	[PublicAPI]
 	public class ShowWindowMessage<TWindow, TViewModel> : ShowWindowMessage<TWindow> where TWindow : Window where TViewModel : INotifyPropertyChanged {
 		public ShowWindowMessage() { }
 
@@ -188,8 +184,6 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		protected override Freezable CreateInstanceCore() => new ShowWindowMessage<TWindow, TViewModel>();
 	}
-
-	[PublicAPI]
 	public static class ShowWindowMessageGenerator<TWindow> where TWindow : Window {
 		public static ShowWindowMessage<TWindow, TViewModel> Create<TViewModel>( TViewModel viewModel, string? messageKey = null ) where TViewModel : INotifyPropertyChanged {
 			return new ShowWindowMessage<TWindow, TViewModel>( viewModel, messageKey );

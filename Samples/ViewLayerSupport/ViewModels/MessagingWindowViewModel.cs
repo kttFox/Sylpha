@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using JetBrains.Annotations;
 using Sylpha;
 using Sylpha.Commands;
 using Sylpha.Messaging;
@@ -8,7 +7,7 @@ using Sylpha.Messaging.Behaviors;
 
 namespace ViewLayerSupport.ViewModels {
 	public class MessagingWindowViewModel : ViewModel {
-		public string OutputMessage { get; set => SetProperty( ref field, value ); }
+		public string? OutputMessage { get; set => SetProperty( ref field, value ); }
 
 		public void MessageBoxFromViewModel() {
 			var message = new MessageBoxMessage( "これはテスト用メッセージです。", "テスト" ) {
@@ -32,7 +31,7 @@ namespace ViewLayerSupport.ViewModels {
 			OutputMessage = $"[{DateTime.Now}][File]: {selectedPaths}";
 		}
 
-		public void SaveFileSelected( [NotNull] SaveFileDialogMessage message ) {
+		public void SaveFileSelected( SaveFileDialogMessage message ) {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
 			var selectedPaths = ( message.Response == null ) ? "未選択" : string.Join( ";", message.Response );
@@ -62,7 +61,7 @@ namespace ViewLayerSupport.ViewModels {
 		}
 		#endregion
 
-		public void FolderSelected( [NotNull] CommonOpenFileDialogMessage message ) {
+		public void FolderSelected( CommonOpenFileDialogMessage message ) {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
 			var selectedPaths = message.Response == null ? "未選択" : string.Join( ";", message.Response );

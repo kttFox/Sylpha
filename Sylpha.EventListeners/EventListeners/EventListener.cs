@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using JetBrains.Annotations;
 
 namespace Sylpha.EventListeners {
 	/// <summary>
 	/// 汎用イベントリスナーオブジェクトです。
 	/// </summary>
 	/// <typeparam name="THandler">イベントハンドラーの型</typeparam>
-	[PublicAPI]
 	public class EventListener<THandler> : IDisposable where THandler : Delegate {
 		
 #pragma warning disable CS8618 // null 非許容のフィールドには、コンストラクターの終了時に非 null 値が入っていなければなりません。'required' 修飾子を追加するか、null 許容として宣言することを検討してください。

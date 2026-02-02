@@ -3,13 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using JetBrains.Annotations;
 
 namespace Sylpha {
 	/// <summary>
 	/// 複数のIDisposableオブジェクトをまとめて操作するための機能を提供します。
 	/// </summary>
-	[PublicAPI]
 	public class DisposableCollection : Collection<IDisposable>, IDisposable {
 		protected override void InsertItem( int index, IDisposable item ) {
 			base.InsertItem( index, item );

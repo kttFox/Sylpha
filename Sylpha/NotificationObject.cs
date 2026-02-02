@@ -4,13 +4,11 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using JetBrains.Annotations;
 
 namespace Sylpha {
 	/// <summary>
 	/// 変更通知オブジェクトの基底クラスです。
 	/// </summary>
-	[PublicAPI]
 	[Serializable]
 	public class NotificationObject : INotifyPropertyChanged {
 		/// <summary>
@@ -25,7 +23,6 @@ namespace Sylpha {
 		/// <param name="source"></param>
 		/// <param name="propertyExpression">() => プロパティ形式のラムダ式</param>
 		/// <exception cref="NotSupportedException">() => プロパティ 以外の形式のラムダ式が指定されました。</exception>
-		[NotifyPropertyChangedInvocator]
 		// ReSharper disable once UnusedParameter.Global
 		protected virtual void RaisePropertyChanged<T>( Expression<Func<T>> propertyExpression ) {
 			if( propertyExpression == null ) throw new ArgumentNullException( nameof( propertyExpression ) );
@@ -38,7 +35,6 @@ namespace Sylpha {
 		/// プロパティ変更通知イベントを発生させます
 		/// </summary>
 		/// <param name="propertyName">プロパティ名</param>
-		[NotifyPropertyChangedInvocator]
 		protected virtual void RaisePropertyChanged( [CallerMemberName] string propertyName = "" ) {
 			PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( propertyName ) );
 		}
@@ -51,7 +47,6 @@ namespace Sylpha {
 		/// <param name="value">新しい値</param>
 		/// <param name="propertyName">プロパティ名</param>
 		/// <returns>値の変更有無</returns>
-		[NotifyPropertyChangedInvocator]
 		protected bool SetProperty<T>( ref T source, T value, [CallerMemberName] string propertyName = "" ) {
 			if( EqualityComparer<T>.Default.Equals( source, value ) ) {
 				return false;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 
@@ -35,7 +34,6 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// 引数の無いメソッドを呼び出すメッセージです。
 	/// </summary>
-	[PublicAPI]
 	public class CallActionMessage : CallMethodMessage {
 		public CallActionMessage() { }
 
@@ -64,7 +62,6 @@ namespace Sylpha.Messaging {
 	/// 引数を持つメソッドを呼び出すメッセージです。
 	/// </summary>
 	/// <typeparam name="TParameter">引数の型</typeparam>
-	[PublicAPI]
 	public class CallActionMessage<TParameter> : CallActionMessage, ICallOneParameterMethodMessage {
 
 		public CallActionMessage() { }
@@ -98,7 +95,6 @@ namespace Sylpha.Messaging {
 	/// 引数がなく、返り値のあるメソッドを呼び出すメッセージです。
 	/// </summary>
 	/// <typeparam name="TResult">返り値の型</typeparam>
-	[PublicAPI]
 	public class CallFuncMessage<TResult> : CallMethodMessage, ICallFuncMessage, IRequestMessage {
 		public CallFuncMessage() { }
 
@@ -141,7 +137,6 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	/// <typeparam name="TParameter">引数の型</typeparam>
 	/// <typeparam name="TResult">返り値の型</typeparam>
-	[PublicAPI]
 	public class CallFuncMessage<TParameter, TResult> : CallFuncMessage<TResult>, ICallOneParameterMethodMessage {
 		public CallFuncMessage() { }
 

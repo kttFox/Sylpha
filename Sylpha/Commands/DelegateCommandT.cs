@@ -1,14 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
-using JetBrains.Annotations;
 
 namespace Sylpha.Commands {
 	/// <summary>
 	/// <see cref="{T}"/>型オブジェクトを受け取る汎用的コマンドを表します。
 	/// </summary>
 	/// <typeparam name="T">受け取るオブジェクトの型</typeparam>
-	[PublicAPI]
 	public sealed class DelegateCommand<T> : NotificationObject, ICommand, INotifyPropertyChanged {
 		private readonly Action<T?> _execute;
 		private readonly Func<T?, bool>? _canExecute;

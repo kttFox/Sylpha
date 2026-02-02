@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Windows;
-using JetBrains.Annotations;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// Windowの最小化、最大化、閉じる などを行うアクションです。
 	/// </summary>
-	[PublicAPI]
 	public class WindowActionMessageAction : MessageAction<FrameworkElement, WindowActionMessage> {
 		protected override void InvokeAction( WindowActionMessage message ) {
 			Action( this.AssociatedObject, message );

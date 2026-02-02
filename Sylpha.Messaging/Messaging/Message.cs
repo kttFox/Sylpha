@@ -1,12 +1,10 @@
 ﻿using System.Windows;
-using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
 	/// メッセージの基底クラスです。<br />
 	/// 戻り値情報が必要ないメッセージを作成する場合はこのクラスを継承してメッセージを作成します。
 	/// </summary>
-	[PublicAPI]
 	public class Message : Freezable {
 
 		#region Register MessageKey
@@ -46,7 +44,6 @@ namespace Sylpha.Messaging {
 	/// 値のあるメッセージの基底クラスです。<br />
 	/// 戻り値情報が必要ないメッセージを作成する場合はこのクラスを継承してメッセージを作成します。
 	/// </summary>
-	[PublicAPI]
 	public class Message<TValue> : Message {
 
 		#region Register ValueProperty
