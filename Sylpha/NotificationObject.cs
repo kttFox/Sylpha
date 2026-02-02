@@ -47,42 +47,26 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		/// 前と値が違うなら変更して、プロパティ変更通知イベントを発生させます
+		/// プロパティの値を設定します。値が変更された場合はプロパティ変更通知イベントを発生させます。
 		/// </summary>
 		/// <typeparam name="T">プロパティの型</typeparam>
 		/// <param name="source">元の値</param>
 		/// <param name="value">新しい値</param>
-		/// <param name="relatedProperties">このプロパティが変更されたときに PropertyChanged イベントを発行するプロパティの名前の配列</param>
 		/// <param name="propertyName">プロパティ名</param>
 		/// <returns>値の変更有無</returns>
 		[NotifyPropertyChangedInvocator]
-		protected bool RaisePropertyChangedIfSet<T>( ref T source, T value, string[]? relatedProperties = null, [CallerMemberName] string propertyName = "" ) {
+		protected bool SetProperty<T>( ref T source, T value, [CallerMemberName] string propertyName = "" ) {
 			//値が同じだったら何もしない
-			if( EqualityComparer<T>.Default.Equals( source, value ) )
+			if( EqualityComparer<T>.Default.Equals( source, value ) ) {
 				return false;
+			}
 
 			source = value;
 			RaisePropertyChanged( propertyName );
-			if( relatedProperties == null ) return true;
-
-			foreach( var p in relatedProperties )
-				RaisePropertyChanged( p );
 
 			return true;
 		}
 
-		/// <summary>
-		/// 前と値が違うなら変更して、プロパティ変更通知イベントを発生させます
-		/// </summary>
-		/// <typeparam name="T">プロパティの型</typeparam>
-		/// <param name="source">元の値</param>
-		/// <param name="value">新しい値</param>
-		/// <param name="relatedProperty">このプロパティが変更されたときに PropertyChanged イベントを発行するプロパティの名前</param>
-		/// <param name="propertyName">プロパティ名</param>
-		/// <returns>値の変更有無</returns>
-		[NotifyPropertyChangedInvocator]
-		protected bool RaisePropertyChangedIfSet<T>( ref T source, T value, string relatedProperty, [CallerMemberName] string propertyName = "" ) {
-			return RaisePropertyChangedIfSet( ref source, value, [relatedProperty], propertyName );
-		}
+		
 	}
 }

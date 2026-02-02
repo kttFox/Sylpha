@@ -16,7 +16,7 @@ namespace Sylpha.NUnit.Commands {
 
 				var handlerResultList = new List<string>();
 
-				var command = new ViewModelCommand( () => { }, () => true );
+				var command = new DelegateCommand( () => { }, () => true );
 
 				EventHandler handler1 = ( sender, e ) => handlerResultList.Add( "Handler1" );
 				EventHandler handler2 = ( sender, e ) => handlerResultList.Add( "Handler2" );
@@ -62,7 +62,7 @@ namespace Sylpha.NUnit.Commands {
 
 				var handlerResultList = new List<string>();
 
-				var command = new ViewModelCommand( () => { }, () => true );
+				var command = new DelegateCommand( () => { }, () => true );
 
 				var realReceiver1 = new EventReceiver( command, () => eventReceivedCount++ );
 				var realReceiver2 = new EventReceiver( command, () => eventReceivedCount++ );

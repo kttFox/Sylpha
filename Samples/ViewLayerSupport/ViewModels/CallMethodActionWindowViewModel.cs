@@ -7,10 +7,7 @@ namespace ViewLayerSupport.ViewModels {
 	public class CallMethodActionWindowViewModel : ViewModel {
 		public void Initialize() { }
 
-		public string Text {
-			get;
-			set => RaisePropertyChangedIfSet( ref field, value );
-		}
+		public string Text { get; set => SetProperty( ref field, value ); }
 
 		void ButtonClick() {
 			this.Text = $"[{DateTime.Now}] ViewModel - Button Clicked!";
@@ -22,7 +19,7 @@ namespace ViewLayerSupport.ViewModels {
 
 
 		#region ButtonClickCommand
-		public ViewModelCommand ButtonClickCommand => field ??= new ViewModelCommand( DoButtonClickCommand );
+		public DelegateCommand ButtonClickCommand => field ??= new DelegateCommand( DoButtonClickCommand );
 
 		private void DoButtonClickCommand() {
 			this.Messenger.Raise( new CallActionMessage( "ButtonClick" ) );
@@ -30,7 +27,7 @@ namespace ViewLayerSupport.ViewModels {
 		#endregion
 
 		#region ButtonClickCommand2
-		public ListenerCommand<string> ButtonClickCommand2 => field ??= new ListenerCommand<string>( DoButtonClickCommand2 );
+		public DelegateCommand<string> ButtonClickCommand2 => field ??= new DelegateCommand<string>( DoButtonClickCommand2 );
 
 		private void DoButtonClickCommand2( string? param ) {
 			this.Messenger.Raise( new CallActionMessage<string?>( "ButtonClick", param ) );
@@ -38,7 +35,7 @@ namespace ViewLayerSupport.ViewModels {
 		#endregion
 
 		#region ButtonClickCommand3
-		public ViewModelCommand ButtonClickCommand3 => field ??= new ViewModelCommand( DoButtonClickCommand3 );
+		public DelegateCommand ButtonClickCommand3 => field ??= new DelegateCommand( DoButtonClickCommand3 );
 
 		private void DoButtonClickCommand3() {
 			var r = this.Messenger.GetResponse( new CallFuncMessage<string>( "GetText" ) );
@@ -47,7 +44,7 @@ namespace ViewLayerSupport.ViewModels {
 		#endregion
 
 		#region ButtonClickCommand3
-		public ListenerCommand<string> ButtonClickCommand4 => field ??= new ListenerCommand<string>( DoButtonClickCommand4 );
+		public DelegateCommand<string> ButtonClickCommand4 => field ??= new DelegateCommand<string>( DoButtonClickCommand4 );
 
 		private void DoButtonClickCommand4( string? param ) {
 			var r = this.Messenger.GetResponse( new CallFuncMessage<string, string>( "GetText", param ?? "null" ) );

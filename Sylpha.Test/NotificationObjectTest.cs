@@ -43,33 +43,29 @@ namespace Sylpha.NUnit {
 		}
 
 		class RaisePropertyChangedIfSetTestObject : NotificationObject {
-
-			private string? _Prop1;
-
 			public string? Prop1 {
-				get => _Prop1;
-				set => RaisePropertyChangedIfSet( ref _Prop1, value );
+				get;
+				set => SetProperty( ref field, value );
 			}
 		}
 
 		class RaisePropertyChangedIfSetWithRelatedPropertyTestObject : NotificationObject {
-
-			private string? _Source;
-
 			public string? Source {
-				get => _Source;
-				set => RaisePropertyChangedIfSet( ref _Source, value, nameof( Output ) );
+				get;
+				set => SetProperty( ref field, value, nameof(Output) );
 			}
 
 			public string Output => $"Source is {Source}";
 		}
 		class RaisePropertyChangedIfSetWithManyRelatedPropertiesTestObject : NotificationObject {
-
-			private string? _Source;
-
 			public string? Source {
-				get => _Source;
-				set => RaisePropertyChangedIfSet( ref _Source, value, [nameof( Output1 ), nameof( Output2 )] );
+				get;
+				set {
+					if( SetProperty( ref field, value ) ) {
+						this.RaisePropertyChanged( nameof(Output1) );
+						this.RaisePropertyChanged( nameof(Output2) );
+					}
+				}
 			}
 
 			public string Output1 => $"Output1: {Source}";

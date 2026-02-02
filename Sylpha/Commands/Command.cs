@@ -20,6 +20,13 @@ namespace Sylpha.Commands {
 		}
 
 		/// <summary>
+		/// コマンドが実行可能かどうかが変化したことを通知します。
+		/// </summary>
+		public virtual void RaiseCanExecuteChanged() {
+			OnCanExecuteChanged();
+		}
+
+		/// <summary>
 		/// コマンドが実行可能かどうかが変化した時に呼び出されます。
 		/// </summary>
 		protected void OnCanExecuteChanged() {

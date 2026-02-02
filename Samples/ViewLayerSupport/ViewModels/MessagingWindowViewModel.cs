@@ -11,10 +11,7 @@ namespace ViewLayerSupport.ViewModels {
 		public void Initialize() { }
 
 
-		public string OutputMessage {
-			get;
-			set => RaisePropertyChangedIfSet( ref field, value );
-		}
+		public string OutputMessage { get; set => SetProperty( ref field, value ); }
 
 		public async void MessageBoxFromViewModel() {
 			var message = new MessageBoxMessage( "これはテスト用メッセージです。", "テスト" ) {
@@ -46,7 +43,7 @@ namespace ViewLayerSupport.ViewModels {
 		}
 
 		#region OpenFolderDialogCommand
-		public ViewModelCommand OpenFolderDialogCommand => field ??= new ViewModelCommand( DoOpenFolderDialogCommand, CanOpenFolderDialogCommand );
+		public DelegateCommand OpenFolderDialogCommand => field ??= new DelegateCommand( DoOpenFolderDialogCommand, CanOpenFolderDialogCommand );
 
 		private bool CanOpenFolderDialogCommand() {
 #if NET8_0_OR_GREATER

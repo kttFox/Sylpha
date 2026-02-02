@@ -9,7 +9,7 @@ namespace ViewLayerSupport.ViewModels {
 		public void Initialize() { }
 
 		#region MessageBoxCommand
-		public ViewModelCommand MessageBoxCommand => field ??= new ViewModelCommand( DoMessageBox );
+		public DelegateCommand MessageBoxCommand => field ??= new DelegateCommand( DoMessageBox );
 
 		private void DoMessageBox() {
 			this.Messenger.Raise( new MessageBoxMessage( "Information", "info", MessageBoxImage.Information, MessageBoxButton.OK ) );
@@ -17,7 +17,7 @@ namespace ViewLayerSupport.ViewModels {
 		#endregion
 
 		#region CallMethodCommand
-		public ViewModelCommand CallMethodCommand => field ??= new ViewModelCommand( DoCallMethodCommand );
+		public DelegateCommand CallMethodCommand => field ??= new DelegateCommand( DoCallMethodCommand );
 
 		private void DoCallMethodCommand() {
 			var r = this.Messenger.GetResponse( new CallFuncMessage<string>( "GetText" ) );
@@ -26,7 +26,7 @@ namespace ViewLayerSupport.ViewModels {
 		#endregion
 
 		#region ShowWindowCommand
-		public ViewModelCommand ShowWindowCommand => field ??= new ViewModelCommand( DoShowWindowCommand );
+		public DelegateCommand ShowWindowCommand => field ??= new DelegateCommand( DoShowWindowCommand );
 
 		private void DoShowWindowCommand() {
 			var r = this.Messenger.GetResponse( new ShowWindowMessage<MultiMessageActionWindow>() { 
@@ -44,7 +44,7 @@ namespace ViewLayerSupport.ViewModels {
 		#endregion
 
 		#region OpenFileDialogCommand
-		public ViewModelCommand OpenFileDialogCommand => field ??= new ViewModelCommand( DoOpenFileDialogCommand );
+		public DelegateCommand OpenFileDialogCommand => field ??= new DelegateCommand( DoOpenFileDialogCommand );
 
 		private void DoOpenFileDialogCommand() {
 			var r = this.Messenger.GetResponse( new OpenFileDialogMessage() );
@@ -53,7 +53,7 @@ namespace ViewLayerSupport.ViewModels {
 		#endregion
 
 		#region SaveFileDialogCommand
-		public ViewModelCommand SaveFileDialogCommand => field ??= new ViewModelCommand( DoSaveFileDialogCommand );
+		public DelegateCommand SaveFileDialogCommand => field ??= new DelegateCommand( DoSaveFileDialogCommand );
 
 		private void DoSaveFileDialogCommand() {
 			var r = this.Messenger.GetResponse( new SaveFileDialogMessage() );
@@ -62,7 +62,7 @@ namespace ViewLayerSupport.ViewModels {
 		#endregion
 
 		#region OpenFolderDialogCommand
-		public ViewModelCommand OpenFolderDialogCommand => field ??= new ViewModelCommand( DoOpenFolderDialogCommand, CanOpenFolderDialogCommand );
+		public DelegateCommand OpenFolderDialogCommand => field ??= new DelegateCommand( DoOpenFolderDialogCommand, CanOpenFolderDialogCommand );
 
 		private bool CanOpenFolderDialogCommand() {
 #if NET8_0_OR_GREATER
@@ -81,7 +81,7 @@ namespace ViewLayerSupport.ViewModels {
 		#endregion
 
 		#region CommonOpenFileDialogCommand
-		public ViewModelCommand CommonOpenFileDialogCommand => field ??= new ViewModelCommand( DoCommonOpenFileDialogCommand );
+		public DelegateCommand CommonOpenFileDialogCommand => field ??= new DelegateCommand( DoCommonOpenFileDialogCommand );
 
 		private void DoCommonOpenFileDialogCommand() {
 			var r = this.Messenger.GetResponse( new CommonOpenFileDialogMessage() );
@@ -90,7 +90,7 @@ namespace ViewLayerSupport.ViewModels {
 		#endregion
 
 		#region WindowActionCommand
-		public ViewModelCommand WindowActionCommand => field ??= new ViewModelCommand( DoWindowActionCommand );
+		public DelegateCommand WindowActionCommand => field ??= new DelegateCommand( DoWindowActionCommand );
 
 		private void DoWindowActionCommand() {
 			this.Messenger.Raise( new WindowActionMessage( WindowActionMode.Maximize ) );
