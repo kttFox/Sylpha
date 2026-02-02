@@ -61,7 +61,7 @@ namespace Sylpha.Messaging {
 	}
 
 	/// <summary>
-	/// 引数のあるメソッドを呼び出すメッセージです。
+	/// 引数を持つメソッドを呼び出すメッセージです。
 	/// </summary>
 	/// <typeparam name="TParameter">引数の型</typeparam>
 	[PublicAPI]
@@ -137,10 +137,10 @@ namespace Sylpha.Messaging {
 	}
 
 	/// <summary>
-	/// 引数と、返り値のあるメソッドを呼び出すメッセージです。
+	/// 引数と返り値のあるメソッドを呼び出すメッセージです。
 	/// </summary>
 	/// <typeparam name="TParameter">引数の型</typeparam>
-	/// <typeparam name="TResult">返り値の方</typeparam>
+	/// <typeparam name="TResult">返り値の型</typeparam>
 	[PublicAPI]
 	public class CallFuncMessage<TParameter, TResult> : CallFuncMessage<TResult>, ICallOneParameterMethodMessage {
 		public CallFuncMessage() { }
@@ -172,4 +172,47 @@ namespace Sylpha.Messaging {
 		protected override Freezable CreateInstanceCore() => new CallFuncMessage<TParameter, TResult>();
 	}
 
+	public static class CallMethodMessageExtensions {
+		/// <summary>
+		/// 引数の無いメソッドを呼び出すメッセージを送信します。
+		/// </summary>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		public static void CallAction( this Messenger messenger, CallActionMessage message ) {
+			messenger.Raise( message );
+		}
+
+		/// <summary>
+		/// 引数を持つメソッドを呼び出すメッセージを送信します。
+		/// </summary>
+		/// <typeparam name="TParameter">メソッドの引数の型</typeparam>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		public static void CallAction<TParameter>( this Messenger messenger, CallActionMessage<TParameter> message ) {
+			messenger.Raise( message );
+		}
+
+		/// <summary>
+		/// 引数が無く、返り値を持つメソッドを呼び出すメッセージを送信し、結果を取得します。
+		/// </summary>
+		/// <typeparam name="TResult">メソッドの返り値の型</typeparam>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		/// <returns>結果が設定されたメッセージ</returns>
+		public static CallFuncMessage<TResult> CallFunc<TResult>( this Messenger messenger, CallFuncMessage<TResult> message ) {
+			return messenger.Raise( message );
+		}
+
+		/// <summary>
+		/// 引数と返り値を持つメソッドを呼び出すメッセージを送信し、結果を取得します。
+		/// </summary>
+		/// <typeparam name="TParameter">メソッドの引数の型</typeparam>
+		/// <typeparam name="TResult">メソッドの返り値の型</typeparam>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		/// <returns>結果が設定されたメッセージ</returns>
+		public static CallFuncMessage<TParameter, TResult> CallFunc<TParameter, TResult>( this Messenger messenger, CallFuncMessage<TParameter, TResult> message ) {
+			return messenger.Raise( message );
+		}
+	}
 }

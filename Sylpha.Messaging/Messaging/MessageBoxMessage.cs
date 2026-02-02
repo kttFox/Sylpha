@@ -111,4 +111,16 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		protected override Freezable CreateInstanceCore() => new MessageBoxMessage();
 	}
+
+	public static class MessageBoxMessageExtensions {
+		/// <summary>
+		/// メッセージボックスメッセージを送信し、結果を取得します。
+		/// </summary>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		/// <returns>結果が設定されたメッセージ</returns>
+		public static MessageBoxMessage MessageBox( this Messenger messenger, MessageBoxMessage message ) {
+			return messenger.Raise( message );
+		}
+	}
 }

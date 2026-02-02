@@ -37,4 +37,16 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		protected override Freezable CreateInstanceCore() => new CommonOpenFileDialogMessage();
 	}
+
+	public static class CommonOpenFileDialogMessageExtensions {
+		/// <summary>
+		/// フォルダ選択ダイアログを表示するメッセージを送信し、結果を取得します。
+		/// </summary>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		/// <returns>結果が設定されたメッセージ</returns>
+		public static CommonOpenFileDialogMessage CommonOpenFileDialog( this Messenger messenger, CommonOpenFileDialogMessage message ) {
+			return messenger.Raise( message );
+		}
+	}
 }

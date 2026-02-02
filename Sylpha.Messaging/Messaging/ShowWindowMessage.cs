@@ -195,4 +195,39 @@ namespace Sylpha.Messaging {
 			return new ShowWindowMessage<TWindow, TViewModel>( viewModel, messageKey );
 		}
 	}
+
+	public static class ShowWindowExtensions {
+		/// <summary>
+		/// ウインドウ表示メッセージを送信し、ウインドウを表示します。
+		/// </summary>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		/// <returns>送信されたウインドウ表示メッセージ</returns>
+		public static ShowWindowMessage ShowWindow( this Messenger messenger, ShowWindowMessage message ) {
+			return messenger.Raise( message );
+		}
+
+		/// <summary>
+		/// ウインドウ表示メッセージを送信し、指定された型のウインドウを表示します。
+		/// </summary>
+		/// <typeparam name="TWindow">表示するウインドウの型</typeparam>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		/// <returns>結果が設定されたメッセージ</returns>
+		public static ShowWindowMessage<TWindow> ShowWindow<TWindow>( this Messenger messenger, ShowWindowMessage<TWindow> message ) where TWindow : Window {
+			return messenger.Raise( message );
+		}
+
+		/// <summary>
+		/// ウインドウ表示メッセージを送信し、指定された型のウインドウとViewModelでウインドウを表示します。
+		/// </summary>
+		/// <typeparam name="TWindow">表示するウインドウの型</typeparam>
+		/// <typeparam name="TViewModel">ウインドウに設定するViewModelの型</typeparam>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		/// <returns>結果が設定されたメッセージ</returns>
+		public static ShowWindowMessage<TWindow, TViewModel> ShowWindow<TWindow, TViewModel>( this Messenger messenger, ShowWindowMessage<TWindow, TViewModel> message ) where TWindow : Window where TViewModel : INotifyPropertyChanged {
+			return messenger.Raise( message );
+		}
+	}
 }

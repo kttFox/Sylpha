@@ -64,4 +64,16 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		protected override Freezable CreateInstanceCore() => new SaveFileDialogMessage();
 	}
+
+	public static class SaveFileDialogMessageExtensions {
+		/// <summary>
+		/// ファイル保存ダイアログを表示するメッセージを送信し、結果を取得します。
+		/// </summary>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		/// <returns>結果が設定されたメッセージ</returns>
+		public static SaveFileDialogMessage SaveFileDialog( this Messenger messenger, SaveFileDialogMessage message ) {
+			return messenger.Raise( message );
+		}
+	}
 }

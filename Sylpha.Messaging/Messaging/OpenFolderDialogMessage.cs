@@ -38,5 +38,17 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		protected override Freezable CreateInstanceCore() => new OpenFolderDialogMessage();
 	}
+
+	public static class OpenFolderDialogMessageExtensions {
+		/// <summary>
+		/// ファイルを開くダイアログを表示するメッセージを送信し、結果を取得します。
+		/// </summary>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		/// <returns>結果が設定されたメッセージ</returns>
+		public static OpenFolderDialogMessage OpenFolderDialog( this Messenger messenger, OpenFolderDialogMessage message ) {
+			return messenger.Raise( message );
+		}
+	}
 }
 #endif

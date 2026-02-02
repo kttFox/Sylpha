@@ -11,7 +11,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand MessageBoxCommand => field ??= new DelegateCommand( DoMessageBox );
 
 		private void DoMessageBox() {
-			this.Messenger.Raise( new MessageBoxMessage( "Information", "info", MessageBoxImage.Information, MessageBoxButton.OK ) );
+			var r = this.Messenger.MessageBox( new MessageBoxMessage( "Information", "info", MessageBoxImage.Information, MessageBoxButton.OK ) );
 		}
 		#endregion
 
@@ -19,7 +19,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand CallMethodCommand => field ??= new DelegateCommand( DoCallMethodCommand );
 
 		private void DoCallMethodCommand() {
-			var r = this.Messenger.Raise( new CallFuncMessage<string>( "GetText" ) );
+			var r = this.Messenger.CallFunc( new CallFuncMessage<string>( "GetText" ) );
 			_ = r.Result;
 		}
 		#endregion
@@ -28,7 +28,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand ShowWindowCommand => field ??= new DelegateCommand( DoShowWindowCommand );
 
 		private void DoShowWindowCommand() {
-			var r = this.Messenger.Raise( new ShowWindowMessage<MultiMessageActionWindow>() { 
+			var r = this.Messenger.ShowWindow( new ShowWindowMessage<MultiMessageActionWindow>() { 
 				WindowSettingAction = w => { 
 					w.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 					w.Title = "Shown by ShowWindowMessage";
@@ -46,7 +46,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand OpenFileDialogCommand => field ??= new DelegateCommand( DoOpenFileDialogCommand );
 
 		private void DoOpenFileDialogCommand() {
-			var r = this.Messenger.Raise( new OpenFileDialogMessage() );
+			var r = this.Messenger.OpenFileDialog( new OpenFileDialogMessage() );
 			_ = r.Response;
 		}
 		#endregion
@@ -55,7 +55,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand SaveFileDialogCommand => field ??= new DelegateCommand( DoSaveFileDialogCommand );
 
 		private void DoSaveFileDialogCommand() {
-			var r = this.Messenger.Raise( new SaveFileDialogMessage() );
+			var r = this.Messenger.SaveFileDialog( new SaveFileDialogMessage() );
 			_ = r.Response;
 		}
 		#endregion
@@ -73,7 +73,7 @@ namespace ViewLayerSupport.ViewModels {
 
 		private void DoOpenFolderDialogCommand() {
 #if NET8_0_OR_GREATER
-			var r = this.Messenger.Raise( new OpenFolderDialogMessage() );
+			var r = this.Messenger.OpenFolderDialog( new OpenFolderDialogMessage() );
 			_ = r.Response;
 #endif
 		}
@@ -83,7 +83,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand CommonOpenFileDialogCommand => field ??= new DelegateCommand( DoCommonOpenFileDialogCommand );
 
 		private void DoCommonOpenFileDialogCommand() {
-			var r = this.Messenger.Raise( new CommonOpenFileDialogMessage() );
+			var r = this.Messenger.CommonOpenFileDialog( new CommonOpenFileDialogMessage() );
 			_ = r.Response;
 		}
 		#endregion
@@ -92,7 +92,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand WindowActionCommand => field ??= new DelegateCommand( DoWindowActionCommand );
 
 		private void DoWindowActionCommand() {
-			this.Messenger.Raise( new WindowActionMessage( WindowActionMode.Maximize ) );
+			this.Messenger.WindowAction( new WindowActionMessage( WindowActionMode.Maximize ) );
 		}
 		#endregion
 	}

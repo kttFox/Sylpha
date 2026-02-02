@@ -17,7 +17,7 @@ namespace Sylpha.Messaging {
 		public static readonly DependencyProperty MultiSelectProperty =
 			DependencyProperty.Register( nameof( MultiSelect ), typeof( bool ), typeof( OpenFileDialogMessage ), new PropertyMetadata( false ) );
 		#endregion
-		
+
 
 		/// <summary>
 		/// 新しいメッセージのインスタンスを生成します。
@@ -35,5 +35,18 @@ namespace Sylpha.Messaging {
 		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
 		/// </summary>
 		protected override Freezable CreateInstanceCore() => new OpenFileDialogMessage();
+
+	}
+
+	public static class OpenFileDialogMessageExtensions {
+		/// <summary>
+		/// ファイルを開くダイアログを表示するメッセージを送信し、結果を取得します。
+		/// </summary>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		/// <returns>結果が設定されたメッセージ</returns>
+		public static OpenFileDialogMessage OpenFileDialog( this Messenger messenger, OpenFileDialogMessage message ) {
+			return messenger.Raise( message );
+		}
 	}
 }

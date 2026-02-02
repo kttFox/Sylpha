@@ -38,4 +38,15 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		protected override Freezable CreateInstanceCore() => new WindowActionMessage();
 	}
+
+	public static class WindowActionMessageExtensions {
+		/// <summary>
+		/// Windowを最大化、最小化、閉じる などを行うためのメッセージを送信します。
+		/// </summary>
+		/// <param name="messenger">送信先</param>
+		/// <param name="message">送信するメッセージ</param>
+		public static void WindowAction( this Messenger messenger, WindowActionMessage message ) {
+			messenger.Raise( message );
+		}
+	}
 }
