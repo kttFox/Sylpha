@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using Livet.Messaging;
+using Sylpha.Messaging;
 
-namespace Livet.Behaviors.Messaging
+namespace Sylpha.Behaviors.Messaging
 {
     /// <summary>
     ///     確認ダイアログを表示するアクションです。<see cref="ConfirmationMessage" />に対応します。

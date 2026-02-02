@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="..\Livet.props" />
+	<Import Project="..\Sylpha.props" />
 
 	<PropertyGroup>
 		<LangVersion>10</LangVersion>
 		<UseWpf>true</UseWpf>
 		<UseWindowsForms>true</UseWindowsForms>
-		<RootNamespace>Livet</RootNamespace>
-		<AssemblyName>Livet.Extensions</AssemblyName>
-		<PackageId>LivetExtensions</PackageId>
+		<RootNamespace>Sylpha</RootNamespace>
+		<AssemblyName>Sylpha.Extensions</AssemblyName>
+		<PackageId>SylphaExtensions</PackageId>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Authors>Livet Project</Authors>
+		<Authors>kttFox</Authors>
 		<Description>
 			An assembly for Livet extension. Currently, there is folder browser features.
 		</Description>
-		<Copyright>Copyright (c) 2010-2019 Livet Project</Copyright>
+		<Copyright>Copyright (c) 2025 kttFox</Copyright>
 		<PackageLicenseFile>license-en.txt</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/runceel/Livet</PackageProjectUrl>
 		<PackageIconUrl>https://raw.githubusercontent.com/ugaya40/Livet/master/Images/Livet.png</PackageIconUrl>
@@ -25,7 +25,7 @@
 		<FileVersion>$(Version)</FileVersion>
 		<Version>$(PackageVersion)</Version>
 		<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>..\LivetSnk\opensource.snk</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>..\SylphaSnk\opensource.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -44,7 +44,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\LivetCask\LivetCask.csproj" />
+		<ProjectReference Include="..\Sylpha\Sylpha.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

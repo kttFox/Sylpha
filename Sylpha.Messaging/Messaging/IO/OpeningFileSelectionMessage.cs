@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using JetBrains.Annotations;
 
-namespace Livet.Messaging.IO
+namespace Sylpha.Messaging.IO
 {
     /// <summary>
     ///     ファイルを開く アクション用の相互作用メッセージです。

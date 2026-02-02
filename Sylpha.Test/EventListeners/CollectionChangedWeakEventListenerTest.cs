@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using Livet.EventListeners.WeakEvents;
+using Sylpha.EventListeners.WeakEvents;
 using NUnit.Framework;
 
-namespace Livet.NUnit.EventListeners
+namespace Sylpha.NUnit.EventListeners
 {
     [TestFixture()]
     public class CollectionChangedWeakEventListenerTest

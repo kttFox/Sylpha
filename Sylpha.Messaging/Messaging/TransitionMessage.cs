@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Markup;
 using JetBrains.Annotations;
 
-namespace Livet.Messaging
+namespace Sylpha.Messaging
 {
     /// <summary>
     ///     画面遷移アクション用の相互作用メッセージです。

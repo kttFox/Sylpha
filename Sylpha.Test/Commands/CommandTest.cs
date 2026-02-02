@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Livet.Commands;
+using Sylpha.Commands;
 using System.Windows.Input;
 using System.Threading;
 
-namespace Livet.NUnit.Commands
+namespace Sylpha.NUnit.Commands
 {
     [TestFixture()]
     public class CommandTest

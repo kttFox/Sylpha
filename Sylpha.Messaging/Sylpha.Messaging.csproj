@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Livet.props" />
+  <Import Project="..\Sylpha.props" />
   <PropertyGroup>
     <UseWpf>true</UseWpf>
-    <RootNamespace>Livet</RootNamespace>
-    <AssemblyName>Livet.Messaging</AssemblyName>
-    <PackageId>LivetCask.Messaging</PackageId>
+    <RootNamespace>Sylpha</RootNamespace>
+    <AssemblyName>Sylpha.Messaging</AssemblyName>
+    <PackageId>Sylpha.Messaging</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Livet Project</Authors>
+    <Authors>kttFox</Authors>
     <Description>
       Livet is the infrastructure of MVVM pattern on WPF.
 It supports .NET Framework 4.5.2 or later and .NET Core 3.1, and licensed as zlib/libpng.
 This package is for useful messaging features between View layer and ViewModel layer for MVVM pattern.
     </Description>
-    <Copyright>Copyright (c) 2010-2019 Livet Project</Copyright>
+    <Copyright>Copyright (c) 2025 kttFox</Copyright>
     <PackageLicenseFile>license-en.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/runceel/Livet</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/ugaya40/Livet/master/Images/Livet.png</PackageIconUrl>
@@ -24,7 +24,7 @@ This package is for useful messaging features between View layer and ViewModel l
     <FileVersion>$(Version)</FileVersion>
     <Version>$(PackageVersion)</Version>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\LivetSnk\opensource.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\SylphaSnk\opensource.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,7 +40,7 @@ This package is for useful messaging features between View layer and ViewModel l
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LivetCask.EventListeners\LivetCask.EventListeners.csproj" />
+    <ProjectReference Include="..\Sylpha.EventListeners\Sylpha.EventListeners.csproj" />
   </ItemGroup>
 
 </Project>

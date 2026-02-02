@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace Livet.Dialogs
+namespace Sylpha.Dialogs
 {
     /// <summary>
     ///     Hides implementation of the folder selection dialog which depends on platform version.

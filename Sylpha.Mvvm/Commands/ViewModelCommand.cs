@@ -4,7 +4,7 @@ using System.Threading;
 using System.Windows.Input;
 using JetBrains.Annotations;
 
-namespace Livet.Commands
+namespace Sylpha.Commands
 {
     /// <summary>
     ///     ViewModelがViewに公開するコマンドを表します。

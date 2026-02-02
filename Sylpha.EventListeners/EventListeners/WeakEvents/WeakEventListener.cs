@@ -1,7 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace Livet.EventListeners.WeakEvents
+namespace Sylpha.EventListeners.WeakEvents
 {
     /// <summary>
     ///     汎用WeakEventリスナオブジェクトです。

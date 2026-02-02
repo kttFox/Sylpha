@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
-using Livet;
+using Sylpha;
 
 namespace $safeprojectname$
 {

@@ -1,10 +1,10 @@
 using System;
 using System.Globalization;
-using Livet.Messaging.IO;
-using Livet.Properties;
+using Sylpha.Messaging.IO;
+using Sylpha.Properties;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace Livet.Dialogs
+namespace Sylpha.Dialogs
 {
     /// <summary>
     ///     The factory to abstract concrete implementation of <see cref="FolderSelectionDialog" />.

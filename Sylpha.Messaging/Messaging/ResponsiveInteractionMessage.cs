@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Livet.Messaging
+namespace Sylpha.Messaging
 {
     /// <summary>
     ///     戻り値のある相互作用メッセージの抽象基底クラスです。

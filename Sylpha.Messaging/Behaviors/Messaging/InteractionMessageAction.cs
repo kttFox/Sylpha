@@ -3,9 +3,9 @@ using System.Windows;
 using Microsoft.Xaml.Behaviors;
 using System.Windows.Markup;
 using JetBrains.Annotations;
-using Livet.Messaging;
+using Sylpha.Messaging;
 
-namespace Livet.Behaviors.Messaging
+namespace Sylpha.Behaviors.Messaging
 {
     /// <summary>
     ///     ViewModelからの相互作用メッセージに対応するアクションの基底抽象クラスです<br />

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Livet.Messaging.IO
+namespace Sylpha.Messaging.IO
 {
     /// <summary>
     ///     Specify preferred selection dialog implementation.
@@ -13,7 +13,7 @@ namespace Livet.Messaging.IO
     {
         /// <summary>
         ///     Do not specify any preference.
-        ///     Livet selects most appropriate options for current platform.
+        ///     Sylpha selects most appropriate options for current platform.
         /// </summary>
         None = 0,
 

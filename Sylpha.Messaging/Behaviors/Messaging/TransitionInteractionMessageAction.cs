@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Windows;
 using JetBrains.Annotations;
-using Livet.Messaging;
+using Sylpha.Messaging;
 
-namespace Livet.Behaviors.Messaging
+namespace Sylpha.Behaviors.Messaging
 {
     /// <summary>
     ///     画面遷移(Window)を行うアクションです。<see cref="TransitionMessage" />に対応します。

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Livet.NUnit.TestInfrastructures
+namespace Sylpha.NUnit.TestInfrastructures
 {
     public class TestViewModel : ViewModel
     {

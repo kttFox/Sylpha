@@ -1,8 +1,8 @@
-﻿using Livet.EventListeners;
+﻿using Sylpha.EventListeners;
 using NUnit.Framework;
 using System;
 
-namespace Livet.NUnit.EventListeners
+namespace Sylpha.NUnit.EventListeners
 {
     [TestFixture()]
     public class EventListenerTest

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using JetBrains.Annotations;
 
-namespace Livet.Messaging
+namespace Sylpha.Messaging
 {
     public class GenericResponsiveInteractionMessage<TValue, TResponse> : ResponsiveInteractionMessage<TResponse>
     {

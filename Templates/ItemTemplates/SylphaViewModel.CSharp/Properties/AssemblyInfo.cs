@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LivetViewModel.CSharp")]
+[assembly: AssemblyTitle("SylphaViewModel.CSharp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Kazuki Ota")]
-[assembly: AssemblyProduct("LivetViewModel.CSharp")]
+[assembly: AssemblyProduct("SylphaViewModel.CSharp")]
 [assembly: AssemblyCopyright("Copyright © Kazuki Ota 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

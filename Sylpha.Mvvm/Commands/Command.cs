@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 
-namespace Livet.Commands
+namespace Sylpha.Commands
 {
     public abstract class Command
     {

@@ -2,10 +2,10 @@
 using System.Windows;
 using Microsoft.Xaml.Behaviors;
 using JetBrains.Annotations;
-using Livet.EventListeners.WeakEvents;
-using Livet.Messaging;
+using Sylpha.EventListeners.WeakEvents;
+using Sylpha.Messaging;
 
-namespace Livet.Behaviors.Messaging
+namespace Sylpha.Behaviors.Messaging
 {
     /// <summary>
     ///     ViewModelからの相互作用メッセージを受信し、アクションを実行します。

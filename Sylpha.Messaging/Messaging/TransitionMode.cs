@@ -1,4 +1,4 @@
-﻿namespace Livet.Messaging
+﻿namespace Sylpha.Messaging
 {
     public enum TransitionMode
     {

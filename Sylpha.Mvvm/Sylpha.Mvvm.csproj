@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Livet.props" />
+  <Import Project="..\Sylpha.props" />
   <PropertyGroup>
     <UseWpf>true</UseWpf>
-    <RootNamespace>Livet</RootNamespace>
-    <AssemblyName>Livet.Mvvm</AssemblyName>
-    <PackageId>LivetCask.Mvvm</PackageId>
+    <RootNamespace>Sylpha</RootNamespace>
+    <AssemblyName>Sylpha.Mvvm</AssemblyName>
+    <PackageId>Sylpha.Mvvm</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Livet Project</Authors>
+    <Authors>kttFox</Authors>
     <Description>Livet is the infrastructure of MVVM pattern on WPF.
 It supports .NET Framework 4.5.2 or later, .NET Core 3.1, and licensed as zlib/libpng.
     </Description>
-    <Copyright>Copyright (c) 2010-2019 Livet Project</Copyright>
+    <Copyright>Copyright (c) 2025 kttFox</Copyright>
     <PackageLicenseFile>license-en.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/runceel/Livet</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/ugaya40/Livet/master/Images/Livet.png</PackageIconUrl>
@@ -22,7 +22,7 @@ It supports .NET Framework 4.5.2 or later, .NET Core 3.1, and licensed as zlib/l
     <FileVersion>$(Version)</FileVersion>
     <Version>$(PackageVersion)</Version>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\LivetSnk\opensource.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\SylphaSnk\opensource.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,7 +37,7 @@ It supports .NET Framework 4.5.2 or later, .NET Core 3.1, and licensed as zlib/l
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LivetCask.Messaging\LivetCask.Messaging.csproj" />
+    <ProjectReference Include="..\Sylpha.Messaging\Sylpha.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

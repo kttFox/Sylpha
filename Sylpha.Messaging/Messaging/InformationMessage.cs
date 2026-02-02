@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using JetBrains.Annotations;
 
-namespace Livet.Messaging
+namespace Sylpha.Messaging
 {
     /// <summary>
     ///     情報をViewに通知するためのメッセージです。

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using JetBrains.Annotations;
 
-namespace Livet.Messaging.Windows
+namespace Sylpha.Messaging.Windows
 {
     /// <summary>
     ///     Windowを最大化・最小化・閉じる・通常化させるための相互作用メッセージです。

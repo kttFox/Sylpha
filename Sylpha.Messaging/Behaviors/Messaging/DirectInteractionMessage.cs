@@ -3,9 +3,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
 using JetBrains.Annotations;
-using Livet.Messaging;
+using Sylpha.Messaging;
 
-namespace Livet.Behaviors.Messaging
+namespace Sylpha.Behaviors.Messaging
 {
     /// <summary>
     ///     Viewから直接相互作用メッセージを定義する際に使用します。

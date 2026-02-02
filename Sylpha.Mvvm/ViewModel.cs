@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
-using Livet.Messaging;
+using Sylpha.Messaging;
 
-namespace Livet
+namespace Sylpha
 {
     /// <summary>
     ///     ViewModelの基底クラスです。

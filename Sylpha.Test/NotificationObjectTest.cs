@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Livet.NUnit
+namespace Sylpha.NUnit
 {
     [TestFixture]
     public class NotificationObjectTest

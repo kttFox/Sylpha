@@ -17,8 +17,8 @@
     <ProjectGuid>{794A2B28-E4AA-4CC8-BCD0-ACF3D2068CDE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LivetWindow.CSharp</RootNamespace>
-    <AssemblyName>LivetWindow.CSharp</AssemblyName>
+    <RootNamespace>SylphaWindow.CSharp</RootNamespace>
+    <AssemblyName>SylphaWindow.CSharp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
@@ -62,7 +62,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <VSTemplate Include="LivetWindow.CSharp.vstemplate" />
+    <VSTemplate Include="SylphaWindow.CSharp.vstemplate" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Livet.png" />

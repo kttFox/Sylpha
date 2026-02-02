@@ -8,7 +8,7 @@ using System.Windows.Interop;
 using JetBrains.Annotations;
 using IWin32Window = System.Windows.Forms.IWin32Window;
 
-namespace Livet.Dialogs
+namespace Sylpha.Dialogs
 {
     /// <summary>
     ///     <see cref="FolderSelectionDialog" /> implementation using WinForm's

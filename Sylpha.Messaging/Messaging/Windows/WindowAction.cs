@@ -1,4 +1,4 @@
-﻿namespace Livet.Messaging.Windows
+﻿namespace Sylpha.Messaging.Windows
 {
     /// <summary>
     ///     WindowActionMessageで使用する、Windowが遷移すべき状態を表します。

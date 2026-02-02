@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
-namespace Livet.Behaviors
+namespace Sylpha.Behaviors
 {
     /// <summary>
     ///     ビヘイビア・トリガー・アクションでのメソッド直接バインディングを可能にするためのクラスです。<br />

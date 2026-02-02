@@ -12,8 +12,8 @@
     <ProjectGuid>{E6999A6D-614B-4D41-BAE2-14FB16D1BD2C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Livet.ProjectTemplate.CSharp.NETCore</RootNamespace>
-    <AssemblyName>Livet.ProjectTemplate.CSharp.NETCore</AssemblyName>
+    <RootNamespace>Sylpha.ProjectTemplate.CSharp.NETCore</RootNamespace>
+    <AssemblyName>Sylpha.ProjectTemplate.CSharp.NETCore</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
@@ -62,7 +62,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <VSTemplate Include="Livet.ProjectTemplate.CSharp.NETCore.vstemplate" />
+    <VSTemplate Include="Sylpha.ProjectTemplate.CSharp.NETCore.vstemplate" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\MainWindow.xaml">
@@ -77,7 +77,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Livet.ProjectTemplate.CSharp.NETCore.ico" />
+    <Content Include="Sylpha.ProjectTemplate.CSharp.NETCore.ico" />
     <None Include="ProjectTemplate.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

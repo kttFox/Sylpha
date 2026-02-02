@@ -1,7 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace Livet.EventListeners
+namespace Sylpha.EventListeners
 {
     /// <summary>
     ///     汎用イベントリスナオブジェクトです。

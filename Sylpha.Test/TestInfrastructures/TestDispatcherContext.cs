@@ -3,7 +3,7 @@ using System.Windows.Threading;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace Livet.NUnit
+namespace Sylpha.NUnit
 {
     public class TestDispatcherContext : IDisposable
     {

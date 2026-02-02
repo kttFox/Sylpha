@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LivetCask.Extensions\LivetCask.Extensions.csproj" />
-    <ProjectReference Include="..\..\LivetCask\LivetCask.csproj" />
+    <ProjectReference Include="..\..\Sylpha.Extensions\Sylpha.Extensions.csproj" />
+    <ProjectReference Include="..\..\Sylpha\Sylpha.csproj" />
   </ItemGroup>
 
 </Project>

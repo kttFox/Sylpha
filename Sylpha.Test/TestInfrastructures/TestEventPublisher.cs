@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Collections.Specialized;
 
-namespace Livet.NUnit
+namespace Sylpha.NUnit
 {
     public class TestEventPublisher : INotifyPropertyChanged,INotifyCollectionChanged
     {

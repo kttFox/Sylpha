@@ -1,8 +1,8 @@
-﻿using Livet.EventListeners.WeakEvents;
+﻿using Sylpha.EventListeners.WeakEvents;
 using NUnit.Framework;
 using System;
 
-namespace Livet.NUnit.EventListeners
+namespace Sylpha.NUnit.EventListeners
 {
     [TestFixture()]
     public class WeakEventListenerTest

@@ -13,7 +13,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\LivetSnk\opensource.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\SylphaSnk\opensource.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -24,8 +24,8 @@
     <ProjectGuid>{1E6A8600-FAEE-4A7B-8118-7366EC8E0582}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Livet.Extensibility</RootNamespace>
-    <AssemblyName>Livet.Extensibility</AssemblyName>
+    <RootNamespace>Sylpha.Extensibility</RootNamespace>
+    <AssemblyName>Sylpha.Extensibility</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>false</IncludeAssemblyInVSIXContainer>
@@ -66,19 +66,19 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Snippets\CSharp\LivetSnippets\LivetListenerCommandNoCanExecute_CSharp.snippet">
+    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaListenerCommandNoCanExecute_CSharp.snippet">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Snippets\CSharp\LivetSnippets\LivetListenerCommand_CSharp.snippet">
+    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaListenerCommand_CSharp.snippet">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Snippets\CSharp\LivetSnippets\LivetProperty_CSharp.snippet">
+    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaProperty_CSharp.snippet">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Snippets\CSharp\LivetSnippets\LivetViewModelCommandNoCanExecute_CSharp.snippet">
+    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaViewModelCommandNoCanExecute_CSharp.snippet">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Snippets\CSharp\LivetSnippets\LivetViewModelCommand_CSharp.snippet">
+    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaViewModelCommand_CSharp.snippet">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <None Include="license-en.rtf" />
@@ -86,7 +86,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Snippets\CSharp\LivetSnippets\LivetShortProperty_CSharp.snippet">
+    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaShortProperty_CSharp.snippet">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <None Include="source.extension.vsixmanifest">
@@ -101,37 +101,37 @@
     <Content Include="stylesheet.css" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ItemTemplates\LivetModel.CSharp\LivetModel.CSharp.csproj">
+    <ProjectReference Include="..\ItemTemplates\SylphaModel.CSharp\SylphaModel.CSharp.csproj">
       <Project>{AF7A7EAA-0999-4619-80FE-41BBC58FBBB0}</Project>
-      <Name>LivetModel.CSharp</Name>
+      <Name>SylphaModel.CSharp</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\ItemTemplates\LivetViewModel.CSharp\LivetViewModel.CSharp.csproj">
+    <ProjectReference Include="..\ItemTemplates\SylphaViewModel.CSharp\SylphaViewModel.CSharp.csproj">
       <Project>{7DE713E7-01C0-4223-AC06-CB53AC65A78C}</Project>
-      <Name>LivetViewModel.CSharp</Name>
+      <Name>SylphaViewModel.CSharp</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\ItemTemplates\LivetWindow.CSharp\LivetWindow.CSharp.csproj">
+    <ProjectReference Include="..\ItemTemplates\SylphaWindow.CSharp\SylphaWindow.CSharp.csproj">
       <Project>{794A2B28-E4AA-4CC8-BCD0-ACF3D2068CDE}</Project>
-      <Name>LivetWindow.CSharp</Name>
+      <Name>SylphaWindow.CSharp</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\Livet.ProjectTemplate.CSharp.NETCore\Livet.ProjectTemplate.CSharp.NETCore.csproj">
+    <ProjectReference Include="..\Sylpha.ProjectTemplate.CSharp.NETCore\Sylpha.ProjectTemplate.CSharp.NETCore.csproj">
       <Project>{E6999A6D-614B-4D41-BAE2-14FB16D1BD2C}</Project>
-      <Name>Livet.ProjectTemplate.CSharp.NETCore</Name>
+      <Name>Sylpha.ProjectTemplate.CSharp.NETCore</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\Livet.ProjectTemplate.CSharp\Livet.ProjectTemplate.CSharp.csproj">
+    <ProjectReference Include="..\Sylpha.ProjectTemplate.CSharp\Sylpha.ProjectTemplate.CSharp.csproj">
       <Project>{7C69D055-0538-4F7C-A11F-623DFEEAB1A7}</Project>
-      <Name>Livet.ProjectTemplate.CSharp</Name>
+      <Name>Sylpha.ProjectTemplate.CSharp</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>

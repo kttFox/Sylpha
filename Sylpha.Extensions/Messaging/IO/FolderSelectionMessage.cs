@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using JetBrains.Annotations;
 
-namespace Livet.Messaging.IO
+namespace Sylpha.Messaging.IO
 {
     /// <summary>
     ///     <see cref="ResponsiveInteractionMessage{T}" /> for folder selection with folder browser dialog.

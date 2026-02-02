@@ -3,7 +3,7 @@ using System.Windows;
 using Microsoft.Xaml.Behaviors;
 using JetBrains.Annotations;
 
-namespace Livet.Behaviors
+namespace Sylpha.Behaviors
 {
     /// <summary>
     ///     引数を一つだけ持つメソッドに対応したCallMethodActionです。

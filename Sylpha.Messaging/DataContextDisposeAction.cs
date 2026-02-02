@@ -2,7 +2,7 @@
 using System.Windows;
 using Microsoft.Xaml.Behaviors;
 
-namespace Livet.Behaviors
+namespace Sylpha.Behaviors
 {
     /// <summary>
     ///     アタッチしたオブジェクトのDataContextがIDisposableである場合、Disposeします。

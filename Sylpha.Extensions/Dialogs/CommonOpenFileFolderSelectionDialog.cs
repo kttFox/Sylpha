@@ -6,7 +6,7 @@ using System.Windows;
 using JetBrains.Annotations;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace Livet.Dialogs
+namespace Sylpha.Dialogs
 {
     /// <summary>
     ///     <see cref="FolderSelectionDialog" /> implementation based on Win32 Common Item Dialog.

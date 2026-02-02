@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Threading;
 using JetBrains.Annotations;
 
-namespace Livet
+namespace Sylpha
 {
     /// <summary>
     ///     UIDispatcherへのアクセスを簡易化します。

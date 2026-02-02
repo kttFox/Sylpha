@@ -1,7 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace Livet
+namespace Sylpha
 {
     /// <summary>
     ///     指定されたリソース解放用のActionをIDisposableとして扱います。

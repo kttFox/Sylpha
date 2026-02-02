@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using Livet.Messaging;
+using Sylpha.Messaging;
 
-namespace Livet.Behaviors.Messaging
+namespace Sylpha.Behaviors.Messaging
 {
     /// <summary>
     ///     情報ダイアログを表示するアクションです。InformationMessageに対応します。

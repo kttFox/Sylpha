@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace Livet
+namespace Sylpha
 {
     /// <summary>
     ///     複数のIDisposableオブジェクトをまとめて操作するための機能を提供します。

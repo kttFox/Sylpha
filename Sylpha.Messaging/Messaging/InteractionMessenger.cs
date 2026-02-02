@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
-namespace Livet.Messaging
+namespace Sylpha.Messaging
 {
     /// <summary>
     ///     ViewModelで使用するMessengerクラスです。

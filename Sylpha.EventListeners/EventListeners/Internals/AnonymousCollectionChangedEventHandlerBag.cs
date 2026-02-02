@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using JetBrains.Annotations;
 
-namespace Livet.EventListeners.Internals
+namespace Sylpha.EventListeners.Internals
 {
     internal class AnonymousCollectionChangedEventHandlerBag : IEnumerable<
         KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>

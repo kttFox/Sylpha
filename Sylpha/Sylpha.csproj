@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Livet.props" />
+  <Import Project="..\Sylpha.props" />
   <PropertyGroup>
     <UseWpf>true</UseWpf>
-    <RootNamespace>Livet</RootNamespace>
-    <AssemblyName>Livet</AssemblyName>
-    <PackageId>LivetCask</PackageId>
+    <RootNamespace>Sylpha</RootNamespace>
+    <AssemblyName>Sylpha</AssemblyName>
+    <PackageId>Sylpha</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Livet Project</Authors>
+    <Authors>kttFox</Authors>
     <Description>Livet is the infrastructure of MVVM pattern on WPF.
 It supports .NET Framework 4.5.2 or later, .NET Core 3.1, .NET 6 and licensed as zlib/libpng.
     </Description>
-    <Copyright>Copyright (c) 2010-2021 Livet Project</Copyright>
+    <Copyright>Copyright (c) 2025 kttFox</Copyright>
     <PackageLicenseFile>license-en.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/runceel/Livet</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/ugaya40/Livet/master/Images/Livet.png</PackageIconUrl>
@@ -22,7 +22,7 @@ It supports .NET Framework 4.5.2 or later, .NET Core 3.1, .NET 6 and licensed as
     <FileVersion>$(Version)</FileVersion>
     <Version>$(PackageVersion)</Version>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\LivetSnk\opensource.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\SylphaSnk\opensource.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,9 +33,9 @@ It supports .NET Framework 4.5.2 or later, .NET Core 3.1, .NET 6 and licensed as
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LivetCask.EventListeners\LivetCask.EventListeners.csproj" />
-    <ProjectReference Include="..\LivetCask.Messaging\LivetCask.Messaging.csproj" />
-    <ProjectReference Include="..\LivetCask.Mvvm\LivetCask.Mvvm.csproj" />
+    <ProjectReference Include="..\Sylpha.EventListeners\Sylpha.EventListeners.csproj" />
+    <ProjectReference Include="..\Sylpha.Messaging\Sylpha.Messaging.csproj" />
+    <ProjectReference Include="..\Sylpha.Mvvm\Sylpha.Mvvm.csproj" />
   </ItemGroup>
 
 </Project>

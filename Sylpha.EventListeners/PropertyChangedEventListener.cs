@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using JetBrains.Annotations;
-using Livet.EventListeners.Internals;
+using Sylpha.EventListeners.Internals;
 
-namespace Livet.EventListeners
+namespace Sylpha.EventListeners
 {
     /// <summary>
     ///     INotifyPropertyChanged.PropertyChangedを受信するためのイベントリスナです。

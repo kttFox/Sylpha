@@ -7,7 +7,7 @@
 		<TargetFrameworks>net6.0-windows7.0;net462;net48</TargetFrameworks>
 		<UseWpf>true</UseWpf>
 		<IsPackable>false</IsPackable>
-		<RootNamespace>Livet.NUnit</RootNamespace>
+		<RootNamespace>Sylpha.NUnit</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -18,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\LivetCask\LivetCask.csproj" />
+		<ProjectReference Include="..\Sylpha\Sylpha.csproj" />
 	</ItemGroup>
 
 </Project>

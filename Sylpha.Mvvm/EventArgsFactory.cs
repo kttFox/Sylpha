@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using JetBrains.Annotations;
 
-namespace Livet
+namespace Sylpha
 {
     internal static class EventArgsFactory
     {

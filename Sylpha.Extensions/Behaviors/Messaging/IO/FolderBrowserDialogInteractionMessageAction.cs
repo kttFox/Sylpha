@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using Livet.Dialogs;
-using Livet.Messaging;
-using Livet.Messaging.IO;
+using Sylpha.Dialogs;
+using Sylpha.Messaging;
+using Sylpha.Messaging.IO;
 
-namespace Livet.Behaviors.Messaging.IO
+namespace Sylpha.Behaviors.Messaging.IO
 {
     /// <summary>
     ///     Show folder browser dialog.

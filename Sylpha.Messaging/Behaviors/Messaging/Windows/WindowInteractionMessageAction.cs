@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
-using Livet.Messaging;
-using Livet.Messaging.Windows;
+using Sylpha.Messaging;
+using Sylpha.Messaging.Windows;
 
-namespace Livet.Behaviors.Messaging.Windows
+namespace Sylpha.Behaviors.Messaging.Windows
 {
     /// <summary>
     ///     Windowの最小化・最大化・閉じるを行うアクションです。WindowActionMessageに対応します。

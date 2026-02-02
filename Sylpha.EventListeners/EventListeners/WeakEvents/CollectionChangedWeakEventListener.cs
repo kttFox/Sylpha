@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using JetBrains.Annotations;
-using Livet.EventListeners.Internals;
+using Sylpha.EventListeners.Internals;
 
-namespace Livet.EventListeners.WeakEvents
+namespace Sylpha.EventListeners.WeakEvents
 {
     /// <summary>
     ///     INotifyCollectionChanged.NotifyCollectionChangedを受信するためのWeakイベントリスナです。

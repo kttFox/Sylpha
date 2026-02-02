@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using JetBrains.Annotations;
 
-namespace Livet.Messaging
+namespace Sylpha.Messaging
 {
     /// <summary>
     ///     相互作用メッセージの基底クラスです。<br />

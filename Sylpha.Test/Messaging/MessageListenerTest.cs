@@ -1,8 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
-using Livet.Messaging;
+using Sylpha.Messaging;
 
-namespace Livet.NUnit.Messaging
+namespace Sylpha.NUnit.Messaging
 {
     [TestFixture]
     public class MessageListenerTest

@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using JetBrains.Annotations;
 
-namespace Livet
+namespace Sylpha
 {
     /// <summary>
     ///     変更通知オブジェクトの基底クラスです。

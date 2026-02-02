@@ -17,8 +17,8 @@
     <ProjectGuid>{7C69D055-0538-4F7C-A11F-623DFEEAB1A7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Livet.ProjectTemplate.CSharp</RootNamespace>
-    <AssemblyName>Livet.ProjectTemplate.CSharp</AssemblyName>
+    <RootNamespace>Sylpha.ProjectTemplate.CSharp</RootNamespace>
+    <AssemblyName>Sylpha.ProjectTemplate.CSharp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
@@ -84,7 +84,7 @@
     <None Include="ProjectTemplate.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <VSTemplate Include="Livet.ProjectTemplate.CSharp.vstemplate" />
+    <VSTemplate Include="Sylpha.ProjectTemplate.CSharp.vstemplate" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Livet.ico" />

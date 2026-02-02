@@ -3,15 +3,15 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005"
             xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
-    <Name>Livet project template (.NET Framework)(C#)</Name>
-    <Description>To create a MVVM application using Livet on WPF(.NET Framework)</Description>
+    <Name>Sylpha project template (.NET Framework)(C#)</Name>
+    <Description>To create a MVVM application using Sylpha on WPF(.NET Framework)</Description>
     <Icon>Livet.ico</Icon>
     <ProjectType>CSharp</ProjectType>
     <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
     <SortOrder>1000</SortOrder>
     <TemplateID>b918794f-f043-42f6-b6c7-38b2917b1c7f</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>LivetApp</DefaultName>
+    <DefaultName>SylphaApp</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <CreateInPlace>true</CreateInPlace>
   </TemplateData>

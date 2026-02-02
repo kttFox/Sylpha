@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
 using JetBrains.Annotations;
-using Livet.EventListeners.WeakEvents;
+using Sylpha.EventListeners.WeakEvents;
 
-namespace Livet.Messaging
+namespace Sylpha.Messaging
 {
     public sealed class MessageListener : IDisposable,
         IEnumerable<KeyValuePair<string, ConcurrentBag<Action<InteractionMessage>>>>

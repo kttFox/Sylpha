@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Livet.ProjectTemplate.CSharp {
+namespace Sylpha.ProjectTemplate.CSharp {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

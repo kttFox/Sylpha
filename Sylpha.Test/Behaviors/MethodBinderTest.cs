@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using Livet.Behaviors;
-using Livet.NUnit.TestInfrastructures;
+using Sylpha.Behaviors;
+using Sylpha.NUnit.TestInfrastructures;
 
-namespace Livet.NUnit.Behaviors
+namespace Sylpha.NUnit.Behaviors
 {
     [TestFixture()]
     public class MethodBinderTest

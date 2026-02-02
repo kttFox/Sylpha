@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
-using Livet;
+using Sylpha;
 using JetBrains.Annotations;
-using Livet.Messaging;
-using Livet.Messaging.IO;
+using Sylpha.Messaging;
+using Sylpha.Messaging.IO;
 
 namespace ViewLayerSupport.ViewModels
 {

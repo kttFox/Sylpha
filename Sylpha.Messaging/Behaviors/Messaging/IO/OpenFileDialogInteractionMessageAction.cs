@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using Livet.Messaging;
-using Livet.Messaging.IO;
+using Sylpha.Messaging;
+using Sylpha.Messaging.IO;
 using Microsoft.Win32;
 
-namespace Livet.Behaviors.Messaging.IO
+namespace Sylpha.Behaviors.Messaging.IO
 {
     /// <summary>
     ///     「ファイルを開く」ダイアログを表示するアクションです。<see cref="OpeningFileSelectionMessage" />に対応します。

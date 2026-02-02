@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using JetBrains.Annotations;
 
-namespace Livet.EventListeners.Internals
+namespace Sylpha.EventListeners.Internals
 {
     internal class AnonymousPropertyChangedEventHandlerBag : IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>>
     {
