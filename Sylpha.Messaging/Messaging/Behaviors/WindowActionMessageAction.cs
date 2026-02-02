@@ -4,34 +4,54 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// Windowの最小化・最大化・閉じるを行うアクションです。WindowActionMessageに対応します。
+	/// Windowの最小化、最大化、閉じる などを行うアクションです。
 	/// </summary>
 	[PublicAPI]
-	public class WindowMessageAction : MessageAction<FrameworkElement> {
-		protected override void InvokeAction( Message message ) {
-			// ReSharper disable once InvertIf
-			if( message is WindowActionMessage windowMessage && AssociatedObject != null ) {
-				var window = Window.GetWindow( AssociatedObject );
-				if( window == null ) return;
+	public class WindowActionMessageAction : MessageAction<FrameworkElement, WindowActionMessage> {
+		protected override void InvokeAction( WindowActionMessage message ) {
+			Action( this.AssociatedObject, message );
+		}
 
-				switch( windowMessage.Action ) {
-					case WindowAction.Close:
+		public static void Action( FrameworkElement element, WindowActionMessage message ) {
+			var window = Window.GetWindow( element );
+			if( window != null ) {
+				switch( message.WindowAction ) {
+					case WindowActionMode.Close: {
 						window.Close();
 						break;
-					case WindowAction.Maximize:
+					}
+					case WindowActionMode.Maximize: {
 						window.WindowState = WindowState.Maximized;
 						break;
-					case WindowAction.Minimize:
+					}
+					case WindowActionMode.Minimize: {
 						window.WindowState = WindowState.Minimized;
 						break;
-					case WindowAction.Normal:
+					}
+					case WindowActionMode.Normal: {
 						window.WindowState = WindowState.Normal;
 						break;
-					case WindowAction.Active:
+					}
+					case WindowActionMode.Active: {
 						window.Activate();
 						break;
-					default:
-						throw new ArgumentOutOfRangeException();
+					}
+					case WindowActionMode.Hide: {
+						window.Hide();
+						break;
+					}
+					case WindowActionMode.ResultOK: {
+						window.DialogResult = true;
+						break;
+					}
+					case WindowActionMode.ResultCancel: {
+						window.DialogResult = false;
+						break;
+					}
+
+					default: {
+						break;
+					}
 				}
 			}
 		}

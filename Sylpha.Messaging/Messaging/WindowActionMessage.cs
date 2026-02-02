@@ -2,37 +2,34 @@
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// Windowを最大化・最小化・閉じる・通常化させるためのメッセージです。
+	/// Windowを最大化、最小化、閉じる などを行うためのメッセージです。
 	/// </summary>
 	public class WindowActionMessage : Message {
-		#region ActionProperty
+		#region WindowActionProperty
 		/// <summary>
-		/// Windowが遷移すべき状態を表すWindowAction列挙体を指定、または取得します。
+		/// Windowが遷移すべき状態を表す<see cref="WindowActionMode"/>列挙体を指定、または取得します。
 		/// </summary>
-		public WindowAction? Action {
-			get { return (WindowAction?)( GetValue( ActionProperty ) ); }
-			set { SetValue( ActionProperty, value ); }
+		public WindowActionMode? WindowAction {
+			get { return (WindowActionMode?)( GetValue( WindowActionProperty ) ); }
+			set { SetValue( WindowActionProperty, value ); }
 		}
 
-		public static readonly DependencyProperty ActionProperty =
-			DependencyProperty.Register( nameof( Action ), typeof( WindowAction ), typeof( WindowActionMessage ), new PropertyMetadata( null ) );
+		public static readonly DependencyProperty WindowActionProperty =
+			DependencyProperty.Register( nameof( WindowAction ), typeof( WindowActionMode ), typeof( WindowActionMessage ), new PropertyMetadata( null ) );
 		#endregion
 
-		public WindowActionMessage() { }
-
 		/// <summary>
-		/// メッセージキーを指定して新しいメッセージのインスタンスを生成します。
+		/// 新しいメッセージのインスタンスを生成します。
 		/// </summary>
-		/// <param name="messageKey">メッセージキー</param>
-		public WindowActionMessage( string? messageKey ) : base( messageKey ) { }
+		public WindowActionMessage() { }
 
 		/// <summary>
 		/// メッセージキーとWindowが遷移すべき状態を定義して、新しいメッセージのインスタンスを生成します。
 		/// </summary>
-		/// <param name="action">Windowが遷移すべき状態を表すWindowAction列挙体</param>
+		/// <param name="windowAction">Windowが遷移すべき状態を表すWindowAction列挙体</param>
 		/// <param name="messageKey">メッセージキー</param>
-		public WindowActionMessage( WindowAction action, string? messageKey = null ) : this( messageKey ) {
-			Action = action;
+		public WindowActionMessage( WindowActionMode windowAction, string? messageKey = null ) : base( messageKey ) {
+			this.WindowAction = windowAction;
 		}
 
 		/// <summary>
@@ -40,8 +37,6 @@ namespace Sylpha.Messaging {
 		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
 		/// </summary>
 		/// <returns>自身の新しいインスタンス</returns>
-		protected override Freezable CreateInstanceCore() {
-			return new WindowActionMessage( MessageKey );
-		}
+		protected override Freezable CreateInstanceCore() => new WindowActionMessage();
 	}
 }

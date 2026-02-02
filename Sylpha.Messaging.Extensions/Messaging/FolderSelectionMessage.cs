@@ -44,7 +44,7 @@ namespace Sylpha.Messaging {
 		/// <see cref="DependencyProperty" />.
 		/// </value>
 		public static readonly DependencyProperty DialogPreferenceProperty =
-			DependencyProperty.Register( nameof( DialogPreference ), typeof( FolderSelectionDialogPreference ), typeof( FileSelectionMessage ), new UIPropertyMetadata( FolderSelectionDialogPreference.None ) );
+			DependencyProperty.Register( nameof( DialogPreference ), typeof( FolderSelectionDialogPreference ), typeof( FolderSelectionMessage ), new UIPropertyMetadata( FolderSelectionDialogPreference.None ) );
 		/// <summary>
 		/// Defines <see cref="Multiselect" /> dependency property.
 		/// </summary>
@@ -52,7 +52,7 @@ namespace Sylpha.Messaging {
 		/// <see cref="DependencyProperty" />.
 		/// </value>
 		public static readonly DependencyProperty MultiselectProperty =
-			DependencyProperty.Register( nameof( Multiselect ), typeof( bool ), typeof( FileSelectionMessage ), new UIPropertyMetadata( false ) );
+			DependencyProperty.Register( nameof( Multiselect ), typeof( bool ), typeof( FolderSelectionMessage ), new UIPropertyMetadata( false ) );
 
 
 

@@ -4,7 +4,7 @@ using Microsoft.Xaml.Behaviors;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// 引数を一つだけ持つメソッドに対応したCallMethodActionです。
+	/// 引数を一つだけ持つメソッドに対応したアクションです。
 	/// </summary>
 	public class CallMethodAction : TriggerAction<DependencyObject> {
 		#region Register MethodTarget

@@ -1,24 +1,17 @@
 ﻿namespace Sylpha.Messaging {
-	public enum TransitionMode {
+	public enum ShowWindowMode {
 		/// <summary>
-		/// 新しくWindowを開きます。
-		/// </summary>
-		Normal,
-
-		/// <summary>
-		/// 新しいWindowをモーダルダイアログとして開きます。
+		/// 新しいWindowをモーダルウインドウとして開きます。
 		/// </summary>
 		Modal,
-
+		/// <summary>
+		/// 新しいWindowをモーダレスウインドウとして開きます。
+		/// </summary>
+		Modeless,
 		/// <summary>
 		/// すでに同じ型のWindowが開かれている場合はそのWindowをアクティブにします。<br />
 		/// 同じ型のWindowが開かれていなかった場合、新しくWindowを開きます。
 		/// </summary>
 		NewOrActive,
-
-		/// <summary>
-		/// 指定されていません。Windowは表示されません。
-		/// </summary>
-		UnKnown
 	}
 }

@@ -1,34 +1,33 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Windows;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// 確認ダイアログを表示するアクションです。<see cref="ConfirmationMessage" />に対応します。
+	/// 確認ダイアログを表示するアクションです。
 	/// </summary>
-	public class ConfirmationDialogMessageAction : MessageAction<FrameworkElement> {
-		protected override void InvokeAction( Message message ) {
-			// ReSharper disable once InvertIf
-			if( message is ConfirmationMessage confirmMessage ) {
-				var result = MessageBox.Show(
-					confirmMessage.Text,
-					confirmMessage.Caption,
-					confirmMessage.Button,
-					confirmMessage.Image,
-					confirmMessage.DefaultResult
-				);
+	public class MessageBoxMessageAction : MessageAction<FrameworkElement, MessageBoxMessage> {
+		protected override void InvokeAction( MessageBoxMessage message ) {
+			Action( AssociatedObject, message );
+		}
 
-				// ReSharper disable once SwitchStatementMissingSomeCases
-				switch( result ) {
-					case MessageBoxResult.Yes:
-					case MessageBoxResult.OK:
-						confirmMessage.Response = true;
-						break;
-					case MessageBoxResult.Cancel:
-						confirmMessage.Response = null;
-						break;
-					default:
-						confirmMessage.Response = false;
-						break;
-				}
+		public static void Action( FrameworkElement element, MessageBoxMessage message ) {
+			if( message.IsOwned ) {
+				message.Response = MessageBox.Show(
+					Window.GetWindow( element ),
+					message.Text,
+					message.Caption,
+					message.Button,
+					message.Image,
+					message.DefaultResult
+				);
+			} else {
+				message.Response = MessageBox.Show(
+					message.Text,
+					message.Caption,
+					message.Button,
+					message.Image,
+					message.DefaultResult
+				);
 			}
 		}
 	}

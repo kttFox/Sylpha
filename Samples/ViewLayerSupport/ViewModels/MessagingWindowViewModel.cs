@@ -16,21 +16,22 @@ namespace ViewLayerSupport.ViewModels {
 			set { RaisePropertyChangedIfSet( ref _outputMessage, value ); }
 		}
 
-		public async void ConfirmFromViewModel() {
-			var message = new ConfirmationMessage( "これはテスト用メッセージです。", "テスト", "MessageKey_Confirm" ) {
-				Button = MessageBoxButton.OKCancel
+		public async void MessageBoxFromViewModel() {
+			var message = new MessageBoxMessage( "これはテスト用メッセージです。", "テスト" ) {
+				Button = MessageBoxButton.OKCancel,
+				MessageKey = "MessageKey_MessageBox",
 			};
 			await Messenger.RaiseAsync( message );
-			OutputMessage = $"{DateTime.Now}: ConfirmFromViewModel: {message.Response ?? false}";
+			OutputMessage = $"{DateTime.Now}: MessageBoxFromViewModel: {message.Response}";
 		}
 
-		public void ConfirmFromView( [NotNull] ConfirmationMessage message ) {
-			if( message == null ) throw new ArgumentNullException( nameof( message ) );
+		public void MessageBoxFromView( [NotNull] MessageBoxMessage messageBoxMessage ) {
+			if( messageBoxMessage == null ) throw new ArgumentNullException( nameof( messageBoxMessage ) );
 
-			OutputMessage = $"{DateTime.Now}: ConfirmFromView: {message.Response ?? false}";
+			OutputMessage = $"{DateTime.Now}: MessageBoxFromView: {messageBoxMessage.Response}";
 		}
 
-		public void FileSelected( [NotNull] OpeningFileSelectionMessage message ) {
+		public void FileSelected( [NotNull] OpenFileDialogMessage message ) {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
 

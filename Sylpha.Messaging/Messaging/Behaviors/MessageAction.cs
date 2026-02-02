@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
-using Microsoft.Xaml.Behaviors;
 using System.Windows.Markup;
+using Microsoft.Xaml.Behaviors;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
@@ -10,11 +11,28 @@ namespace Sylpha.Messaging.Behaviors {
 	/// </summary>
 	/// <typeparam name="T">このアクションがアタッチ可能な型を示します。</typeparam>
 	[ContentProperty( nameof( DirectMessage ) )]
-	public abstract class MessageAction<T> : TriggerAction<T> where T : DependencyObject {
+	public abstract class MessageAction<T, TMessage> : TriggerAction<T> where T : DependencyObject where TMessage : Message {
+		protected sealed override void Invoke( object? parameter ) {
+			if( (bool)( DesignerProperties.IsInDesignModeProperty.GetMetadata( typeof( DependencyObject ) ).DefaultValue ) ) return;
 
-		#region Register DirectMessageProperty
+			var window = Window.GetWindow( this.AssociatedObject );
+			if( window == null ) {
+				return;
+			}
+
+			var value = DirectMessage?.Message ?? parameter;
+			if( value is TMessage message ) {
+				InvokeAction( message );
+				DirectMessage?.InvokeCallbacks( message );
+			} else {
+				Debug.WriteLine( $"パラメータとなるメッセージの型が {typeof(TMessage)} ではありません。Type: {value?.GetType()}" );
+			}
+		}
+
+		protected abstract void InvokeAction( TMessage message );
+
 		/// <summary>
-		/// Viewで直接メッセージを定義する場合に使用する、DirectMessageを指定、または取得します。
+		/// Viewで直接メッセージを定義する場合に使用する <see cref="Messaging.DirectMessage"/> を指定、または取得します。
 		/// </summary>
 		public DirectMessage? DirectMessage {
 			get { return (DirectMessage?)GetValue( DirectMessageProperty ); }
@@ -22,27 +40,7 @@ namespace Sylpha.Messaging.Behaviors {
 		}
 
 		public static readonly DependencyProperty DirectMessageProperty =
-					DependencyProperty.Register( nameof( DirectMessage ), typeof( DirectMessage ), typeof( MessageAction<T> ), new PropertyMetadata( null ) );
-		#endregion
-		
-		protected sealed override void Invoke( object parameter ) {
-			var metadata = DesignerProperties.IsInDesignModeProperty.GetMetadata( typeof( DependencyObject ) );
-			if( (bool)( metadata?.DefaultValue ?? false ) ) return;
+			DependencyProperty.Register( nameof( DirectMessage ), typeof( DirectMessage ), typeof( MessageAction<T, TMessage> ), new PropertyMetadata( null ) );
 
-			var message = parameter as Message;
-
-			if( DirectMessage != null ) message = DirectMessage.Message;
-
-			if( AssociatedObject == null ) return;
-
-			var window = Window.GetWindow( AssociatedObject );
-			if( window == null ) return;
-			if( message == null ) return;
-
-			InvokeAction( message );
-			DirectMessage?.InvokeCallbacks( message );
-		}
-
-		protected abstract void InvokeAction( Message message );
 	}
 }

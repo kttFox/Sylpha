@@ -31,11 +31,11 @@
 				Content="CallMethodAction">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
-					<s:TransitionMessageAction>
+					<s:ShowWindowMessageAction>
 						<s:DirectMessage>
-							<s:TransitionMessage WindowType="{x:Type v:CallMethodActionWindow}" />
+							<s:ShowWindowMessage WindowType="{x:Type v:CallMethodActionWindow}" />
 						</s:DirectMessage>
-					</s:TransitionMessageAction>
+					</s:ShowWindowMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
@@ -43,11 +43,11 @@
 				Content="Messaging">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
-					<s:TransitionMessageAction>
+					<s:ShowWindowMessageAction>
 						<s:DirectMessage>
-							<s:TransitionMessage WindowType="{x:Type v:MessagingWindow}" />
+							<s:ShowWindowMessage WindowType="{x:Type v:MessagingWindow}" />
 						</s:DirectMessage>
-					</s:TransitionMessageAction>
+					</s:ShowWindowMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>

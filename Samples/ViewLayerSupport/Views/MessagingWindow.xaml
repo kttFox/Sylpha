@@ -23,63 +23,61 @@
 			<s:DataContextDisposeAction />
 		</i:EventTrigger>
 
-		<s:MessageTrigger MessageKey="MessageKey_Confirm"
+		<s:MessageTrigger MessageKey="MessageKey_MessageBox"
 									 Messenger="{Binding Messenger}">
-			<s:ConfirmationDialogMessageAction />
+			<s:MessageBoxMessageAction />
 		</s:MessageTrigger>
 	</i:Interaction.Triggers>
 
 	<StackPanel>
-		<Button Content="ConfirmFromViewModel">
+		<Button Content="MessageBox FromViewModel">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
-					<s:CallMethodAction MethodName="ConfirmFromViewModel"
+					<s:CallMethodAction MethodName="MessageBoxFromViewModel"
 										MethodTarget="{Binding}" />
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
-		<Button Content="ConfirmFromView">
+		<Button Content="MessageBox FromView">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
-					<s:ConfirmationDialogMessageAction>
-						<s:DirectMessage CallbackMethodName="ConfirmFromView"
+					<s:MessageBoxMessageAction>
+						<s:DirectMessage CallbackMethodName="MessageBoxFromView"
 													CallbackMethodTarget="{Binding}">
-							<s:ConfirmationMessage Caption="テスト"
+							<s:MessageBoxMessage Caption="テスト"
 												   Text="これはテスト用メッセージです。" />
 						</s:DirectMessage>
-					</s:ConfirmationDialogMessageAction>
+					</s:MessageBoxMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
 
-		<Button Margin="0,10,0,0"
-				Content="Single FileDialog">
+		<Button Content="FileDialog Single" Margin="0,10,0,0">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<s:OpenFileDialogMessageAction>
 						<s:DirectMessage CallbackMethodName="FileSelected"
 													CallbackMethodTarget="{Binding}">
-							<s:OpeningFileSelectionMessage Title="ファイルの選択" />
+							<s:OpenFileDialogMessage Title="ファイルの選択" />
 						</s:DirectMessage>
 					</s:OpenFileDialogMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
-		<Button Content="Multi FileDialog">
+		<Button Content="FileDialog Multi">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<s:OpenFileDialogMessageAction>
 						<s:DirectMessage CallbackMethodName="FileSelected"
 													CallbackMethodTarget="{Binding}">
-							<s:OpeningFileSelectionMessage Title="ファイルの選択"
+							<s:OpenFileDialogMessage Title="ファイルの選択"
 														   MultiSelect="True" />
 						</s:DirectMessage>
 					</s:OpenFileDialogMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
-		<Button Margin="0,10,0,0"
-				Content="CommonOpenFileDialog">
+		<Button Content="OpenFileDialog Common" Margin="0,10,0,0">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<s:FolderBrowserDialogMessageAction>
@@ -91,7 +89,7 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
-		<Button Content="Single FolderBrowserDialog">
+		<Button Content="FolderBrowserDialog Single">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<s:FolderBrowserDialogMessageAction>
@@ -103,7 +101,7 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
-		<Button Content="Multi FolderBrowserDialog">
+		<Button Content="FolderBrowserDialog Multi">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<s:FolderBrowserDialogMessageAction>
