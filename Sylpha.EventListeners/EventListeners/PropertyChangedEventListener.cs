@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using Sylpha.EventListeners.Internals;
 
 namespace Sylpha.EventListeners {
 	/// <summary>
-	/// INotifyPropertyChanged.PropertyChangedを受信するためのイベントリスナーです。
+	/// <see cref="INotifyPropertyChanged.PropertyChanged"/> を受信するためのイベントリスナーです。
 	/// </summary>
-	public sealed class PropertyChangedEventListener : EventListener<PropertyChangedEventHandler>, IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>> {
-		private readonly PropertyChangedEventHandlerBag _bag;
+	public sealed class PropertyChangedEventListener : EventListener<PropertyChangedEventHandler>, IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>>, IDisposable {
+		private readonly WeakReference<INotifyPropertyChanged> _source;
+		private readonly Dictionary<string, List<PropertyChangedEventHandler>> _handlerDictionary = [];
 
 		/// <summary>
 		/// コンストラクタ
@@ -19,20 +19,40 @@ namespace Sylpha.EventListeners {
 		/// <param name="source">INotifyPropertyChangedオブジェクト</param>
 		public PropertyChangedEventListener( INotifyPropertyChanged source ) {
 			if( source == null ) throw new ArgumentNullException( nameof( source ) );
+			_source = new( source );
 
-			_bag = new PropertyChangedEventHandlerBag( source );
 			Initialize(
 				h => source.PropertyChanged += h,
 				h => source.PropertyChanged -= h,
-				( sender, e ) => _bag.ExecuteHandler( e )
+				( sender, e ) => ExecuteHandler( e )
 			);
 		}
 
-		IEnumerator<KeyValuePair<string, List<PropertyChangedEventHandler>>> IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>>.GetEnumerator() 
-			=> _bag.GetEnumerator();
+		void ExecuteHandler( PropertyChangedEventArgs e ) {
+			if( _source.TryGetTarget( out var sourceResult ) ) {
+				if( e.PropertyName != null ) {
+					if( _handlerDictionary.TryGetValue( e.PropertyName, out var list ) ) {
+						foreach( var handler in list ) {
+							handler( sourceResult, e );
+						}
+					}
+				}
 
-		IEnumerator IEnumerable.GetEnumerator() 
-			=> _bag.GetEnumerator();
+				{
+					if( _handlerDictionary.TryGetValue( string.Empty, out var allList ) ) {
+						foreach( var handler in allList ) {
+							handler( sourceResult, e );
+						}
+					}
+				}
+			}
+		}
+
+		IEnumerator<KeyValuePair<string, List<PropertyChangedEventHandler>>> IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>>.GetEnumerator()
+			=> _handlerDictionary.GetEnumerator();
+
+		IEnumerator IEnumerable.GetEnumerator()
+			=> _handlerDictionary.GetEnumerator();
 
 		/// <summary>
 		/// このリスナーインスタンスに新たなハンドラを追加します。
@@ -42,7 +62,7 @@ namespace Sylpha.EventListeners {
 			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
 
 			ThrowExceptionIfDisposed();
-			_bag.RegisterHandler( handler );
+			RegisterHandler( string.Empty, handler );
 		}
 
 		/// <summary>
@@ -55,7 +75,11 @@ namespace Sylpha.EventListeners {
 			if( handlers == null ) throw new ArgumentNullException( nameof( handlers ) );
 
 			ThrowExceptionIfDisposed();
-			_bag.RegisterHandler( propertyName, handlers );
+
+			if( !_handlerDictionary.TryGetValue( propertyName, out var list ) ) {
+				_handlerDictionary[propertyName] = list = [];
+			}
+			list.AddRange( handlers );
 		}
 
 		/// <summary>
@@ -71,7 +95,7 @@ namespace Sylpha.EventListeners {
 			}
 
 			ThrowExceptionIfDisposed();
-			_bag.RegisterHandler( memberExpression.Member.Name, handlers );
+			RegisterHandler( memberExpression.Member.Name, handlers );
 		}
 
 		public void Add( PropertyChangedEventHandler handler ) => this.RegisterHandler( handler );

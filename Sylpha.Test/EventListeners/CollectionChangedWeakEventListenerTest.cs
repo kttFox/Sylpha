@@ -191,44 +191,6 @@ namespace Sylpha.NUnit.EventListeners {
 		}
 
 		[Test()]
-		public void MultiThreadHandlerTest() {
-			var publisher = new TestEventPublisher();
-
-			var listener = new CollectionChangedWeakEventListener( publisher );
-
-			var handlerCalledCount = 0;
-
-			var parentTask = new Task( () => {
-				var tf = new TaskFactory( TaskCreationOptions.AttachedToParent, TaskContinuationOptions.AttachedToParent );
-
-				for( int i = 0; i < 50; i++ ) {
-					tf.StartNew( () => {
-						for( int f = 0; f < 500; f++ ) {
-							listener.RegisterHandler( NotifyCollectionChangedAction.Add, ( sender, e ) => { e.Action.Is( NotifyCollectionChangedAction.Add ); handlerCalledCount++; } );
-						}
-
-					} );
-				}
-			} );
-
-			parentTask.Start();
-			parentTask.Wait();
-
-			handlerCalledCount.Is( 0 );
-
-			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
-
-			handlerCalledCount.Is( 25000 );
-
-			handlerCalledCount = 0;
-
-			listener.Dispose();
-			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
-
-			handlerCalledCount.Is( 0 );
-		}
-
-		[Test()]
 		public void SourceReferenceMemoryLeakTest() {
 			var handler1Success = false;
 

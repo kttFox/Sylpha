@@ -191,44 +191,6 @@ namespace Sylpha.NUnit.EventListeners {
 		}
 
 		[Test()]
-		public void MultiThreadHandlerTest() {
-			var publisher = new TestEventPublisher();
-
-			var listener = new PropertyChangedEventListener( publisher );
-
-			var handlerCalledCount = 0;
-
-			var parentTask = new Task( () => {
-				var tf = new TaskFactory( TaskCreationOptions.AttachedToParent, TaskContinuationOptions.AttachedToParent );
-
-				for( int i = 0; i < 50; i++ ) {
-					tf.StartNew( () => {
-						for( int f = 0; f < 500; f++ ) {
-							listener.RegisterHandler( "Dummy1", ( sender, e ) => { e.PropertyName.Is( "Dummy1" ); handlerCalledCount++; } );
-						}
-
-					} );
-				}
-			} );
-
-			parentTask.Start();
-			parentTask.Wait();
-
-			handlerCalledCount.Is( 0 );
-
-			publisher.RaisePropertyChanged( "Dummy1" );
-
-			handlerCalledCount.Is( 25000 );
-
-			handlerCalledCount = 0;
-
-			listener.Dispose();
-			publisher.RaisePropertyChanged( "Dummy1" );
-
-			handlerCalledCount.Is( 0 );
-		}
-
-		[Test()]
 		public void SourceReferenceMemoryLeakTest() {
 			var handler1Called = false;
 

@@ -1,118 +1,90 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Sylpha.EventListeners.WeakEvents;
 
 namespace Sylpha.Messaging {
-	public sealed class MessageListener : IDisposable, IEnumerable<KeyValuePair<string, ConcurrentBag<Action<Message>>>> {
-		private readonly ConcurrentDictionary<string, ConcurrentBag<Action<Message>>> _actionDictionary = [];
-
-		private readonly WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs> _listener;
+	/// <summary>
+	/// <see cref="MessageListener.Raised"/> を受信するためのWeakイベントリスナーです。
+	/// </summary>
+	public sealed class MessageListener : WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs>, IEnumerable<KeyValuePair<string, List<Action<Message>>>>, IDisposable {
+		readonly Dictionary<string, List<Action<Message>>> _actionDictionary = [];
+		readonly WeakReference<Messenger> _source;
 
 		public MessageListener( Messenger messenger ) {
 			if( messenger == null ) throw new ArgumentNullException( nameof( messenger ) );
+			_source = new( messenger );
 
-			_listener = new(
-					h => h,
-					h => messenger.Raised += h,
-					h => messenger.Raised -= h,
-					MessageReceived
-				);
+			var _this = this;
+			Initialize(
+				h => h,
+				h => messenger.Raised += h,
+				h => messenger.Raised -= h,
+				( sender, e ) => _this.MessageReceived( e )
+			);
 		}
 
-		IEnumerator<KeyValuePair<string, ConcurrentBag<Action<Message>>>> IEnumerable<KeyValuePair<string, ConcurrentBag<Action<Message>>>>.GetEnumerator() {
-			ThrowExceptionIfDisposed();
-			return _actionDictionary.GetEnumerator();
+		void MessageReceived( MessageRaisedEventArgs e ) {
+			if( _source.TryGetTarget( out var _ ) ) {
+				var message = e.Message;
+				var clonedMessage = (Message)message.Clone();
+				clonedMessage.Freeze();
+
+				if( e.Message.MessageKey != null ) {
+					if( _actionDictionary.TryGetValue( e.Message.MessageKey, out var list ) ) {
+						foreach( var action in list ) {
+							action( clonedMessage );
+						}
+					}
+				}
+				{
+					if( _actionDictionary.TryGetValue( string.Empty, out var list ) ) {
+						foreach( var action in list ) {
+							action( clonedMessage );
+						}
+					}
+				}
+
+				if( message is IRequestMessage requestMessage ) {
+					requestMessage.Response = ( (IRequestMessage)clonedMessage ).Response;
+				}
+			}
 		}
 
-		IEnumerator IEnumerable.GetEnumerator() {
-			ThrowExceptionIfDisposed();
-			return _actionDictionary.GetEnumerator();
-		}
+		IEnumerator<KeyValuePair<string, List<Action<Message>>>> IEnumerable<KeyValuePair<string, List<Action<Message>>>>.GetEnumerator()
+			=> _actionDictionary.GetEnumerator();
 
-		public void RegisterAction( params IEnumerable<Action<Message>> actions ) => RegisterAction( string.Empty, actions );
+		IEnumerator IEnumerable.GetEnumerator()
+			=> _actionDictionary.GetEnumerator();
 
+		/// <summary>
+		/// アクションを登録します。
+		/// </summary>
+		/// <param name="action"></param>
+		public void RegisterAction( params IEnumerable<Action<Message>> action ) => RegisterAction( string.Empty, action );
+
+		/// <summary>
+		/// メッセージキーに対応するアクションを登録します。
+		/// </summary>
+		/// <param name="messageKey"></param>
+		/// <param name="actions"></param>
+		/// <exception cref="ArgumentNullException"></exception>
 		public void RegisterAction( string messageKey, params IEnumerable<Action<Message>> actions ) {
 			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
 			if( actions == null || actions.Contains( null ) ) throw new ArgumentNullException( nameof( actions ) );
 
 			ThrowExceptionIfDisposed();
 
-			var bag = _actionDictionary.GetOrAdd( messageKey, x => [] );
-			foreach( var action in actions ) {
-				bag.Add( action );
+			if( !_actionDictionary.TryGetValue( messageKey, out var bag ) ) {
+				_actionDictionary[messageKey] = bag = [];
 			}
+			bag.AddRange( actions );
 		}
 
-		private void MessageReceived( object? sender, MessageRaisedEventArgs e ) {
-			if( e == null ) throw new ArgumentNullException( nameof( e ) );
-			if( _disposed ) return;
+		public void Add( Action<Message> action ) => this.RegisterAction( string.Empty, action );
+		public void Add( string messageKey, Action<Message> action ) => this.RegisterAction( messageKey, action );
+		public void Add( string messageKey, IEnumerable<Action<Message>> actions ) => this.RegisterAction( messageKey, actions );
 
-			var message = e.Message;
-			var clonedMessage = (Message)message.Clone();
-			clonedMessage.Freeze();
-
-			GetValue( e, clonedMessage );
-
-			if( message is IRequestMessage requestMessage ) {
-				object? response = ( (IRequestMessage)clonedMessage ).Response;
-				if( response != null ) {
-					requestMessage.Response = response;
-				}
-			}
-		}
-
-		private void GetValue( MessageRaisedEventArgs e, Message cloneMessage ) {
-			if( e == null ) throw new ArgumentNullException( nameof( e ) );
-
-			if( e.Message.MessageKey != null ) {
-				if( _actionDictionary.TryGetValue( e.Message.MessageKey, out var list ) ) {
-					foreach( var action in list ) {
-						action( cloneMessage );
-					}
-				}
-			}
-
-			if( _actionDictionary.TryGetValue( string.Empty, out var allList ) ) {
-				foreach( var action in allList ) {
-					action( cloneMessage );
-				}
-			}
-		}
-
-		public void Add( Action<Message> action ) => RegisterAction( string.Empty, action );
-
-		public void Add( string messageKey, Action<Message> action ) => RegisterAction( messageKey, action );
-
-		public void Add( string messageKey, IEnumerable<Action<Message>> actions ) {
-			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
-			if( actions == null ) throw new ArgumentNullException( nameof( actions ) );
-
-			foreach( var action in actions ) {
-				RegisterAction( messageKey, action );
-			}
-		}
-
-		#region Dispose
-		private bool _disposed;
-
-		private void Dispose( bool disposing ) {
-			if( !_disposed ) {
-				_disposed = true;
-
-				if( disposing ) _listener.Dispose();
-			}
-		}
-
-		public void Dispose() {
-			Dispose( true );
-		}
-
-		private void ThrowExceptionIfDisposed() {
-			if( _disposed ) throw new ObjectDisposedException( "EventListener" );
-		}
-		#endregion
 	}
 }
