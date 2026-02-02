@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using Sylpha.EventListeners.WeakEvents;
 using NUnit.Framework;
+using Sylpha.EventListeners;
+using Sylpha.EventListeners.WeakEvents;
 
 namespace Sylpha.NUnit.EventListeners {
 	[TestFixture()]
@@ -11,25 +14,31 @@ namespace Sylpha.NUnit.EventListeners {
 		public void BasicConstructorLifeCycleTest() {
 			var listenerSuccess = false;
 
-			var publisher = new TestEventPublisher();
+			void Reset() {
+				listenerSuccess = false;
+			}
 
-			var listener = new CollectionChangedWeakEventListener( publisher ) { ( sender, e ) => listenerSuccess = true };
+			var publisher = new TestEventPublisher();
+			var listener = new CollectionChangedWeakEventListener( publisher ) { 
+				( sender, e ) => listenerSuccess = true,
+				{ NotifyCollectionChangedAction.Add, (s,e)=>{ } },
+				{ NotifyCollectionChangedAction.Add, [(s,e)=>{ }, (s,e)=>{ }] },
+			};
 
 			//------------------
-			listenerSuccess.Is( false );
+			Reset();
 
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
-
 			listenerSuccess.Is( true );
 
 			//------------------
-			listenerSuccess = false;
+			Reset();
 
 			listener.Dispose();
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
-
 			listenerSuccess.Is( false );
 
+			//------------------
 			try {
 				listener.RegisterHandler( ( sender, e ) => listenerSuccess = true );
 			} catch( Exception e ) {
@@ -42,13 +51,16 @@ namespace Sylpha.NUnit.EventListeners {
 			var handler1Success = false;
 			var handler2Success = false;
 
-			var publisher = new TestEventPublisher();
+			void Reset() {
+				handler1Success = false;
+				handler2Success = false;
+			}
 
+			var publisher = new TestEventPublisher();
 			var listener = new CollectionChangedWeakEventListener( publisher );
 
 			//------------------
-			handler1Success.Is( false );
-			handler2Success.Is( false );
+			Reset();
 
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
@@ -56,27 +68,25 @@ namespace Sylpha.NUnit.EventListeners {
 			handler2Success.Is( false );
 
 			//------------------
-			listener.RegisterHandler( ( sender, e ) => handler1Success = true );
+			Reset();
 
+			listener.RegisterHandler( ( sender, e ) => handler1Success = true );
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
 			handler1Success.Is( true );
 			handler2Success.Is( false );
 
 			//------------------
-			handler1Success = false;
-			handler2Success = false;
+			Reset();
 
 			listener.RegisterHandler( ( sender, e ) => handler2Success = true );
-
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
 			handler1Success.Is( true );
 			handler2Success.Is( true );
 
 			//------------------
-			handler1Success = false;
-			handler2Success = false;
+			Reset();
 
 			listener.Dispose();
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
@@ -87,197 +97,255 @@ namespace Sylpha.NUnit.EventListeners {
 
 		[Test()]
 		public void FilteredHandlerLifeCycleTest() {
-			var handler1Called = false;
-			var handler2Called = false;
-			var handler3Called = false;
+			var handler1____Add = false;
+			var handler2_Remove = false;
+			var handler3____Add = false;
+
+			void Reset() {
+				handler1____Add = false;
+				handler2_Remove = false;
+				handler3____Add = false;
+			}
 
 			var publisher = new TestEventPublisher();
-
 			var listener = new CollectionChangedWeakEventListener( publisher );
 
 			//------------------
-			listener.RegisterHandler( NotifyCollectionChangedAction.Add, ( sender, e ) => { e.Action.Is( NotifyCollectionChangedAction.Add ); handler1Called = true; } );
-			listener.RegisterHandler( NotifyCollectionChangedAction.Remove, ( sender, e ) => { e.Action.Is( NotifyCollectionChangedAction.Remove ); handler2Called = true; } );
-			listener.RegisterHandler( NotifyCollectionChangedAction.Add, ( sender, e ) => { e.Action.Is( NotifyCollectionChangedAction.Add ); handler3Called = true; } );
+			Reset();
+			listener.RegisterHandler( NotifyCollectionChangedAction.Add, ( sender, e ) => { e.Action.Is( NotifyCollectionChangedAction.Add ); handler1____Add = true; } );
+			listener.RegisterHandler( NotifyCollectionChangedAction.Remove, ( sender, e ) => { e.Action.Is( NotifyCollectionChangedAction.Remove ); handler2_Remove = true; } );
+			listener.RegisterHandler( NotifyCollectionChangedAction.Add, ( sender, e ) => { e.Action.Is( NotifyCollectionChangedAction.Add ); handler3____Add = true; } );
 
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Remove, null );
 
-			handler1Called.Is( true );
-			handler2Called.Is( true );
-			handler3Called.Is( true );
+			handler1____Add.Is( true );
+			handler2_Remove.Is( true );
+			handler3____Add.Is( true );
 
 			//------------------
-			handler1Called = false;
-			handler2Called = false;
-			handler3Called = false;
+			Reset();
 
 			listener.Dispose();
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Remove, null );
 
-			handler1Called.Is( false );
-			handler2Called.Is( false );
-			handler3Called.Is( false );
+			handler1____Add.Is( false );
+			handler2_Remove.Is( false );
+			handler3____Add.Is( false );
 		}
 
 		[Test()]
 		public void AddHandlerKindTest() {
-			var handler1Called = false;
-			var handler2Called = false;
-			var handler3Called = false;
-			var handler4Called = false;
-			var handler5Called = false;
+			var handler1____Add = false;
+			var handler2_Remove = false;
+			var handler3_Remove = false;
+			var handler4_ALL___ = false;
+			var handler5____Add = false;
+
+			void Reset() {
+				handler1____Add = false;
+				handler2_Remove = false;
+				handler3_Remove = false;
+				handler4_ALL___ = false;
+				handler5____Add = false;
+			}
 
 			var publisher = new TestEventPublisher();
-			var listener1 = new CollectionChangedWeakEventListener( publisher )
-			{
-				{NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler1Called = true; }},
+			var listener1 = new CollectionChangedWeakEventListener( publisher ) {
+				{NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler1____Add = true; }},
 				{NotifyCollectionChangedAction.Remove,[
-						(sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Remove); handler2Called = true;},
-						(sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Remove); handler3Called = true;}
+						(sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Remove); handler2_Remove = true;},
+						(sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Remove); handler3_Remove = true;}
 				]},
-				(sender,e) => handler4Called = true,
-				{NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler5Called = true; }}
+				(sender,e) => handler4_ALL___ = true,
+				{NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler5____Add = true; }}
 			};
 
+			//-------------------------------
+			Reset();
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Reset, null );
 
-			handler1Called.Is( false );
-			handler2Called.Is( false );
-			handler3Called.Is( false );
-			handler4Called.Is( true );
-			handler5Called.Is( false );
+			handler1____Add.Is( false );
+			handler2_Remove.Is( false );
+			handler3_Remove.Is( false );
+			handler4_ALL___.Is( true );
+			handler5____Add.Is( false );
 
-			handler4Called = false;
+			//-------------------------------
+			Reset();
 
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-			handler1Called.Is( true );
-			handler2Called.Is( false );
-			handler3Called.Is( false );
-			handler4Called.Is( true );
-			handler5Called.Is( true );
+			handler1____Add.Is( true );
+			handler2_Remove.Is( false );
+			handler3_Remove.Is( false );
+			handler4_ALL___.Is( true );
+			handler5____Add.Is( true );
 
-			handler1Called = false;
-			handler4Called = false;
-			handler5Called = false;
+			//-------------------------------
+			Reset();
 
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Remove, null );
 
-			handler1Called.Is( false );
-			handler2Called.Is( true );
-			handler3Called.Is( true );
-			handler4Called.Is( true );
-			handler5Called.Is( false );
+			handler1____Add.Is( false );
+			handler2_Remove.Is( true );
+			handler3_Remove.Is( true );
+			handler4_ALL___.Is( true );
+			handler5____Add.Is( false );
 
-			handler1Called = false;
-			handler2Called = false;
-			handler3Called = false;
-			handler4Called = false;
-			handler5Called = false;
+			//-------------------------------
+			Reset();
 
 			listener1.Dispose();
 
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Remove, null );
 
-			handler1Called.Is( false );
-			handler2Called.Is( false );
-			handler3Called.Is( false );
-			handler4Called.Is( false );
-			handler5Called.Is( false );
+			handler1____Add.Is( false );
+			handler2_Remove.Is( false );
+			handler3_Remove.Is( false );
+			handler4_ALL___.Is( false );
+			handler5____Add.Is( false );
 
 		}
 
+		/// <summary>
+		/// パブリッシャー(<see cref="TestEventPublisher"/>)への参照がメモリリークしないことを検証するテスト。
+		/// リスナー(<see cref="CollectionChangedWeakEventListener"/>)を破棄した後、パブリッシャーへの強参照を解放すると、
+		/// パブリッシャーがGCによって回収されることを確認します。
+		/// </summary>
 		[Test()]
-		public void SourceReferenceMemoryLeakTest() {
-			var handler1Success = false;
+		public void PublisherWeakReferenceReleaseTest() {
+			var publisher = new PublisherLifetimeTestHelper();
+			publisher.Listener?.Dispose();
 
-			var publisherStrongReference = new TestEventPublisher();
-			var publisherWeakReference = new WeakReference<TestEventPublisher>( publisherStrongReference );
-
-			var listener = new CollectionChangedWeakEventListener( publisherStrongReference );
-			listener.RegisterHandler( ( sender, e ) => handler1Success = true );
-
-			publisherStrongReference.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
-
-			handler1Success.Is( true );
-			listener.Dispose();
-			publisherStrongReference = null;
-
+			publisher.ClearPublisher();
 
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
 
-			publisherWeakReference.TryGetTarget( out var resultPublisher ).Is( false );
-			resultPublisher.IsNull();
+			// TestEventPublisherのインスタンスが解放されていることを確認する
+			publisher.PublisherIsAlive().Is( false );
 		}
 
+		/// <summary>
+		/// パブリッシャー(<see cref="TestEventPublisher"/>)への参照が'''メモリリークする'''ことを検証するテスト。
+		/// リスナー(<see cref="CollectionChangedWeakEventListener"/>)を破棄しない場合、パブリッシャーへの強参照が残る。
+		/// </summary>
 		[Test()]
-		public void WeakEventTest() {
-			var listener1Success = false;
+		public void PublisherWeakReferenceReleaseTest_WithoutDispose() {
+			var publisher = new PublisherLifetimeTestHelper();
+			//publisher.Listener.Dispose(); // Disposeしないので参照が残る
 
-			var eventPublisher = new TestEventPublisher();
-
-			var listener1 = new CollectionChangedWeakEventListener( eventPublisher ) { ( sender, e ) => listener1Success = true };
-
-			var listenerWeakReference = new WeakReference( listener1 );
-
-			//------------------
-			listener1Success.Is( false );
-
-			eventPublisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
-
-			listener1Success.Is( true );
-
-			//------------------
-			listener1Success = false;
-
-			listener1 = null;
+			publisher.ClearPublisher();
 
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
 
-			eventPublisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
-
-			listener1Success.Is( false );
+			// TestEventPublisherのインスタンスが解放さない
+			publisher.PublisherIsAlive().Is( true );
 		}
 
-		private class HandlerMemoryLeakTestClass : IDisposable {
-			public readonly CollectionChangedWeakEventListener Listener;
+		class PublisherLifetimeTestHelper {
+			TestEventPublisher? Publisher;
+			readonly WeakReference<TestEventPublisher> WeakReference;
 
-			public HandlerMemoryLeakTestClass( INotifyCollectionChanged publisher ) {
-				Listener = new CollectionChangedWeakEventListener( publisher );
+			public CollectionChangedWeakEventListener Listener { get; }
 
-				// This handler refers "this".
-				NotifyCollectionChangedEventHandler handler = ( sender, e ) => { _ = ToString(); };
-				Listener.RegisterHandler( handler );
-				Listener.RegisterHandler( NotifyCollectionChangedAction.Reset, handler );
+			public PublisherLifetimeTestHelper() {
+				Publisher = new TestEventPublisher();
+				WeakReference = new( Publisher );
+
+				var handler1Success = false;
+				Listener = new CollectionChangedWeakEventListener( Publisher ) { ( sender, e ) => handler1Success = true };
+				Publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
+				handler1Success.Is( true );
 			}
 
-			public void Dispose() {
-				Listener.Dispose();
-			}
+			public bool PublisherIsAlive() => this.WeakReference.TryGetTarget( out var _ );
+			public void ClearPublisher ()=> Publisher = null;
 		}
 
+		/// <summary>
+		/// リスナー(<see cref="CollectionChangedWeakEventListener"/>)への参照がメモリリークしないことを検証するテスト。
+		/// </summary>
 		[Test()]
-		public void HandlerMemoryLeakTest() {
+		public void ListenerWeakReferenceReleaseTest() {
 			var publisher = new TestEventPublisher();
+			var listenerWeakReference = new ListenerLifetimeTestHelper( publisher );
 
-			var testObject = new HandlerMemoryLeakTestClass( publisher );
-			var dummyWeakReference = new WeakReference<HandlerMemoryLeakTestClass>( testObject );
+			//------------------
+			listenerWeakReference.Reset();
 
-			testObject.Dispose();
-			testObject = null;
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
+			listenerWeakReference.Success.Is( true );
+
+			//------------------
+			listenerWeakReference.Dispose();
+			listenerWeakReference.ClearListener();
 
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
+			GC.Collect();
 
-			dummyWeakReference.TryGetTarget( out var result ).Is( false );
-			result.IsNull();
+			//-----------------------------
+			listenerWeakReference.Reset();
+
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
+
+			listenerWeakReference.ListenerIsAlive().Is( false );
+			listenerWeakReference.Success.Is( false );
+		}
+
+		/// <summary>
+		/// リスナー(<see cref="CollectionChangedWeakEventListener"/>)への参照がメモリリークしないことを検証するテスト。(Dispose未呼び出し)
+		/// </summary>
+		[Test()]
+		public void ListenerWeakReferenceReleaseTest_WithoutDispose() {
+			var publisher = new TestEventPublisher();
+			var listenerWeakReference = new ListenerLifetimeTestHelper( publisher );
+
+			//------------------
+			listenerWeakReference.Reset();
+
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
+			listenerWeakReference.Success.Is( true );
+
+			//------------------
+			//listenerWeakReference.Dispose();
+			listenerWeakReference.ClearListener();
+
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.Collect();
+
+			//-----------------------------
+			listenerWeakReference.Reset();
+
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
+
+			listenerWeakReference.ListenerIsAlive().Is( false );
+			listenerWeakReference.Success.Is( false );
+		}
+
+		class ListenerLifetimeTestHelper {
+			CollectionChangedWeakEventListener? Listener;
+
+			readonly WeakReference<CollectionChangedWeakEventListener>? WeakReference;
+
+			public ListenerLifetimeTestHelper( INotifyCollectionChanged notifyCollection ) {
+				Listener = new CollectionChangedWeakEventListener( notifyCollection ) { ( sender, e ) => Success = true };
+				WeakReference = new( Listener );
+			}
+
+			public bool ListenerIsAlive() => WeakReference?.TryGetTarget( out var _ ) == true;
+			public bool Success { get; private set; }
+			public void Reset() => Success = false;
+			public void ClearListener() => Listener = null;
+			public void Dispose() => Listener?.Dispose();
 		}
 	}
 }

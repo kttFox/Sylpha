@@ -1,8 +1,13 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Sylpha.EventListeners.WeakEvents;
-using NUnit.Framework;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using NUnit.Framework;
+using Sylpha.EventListeners;
+using Sylpha.EventListeners.WeakEvents;
 
 namespace Sylpha.NUnit.EventListeners {
 	[TestFixture()]
@@ -11,31 +16,39 @@ namespace Sylpha.NUnit.EventListeners {
 		public void BasicConstructorLifeCycleTest() {
 			var listenerSuccess = false;
 
-			var publisher = new TestEventPublisher();
+			void Reset() {
+				listenerSuccess = false;
+			}
 
-			var listener = new PropertyChangedWeakEventListener( publisher ) { ( sender, e ) => listenerSuccess = true };
+			var publisher = new TestEventPublisher();
+			var listener = new PropertyChangedWeakEventListener( publisher ) {
+					( sender, e ) => listenerSuccess = true,
+					{ "Dummy", (s,e)=>{ } },
+					{ "Dummy", [(s,e)=>{ }, (s,e)=>{ }] },
+					{ ()=> publisher.Dummy2, (s,e)=>{ } },
+					{ ()=> publisher.Dummy2, [(s,e)=>{ }, (s,e)=>{ }] },
+			};
 
 			//------------------
-			listenerSuccess.Is( false );
+			Reset();
 
 			publisher.RaisePropertyChanged( string.Empty );
-
 			listenerSuccess.Is( true );
 
 			//------------------
-			listenerSuccess = false;
+			Reset();
 
 			listener.Dispose();
 			publisher.RaisePropertyChanged( string.Empty );
-
 			listenerSuccess.Is( false );
+
+			//------------------
 
 			try {
 				listener.RegisterHandler( ( sender, e ) => listenerSuccess = true );
 			} catch( Exception e ) {
 				e.GetType().Is( typeof( ObjectDisposedException ) );
 			}
-
 		}
 
 		[Test()]
@@ -43,13 +56,17 @@ namespace Sylpha.NUnit.EventListeners {
 			var handler1Success = false;
 			var handler2Success = false;
 
+			void Reset() {
+				handler1Success = false;
+				handler2Success = false;
+			}
+
 			var publisher = new TestEventPublisher();
 
 			var listener = new PropertyChangedWeakEventListener( publisher );
 
 			//------------------
-			handler1Success.Is( false );
-			handler2Success.Is( false );
+			Reset();
 
 			publisher.RaisePropertyChanged( string.Empty );
 
@@ -57,27 +74,25 @@ namespace Sylpha.NUnit.EventListeners {
 			handler2Success.Is( false );
 
 			//------------------
-			listener.RegisterHandler( ( sender, e ) => handler1Success = true );
+			Reset();
 
+			listener.RegisterHandler( ( sender, e ) => handler1Success = true );
 			publisher.RaisePropertyChanged( string.Empty );
 
 			handler1Success.Is( true );
 			handler2Success.Is( false );
 
 			//------------------
-			handler1Success = false;
-			handler2Success = false;
+			Reset();
 
 			listener.RegisterHandler( ( sender, e ) => handler2Success = true );
-
 			publisher.RaisePropertyChanged( string.Empty );
 
 			handler1Success.Is( true );
 			handler2Success.Is( true );
 
 			//------------------
-			handler1Success = false;
-			handler2Success = false;
+			Reset();
 
 			listener.Dispose();
 			publisher.RaisePropertyChanged( string.Empty );
@@ -88,197 +103,264 @@ namespace Sylpha.NUnit.EventListeners {
 
 		[Test()]
 		public void FilteredHandlerLifeCycleTest() {
-			var handler1Called = false;
-			var handler2Called = false;
-			var handler3Called = false;
+			var handler1_Dummy1 = false;
+			var handler2_Dummy2 = false;
+			var handler3_Dummy1 = false;
+
+			void Reset() {
+				handler1_Dummy1 = false;
+				handler2_Dummy2 = false;
+				handler3_Dummy1 = false;
+			}
 
 			var publisher = new TestEventPublisher();
-
 			var listener = new PropertyChangedWeakEventListener( publisher );
 
-			listener.RegisterHandler( "Dummy1", ( sender, e ) => { e.PropertyName.Is( "Dummy1" ); handler1Called = true; } );
-			listener.RegisterHandler( "Dummy2", ( sender, e ) => { e.PropertyName.Is( "Dummy2" ); handler2Called = true; } );
-			listener.RegisterHandler( "Dummy1", ( sender, e ) => { e.PropertyName.Is( "Dummy1" ); handler3Called = true; } );
+			//------------------
+			Reset();
+
+			listener.RegisterHandler( "Dummy1", ( sender, e ) => { e.PropertyName.Is( "Dummy1" ); handler1_Dummy1 = true; } );
+			listener.RegisterHandler( "Dummy2", ( sender, e ) => { e.PropertyName.Is( "Dummy2" ); handler2_Dummy2 = true; } );
+			listener.RegisterHandler( "Dummy1", ( sender, e ) => { e.PropertyName.Is( "Dummy1" ); handler3_Dummy1 = true; } );
 
 			publisher.RaisePropertyChanged( "Dummy1" );
 			publisher.RaisePropertyChanged( "Dummy2" );
 
-			handler1Called.Is( true );
-			handler2Called.Is( true );
-			handler3Called.Is( true );
+			handler1_Dummy1.Is( true );
+			handler2_Dummy2.Is( true );
+			handler3_Dummy1.Is( true );
 
 			//------------------
-			handler1Called = false;
-			handler2Called = false;
-			handler3Called = false;
+			Reset();
 
 			listener.Dispose();
 			publisher.RaisePropertyChanged( "Dummy1" );
 			publisher.RaisePropertyChanged( "Dummy2" );
 
-			handler1Called.Is( false );
-			handler2Called.Is( false );
-			handler3Called.Is( false );
+			handler1_Dummy1.Is( false );
+			handler2_Dummy2.Is( false );
+			handler3_Dummy1.Is( false );
 		}
 
 		[Test()]
 		public void AddHandlerKindTest() {
-			var handler1Called = false;
-			var handler2Called = false;
-			var handler3Called = false;
-			var handler4Called = false;
-			var handler5Called = false;
+			var handler1_Dummy1 = false;
+			var handler2_Dummy2 = false;
+			var handler3_Dummy2 = false;
+			var handler4_ALL___ = false;
+			var handler5_Dummy1 = false;
+
+			void Reset() {
+				handler1_Dummy1 = false;
+				handler2_Dummy2 = false;
+				handler3_Dummy2 = false;
+				handler4_ALL___ = false;
+				handler5_Dummy1 = false;
+			}
 
 			var publisher = new TestEventPublisher();
-			var listener1 = new PropertyChangedWeakEventListener( publisher )
-			{
-				{"Dummy1", (sender, e) => { e.PropertyName.Is("Dummy1"); handler1Called = true; }},
+			var listener1 = new PropertyChangedWeakEventListener( publisher ) {
+				{"Dummy1", (sender, e) => { e.PropertyName.Is("Dummy1"); handler1_Dummy1 = true; }},
 				{() => publisher.Dummy2,[
-						(sender, e) => { e.PropertyName.Is("Dummy2"); handler2Called = true;},
-						(sender, e) => { e.PropertyName.Is("Dummy2"); handler3Called = true;}
+						(sender, e) => { e.PropertyName.Is("Dummy2"); handler2_Dummy2 = true;},
+						(sender, e) => { e.PropertyName.Is("Dummy2"); handler3_Dummy2 = true;}
 				]},
-				(sender,e) => handler4Called = true,
-				{"Dummy1", (sender, e) => { e.PropertyName.Is("Dummy1"); handler5Called = true; }}
+				(sender,e) => handler4_ALL___ = true,
+				{"Dummy1", (sender, e) => { e.PropertyName.Is("Dummy1"); handler5_Dummy1 = true; }}
 			};
+
+			//------------------
+			Reset();
 
 			publisher.RaisePropertyChanged( null );
 
-			handler1Called.Is( false );
-			handler2Called.Is( false );
-			handler3Called.Is( false );
-			handler4Called.Is( true );
-			handler5Called.Is( false );
+			handler1_Dummy1.Is( false );
+			handler2_Dummy2.Is( false );
+			handler3_Dummy2.Is( false );
+			handler4_ALL___.Is( true );
+			handler5_Dummy1.Is( false );
 
-			handler4Called = false;
+			//------------------
+			Reset();
 
 			publisher.RaisePropertyChanged( "Dummy1" );
 
-			handler1Called.Is( true );
-			handler2Called.Is( false );
-			handler3Called.Is( false );
-			handler4Called.Is( true );
-			handler5Called.Is( true );
+			handler1_Dummy1.Is( true );
+			handler2_Dummy2.Is( false );
+			handler3_Dummy2.Is( false );
+			handler4_ALL___.Is( true );
+			handler5_Dummy1.Is( true );
 
-			handler1Called = false;
-			handler4Called = false;
-			handler5Called = false;
+			//------------------
+			Reset();
 
 			publisher.RaisePropertyChanged( "Dummy2" );
 
-			handler1Called.Is( false );
-			handler2Called.Is( true );
-			handler3Called.Is( true );
-			handler4Called.Is( true );
-			handler5Called.Is( false );
+			handler1_Dummy1.Is( false );
+			handler2_Dummy2.Is( true );
+			handler3_Dummy2.Is( true );
+			handler4_ALL___.Is( true );
+			handler5_Dummy1.Is( false );
 
-			handler1Called = false;
-			handler2Called = false;
-			handler3Called = false;
-			handler4Called = false;
-			handler5Called = false;
+			//------------------
+			Reset();
 
 			listener1.Dispose();
-
 			publisher.RaisePropertyChanged( "Dummy1" );
 			publisher.RaisePropertyChanged( "Dummy2" );
 
-			handler1Called.Is( false );
-			handler2Called.Is( false );
-			handler3Called.Is( false );
-			handler4Called.Is( false );
-			handler5Called.Is( false );
+			handler1_Dummy1.Is( false );
+			handler2_Dummy2.Is( false );
+			handler3_Dummy2.Is( false );
+			handler4_ALL___.Is( false );
+			handler5_Dummy1.Is( false );
 
 		}
 
 
+		/// <summary>
+		/// パブリッシャー(<see cref="TestEventPublisher"/>)への参照がメモリリークしないことを検証するテスト。
+		/// リスナー(<see cref="PropertyChangedWeakEventListener"/>)を破棄した後、パブリッシャーへの強参照を解放すると、
+		/// パブリッシャーがGCによって回収されることを確認します。
+		/// </summary>
 		[Test()]
-		public void SourceReferenceMemoryLeakTest() {
-			var handler1Called = false;
+		public void PublisherWeakReferenceReleaseTest() {
+			var publisher = new PublisherLifetimeTestHelper();
+			publisher.Listener.Dispose();
 
-			var publisherStrongReference = new TestEventPublisher();
-			var publisherWeakReference = new WeakReference<TestEventPublisher>( publisherStrongReference );
-
-			var listener = new PropertyChangedWeakEventListener( publisherStrongReference );
-			listener.RegisterHandler( "Dummy1", ( sender, e ) => { e.PropertyName.Is( "Dummy1" ); handler1Called = true; } );
-
-			publisherStrongReference.RaisePropertyChanged( "Dummy1" );
-
-			handler1Called.Is( true );
-
-			listener.Dispose();
-			publisherStrongReference = null;
+			publisher.ClearPublisher();
 
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
 
-			publisherWeakReference.TryGetTarget( out var resultPublisher ).Is( false );
-			resultPublisher.IsNull();
+			// TestEventPublisherのインスタンスが解放されていることを確認する
+			publisher.PublisherIsAlive().Is( false );
 		}
 
+
+		/// <summary>
+		/// パブリッシャー(<see cref="TestEventPublisher"/>)への参照が'''メモリリークする'''ことを検証するテスト。
+		/// リスナー(<see cref="PropertyChangedWeakEventListener"/>)を破棄しない場合、パブリッシャーへの強参照が残る。
+		/// </summary>
 		[Test()]
-		public void WeakEventTest() {
-			var listener1Success = false;
+		public void PublisherWeakReferenceReleaseTest_WithoutDispose() {
+			var publisher = new PublisherLifetimeTestHelper();
+			//weakTestEventPublisher.Listener.Dispose();	// Disposeしないので参照が残る
 
-			var eventPublisher = new TestEventPublisher();
-
-			var listener1 = new PropertyChangedWeakEventListener( eventPublisher ) { ( sender, e ) => listener1Success = true };
-
-			var listenerWeakReference = new WeakReference( listener1 );
-
-			//------------------
-			listener1Success.Is( false );
-
-			eventPublisher.RaisePropertyChanged( null );
-
-			listener1Success.Is( true );
-
-			//------------------
-			listener1Success = false;
-
-			listener1 = null;
+			publisher.ClearPublisher();
 
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
 
-			eventPublisher.RaisePropertyChanged( null );
-
-			listener1Success.Is( false );
+			// Publisherのインスタンスが解放されない
+			publisher.PublisherIsAlive().Is( true );
 		}
 
-		private class HandlerMemoryLeakTestClass : IDisposable {
-			public readonly PropertyChangedWeakEventListener Listener;
+		class PublisherLifetimeTestHelper {
+			TestEventPublisher? Publisher;
+			readonly WeakReference<TestEventPublisher> WeakReference;
 
-			public HandlerMemoryLeakTestClass( INotifyPropertyChanged publisher ) {
-				Listener = new PropertyChangedWeakEventListener( publisher );
+			public PropertyChangedWeakEventListener Listener { get; }
 
-				// This handler refers "this".
-				PropertyChangedEventHandler handler = ( sender, e ) => { _ = ToString(); };
-				Listener.RegisterHandler( handler );
-				Listener.RegisterHandler( "Dummy1", handler );
+			public PublisherLifetimeTestHelper() {
+				Publisher = new TestEventPublisher();
+				WeakReference = new( Publisher );
+
+				var handler1Success = false;
+				Listener = new PropertyChangedWeakEventListener( Publisher ) {
+					{ "Dummy1",
+						( sender,e ) => {
+							e.PropertyName.Is( "Dummy1" );
+							handler1Success = true;
+						}
+					}
+				};
+				Publisher.RaisePropertyChanged( "Dummy1" );
+				handler1Success.Is( true );
 			}
-
-			public void Dispose() {
-				Listener.Dispose();
-			}
+			public bool PublisherIsAlive() => this.WeakReference.TryGetTarget( out var _ );
+			public void ClearPublisher() => Publisher = null;
 		}
 
+		/// <summary>
+		/// リスナー(<see cref="PropertyChangedWeakEventListener"/>)への参照がメモリリークしないことを検証するテスト。
+		/// </summary>
 		[Test()]
-		public void HandlerMemoryLeakTest() {
+		public void ListenerWeakReferenceReleaseTest() {
 			var publisher = new TestEventPublisher();
+			var listenerWeakReference = new ListenerLifetimeTestHelper( publisher );
 
-			var testObject = new HandlerMemoryLeakTestClass( publisher );
-			var dummyWeakReference = new WeakReference<HandlerMemoryLeakTestClass>( testObject );
+			//------------------
+			listenerWeakReference.Reset();
 
-			testObject.Dispose();
-			testObject = null;
+			publisher.RaisePropertyChanged( null );
+			listenerWeakReference.Success.Is( true );
+
+			//------------------
+			listenerWeakReference.Dispose();
+			listenerWeakReference.ClearListener();
 
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
+			GC.Collect();
 
-			dummyWeakReference.TryGetTarget( out var result ).Is( false );
-			result.IsNull();
+			//------------------
+			listenerWeakReference.Reset();
+
+			publisher.RaisePropertyChanged( null );
+
+			listenerWeakReference.ListenerIsAlive().Is( false );
+			listenerWeakReference.Success.Is( false );
+		}
+
+		/// <summary>
+		/// リスナー(<see cref="PropertyChangedWeakEventListener"/>)への参照がメモリリークしないことを検証するテスト。(Dispose未呼び出し)
+		/// </summary>
+		[Test()]
+		public void ListenerWeakReferenceReleaseTest_WithoutDispose() {
+			var publisher = new TestEventPublisher();
+			var listenerWeakReference = new ListenerLifetimeTestHelper( publisher );
+
+			//------------------
+			listenerWeakReference.Reset();
+
+			publisher.RaisePropertyChanged( null );
+			listenerWeakReference.Success.Is( true );
+
+			//------------------
+			//listenerWeakReference.Dispose();
+			listenerWeakReference.ClearListener();
+
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.Collect();
+
+			//------------------
+			listenerWeakReference.Reset();
+
+			publisher.RaisePropertyChanged( null );
+
+			listenerWeakReference.ListenerIsAlive().Is( false );
+			listenerWeakReference.Success.Is( false );
+		}
+
+		class ListenerLifetimeTestHelper {
+			public PropertyChangedWeakEventListener? Listener { get; private set; }
+
+			readonly WeakReference<PropertyChangedWeakEventListener>? WeakReference;
+
+			public ListenerLifetimeTestHelper( INotifyPropertyChanged notifyProperty ) {
+				Listener = new PropertyChangedWeakEventListener( notifyProperty ) { ( sender, e ) => Success = true };
+				WeakReference = new( Listener );
+			}
+
+			public bool ListenerIsAlive() => WeakReference?.TryGetTarget( out var _ ) == true;
+			public bool Success { get; private set; }
+			public void Reset() => Success = false;
+			public void ClearListener() => Listener = null;
+			public void Dispose() => Listener?.Dispose();
 		}
 	}
 }

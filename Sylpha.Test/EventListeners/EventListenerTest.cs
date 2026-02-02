@@ -23,6 +23,10 @@ namespace Sylpha.NUnit.EventListeners {
 		public void LifeCycleTest() {
 			var listener1Success = false;
 			var listener2Success = false;
+			void Reset() {
+				listener1Success = false;
+				listener2Success = false;
+			}
 
 			var eventPublisher = new TestEventPublisher();
 
@@ -30,8 +34,7 @@ namespace Sylpha.NUnit.EventListeners {
 			var listener2 = GetStringListener( eventPublisher, ( sender, e ) => listener2Success = true );
 
 			//------------------
-			listener1Success.Is( false );
-			listener2Success.Is( false );
+			Reset();
 
 			eventPublisher.RaiseEmptyEvent();
 			eventPublisher.RaiseStringEvent( string.Empty );
@@ -40,8 +43,7 @@ namespace Sylpha.NUnit.EventListeners {
 			listener2Success.Is( true );
 
 			//------------------
-			listener1Success = false;
-			listener2Success = false;
+			Reset();
 
 			listener1.Dispose();
 			listener2.Dispose();

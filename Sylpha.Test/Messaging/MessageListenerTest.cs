@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using NUnit.Framework;
+using Sylpha.EventListeners.WeakEvents;
 using Sylpha.Messaging;
 
 namespace Sylpha.NUnit.Messaging {
@@ -8,7 +11,9 @@ namespace Sylpha.NUnit.Messaging {
 		[Test()]
 		public void LifeCycleTest() {
 			var listenerSuccess = false;
-
+			void Reset() {
+				listenerSuccess = false;
+			}
 			var publisher = new Messenger();
 			var message = new Message<int>( 1 );
 
@@ -20,20 +25,21 @@ namespace Sylpha.NUnit.Messaging {
 			};
 
 			//------------------
-			listenerSuccess.Is( false );
+			Reset();
 
 			publisher.Raise( message );
 
 			listenerSuccess.Is( true );
 
 			//------------------
-			listenerSuccess = false;
+			Reset();
 
 			listener.Dispose();
 			publisher.Raise( message );
 
 			listenerSuccess.Is( false );
 
+			//------------------
 			try {
 				listener.RegisterAction( _ => { } );
 			} catch( Exception e ) {
@@ -43,76 +49,82 @@ namespace Sylpha.NUnit.Messaging {
 
 		[Test()]
 		public void AddHandlerKindTest() {
-			var handler1Called = false;
-			var handler2Called = false;
-			var handler3Called = false;
-			var handler4Called = false;
-			var handler5Called = false;
+			var handler1_Dummy1 = false;
+			var handler2_Dummy2 = false;
+			var handler3_Dummy2 = false;
+			var handler4_ALL___ = false;
+			var handler5_Dummy1 = false;
+
+			void Reset() {
+				handler1_Dummy1 = false;
+				handler2_Dummy2 = false;
+				handler3_Dummy2 = false;
+				handler4_ALL___ = false;
+				handler5_Dummy1 = false;
+			}
 
 			var publisher = new Messenger();
-			var message0 = new Message<int>( 1 );
-			var message1 = new Message<int>( 1, "Dummy1" );
-			var message2 = new Message<int>( 1, "Dummy2" );
+			var message = new Message<int>( 1 );
+			var messageDummy1 = new Message<int>( 1, "Dummy1" );
+			var messageDummy2 = new Message<int>( 1, "Dummy2" );
 
-			var listener1 = new MessageListener( publisher )
-			{
-				{"Dummy1", _ => handler1Called = true},
+			var listener1 = new MessageListener( publisher ) {
+				{"Dummy1", _ => handler1_Dummy1 = true},
 				{"Dummy2",[
-						_ => handler2Called = true,
-						_ => handler3Called = true
+						_ => handler2_Dummy2 = true,
+						_ => handler3_Dummy2 = true
 				]},
-				_ => handler4Called = true,
-				{"Dummy1", _ => handler5Called = true}
+				_ => handler4_ALL___ = true,
+				{"Dummy1", _ => handler5_Dummy1 = true}
 			};
 
-			publisher.Raise( message0 );
+			//------------------------
+			Reset();
 
-			handler1Called.Is( false );
-			handler2Called.Is( false );
-			handler3Called.Is( false );
-			handler4Called.Is( true );
-			handler5Called.Is( false );
+			publisher.Raise( message );
 
-			handler4Called = false;
+			handler1_Dummy1.Is( false );
+			handler2_Dummy2.Is( false );
+			handler3_Dummy2.Is( false );
+			handler4_ALL___.Is( true );
+			handler5_Dummy1.Is( false );
 
-			publisher.Raise( message1 );
+			//------------------------
+			Reset();
 
-			handler1Called.Is( true );
-			handler2Called.Is( false );
-			handler3Called.Is( false );
-			handler4Called.Is( true );
-			handler5Called.Is( true );
+			publisher.Raise( messageDummy1 );
 
-			handler1Called = false;
-			handler4Called = false;
-			handler5Called = false;
+			handler1_Dummy1.Is( true );
+			handler2_Dummy2.Is( false );
+			handler3_Dummy2.Is( false );
+			handler4_ALL___.Is( true );
+			handler5_Dummy1.Is( true );
 
-			publisher.Raise( message2 );
+			//------------------------
+			Reset();
 
-			handler1Called.Is( false );
-			handler2Called.Is( true );
-			handler3Called.Is( true );
-			handler4Called.Is( true );
-			handler5Called.Is( false );
+			publisher.Raise( messageDummy2 );
 
-			handler1Called = false;
-			handler2Called = false;
-			handler3Called = false;
-			handler4Called = false;
-			handler5Called = false;
+			handler1_Dummy1.Is( false );
+			handler2_Dummy2.Is( true );
+			handler3_Dummy2.Is( true );
+			handler4_ALL___.Is( true );
+			handler5_Dummy1.Is( false );
+
+			//------------------------
+			Reset();
 
 			listener1.Dispose();
 
-			publisher.Raise( message0 );
-			publisher.Raise( message1 );
-			publisher.Raise( message2 );
+			publisher.Raise( message );
+			publisher.Raise( messageDummy1 );
+			publisher.Raise( messageDummy2 );
 
-			handler1Called.Is( false );
-			handler2Called.Is( false );
-			handler3Called.Is( false );
-			handler4Called.Is( false );
-			handler5Called.Is( false );
-
+			handler1_Dummy1.Is( false );
+			handler2_Dummy2.Is( false );
+			handler3_Dummy2.Is( false );
+			handler4_ALL___.Is( false );
+			handler5_Dummy1.Is( false );
 		}
 
 		[Test()]
@@ -131,37 +143,70 @@ namespace Sylpha.NUnit.Messaging {
 				}
 			};
 
-			listenerSuccess.Is( false );
-
 			publisher.Raise( message ).Response.Is( "test" );
 			publisher.Raise( message ).Response.Is( "test" );
 			listenerSuccess.Is( true );
 		}
 
+		/// <summary>
+		/// パブリッシャー(<see cref="Messenger"/>)への参照がメモリリークしないことを検証するテスト。
+		/// リスナー(<see cref="MessageListener"/>)を破棄した後、パブリッシャーへの強参照を解放すると、
+		/// パブリッシャーがGCによって回収されることを確認します。
+		/// </summary>
 		[Test()]
-		public void SourceReferenceMemoryLeakTest() {
-			var handler1Called = false;
+		public void PublisherWeakReferenceReleaseTest() {
+			var publisher = new PublisherLifetimeTestHelper();
+			publisher.Listener.Dispose();
 
-			var publisherStrongReference = new Messenger();
-			var publisherWeakReference = new WeakReference<Messenger>( publisherStrongReference );
-			var message = new Message<int>( 1, "Dummy1" );
-
-			var listener = new MessageListener( publisherStrongReference );
-			listener.RegisterAction( "Dummy1", _ => handler1Called = true );
-
-			publisherStrongReference.Raise( message );
-
-			handler1Called.Is( true );
-
-			listener.Dispose();
-			publisherStrongReference = null;
+			publisher.ClearPublisher();
 
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
 
-			publisherWeakReference.TryGetTarget( out var resultPublisher ).Is( false );
-			resultPublisher.IsNull();
+			// TestEventPublisherのインスタンスが解放されていることを確認する
+			publisher.PublisherIsAlive().Is( false );
 		}
+
+		/// <summary>
+		/// パブリッシャー(<see cref="Messenger"/>)への参照が'''メモリリークする'''ことを検証するテスト。
+		/// リスナー(<see cref="MessageListener"/>)を破棄しない場合、パブリッシャーへの強参照が残る。
+		/// </summary>
+		[Test()]
+		public void PublisherWeakReferenceReleaseTest_WithoutDispose() {
+			var publisher = new PublisherLifetimeTestHelper();
+			//publisher.Listener.Dispose();	// Disposeしないので参照が残る
+
+			publisher.ClearPublisher();
+
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.Collect();
+
+			// TestEventPublisherのインスタンスが解放されない
+			publisher.PublisherIsAlive().Is( true );
+		}
+
+
+		class PublisherLifetimeTestHelper {
+			Messenger? Publisher;
+			readonly WeakReference<Messenger> WeakReference;
+
+			public MessageListener Listener { get; }
+
+			public PublisherLifetimeTestHelper() {
+				Publisher = new Messenger();
+				WeakReference = new( Publisher );
+
+				var handler1Success = false;
+				Listener = new MessageListener( Publisher ) { _ => handler1Success = true };
+				Publisher.Raise( new Message<int>( 1, "Dummy1" ) );
+				handler1Success.Is( true );
+			}
+
+			public bool PublisherIsAlive() => this.WeakReference.TryGetTarget( out var _ );
+			public void ClearPublisher() => Publisher = null;
+		}
+
 	}
 }

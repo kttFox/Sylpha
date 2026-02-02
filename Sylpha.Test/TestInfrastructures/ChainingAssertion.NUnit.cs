@@ -247,17 +247,17 @@ namespace NUnit.Framework
             Assert.IsNotNull(value, message);
         }
 
-        /// <summary>Is(true)</summary>
-        public static void IsTrue(this bool value, string message = "")
-        {
-            value.Is(true, message);
-        }
+        ///// <summary>Is(true)</summary>
+        //public static void IsTrue(this bool value, string message = "")
+        //{
+        //    value.Is(true, message);
+        //}
 
-        /// <summary>Is(false)</summary>
-        public static void IsFalse(this bool value, string message = "")
-        {
-            value.Is(false, message);
-        }
+        ///// <summary>Is(false)</summary>
+        //public static void IsFalse(this bool value, string message = "")
+        //{
+        //    value.Is(false, message);
+        //}
 
         /// <summary>Assert.AreSame</summary>
         public static void IsSameReferenceAs<T>(this T actual, T expected, string message = "")
