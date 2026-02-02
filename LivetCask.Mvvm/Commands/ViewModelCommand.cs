@@ -72,7 +72,6 @@ namespace Livet.Commands
         /// <summary>
         ///     コマンドが実行可能かどうかが変化したことを通知します。
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")]
         public void RaiseCanExecuteChanged()
         {
             OnPropertyChanged();

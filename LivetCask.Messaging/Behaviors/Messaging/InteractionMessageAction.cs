@@ -13,7 +13,6 @@ namespace Livet.Behaviors.Messaging
     /// </summary>
     /// <typeparam name="T">このアクションがアタッチ可能な型を示します。</typeparam>
     [ContentProperty("DirectInteractionMessage")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes")]
     public abstract class InteractionMessageAction<T> : TriggerAction<T> where T : DependencyObject
     {
         // Using a DependencyProperty as the backing store for DirectInteractionMessage.  This enables animation, styling, binding, etc...

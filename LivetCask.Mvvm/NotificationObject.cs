@@ -26,9 +26,6 @@ namespace Livet
         /// <param name="source"></param>
         /// <param name="propertyExpression">() => プロパティ形式のラムダ式</param>
         /// <exception cref="NotSupportedException">() => プロパティ 以外の形式のラムダ式が指定されました。</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         [NotifyPropertyChangedInvocator]
         // ReSharper disable once UnusedParameter.Global
         protected virtual void RaisePropertyChanged<T>(ref T source, [NotNull] Expression<Func<T>> propertyExpression)
@@ -46,7 +43,6 @@ namespace Livet
         ///     プロパティ変更通知イベントを発生させます
         /// </summary>
         /// <param name="propertyName">プロパティ名</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")]
         [NotifyPropertyChangedInvocator]
         protected virtual void RaisePropertyChanged([CallerMemberName] [CanBeNull] string propertyName = "")
         {
