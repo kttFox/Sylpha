@@ -54,28 +54,23 @@ namespace Sylpha.EventListeners.Internals {
 		}
 
 		public void ExecuteHandler( NotifyCollectionChangedEventArgs e ) {
-			if( e == null ) throw new ArgumentNullException( nameof( e ) );
+			if( !_source.TryGetTarget( out var sourceResult ) ) return;
 
-			if( _source.TryGetTarget( out var sourceResult ) ) {
-				List<NotifyCollectionChangedEventHandler>? list;
-				lock( _handlerDictionaryLockObject ) { _handlerDictionary.TryGetValue( e.Action, out list ); }
+			List<NotifyCollectionChangedEventHandler>? list;
+			lock( _handlerDictionaryLockObject ) { _handlerDictionary.TryGetValue( e.Action, out list ); }
 
-				if( list != null ) {
-					lock( _lockObjectDictionary[list] ) {
-						foreach( var handler in list ) {
-							handler( sourceResult, e );
-						}
-					}
-				}
-
-				lock( _allHandlerListLockObject ) {
-					if( !_allHandlerList.Any() ) return;
-
-					foreach( var handler in _allHandlerList ) {
+			if( list != null ) {
+				lock( _lockObjectDictionary[list] ) {
+					foreach( var handler in list ) {
 						handler( sourceResult, e );
 					}
 				}
+			}
 
+			lock( _allHandlerListLockObject ) {
+				foreach( var handler in _allHandlerList ) {
+					handler( sourceResult, e );
+				}
 			}
 		}
 	}

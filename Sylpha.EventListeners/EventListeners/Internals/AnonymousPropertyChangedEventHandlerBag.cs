@@ -35,8 +35,6 @@ namespace Sylpha.EventListeners.Internals {
 		}
 
 		public void RegisterHandler( PropertyChangedEventHandler handler ) {
-			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
-
 			RegisterHandler( string.Empty, handler );
 		}
 
@@ -48,7 +46,7 @@ namespace Sylpha.EventListeners.Internals {
 			lock( _handlerDictionaryLockObject ) {
 				if( !_handlerDictionary.TryGetValue( propertyName, out var bag ) ) {
 					bag = [];
-					_lockObjectDictionary.Add( bag, new () );
+					_lockObjectDictionary.Add( bag, new() );
 					_handlerDictionary[propertyName] = bag;
 				}
 				bag.AddRange( handlers );
@@ -58,34 +56,29 @@ namespace Sylpha.EventListeners.Internals {
 		public void ExecuteHandler( PropertyChangedEventArgs e ) {
 			if( e == null ) throw new ArgumentNullException( nameof( e ) );
 
-			var result = _source.TryGetTarget( out var sourceResult );
-			if( !result ) return;
+			if( !_source.TryGetTarget( out var sourceResult ) ) return;
 
 			if( e.PropertyName != null ) {
 				List<PropertyChangedEventHandler>? list;
 				lock( _handlerDictionaryLockObject ) { _handlerDictionary.TryGetValue( e.PropertyName, out list ); }
 
 				if( list != null ) {
-					var lockObject = _lockObjectDictionary[list];
-					if( lockObject != null ) {
-						lock( lockObject ) {
-							foreach( var handler in list ) {
-								handler( sourceResult, e );
-							}
+					lock( _lockObjectDictionary[list] ) {
+						foreach( var handler in list ) {
+							handler( sourceResult, e );
 						}
 					}
 				}
 			}
 
-			lock( _handlerDictionaryLockObject ) {
-				_handlerDictionary.TryGetValue( string.Empty, out var allList );
+			{
+				List<PropertyChangedEventHandler>? allList;
+				lock( _handlerDictionaryLockObject ) { _handlerDictionary.TryGetValue( string.Empty, out allList ); }
+
 				if( allList != null ) {
-					var lockObject = _lockObjectDictionary[allList];
-					if( lockObject != null ) {
-						lock( lockObject ) {
-							foreach( var handler in allList ) {
-								handler( sourceResult, e );
-							}
+					lock( _lockObjectDictionary[allList] ) {
+						foreach( var handler in allList ) {
+							handler( sourceResult, e );
 						}
 					}
 				}
