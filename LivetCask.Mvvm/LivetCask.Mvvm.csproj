@@ -22,7 +22,7 @@ It supports .NET Framework 4.5.2 or later, .NET Core 3.1, and licensed as zlib/l
     <FileVersion>$(Version)</FileVersion>
     <Version>$(PackageVersion)</Version>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Livet.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\LivetSnk\opensource.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
