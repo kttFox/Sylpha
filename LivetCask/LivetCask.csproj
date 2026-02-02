@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Livet.props" />
   <PropertyGroup>
-    <TargetFrameworks>net6.0-windows;netcoreapp3.1;net452</TargetFrameworks>
     <UseWpf>true</UseWpf>
     <RootNamespace>Livet</RootNamespace>
     <AssemblyName>Livet</AssemblyName>
@@ -25,14 +24,6 @@ It supports .NET Framework 4.5.2 or later, .NET Core 3.1, .NET 6 and licensed as
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Livet.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
-  <!-- Conditionally obtain references for the .NET Framework 4.5 target -->
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
-    <Reference Include="PresentationCore" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Xaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\license-en.txt">

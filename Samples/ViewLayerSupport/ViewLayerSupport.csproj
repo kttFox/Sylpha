@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net452</TargetFrameworks>
+    <TargetFrameworks>net6.0-windows;net462;net48</TargetFrameworks>
     <UseWpf>true</UseWpf>
     <RootNamespace>ViewLayerSupport</RootNamespace>
     <AssemblyName>ViewLayerSupport</AssemblyName>
@@ -9,17 +9,6 @@
     <OutputType>WinExe</OutputType>
     <StartupObject />
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net452'">
-    <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
-  </PropertyGroup>
-
-  <!-- Conditionally obtain references for the .NET Framework 4.5 target -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
-    <Reference Include="PresentationCore" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Xaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />

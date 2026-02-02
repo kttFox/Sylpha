@@ -2,7 +2,6 @@
 	<Import Project="..\Livet.props" />
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-windows;netcoreapp3.1;net452</TargetFrameworks>
 		<LangVersion>10</LangVersion>
 		<UseWpf>true</UseWpf>
 		<UseWindowsForms>true</UseWindowsForms>
@@ -29,14 +28,6 @@
 		<AssemblyOriginatorKeyFile>Livet.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
-	<!-- Conditionally obtain references for the .NET Framework 4.5 target -->
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
-		<Reference Include="PresentationCore" />
-		<Reference Include="WindowsBase" />
-		<Reference Include="PresentationFramework" />
-		<Reference Include="System.Xaml" />
-		<Reference Include="System.Windows.Forms" />
-	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="InternalReservedAttributeGenerator" Version="0.1.2" />
 		<PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />

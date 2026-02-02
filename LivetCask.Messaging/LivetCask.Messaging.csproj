@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Livet.props" />
   <PropertyGroup>
-    <TargetFrameworks>net6.0-windows;netcoreapp3.1;net452</TargetFrameworks>
     <UseWpf>true</UseWpf>
     <RootNamespace>Livet</RootNamespace>
     <AssemblyName>Livet.Messaging</AssemblyName>
@@ -27,14 +26,6 @@ This package is for useful messaging features between View layer and ViewModel l
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Livet.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
-  <!-- Conditionally obtain references for the .NET Framework 4.5 target -->
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
-    <Reference Include="PresentationCore" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Xaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
