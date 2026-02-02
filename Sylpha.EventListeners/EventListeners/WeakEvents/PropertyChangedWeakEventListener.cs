@@ -21,11 +21,12 @@ namespace Sylpha.EventListeners.WeakEvents {
 			if( source == null ) throw new ArgumentNullException( nameof( source ) );
 			_source = new ( source );
 
+			var _this = this;
 			Initialize(
-				h => new PropertyChangedEventHandler( h ?? throw new ArgumentNullException( nameof( h ) ) ),
+				h => new PropertyChangedEventHandler( h ),
 				h => source.PropertyChanged += h,
 				h => source.PropertyChanged -= h,
-				( sender, e ) => ExecuteHandler( e )
+				( sender, e ) => _this.ExecuteHandler( e )
 			);
 		}
 

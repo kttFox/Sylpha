@@ -55,6 +55,8 @@ namespace Sylpha.EventListeners {
 
 				if( disposing ) {
 					_remove( _handler );
+					_remove = default!;
+					_handler = default!;
 				}
 			}
 		}

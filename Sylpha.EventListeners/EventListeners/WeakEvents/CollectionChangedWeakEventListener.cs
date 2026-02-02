@@ -26,7 +26,7 @@ namespace Sylpha.EventListeners.WeakEvents {
 				h => new NotifyCollectionChangedEventHandler( h ),
 				h => source.CollectionChanged += h,
 				h => source.CollectionChanged -= h,
-				( sender, e ) => ExecuteHandler( e )
+				( sender, e ) => _this.ExecuteHandler( e )
 			);
 		}
 

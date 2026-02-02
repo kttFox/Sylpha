@@ -36,21 +36,6 @@ namespace Sylpha.EventListeners.WeakEvents {
 			Initialize( conversion, add, remove, handler );
 		}
 
-		private static void ReceiveEvent( WeakReference<WeakEventListener<THandler, TEventArgs>> listenerWeakReference, object? sender, TEventArgs args ) {
-			if( listenerWeakReference == null ) throw new ArgumentNullException( nameof( listenerWeakReference ) );
-
-			if( listenerWeakReference.TryGetTarget( out var listenerResult ) ) {
-				listenerResult._handler?.Invoke( sender, args );
-			}
-		}
-
-		private static THandler GetStaticHandler( WeakReference<WeakEventListener<THandler, TEventArgs>> listenerWeakReference, Func<EventHandler<TEventArgs>, THandler> conversion ) {
-			if( listenerWeakReference == null ) throw new ArgumentNullException( nameof( listenerWeakReference ) );
-			if( conversion == null ) throw new ArgumentNullException( nameof( conversion ) );
-
-			return conversion( ( sender, e ) => ReceiveEvent( listenerWeakReference, sender, e ) );
-		}
-
 		private bool _initialized;
 
 		private EventHandler<TEventArgs> _handler;
@@ -65,10 +50,18 @@ namespace Sylpha.EventListeners.WeakEvents {
 			if( conversion == null ) throw new ArgumentNullException( nameof( conversion ) );
 			if( add == null ) throw new ArgumentNullException( nameof( add ) );
 
+			var weakReference = new WeakReference<WeakEventListener<THandler, TEventArgs>>( this );
 			_handler = handler ?? throw new ArgumentNullException( nameof( handler ) );
 			_remove = remove ?? throw new ArgumentNullException( nameof( remove ) );
 
-			_attachHandler = GetStaticHandler( new WeakReference<WeakEventListener<THandler, TEventArgs>>( this ), conversion );
+			THandler attachHandler = null!;
+			_attachHandler = attachHandler = conversion( ( sender, e ) => {
+				if( weakReference.TryGetTarget( out var listener ) ) {
+					listener._handler( sender, e );
+				} else {
+					remove( attachHandler );
+				}
+			} );
 
 			add( _attachHandler );
 		}
