@@ -7,52 +7,56 @@ namespace Sylpha.Messaging.Behaviors {
 	/// 引数を一つだけ持つメソッドに対応したCallMethodActionです。
 	/// </summary>
 	public class CallMethodAction : TriggerAction<DependencyObject> {
-		// Using a DependencyProperty as the backing store for MethodTarget.  This enables animation, styling, binding, etc...
+		#region Register MethodTarget
+		/// <summary>
+		/// メソッドを呼び出すオブジェクトを指定、または取得します。
+		/// </summary>
+		public object? MethodTarget {
+			get => (object?)GetValue( MethodTargetProperty );
+			set => SetValue( MethodTargetProperty, value );
+		}
+
 		public static readonly DependencyProperty MethodTargetProperty =
-			DependencyProperty.Register( nameof( MethodTarget ), typeof( object ), typeof( CallMethodAction ), new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( MethodTarget ), typeof( object ), typeof( CallMethodAction ), new PropertyMetadata( default( object? ) ) );
+		#endregion
 
-		// Using a DependencyProperty as the backing store for MethodName.  This enables animation, styling, binding, etc...
+		#region Register MethodName
+		/// <summary>
+		/// 呼び出すメソッドの名前を指定、または取得します。
+		/// </summary>
+		public string? MethodName {
+			get => (string?)GetValue( MethodNameProperty );
+			set => SetValue( MethodNameProperty, value );
+		}
+
 		public static readonly DependencyProperty MethodNameProperty =
-			DependencyProperty.Register( nameof( MethodName ), typeof( string ), typeof( CallMethodAction ), new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( MethodName ), typeof( string ), typeof( CallMethodAction ), new PropertyMetadata( default( string? ) ) );
+		#endregion
 
-		// Using a DependencyProperty as the backing store for MethodParameter.  This enables animation, styling, binding, etc...
+		#region Register MethodParameter
+		/// <summary>
+		/// 呼び出すメソッドに渡す引数を指定、または取得します。
+		/// </summary>
+		public object? MethodParameter {
+			get => (object?)GetValue( MethodParameterProperty );
+			set => SetValue( MethodParameterProperty, value );
+		}
+
 		public static readonly DependencyProperty MethodParameterProperty =
-			DependencyProperty.Register( nameof( MethodParameter ), typeof( object ), typeof( CallMethodAction ), new PropertyMetadata( null, OnMethodParameterChanged ) );
+			DependencyProperty.Register( nameof( MethodParameter ), typeof( object ), typeof( CallMethodAction ), new PropertyMetadata( default( object? ), OnMethodParameterChanged ) );
+		
+		private static void OnMethodParameterChanged( DependencyObject sender, DependencyPropertyChangedEventArgs e ) {
+			var action = sender as CallMethodAction ?? throw new ArgumentException( $"Value must be a {nameof( CallMethodAction )}.", nameof( sender ) );
+
+			action._parameterSet = true;
+		}
+		#endregion
 
 		private readonly MethodBinderWithArgument _callbackMethod = new();
 		private readonly MethodBinder _method = new();
 
 		private bool _parameterSet;
 
-		/// <summary>
-		/// メソッドを呼び出すオブジェクトを指定、または取得します。
-		/// </summary>
-		public object? MethodTarget {
-			get { return GetValue( MethodTargetProperty ); }
-			set { SetValue( MethodTargetProperty, value ); }
-		}
-
-		/// <summary>
-		/// 呼び出すメソッドの名前を指定、または取得します。
-		/// </summary>
-		public string? MethodName {
-			get { return (string)GetValue( MethodNameProperty ); }
-			set { SetValue( MethodNameProperty, value ); }
-		}
-
-		/// <summary>
-		/// 呼び出すメソッドに渡す引数を指定、または取得します。
-		/// </summary>
-		public object? MethodParameter {
-			get { return GetValue( MethodParameterProperty ); }
-			set { SetValue( MethodParameterProperty, value ); }
-		}
-
-		private static void OnMethodParameterChanged( DependencyObject sender, DependencyPropertyChangedEventArgs e ) {
-			var action = sender as CallMethodAction ?? throw new ArgumentException( $"Value must be a {nameof( CallMethodAction )}.", nameof( sender ) );
-
-			action._parameterSet = true;
-		}
 
 		protected override void Invoke( object parameter ) {
 			if( MethodTarget == null ) return;

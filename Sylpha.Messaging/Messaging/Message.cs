@@ -8,9 +8,19 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	[PublicAPI]
 	public class Message : Freezable {
-		// Using a DependencyProperty as the backing store for MessageKey.  This enables animation, styling, binding, etc...
+
+		#region Register MessageKey
+		/// <summary>
+		/// メッセージキーを指定、または取得します。
+		/// </summary>
+		public string? MessageKey {
+			get => (string?)GetValue( MessageKeyProperty );
+			set => SetValue( MessageKeyProperty, value );
+		}
+
 		public static readonly DependencyProperty MessageKeyProperty =
-			DependencyProperty.Register( nameof( MessageKey ), typeof( string ), typeof( Message ), new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( MessageKey ), typeof( string ), typeof( Message ), new PropertyMetadata( default( string? ) ) );
+		#endregion
 
 		public Message() { }
 
@@ -20,14 +30,6 @@ namespace Sylpha.Messaging {
 		/// <param name="messageKey">メッセージキー</param>
 		public Message( string? messageKey ) {
 			MessageKey = messageKey;
-		}
-
-		/// <summary>
-		/// メッセージキーを指定、または取得します。
-		/// </summary>
-		public string? MessageKey {
-			get { return (string)GetValue( MessageKeyProperty ); }
-			set { SetValue( MessageKeyProperty, value ); }
 		}
 
 		/// <summary>

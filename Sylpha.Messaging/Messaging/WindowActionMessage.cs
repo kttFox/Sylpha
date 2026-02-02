@@ -5,9 +5,18 @@ namespace Sylpha.Messaging {
 	/// Windowを最大化・最小化・閉じる・通常化させるためのメッセージです。
 	/// </summary>
 	public class WindowActionMessage : Message {
-		// Using a DependencyProperty as the backing store for Action.  This enables animation, styling, binding, etc...
+		#region ActionProperty
+		/// <summary>
+		/// Windowが遷移すべき状態を表すWindowAction列挙体を指定、または取得します。
+		/// </summary>
+		public WindowAction? Action {
+			get { return (WindowAction?)( GetValue( ActionProperty ) ); }
+			set { SetValue( ActionProperty, value ); }
+		}
+
 		public static readonly DependencyProperty ActionProperty =
-			DependencyProperty.Register( nameof( Action ), typeof( WindowAction ), typeof( WindowActionMessage ), new PropertyMetadata() );
+			DependencyProperty.Register( nameof( Action ), typeof( WindowAction ), typeof( WindowActionMessage ), new PropertyMetadata( null ) );
+		#endregion
 
 		public WindowActionMessage() { }
 
@@ -24,14 +33,6 @@ namespace Sylpha.Messaging {
 		/// <param name="messageKey">メッセージキー</param>
 		public WindowActionMessage( WindowAction action, string? messageKey = null ) : this( messageKey ) {
 			Action = action;
-		}
-
-		/// <summary>
-		/// Windowが遷移すべき状態を表すWindowAction列挙体を指定、または取得します。
-		/// </summary>
-		public WindowAction Action {
-			get { return (WindowAction)( GetValue( ActionProperty ) ?? default( WindowAction ) ); }
-			set { SetValue( ActionProperty, value ); }
 		}
 
 		/// <summary>

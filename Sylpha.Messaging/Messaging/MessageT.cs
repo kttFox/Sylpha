@@ -2,17 +2,21 @@
 
 namespace Sylpha.Messaging {
 	public class Message<TValue> : Message {
-		// Using a DependencyProperty as the backing store for Value.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ValueProperty =
-			DependencyProperty.Register( nameof( Value ), typeof( TValue ), typeof( Message<TValue> ), new PropertyMetadata( default( TValue ) ) );
-
-		public Message( TValue value, string? messageKey = null ) : base( messageKey ) {
-			Value = value;
-		}
-
+		#region Register ValueProperty
+		/// <summary>
+		/// 値を指定、または取得します。
+		/// </summary>
 		public TValue Value {
 			get { return (TValue)GetValue( ValueProperty ); }
 			set { SetValue( ValueProperty, value ); }
+		}
+
+		public static readonly DependencyProperty ValueProperty =
+			DependencyProperty.Register( nameof( Value ), typeof( TValue ), typeof( Message<TValue> ), new PropertyMetadata( default( TValue ) ) );
+		#endregion
+
+		public Message( TValue value, string? messageKey = null ) : base( messageKey ) {
+			Value = value;
 		}
 
 		protected override Freezable CreateInstanceCore() {

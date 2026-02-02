@@ -8,22 +8,47 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// 画面遷移アクション用のメッセージです。
 	/// </summary>
-	[ContentProperty( nameof(TransitionViewModel) )]
+	[ContentProperty( nameof( TransitionViewModel ) )]
 	[PublicAPI]
 	public class TransitionMessage : RequestMessage<bool?> {
-		// Using a DependencyProperty as the backing store for TransitionViewModel.  This enables animation, styling, binding, etc...
+		#region Register TransitionViewModelProperty
+		/// <summary>
+		/// 新しいWindowのDataContextに設定するViewModelを指定、または取得します。
+		/// </summary>
+		public INotifyPropertyChanged? TransitionViewModel {
+			get { return (INotifyPropertyChanged?)GetValue( TransitionViewModelProperty ); }
+			set { SetValue( TransitionViewModelProperty, value ); }
+		}
+
 		public static readonly DependencyProperty TransitionViewModelProperty =
-			DependencyProperty.Register( nameof( TransitionViewModel ), typeof( INotifyPropertyChanged ), typeof( TransitionMessage ), new PropertyMetadata( null ) );
+					DependencyProperty.Register( nameof( TransitionViewModel ), typeof( INotifyPropertyChanged ), typeof( TransitionMessage ), new PropertyMetadata( null ) );
+		#endregion
 
-		// Using a DependencyProperty as the backing store for Mode.  This enables animation, styling, binding, etc...
+		#region Register ModeProperty
+		/// <summary>
+		/// 新しいWindowの表示方法を決定するTransitionModeを指定、または取得します。<br />
+		/// 初期値はUnKnownです。
+		/// </summary>
+		public TransitionMode Mode {
+			get { return (TransitionMode)( GetValue( ModeProperty ) ); }
+			set { SetValue( ModeProperty, value ); }
+		}
 		public static readonly DependencyProperty ModeProperty =
-			DependencyProperty.Register( nameof( Mode ), typeof( TransitionMode ), typeof( TransitionMessage ), new PropertyMetadata( TransitionMode.UnKnown ) );
+									DependencyProperty.Register( nameof( Mode ), typeof( TransitionMode ), typeof( TransitionMessage ), new PropertyMetadata( TransitionMode.UnKnown ) );
+		#endregion
 
-		// Using a DependencyProperty as the backing store for WindowType.  This enables animation, styling, binding, etc...
+		#region Register WindowTypeProperty
+		/// <summary>
+		/// 新しいWindowの型を指定、または取得します。
+		/// </summary>
+		public Type? WindowType {
+			get { return (Type?)GetValue( WindowTypeProperty ); }
+			set { SetValue( WindowTypeProperty, value ); }
+		}
+
 		public static readonly DependencyProperty WindowTypeProperty =
-			DependencyProperty.Register( nameof( WindowType ), typeof( Type ), typeof( TransitionMessage ), new PropertyMetadata( null ) );
-
-		public TransitionMessage() { }
+					DependencyProperty.Register( nameof( WindowType ), typeof( Type ), typeof( TransitionMessage ), new PropertyMetadata( null ) );
+		#endregion
 
 		/// <summary>
 		/// メッセージキーを指定して新しいメッセージのインスタンスを生成します。
@@ -78,30 +103,6 @@ namespace Sylpha.Messaging {
 		/// <param name="mode">画面遷移の方法を決定するTransitionMode列挙体。初期値はUnKnownです。</param>
 		public TransitionMessage( INotifyPropertyChanged transitionViewModel, TransitionMode mode ) : this( null, transitionViewModel, mode ) { }
 
-		/// <summary>
-		/// 新しいWindowのDataContextに設定するViewModelを指定、または取得します。
-		/// </summary>
-		public INotifyPropertyChanged TransitionViewModel {
-			get { return (INotifyPropertyChanged)GetValue( TransitionViewModelProperty ); }
-			set { SetValue( TransitionViewModelProperty, value ); }
-		}
-
-		/// <summary>
-		/// 新しいWindowの表示方法を決定するTransitionModeを指定、または取得します。<br />
-		/// 初期値はUnKnownです。
-		/// </summary>
-		public TransitionMode Mode {
-			get { return (TransitionMode)( GetValue( ModeProperty ) ?? default( TransitionMode ) ); }
-			set { SetValue( ModeProperty, value ); }
-		}
-
-		/// <summary>
-		/// 新しいWindowの型を指定、または取得します。
-		/// </summary>
-		public Type? WindowType {
-			get { return (Type?)GetValue( WindowTypeProperty ); }
-			set { SetValue( WindowTypeProperty, value ); }
-		}
 
 		/// <summary>
 		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />

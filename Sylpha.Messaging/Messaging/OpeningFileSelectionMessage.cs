@@ -5,9 +5,18 @@ namespace Sylpha.Messaging {
 	/// ファイルを開く アクション用のメッセージです。
 	/// </summary>
 	public class OpeningFileSelectionMessage : FileSelectionMessage {
-		// Using a DependencyProperty as the backing store for MultiSelect.  This enables animation, styling, binding, etc...
+		#region Register MyProperty
+		/// <summary>
+		/// 複数ファイルを選択可能かを取得、または設定します。
+		/// </summary>
+		public bool MultiSelect {
+			get { return (bool)( GetValue( MultiSelectProperty ) ); }
+			set { SetValue( MultiSelectProperty, value ); }
+		}
+
 		public static readonly DependencyProperty MultiSelectProperty =
 			DependencyProperty.Register( nameof( MultiSelect ), typeof( bool ), typeof( OpeningFileSelectionMessage ), new PropertyMetadata( false ) );
+		#endregion
 
 		public OpeningFileSelectionMessage() { }
 
@@ -16,14 +25,6 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public OpeningFileSelectionMessage( string? messageKey ) : base( messageKey ) { }
-
-		/// <summary>
-		/// 複数ファイルを選択可能かを取得、または設定します。
-		/// </summary>
-		public bool MultiSelect {
-			get { return (bool)( GetValue( MultiSelectProperty ) ?? default( bool ) ); }
-			set { SetValue( MultiSelectProperty, value ); }
-		}
 
 		/// <summary>
 		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />

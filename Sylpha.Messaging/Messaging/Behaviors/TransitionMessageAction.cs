@@ -8,18 +8,8 @@ namespace Sylpha.Messaging.Behaviors {
 	/// 画面遷移(Window)を行うアクションです。<see cref="TransitionMessage" />に対応します。
 	/// </summary>
 	public class TransitionMessageAction : MessageAction<FrameworkElement> {
-		// Using a DependencyProperty as the backing store for WindowType.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty WindowTypeProperty =
-			DependencyProperty.Register( nameof( WindowType ), typeof( Type ), typeof( TransitionMessageAction ), new PropertyMetadata() );
 
-		// Using a DependencyProperty as the backing store for Mode.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ModeProperty =
-			DependencyProperty.Register( nameof( Mode ), typeof( TransitionMode ), typeof( TransitionMessageAction ), new PropertyMetadata( TransitionMode.Normal ) );
-
-		// Using a DependencyProperty as the backing store for OwnedFromThis.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty OwnedFromThisProperty =
-			DependencyProperty.Register( nameof( OwnedFromThis ), typeof( bool ), typeof( TransitionMessageAction ), new PropertyMetadata( true ) );
-
+		#region Register WindowTypeProperty
 		/// <summary>
 		/// 遷移するウインドウの型を指定、または取得します。
 		/// </summary>
@@ -28,24 +18,37 @@ namespace Sylpha.Messaging.Behaviors {
 			set { SetValue( WindowTypeProperty, value ); }
 		}
 
+		public static readonly DependencyProperty WindowTypeProperty =
+					DependencyProperty.Register( nameof( WindowType ), typeof( Type ), typeof( TransitionMessageAction ), new PropertyMetadata() );
+		#endregion
+
+		#region Register ModeProperty
 		/// <summary>
 		/// 画面遷移の種類を指定するTransitionMode列挙体を指定、または取得します。<br />
 		/// TransitionMessageでModeがUnKnown以外に指定されていた場合、そちらが優先されます。
 		/// </summary>
 		public TransitionMode Mode {
-			get { return (TransitionMode)( GetValue( ModeProperty ) ?? default( TransitionMode ) ); }
+			get { return (TransitionMode)( GetValue( ModeProperty ) ); }
 			set { SetValue( ModeProperty, value ); }
 		}
 
+		public static readonly DependencyProperty ModeProperty =
+					DependencyProperty.Register( nameof( Mode ), typeof( TransitionMode ), typeof( TransitionMessageAction ), new PropertyMetadata( TransitionMode.Normal ) );
+		#endregion
+
+		#region Register OwnedFromThisProperty
 		/// <summary>
 		/// 遷移先ウィンドウがこのウィンドウに所有されるかを設定します。
 		/// </summary>
 		public bool OwnedFromThis {
-			get { return (bool)( GetValue( OwnedFromThisProperty ) ?? default( bool ) ); }
+			get { return (bool)( GetValue( OwnedFromThisProperty ) ); }
 			set { SetValue( OwnedFromThisProperty, value ); }
 		}
 
-		[ContractAnnotation( "null=>false" )]
+		public static readonly DependencyProperty OwnedFromThisProperty =
+					DependencyProperty.Register( nameof( OwnedFromThis ), typeof( bool ), typeof( TransitionMessageAction ), new PropertyMetadata( true ) );
+		#endregion
+
 		private static bool IsValidWindowType( Type value ) {
 			return value != null
 				   && value.IsSubclassOf( typeof( Window ) )

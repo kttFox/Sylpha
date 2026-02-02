@@ -8,59 +8,18 @@ namespace Sylpha.Messaging.Behaviors {
 	/// ViewModelからのメッセージを受信し、アクションを実行します。
 	/// </summary>
 	public class MessageTrigger : TriggerBase<FrameworkElement>, IDisposable {
-		// Using a DependencyProperty as the backing store for Messenger.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty MessengerProperty =
-			DependencyProperty.Register( nameof( Messenger ), typeof( Messenger ), typeof( MessageTrigger ), new PropertyMetadata( MessengerChanged ) );
-
-		// Using a DependencyProperty as the backing store for FireActionsOnlyWhileAttachedObjectLoading.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty InvokeActionsOnlyWhileAttachedObjectLoadedProperty =
-			DependencyProperty.Register( nameof( InvokeActionsOnlyWhileAttachedObjectLoaded ), typeof( bool ), typeof( MessageTrigger ), new PropertyMetadata( false ) );
-
-		// Using a DependencyProperty as the backing store for IsEnable.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty IsEnableProperty =
-			DependencyProperty.Register( nameof( IsEnable ), typeof( bool ), typeof( MessageTrigger ), new PropertyMetadata( true ) );
-
-		private bool _disposed;
-
-		private WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs>? _listener;
-
-		private bool _loaded = true;
-
+		#region Register MessengerProperty
 		/// <summary>
 		/// ViewModelのMessengerを指定、または取得します。
 		/// </summary>
-		public Messenger Messenger {
-			get { return (Messenger)GetValue( MessengerProperty ); }
+		public Messenger? Messenger {
+			get { return (Messenger?)GetValue( MessengerProperty ); }
 			set { SetValue( MessengerProperty, value ); }
 		}
 
-		/// <summary>
-		/// アタッチされたオブジェクトがロードされている期間(Loaded~Unloaded)だけActionを実行するかどうかを指定、または取得します。デフォルトはfalseです。
-		/// </summary>
-		public bool InvokeActionsOnlyWhileAttachedObjectLoaded {
-			get { return (bool)( GetValue( InvokeActionsOnlyWhileAttachedObjectLoadedProperty ) ?? default( bool ) ); }
-			set { SetValue( InvokeActionsOnlyWhileAttachedObjectLoadedProperty, value ); }
-		}
-
-		/// <summary>
-		/// このトリガーが有効かどうかを指定、または取得します。デフォルトはtrueです。
-		/// </summary>
-		public bool IsEnable {
-			get { return (bool)( GetValue( IsEnableProperty ) ?? default( bool ) ); }
-			set { SetValue( IsEnableProperty, value ); }
-		}
-
-		/// <summary>
-		/// このトリガーが反応するメッセージのメッセージキーを指定、または取得します。<br />
-		/// このプロパティが指定されていない場合、このトリガーは全てのメッセージに反応します。
-		/// </summary>
-		public string? MessageKey { get; set; }
-
-		public void Dispose() {
-			Dispose( true );
-			GC.SuppressFinalize( this );
-		}
-
+		public static readonly DependencyProperty MessengerProperty =
+					DependencyProperty.Register( nameof( Messenger ), typeof( Messenger ), typeof( MessageTrigger ), new PropertyMetadata( null, MessengerChanged ) );
+		
 		private static void MessengerChanged( DependencyObject d, DependencyPropertyChangedEventArgs e ) {
 			if( d == null ) throw new ArgumentNullException( nameof( d ) );
 			var thisReference = (MessageTrigger)d;
@@ -80,7 +39,46 @@ namespace Sylpha.Messaging.Behaviors {
 					h => newMessenger.Raised -= h,
 					thisReference.MessageReceived );
 		}
+		#endregion
 
+		#region Register InvokeActionsOnlyWhileAttachedObjectLoaded
+		/// <summary>
+		/// アタッチされたオブジェクトがロードされている期間(Loaded~Unloaded)だけActionを実行するかどうかを指定、または取得します。デフォルトはfalseです。
+		/// </summary>
+		public bool InvokeActionsOnlyWhileAttachedObjectLoaded {
+			get { return (bool)( GetValue( InvokeActionsOnlyWhileAttachedObjectLoadedProperty ) ?? default( bool ) ); }
+			set { SetValue( InvokeActionsOnlyWhileAttachedObjectLoadedProperty, value ); }
+		}
+		public static readonly DependencyProperty InvokeActionsOnlyWhileAttachedObjectLoadedProperty =
+			DependencyProperty.Register( nameof( InvokeActionsOnlyWhileAttachedObjectLoaded ), typeof( bool ), typeof( MessageTrigger ), new PropertyMetadata( false ) );
+		#endregion
+
+		#region Register IsEnable
+		/// <summary>
+		/// このトリガーが有効かどうかを指定、または取得します。デフォルトはtrueです。
+		/// </summary>
+		public bool IsEnable {
+			get { return (bool)( GetValue( IsEnableProperty ) ); }
+			set { SetValue( IsEnableProperty, value ); }
+		}
+		public static readonly DependencyProperty IsEnableProperty =
+			DependencyProperty.Register( nameof( IsEnable ), typeof( Messenger ), typeof( MessageTrigger ), new PropertyMetadata( true ) );
+		#endregion
+
+		private WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs>? _listener;
+
+		private bool _loaded = true;
+
+		/// <summary>
+		/// このトリガーが反応するメッセージのメッセージキーを指定、または取得します。<br />
+		/// このプロパティが指定されていない場合、このトリガーは全てのメッセージに反応します。
+		/// </summary>
+		public string? MessageKey { get; set; }
+
+		public void Dispose() {
+			Dispose( true );
+			GC.SuppressFinalize( this );
+		}
 		private void MessageReceived( object? sender, MessageRaisedEventArgs e ) {
 			if( e == null ) throw new ArgumentNullException( nameof( e ) );
 
@@ -152,7 +150,8 @@ namespace Sylpha.Messaging.Behaviors {
 			base.OnDetaching();
 		}
 
-		// ReSharper disable once UnusedParameter.Global
+		private bool _disposed;
+
 		protected virtual void Dispose( bool disposing ) {
 			if( _disposed ) return;
 
