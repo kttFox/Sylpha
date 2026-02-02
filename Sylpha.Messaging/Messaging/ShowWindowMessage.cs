@@ -13,11 +13,11 @@ namespace Sylpha.Messaging {
 	public class ShowWindowMessage : RequestMessage<bool?> {
 		#region Register ViewModel
 		/// <summary>
-		/// 新しいWindowのDataContextに設定するViewModelを指定、または取得します。
+		/// 新しいWindowのDataContextに設定するViewModelを設定または取得します。
 		/// </summary>
 		public INotifyPropertyChanged? ViewModel {
-			get { return (INotifyPropertyChanged?)GetValue( ViewModelProperty ); }
-			set { SetValue( ViewModelProperty, value ); }
+			get => (INotifyPropertyChanged?)GetValue( ViewModelProperty );
+			set => SetValue( ViewModelProperty, value );
 		}
 
 		public static readonly DependencyProperty ViewModelProperty =
@@ -30,8 +30,8 @@ namespace Sylpha.Messaging {
 		/// 初期値は <see cref="ShowWindowMode.Modal"/> です。
 		/// </summary>
 		public ShowWindowMode Mode {
-			get { return (ShowWindowMode)( GetValue( ModeProperty ) ); }
-			set { SetValue( ModeProperty, value ); }
+			get => (ShowWindowMode)( GetValue( ModeProperty ) );
+			set => SetValue( ModeProperty, value );
 		}
 		public static readonly DependencyProperty ModeProperty =
 									DependencyProperty.Register( nameof( Mode ), typeof( ShowWindowMode? ), typeof( ShowWindowMessage ), new PropertyMetadata( ShowWindowMode.Modal ) );
@@ -42,8 +42,8 @@ namespace Sylpha.Messaging {
 		/// 新しいWindowの型を指定、または取得します。
 		/// </summary>
 		public Type? WindowType {
-			get { return (Type?)GetValue( WindowTypeProperty ); }
-			set { SetValue( WindowTypeProperty, value ); }
+			get => (Type?)GetValue( WindowTypeProperty );
+			set => SetValue( WindowTypeProperty, value );
 		}
 
 		public static readonly DependencyProperty WindowTypeProperty =
@@ -55,8 +55,8 @@ namespace Sylpha.Messaging {
 		/// 遷移先ウィンドウがアクションのウィンドウに所有されるかを設定します。
 		/// </summary>
 		public bool IsOwned {
-			get { return (bool)GetValue( IsOwnedProperty ); }
-			set { SetValue( IsOwnedProperty, value ); }
+			get => (bool)GetValue( IsOwnedProperty );
+			set => SetValue( IsOwnedProperty, value );
 		}
 
 		public static readonly DependencyProperty IsOwnedProperty =
@@ -109,14 +109,90 @@ namespace Sylpha.Messaging {
 					throw new ArgumentException( "Windowの派生クラスを指定してください。", nameof( windowType ) );
 			}
 
-			WindowType = windowType;
+			this.WindowType = windowType;
 		}
 
+		/// <summary>
+		/// 表示したWindowのViewModelを取得します。
+		/// </summary>
+		public INotifyPropertyChanged? WindowViewModel { get; internal set; }
 
 		/// <summary>
 		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
 		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
 		/// </summary>
 		protected override Freezable CreateInstanceCore() => new ShowWindowMessage();
+	}
+
+	/// <summary>
+	/// 画面遷移アクション用のメッセージです。
+	/// </summary>
+	/// <typeparam name="TWindow">ウインドウタイプ</typeparam>
+	[ContentProperty( nameof( ViewModel ) )]
+	[PublicAPI]
+	public class ShowWindowMessage<TWindow> : ShowWindowMessage where TWindow : Window {
+		public ShowWindowMessage() : base( typeof( TWindow ) ) { }
+
+		public ShowWindowMessage( INotifyPropertyChanged? viewModel = null, string? messageKey = null ) : base( typeof( TWindow ), viewModel, messageKey ) {
+
+		}
+
+		/// <summary>
+		/// ウインドウの設定を行う関数
+		/// </summary>
+		public new Action<TWindow>? WindowSettingAction {
+			get => base.WindowSettingAction;
+			set => base.WindowSettingAction = window => value?.Invoke( (TWindow)window );
+		}
+
+		/// <summary>
+		/// ウインドウコンテンツがレンダリングされた後に実行する関数
+		/// </summary>
+		public new Action<TWindow>? InitializeAction {
+			get => base.InitializeAction;
+			set => base.InitializeAction = window => value?.Invoke( (TWindow)window );
+		}
+
+		/// <summary>
+		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br/>
+		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
+		/// </summary>
+		protected override Freezable CreateInstanceCore() => new ShowWindowMessage<TWindow>();
+	}
+
+	/// <summary>
+	/// 画面遷移アクション用のメッセージです。
+	/// </summary>
+	/// <typeparam name="TWindow">ウインドウタイプ</typeparam>
+	/// <typeparam name="TViewModel">ViewModelのタイプ</typeparam>
+	[ContentProperty( nameof( ViewModel ) )]
+	[PublicAPI]
+	public class ShowWindowMessage<TWindow, TViewModel> : ShowWindowMessage<TWindow> where TWindow : Window where TViewModel : INotifyPropertyChanged {
+		public ShowWindowMessage() { }
+
+		public ShowWindowMessage( TViewModel viewModel, string? messageKey = null ) : base( viewModel, messageKey ) {
+
+		}
+
+		/// <summary>
+		/// 新しいWindowのDataContextに設定するViewModelを設定または取得します。
+		/// </summary>
+		public new TViewModel? ViewModel {
+			get => (TViewModel?)base.ViewModel;
+			set => base.ViewModel = value;
+		}
+
+		/// <summary>
+		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br/>
+		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
+		/// </summary>
+		protected override Freezable CreateInstanceCore() => new ShowWindowMessage<TWindow, TViewModel>();
+	}
+
+	[PublicAPI]
+	public static class ShowWindowMessageGenerator<TWindow> where TWindow : Window {
+		public static ShowWindowMessage<TWindow, TViewModel> Create<TViewModel>( TViewModel viewModel, string? messageKey = null ) where TViewModel : INotifyPropertyChanged {
+			return new ShowWindowMessage<TWindow, TViewModel>( viewModel, messageKey );
+		}
 	}
 }

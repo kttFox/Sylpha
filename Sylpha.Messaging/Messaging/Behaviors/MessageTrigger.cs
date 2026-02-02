@@ -64,7 +64,7 @@ namespace Sylpha.Messaging.Behaviors {
 				requestMessage.Response = ( (IRequestMessage)cloneMessage ).Response;
 			}
 			if( message is ShowWindowMessage showWindowMessage ) {
-				showWindowMessage.ViewModel = ( (ShowWindowMessage)cloneMessage ).ViewModel;
+				showWindowMessage.WindowViewModel = ( (ShowWindowMessage)cloneMessage ).WindowViewModel;
 			}
 		}
 

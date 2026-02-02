@@ -43,6 +43,7 @@ namespace Sylpha.Messaging.Behaviors {
 						window.Activate();
 
 						message.Response = null;
+						message.WindowViewModel = window.DataContext as INotifyPropertyChanged;
 					}
 
 					break;
@@ -83,6 +84,8 @@ namespace Sylpha.Messaging.Behaviors {
 
 					message.Response = window.ShowDialog();
 				}
+				
+				message.WindowViewModel = window.DataContext as INotifyPropertyChanged;
 			}
 		}
 

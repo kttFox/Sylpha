@@ -29,7 +29,7 @@ namespace ViewLayerSupport.ViewModels {
 		public ViewModelCommand ShowWindowCommand => field ??= new ViewModelCommand( DoShowWindowCommand );
 
 		private void DoShowWindowCommand() {
-			var r = this.Messenger.GetResponse( new ShowWindowMessage( typeof( MultiMessageActionWindow ) ) { 
+			var r = this.Messenger.GetResponse( new ShowWindowMessage<MultiMessageActionWindow>() { 
 				WindowSettingAction = w => { 
 					w.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 					w.Title = "Shown by ShowWindowMessage";
