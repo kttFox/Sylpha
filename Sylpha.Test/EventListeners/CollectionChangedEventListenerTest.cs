@@ -19,7 +19,11 @@ namespace Sylpha.NUnit.EventListeners {
 			}
 
 			var publisher = new TestEventPublisher();
-			var listener = new CollectionChangedEventListener( publisher ) { ( sender, e ) => listenerSuccess = true };
+			var listener = new CollectionChangedEventListener( publisher ) {
+				( sender, e ) => listenerSuccess = true,
+				{ NotifyCollectionChangedAction.Add, (s,e)=>{ } },
+				{ NotifyCollectionChangedAction.Add, [(s,e)=>{ }, (s,e)=>{ }] },
+			};
 
 			//------------------
 			Reset();
@@ -314,8 +318,7 @@ namespace Sylpha.NUnit.EventListeners {
 
 			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-			// 参照はなくなるがイベントは残り続ける
-			listenerWeakReference.ListenerIsAlive().Is( false );	
+			listenerWeakReference.ListenerIsAlive().Is( true );	
 			listenerWeakReference.Success.Is( true );
 		}
 
