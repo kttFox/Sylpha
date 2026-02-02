@@ -4,7 +4,7 @@ using Microsoft.Win32;
 
 namespace Sylpha.Behaviors.Messaging {
 	/// <summary>
-	///     「ファイルを開く」ダイアログを表示するアクションです。<see cref="OpeningFileSelectionMessage" />に対応します。
+	/// 「ファイルを開く」ダイアログを表示するアクションです。<see cref="OpeningFileSelectionMessage" />に対応します。
 	/// </summary>
 	public class OpenFileDialogInteractionMessageAction : InteractionMessageAction<DependencyObject> {
 		protected override void InvokeAction( InteractionMessage message ) {

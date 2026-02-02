@@ -6,13 +6,13 @@ using JetBrains.Annotations;
 
 namespace Sylpha {
 	/// <summary>
-	///     UIDispatcherへのアクセスを簡易化します。
+	/// UIDispatcherへのアクセスを簡易化します。
 	/// </summary>
 	public static class DispatcherHelper {
 		[CanBeNull] private static Dispatcher _uiDispatcher;
 
 		/// <summary>
-		///     UIDispatcherを指定、または取得します。通常このプロパティはApp_StartUpで指定されます。
+		/// UIDispatcherを指定、または取得します。通常このプロパティはApp_StartUpで指定されます。
 		/// </summary>
 		[CanBeNull]
 		public static Dispatcher UIDispatcher {
@@ -26,7 +26,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     UIDispatcherで指定されたアクションを実行します。
+		/// UIDispatcherで指定されたアクションを実行します。
 		/// </summary>
 		/// <param name="action">アクション</param>
 		/// <exception cref="InvalidOperationException">UIDispatcherインスタンスがApp.StartUpなどで確保されていません。</exception>
@@ -40,7 +40,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     UIDispatcherで指定されたアクションを実行します。
+		/// UIDispatcherで指定されたアクションを実行します。
 		/// </summary>
 		/// <param name="action">アクション</param>
 		/// <param name="priority">DispatcherPriority</param>

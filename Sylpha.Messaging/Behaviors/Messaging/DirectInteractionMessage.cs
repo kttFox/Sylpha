@@ -7,7 +7,7 @@ using Sylpha.Messaging;
 
 namespace Sylpha.Behaviors.Messaging {
 	/// <summary>
-	///     Viewから直接相互作用メッセージを定義する際に使用します。
+	/// Viewから直接相互作用メッセージを定義する際に使用します。
 	/// </summary>
 	[ContentProperty( "Message" )]
 	public class DirectInteractionMessage : Freezable {
@@ -38,7 +38,7 @@ namespace Sylpha.Behaviors.Messaging {
 		[NotNull] private readonly MethodBinderWithArgument _callbackMethod = new MethodBinderWithArgument();
 
 		/// <summary>
-		///     相互作用メッセージ(各種InteractionMessage)を指定、または取得します。
+		/// 相互作用メッセージ(各種InteractionMessage)を指定、または取得します。
 		/// </summary>
 		public InteractionMessage Message {
 			get { return (InteractionMessage)GetValue( MessageProperty ); }
@@ -46,8 +46,8 @@ namespace Sylpha.Behaviors.Messaging {
 		}
 
 		/// <summary>
-		///     アクション実行後に実行するコマンドを指定、または取得します<br />
-		///     このプロパティが設定されていた場合、アクションの実行後アクションの実行に使用した相互作用メッセージをパラメータとしてコマンドを呼び出します。
+		/// アクション実行後に実行するコマンドを指定、または取得します<br />
+		/// このプロパティが設定されていた場合、アクションの実行後アクションの実行に使用した相互作用メッセージをパラメータとしてコマンドを呼び出します。
 		/// </summary>
 		public ICommand CallbackCommand {
 			get { return (ICommand)GetValue( CallbackCommandProperty ); }
@@ -55,8 +55,8 @@ namespace Sylpha.Behaviors.Messaging {
 		}
 
 		/// <summary>
-		///     アクション実行後に実行するメソッドを持つオブジェクトを指定、または取得します<br />
-		///     このプロパティとCallbackMethodNameが設定されていた場合、アクションの実行後アクションの実行に使用した相互作用メッセージをパラメータとしてメソッドを呼び出します。
+		/// アクション実行後に実行するメソッドを持つオブジェクトを指定、または取得します<br />
+		/// このプロパティとCallbackMethodNameが設定されていた場合、アクションの実行後アクションの実行に使用した相互作用メッセージをパラメータとしてメソッドを呼び出します。
 		/// </summary>
 		public object CallbackMethodTarget {
 			get { return GetValue( CallbackMethodTargetProperty ); }
@@ -64,8 +64,8 @@ namespace Sylpha.Behaviors.Messaging {
 		}
 
 		/// <summary>
-		///     アクション実行後に実行するメソッドの名前を指定、または取得します<br />
-		///     このプロパティとCallbackMethodTargetが設定されていた場合、アクションの実行後アクションの実行に使用した相互作用メッセージをパラメータとしてメソッドを呼び出します。
+		/// アクション実行後に実行するメソッドの名前を指定、または取得します<br />
+		/// このプロパティとCallbackMethodTargetが設定されていた場合、アクションの実行後アクションの実行に使用した相互作用メッセージをパラメータとしてメソッドを呼び出します。
 		/// </summary>
 		public string CallbackMethodName {
 			get { return (string)GetValue( CallbackMethodNameProperty ); }

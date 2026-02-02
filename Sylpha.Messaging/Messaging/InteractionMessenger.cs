@@ -5,11 +5,11 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	///     ViewModelで使用するMessengerクラスです。
+	/// ViewModelで使用するMessengerクラスです。
 	/// </summary>
 	public class InteractionMessenger {
 		/// <summary>
-		///     指定された相互作用メッセージを同期的に送信します。
+		/// 指定された相互作用メッセージを同期的に送信します。
 		/// </summary>
 		/// <param name="message">相互作用メッセージ</param>
 		public void Raise( [NotNull] InteractionMessage message ) {
@@ -24,7 +24,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     指定された、戻り値情報のある相互作用メッセージを同期的に送信します。
+		/// 指定された、戻り値情報のある相互作用メッセージを同期的に送信します。
 		/// </summary>
 		/// <typeparam name="T">戻り値情報のある相互作用メッセージの型</typeparam>
 		/// <param name="message">戻り値情報のある相互作用メッセージ</param>
@@ -42,12 +42,12 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     相互作用メッセージが送信された時に発生するイベントです。
+		/// 相互作用メッセージが送信された時に発生するイベントです。
 		/// </summary>
 		public event EventHandler<InteractionMessageRaisedEventArgs> Raised;
 
 		/// <summary>
-		///     指定された相互作用メッセージを非同期で送信します。
+		/// 指定された相互作用メッセージを非同期で送信します。
 		/// </summary>
 		/// <param name="message">相互作用メッセージ</param>
 		public async Task RaiseAsync( [NotNull] InteractionMessage message ) {
@@ -59,7 +59,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     指定された、戻り値情報のある相互作用メッセージを非同期で送信します。
+		/// 指定された、戻り値情報のある相互作用メッセージを非同期で送信します。
 		/// </summary>
 		/// <typeparam name="T">戻り値情報のある相互作用メッセージの型</typeparam>
 		/// <param name="message">戻り値情報のある相互作用メッセージ</param>
@@ -72,7 +72,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     指定された、戻り値情報のある相互作用メッセージを非同期で送信します。
+		/// 指定された、戻り値情報のある相互作用メッセージを非同期で送信します。
 		/// </summary>
 		/// <typeparam name="T">戻り値情報のある相互作用メッセージの型</typeparam>
 		/// <param name="message">戻り値情報のある相互作用メッセージ</param>
@@ -91,13 +91,13 @@ namespace Sylpha.Messaging {
 	}
 
 	/// <summary>
-	///     相互作用メッセージ送信時イベント用のイベント引数です。
+	/// 相互作用メッセージ送信時イベント用のイベント引数です。
 	/// </summary>
 	public class InteractionMessageRaisedEventArgs : EventArgs {
 		[NotNull] private InteractionMessage _message;
 
 		/// <summary>
-		///     コンストラクタ
+		/// コンストラクタ
 		/// </summary>
 		/// <param name="message">InteractionMessage</param>
 		public InteractionMessageRaisedEventArgs( [NotNull] InteractionMessage message ) {
@@ -105,7 +105,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     送信されたメッセージ
+		/// 送信されたメッセージ
 		/// </summary>
 		[NotNull]
 		public InteractionMessage Message {

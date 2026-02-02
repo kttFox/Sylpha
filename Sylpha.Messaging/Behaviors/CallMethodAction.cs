@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Behaviors {
 	/// <summary>
-	///     引数を一つだけ持つメソッドに対応したCallMethodActionです。
+	/// 引数を一つだけ持つメソッドに対応したCallMethodActionです。
 	/// </summary>
 	public class CallMethodAction : TriggerAction<DependencyObject> {
 		// Using a DependencyProperty as the backing store for MethodTarget.  This enables animation, styling, binding, etc...
@@ -32,7 +32,7 @@ namespace Sylpha.Behaviors {
 		private bool _parameterSet;
 
 		/// <summary>
-		///     メソッドを呼び出すオブジェクトを指定、または取得します。
+		/// メソッドを呼び出すオブジェクトを指定、または取得します。
 		/// </summary>
 		public object MethodTarget {
 			get { return GetValue( MethodTargetProperty ); }
@@ -40,7 +40,7 @@ namespace Sylpha.Behaviors {
 		}
 
 		/// <summary>
-		///     呼び出すメソッドの名前を指定、または取得します。
+		/// 呼び出すメソッドの名前を指定、または取得します。
 		/// </summary>
 		public string MethodName {
 			get { return (string)GetValue( MethodNameProperty ); }
@@ -48,7 +48,7 @@ namespace Sylpha.Behaviors {
 		}
 
 		/// <summary>
-		///     呼び出すメソッドに渡す引数を指定、または取得します。
+		/// 呼び出すメソッドに渡す引数を指定、または取得します。
 		/// </summary>
 		public object MethodParameter {
 			get { return GetValue( MethodParameterProperty ); }

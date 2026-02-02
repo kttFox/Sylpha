@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 
 namespace Sylpha.EventListeners {
 	/// <summary>
-	///     汎用イベントリスナオブジェクトです。
+	/// 汎用イベントリスナオブジェクトです。
 	/// </summary>
 	/// <typeparam name="THandler">イベントハンドラーの型</typeparam>
 	public class EventListener<THandler> : IDisposable where THandler : class {
@@ -16,7 +16,7 @@ namespace Sylpha.EventListeners {
 		[CanBeNull] private Action<THandler> _remove;
 
 		/// <summary>
-		///     コンストラクタ
+		/// コンストラクタ
 		/// </summary>
 		/// <param name="add">h => obj.Event += > h の様な形でイベントの購読を登録するためのAction。hはTHandler型です。</param>
 		/// <param name="remove">h => obj.Event -= > h の様な形でイベントの購読を解除するためのAction。hはTHandler型です。</param>
@@ -34,7 +34,7 @@ namespace Sylpha.EventListeners {
 		protected EventListener() { }
 
 		/// <summary>
-		///     イベントハンドラの登録を解除します。
+		/// イベントハンドラの登録を解除します。
 		/// </summary>
 		public void Dispose() {
 			Dispose( true );

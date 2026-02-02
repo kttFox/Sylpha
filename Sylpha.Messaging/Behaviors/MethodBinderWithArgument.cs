@@ -8,8 +8,8 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Behaviors {
 	/// <summary>
-	///     ビヘイビア・トリガー・アクションでのメソッド直接バインディングを可能にするためのクラスです。<br />
-	///     引数が一つだけ存在するメソッドを実行します。メソッドの実行は最大限キャッシュされます。
+	/// ビヘイビア・トリガー・アクションでのメソッド直接バインディングを可能にするためのクラスです。<br />
+	/// 引数が一つだけ存在するメソッドを実行します。メソッドの実行は最大限キャッシュされます。
 	/// </summary>
 	public class MethodBinderWithArgument {
 		[NotNull]

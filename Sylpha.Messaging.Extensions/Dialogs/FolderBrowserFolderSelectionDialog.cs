@@ -10,14 +10,14 @@ using IWin32Window = System.Windows.Forms.IWin32Window;
 
 namespace Sylpha.Dialogs {
 	/// <summary>
-	///     <see cref="FolderSelectionDialog" /> implementation using WinForm's
-	///     <see cref="T:System.Windows.Forms.FolderBrowserDialog" />.
+	/// <see cref="FolderSelectionDialog" /> implementation using WinForm's
+	/// <see cref="T:System.Windows.Forms.FolderBrowserDialog" />.
 	/// </summary>
 	internal sealed class FolderBrowserFolderSelectionDialog : FolderSelectionDialog {
 		[NotNull] private readonly FolderBrowserDialog _folderBrowserDialog;
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="FolderBrowserFolderSelectionDialog" /> class.
+		/// Initializes a new instance of the <see cref="FolderBrowserFolderSelectionDialog" /> class.
 		/// </summary>
 		public FolderBrowserFolderSelectionDialog() {
 			_folderBrowserDialog =
@@ -28,10 +28,10 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     Gets or sets the descriptive text to instruct the operation.
+		/// Gets or sets the descriptive text to instruct the operation.
 		/// </summary>
 		/// <value>
-		///     The descriptive text to instruct the operation.
+		/// The descriptive text to instruct the operation.
 		/// </value>
 		public override string Description {
 			get { return _folderBrowserDialog.Description; }
@@ -39,10 +39,10 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     Gets or sets the selected path.
+		/// Gets or sets the selected path.
 		/// </summary>
 		/// <value>
-		///     The selected path. This will be default path when the dialog is opened.
+		/// The selected path. This will be default path when the dialog is opened.
 		/// </value>
 		public override string SelectedPath {
 			get { return _folderBrowserDialog.SelectedPath; }
@@ -56,7 +56,7 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     This property is not supported.
+		/// This property is not supported.
 		/// </summary>
 		/// <value>Always <see cref="F:String.Empty" />.</value>
 		public override string Title {
@@ -66,7 +66,7 @@ namespace Sylpha.Dialogs {
 
 
 		/// <summary>
-		///     This property is not supported.
+		/// This property is not supported.
 		/// </summary>
 		/// <value>Always false.</value>
 		public override bool Multiselect {
@@ -75,7 +75,7 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     Gets or sets the selected paths.
+		/// Gets or sets the selected paths.
 		/// </summary>
 		/// <value>Always return SelectedPath.</value>
 		public override string[] SelectedPaths {
@@ -83,11 +83,11 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     Releases unmanaged and - optionally - managed resources
+		/// Releases unmanaged and - optionally - managed resources
 		/// </summary>
 		/// <param name="disposing">
-		///     <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only
-		///     unmanaged resources.
+		/// <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only
+		/// unmanaged resources.
 		/// </param>
 		protected override void Dispose( bool disposing ) {
 			if( disposing ) _folderBrowserDialog.Dispose();
@@ -96,11 +96,11 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     Shows the dialog with specified <see cref="Window" /> as host window.
+		/// Shows the dialog with specified <see cref="Window" /> as host window.
 		/// </summary>
 		/// <param name="hostWindow">The host window which will host this dialog. This value will not be <c>null</c>.</param>
 		/// <returns>
-		///     The result of the dialog.
+		/// The result of the dialog.
 		/// </returns>
 		protected override bool? ShowDialogCore( [NotNull] Window hostWindow ) {
 			if( hostWindow == null ) throw new ArgumentNullException( nameof( hostWindow ) );
@@ -117,11 +117,11 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     A simple <see cref="System.Windows.Interop.IWin32Window" /> implementation wraps HWND.
+		/// A simple <see cref="System.Windows.Interop.IWin32Window" /> implementation wraps HWND.
 		/// </summary>
 		private sealed class WindowsFormsWin32Window : IWin32Window {
 			/// <summary>
-			///     Initializes a new instance of the <see cref="WindowsFormsWin32Window" /> class.
+			/// Initializes a new instance of the <see cref="WindowsFormsWin32Window" /> class.
 			/// </summary>
 			/// <param name="hwnd">The HWND.</param>
 			public WindowsFormsWin32Window( IntPtr hwnd ) {
@@ -129,10 +129,10 @@ namespace Sylpha.Dialogs {
 			}
 
 			/// <summary>
-			///     Gets the handle to the window represented by the implementer.
+			/// Gets the handle to the window represented by the implementer.
 			/// </summary>
 			/// <returns>
-			///     A handle to the window represented by the implementer.
+			/// A handle to the window represented by the implementer.
 			/// </returns>
 			public IntPtr Handle { get; }
 		}

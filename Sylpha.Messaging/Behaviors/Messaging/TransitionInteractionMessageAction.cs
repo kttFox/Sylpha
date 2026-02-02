@@ -6,7 +6,7 @@ using Sylpha.Messaging;
 
 namespace Sylpha.Behaviors.Messaging {
 	/// <summary>
-	///     画面遷移(Window)を行うアクションです。<see cref="TransitionMessage" />に対応します。
+	/// 画面遷移(Window)を行うアクションです。<see cref="TransitionMessage" />に対応します。
 	/// </summary>
 	public class TransitionInteractionMessageAction : InteractionMessageAction<FrameworkElement> {
 		// Using a DependencyProperty as the backing store for WindowType.  This enables animation, styling, binding, etc...
@@ -28,7 +28,7 @@ namespace Sylpha.Behaviors.Messaging {
 				new PropertyMetadata( true ) );
 
 		/// <summary>
-		///     遷移するウインドウの型を指定、または取得します。
+		/// 遷移するウインドウの型を指定、または取得します。
 		/// </summary>
 		public Type WindowType {
 			get { return (Type)GetValue( WindowTypeProperty ); }
@@ -36,8 +36,8 @@ namespace Sylpha.Behaviors.Messaging {
 		}
 
 		/// <summary>
-		///     画面遷移の種類を指定するTransitionMode列挙体を指定、または取得します。<br />
-		///     TransitionMessageでModeがUnKnown以外に指定されていた場合、そちらが優先されます。
+		/// 画面遷移の種類を指定するTransitionMode列挙体を指定、または取得します。<br />
+		/// TransitionMessageでModeがUnKnown以外に指定されていた場合、そちらが優先されます。
 		/// </summary>
 		public TransitionMode Mode {
 			get { return (TransitionMode)( GetValue( ModeProperty ) ?? default( TransitionMode ) ); }
@@ -45,7 +45,7 @@ namespace Sylpha.Behaviors.Messaging {
 		}
 
 		/// <summary>
-		///     遷移先ウィンドウがこのウィンドウに所有されるかを設定します。
+		/// 遷移先ウィンドウがこのウィンドウに所有されるかを設定します。
 		/// </summary>
 		public bool IsOwned {
 			get { return (bool)( GetValue( OwnedFromThisProperty ) ?? default( bool ) ); }

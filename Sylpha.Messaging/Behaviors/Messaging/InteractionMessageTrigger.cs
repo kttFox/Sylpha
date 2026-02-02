@@ -7,7 +7,7 @@ using Sylpha.Messaging;
 
 namespace Sylpha.Behaviors.Messaging {
 	/// <summary>
-	///     ViewModelからの相互作用メッセージを受信し、アクションを実行します。
+	/// ViewModelからの相互作用メッセージを受信し、アクションを実行します。
 	/// </summary>
 	public class InteractionMessageTrigger : TriggerBase<FrameworkElement>, IDisposable {
 		// Using a DependencyProperty as the backing store for Messenger.  This enables animation, styling, binding, etc...
@@ -37,7 +37,7 @@ namespace Sylpha.Behaviors.Messaging {
 		private bool _loaded = true;
 
 		/// <summary>
-		///     ViewModelのMessengerを指定、または取得します。
+		/// ViewModelのMessengerを指定、または取得します。
 		/// </summary>
 		public InteractionMessenger Messenger {
 			get { return (InteractionMessenger)GetValue( MessengerProperty ); }
@@ -45,7 +45,7 @@ namespace Sylpha.Behaviors.Messaging {
 		}
 
 		/// <summary>
-		///     アタッチされたオブジェクトがロードされている期間(Loaded~Unloaded)だけActionを実行するかどうかを指定、または取得します。デフォルトはfalseです。
+		/// アタッチされたオブジェクトがロードされている期間(Loaded~Unloaded)だけActionを実行するかどうかを指定、または取得します。デフォルトはfalseです。
 		/// </summary>
 		public bool InvokeActionsOnlyWhileAttatchedObjectLoaded {
 			get { return (bool)( GetValue( InvokeActionsOnlyWhileAttatchedObjectLoadedProperty ) ?? default( bool ) ); }
@@ -53,7 +53,7 @@ namespace Sylpha.Behaviors.Messaging {
 		}
 
 		/// <summary>
-		///     このトリガーが有効かどうかを指定、または取得します。デフォルトはtrueです。
+		/// このトリガーが有効かどうかを指定、または取得します。デフォルトはtrueです。
 		/// </summary>
 		public bool IsEnable {
 			get { return (bool)( GetValue( IsEnableProperty ) ?? default( bool ) ); }
@@ -61,8 +61,8 @@ namespace Sylpha.Behaviors.Messaging {
 		}
 
 		/// <summary>
-		///     このトリガーが反応する相互作用メッセージのメッセージキーを指定、または取得します。<br />
-		///     このプロパティが指定されていない場合、このトリガーは全ての相互作用メッセージに反応します。
+		/// このトリガーが反応する相互作用メッセージのメッセージキーを指定、または取得します。<br />
+		/// このプロパティが指定されていない場合、このトリガーは全ての相互作用メッセージに反応します。
 		/// </summary>
 		public string MessageKey { get; set; }
 

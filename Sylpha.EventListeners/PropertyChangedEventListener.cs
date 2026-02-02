@@ -8,14 +8,14 @@ using Sylpha.EventListeners.Internals;
 
 namespace Sylpha.EventListeners {
 	/// <summary>
-	///     INotifyPropertyChanged.PropertyChangedを受信するためのイベントリスナです。
+	/// INotifyPropertyChanged.PropertyChangedを受信するためのイベントリスナです。
 	/// </summary>
 	public sealed class PropertyChangedEventListener : EventListener<PropertyChangedEventHandler>,
 		IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>> {
 		[NotNull] private readonly AnonymousPropertyChangedEventHandlerBag _bag;
 
 		/// <summary>
-		///     コンストラクタ
+		/// コンストラクタ
 		/// </summary>
 		/// <param name="source">INotifyPropertyChangedオブジェクト</param>
 		public PropertyChangedEventListener( [NotNull] INotifyPropertyChanged source ) {
@@ -29,7 +29,7 @@ namespace Sylpha.EventListeners {
 		}
 
 		/// <summary>
-		///     コンストラクタ。リスナのインスタンスの作成と同時にハンドラを一つ登録します。
+		/// コンストラクタ。リスナのインスタンスの作成と同時にハンドラを一つ登録します。
 		/// </summary>
 		/// <param name="source">INotifyPropertyChangedオブジェクト</param>
 		/// <param name="handler">PropertyChangedイベントハンドラ</param>
@@ -59,7 +59,7 @@ namespace Sylpha.EventListeners {
 		}
 
 		/// <summary>
-		///     このリスナインスタンスに新たなハンドラを追加します。
+		/// このリスナインスタンスに新たなハンドラを追加します。
 		/// </summary>
 		/// <param name="handler">PropertyChangedイベントハンドラ</param>
 		public void RegisterHandler( [NotNull] PropertyChangedEventHandler handler ) {
@@ -70,7 +70,7 @@ namespace Sylpha.EventListeners {
 		}
 
 		/// <summary>
-		///     このリスナインスタンスにプロパティ名でフィルタリング済のハンドラを追加します。
+		/// このリスナインスタンスにプロパティ名でフィルタリング済のハンドラを追加します。
 		/// </summary>
 		/// <param name="propertyName">ハンドラを登録したいPropertyChangedEventArgs.PropertyNameの名前</param>
 		/// <param name="handler">propertyNameで指定されたプロパティ用のPropertyChangedイベントハンドラ</param>
@@ -83,7 +83,7 @@ namespace Sylpha.EventListeners {
 		}
 
 		/// <summary>
-		///     このリスナインスタンスにプロパティ名でフィルタリング済のハンドラを追加します。
+		/// このリスナインスタンスにプロパティ名でフィルタリング済のハンドラを追加します。
 		/// </summary>
 		/// <param name="propertyExpression">() => プロパティ形式のラムダ式</param>
 		/// <param name="handler">propertyExpressionで指定されたプロパティ用のPropertyChangedイベントハンドラ</param>

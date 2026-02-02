@@ -6,13 +6,13 @@ using Sylpha.Messaging;
 
 namespace Sylpha.Behaviors.Messaging {
 	/// <summary>
-	///     Show folder browser dialog.
-	///     <see cref="InteractionMessageAction{T}" /> for <see cref="FolderSelectionMessage" />.
-	///     This object must be hosted by <see cref="FrameworkElement" />.
+	/// Show folder browser dialog.
+	/// <see cref="InteractionMessageAction{T}" /> for <see cref="FolderSelectionMessage" />.
+	/// This object must be hosted by <see cref="FrameworkElement" />.
 	/// </summary>
 	public class FolderBrowserDialogInteractionMessageAction : InteractionMessageAction<FrameworkElement> {
 		/// <summary>
-		///     Invokes the action related to this class.
+		/// Invokes the action related to this class.
 		/// </summary>
 		/// <param name="m"><see cref="FolderSelectionMessage" /> specified to <see cref="InteractionMessenger" /> in the client.</param>
 		protected override void InvokeAction( InteractionMessage m ) {

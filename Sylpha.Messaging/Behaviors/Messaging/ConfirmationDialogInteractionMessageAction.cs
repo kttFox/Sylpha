@@ -3,7 +3,7 @@ using Sylpha.Messaging;
 
 namespace Sylpha.Behaviors.Messaging {
 	/// <summary>
-	///     確認ダイアログを表示するアクションです。<see cref="ConfirmationMessage" />に対応します。
+	/// 確認ダイアログを表示するアクションです。<see cref="ConfirmationMessage" />に対応します。
 	/// </summary>
 	public class ConfirmationDialogInteractionMessageAction : InteractionMessageAction<FrameworkElement> {
 		protected override void InvokeAction( InteractionMessage message ) {

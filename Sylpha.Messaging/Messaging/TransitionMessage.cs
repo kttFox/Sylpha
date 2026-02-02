@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	///     画面遷移アクション用の相互作用メッセージです。
+	/// 画面遷移アクション用の相互作用メッセージです。
 	/// </summary>
 	[ContentProperty( "TransitionViewModel" )]
 	public class TransitionMessage : ResponsiveInteractionMessage<bool?> {
@@ -31,13 +31,13 @@ namespace Sylpha.Messaging {
 		public TransitionMessage() { }
 
 		/// <summary>
-		///     メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public TransitionMessage( string messageKey ) : base( messageKey ) { }
 
 		/// <summary>
-		///     新しいWindowのDataContextに設定するViewModelとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// 新しいWindowのDataContextに設定するViewModelとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		/// <param name="messageKey">メッセージキー</param>
@@ -45,7 +45,7 @@ namespace Sylpha.Messaging {
 			: this( null, transitionViewModel, TransitionMode.UnKnown, messageKey ) { }
 
 		/// <summary>
-		///     新しいWindowのDataContextに設定するViewModelと画面遷移モードとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// 新しいWindowのDataContextに設定するViewModelと画面遷移モードとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		/// <param name="mode">画面遷移の方法を決定するTransitionMode列挙体。初期値はUnKnownです。</param>
@@ -54,7 +54,7 @@ namespace Sylpha.Messaging {
 			: this( null, transitionViewModel, mode, messageKey ) { }
 
 		/// <summary>
-		///     新しいWindowの型と新しいWindowに設定するViewModel、画面遷移モードとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// 新しいWindowの型と新しいWindowに設定するViewModel、画面遷移モードとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="windowType">新しいWindowの型</param>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
@@ -74,14 +74,14 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     新しいWindowのDataContextに設定するViewModelを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// 新しいWindowのDataContextに設定するViewModelを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		public TransitionMessage( INotifyPropertyChanged transitionViewModel )
 			: this( null, transitionViewModel, TransitionMode.UnKnown, null ) { }
 
 		/// <summary>
-		///     新しいWindowのDataContextに設定するViewModelと画面遷移モードを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// 新しいWindowのDataContextに設定するViewModelと画面遷移モードを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		/// <param name="mode">画面遷移の方法を決定するTransitionMode列挙体。初期値はUnKnownです。</param>
@@ -89,7 +89,7 @@ namespace Sylpha.Messaging {
 			: this( null, transitionViewModel, mode, null ) { }
 
 		/// <summary>
-		///     新しいWindowの型と新しいWindowに設定するViewModel、画面遷移モードとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// 新しいWindowの型と新しいWindowに設定するViewModel、画面遷移モードとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="windowType">新しいWindowの型</param>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
@@ -98,7 +98,7 @@ namespace Sylpha.Messaging {
 			: this( windowType, transitionViewModel, mode, null ) { }
 
 		/// <summary>
-		///     新しいWindowのDataContextに設定するViewModelを指定、または取得します。
+		/// 新しいWindowのDataContextに設定するViewModelを指定、または取得します。
 		/// </summary>
 		public INotifyPropertyChanged TransitionViewModel {
 			get { return (INotifyPropertyChanged)GetValue( TransitionViewModelProperty ); }
@@ -106,8 +106,8 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     新しいWindowの表示方法を決定するTransitionModeを指定、または取得します。<br />
-		///     初期値はUnKnownです。
+		/// 新しいWindowの表示方法を決定するTransitionModeを指定、または取得します。<br />
+		/// 初期値はUnKnownです。
 		/// </summary>
 		public TransitionMode Mode {
 			get { return (TransitionMode)( GetValue( ModeProperty ) ?? default( TransitionMode ) ); }
@@ -115,7 +115,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     新しいWindowの型を指定、または取得します。
+		/// 新しいWindowの型を指定、または取得します。
 		/// </summary>
 		public Type WindowType {
 			get { return (Type)GetValue( WindowTypeProperty ); }
@@ -123,8 +123,8 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
-		///     通常このメソッドは、自身の新しいインスタンスを返すように実装します。
+		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
+		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
 		/// </summary>
 		/// <returns>自身の新しいインスタンス</returns>
 		protected override Freezable CreateInstanceCore() {

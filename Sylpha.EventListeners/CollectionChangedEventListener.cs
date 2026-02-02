@@ -7,14 +7,14 @@ using Sylpha.EventListeners.Internals;
 
 namespace Sylpha.EventListeners {
 	/// <summary>
-	///     INotifyCollectionChanged.NotifyCollectionChangedを受信するためのイベントリスナです。
+	/// INotifyCollectionChanged.NotifyCollectionChangedを受信するためのイベントリスナです。
 	/// </summary>
 	public sealed class CollectionChangedEventListener : EventListener<NotifyCollectionChangedEventHandler>,
 		IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>> {
 		[NotNull] private readonly AnonymousCollectionChangedEventHandlerBag _bag;
 
 		/// <summary>
-		///     コンストラクタ
+		/// コンストラクタ
 		/// </summary>
 		/// <param name="source">INotifyCollectionChangedオブジェクト</param>
 		public CollectionChangedEventListener( [NotNull] INotifyCollectionChanged source ) {
@@ -30,7 +30,7 @@ namespace Sylpha.EventListeners {
 		}
 
 		/// <summary>
-		///     コンストラクタ。リスナのインスタンスの作成と同時にハンドラを一つ登録します。
+		/// コンストラクタ。リスナのインスタンスの作成と同時にハンドラを一つ登録します。
 		/// </summary>
 		/// <param name="source">INotifyCollectionChangedオブジェクト</param>
 		/// <param name="handler">NotifyCollectionChangedイベントハンドラ</param>
@@ -66,7 +66,7 @@ namespace Sylpha.EventListeners {
 		}
 
 		/// <summary>
-		///     このリスナインスタンスに新たなハンドラを追加します。
+		/// このリスナインスタンスに新たなハンドラを追加します。
 		/// </summary>
 		/// <param name="handler">NotifyCollectionChangedイベントハンドラ</param>
 		public void RegisterHandler( NotifyCollectionChangedEventHandler handler ) {
@@ -75,7 +75,7 @@ namespace Sylpha.EventListeners {
 		}
 
 		/// <summary>
-		///     このリスナインスタンスにプロパティ名でフィルタリング済のハンドラを追加します。
+		/// このリスナインスタンスにプロパティ名でフィルタリング済のハンドラを追加します。
 		/// </summary>
 		/// <param name="action">ハンドラを登録したいNotifyCollectionChangedAction</param>
 		/// <param name="handler">actionで指定されたNotifyCollectionChangedActionに対応したNotifyCollectionChangedイベントハンドラ</param>

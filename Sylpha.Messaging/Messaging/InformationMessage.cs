@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	///     情報をViewに通知するためのメッセージです。
+	/// 情報をViewに通知するためのメッセージです。
 	/// </summary>
 	public class InformationMessage : InteractionMessage {
 		// Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
@@ -26,7 +26,7 @@ namespace Sylpha.Messaging {
 		public InformationMessage() { }
 
 		/// <summary>
-		///     表示するメッセージ・キャプション・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
@@ -38,7 +38,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
@@ -53,7 +53,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     表示するメッセージを指定、または取得します。
+		/// 表示するメッセージを指定、または取得します。
 		/// </summary>
 		public string Text {
 			get { return (string)GetValue( TextProperty ); }
@@ -61,7 +61,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     キャプションを指定、または取得します。
+		/// キャプションを指定、または取得します。
 		/// </summary>
 		public string Caption {
 			get { return (string)GetValue( CaptionProperty ); }
@@ -69,7 +69,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     メッセージボックスイメージを指定、または取得します。
+		/// メッセージボックスイメージを指定、または取得します。
 		/// </summary>
 		public MessageBoxImage Image {
 			get { return (MessageBoxImage)( GetValue( ImageProperty ) ?? default( MessageBoxImage ) ); }
@@ -77,8 +77,8 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
-		///     通常このメソッドは、自身の新しいインスタンスを返すように実装します。
+		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
+		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
 		/// </summary>
 		/// <returns>自身の新しいインスタンス</returns>
 		protected override Freezable CreateInstanceCore() {

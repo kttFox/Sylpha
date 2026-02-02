@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	///     確認相互作用メッセージを表します。
+	/// 確認相互作用メッセージを表します。
 	/// </summary>
 	public class ConfirmationMessage : ResponsiveInteractionMessage<bool?> {
 		// Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
@@ -37,7 +37,7 @@ namespace Sylpha.Messaging {
 				new PropertyMetadata( MessageBoxResult.OK ) );
 
 		/// <summary>
-		///     表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージボックスボタン・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージボックスボタン・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
@@ -56,7 +56,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージボックスボタン・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージボックスボタン・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
@@ -68,7 +68,7 @@ namespace Sylpha.Messaging {
 			: this( text, caption, image, button, MessageBoxResult.OK, messageKey ) { }
 
 		/// <summary>
-		///     表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
@@ -78,7 +78,7 @@ namespace Sylpha.Messaging {
 			: this( text, caption, image, MessageBoxButton.OK, messageKey ) { }
 
 		/// <summary>
-		///     表示するメッセージ・キャプション・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
@@ -87,7 +87,7 @@ namespace Sylpha.Messaging {
 			: this( text, caption, MessageBoxImage.None, messageKey ) { }
 
 		/// <summary>
-		///     表示するメッセージ・キャプションを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプションを指定して、新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
@@ -97,7 +97,7 @@ namespace Sylpha.Messaging {
 		public ConfirmationMessage() { }
 
 		/// <summary>
-		///     表示するメッセージを指定、または取得します。
+		/// 表示するメッセージを指定、または取得します。
 		/// </summary>
 		public string Text {
 			get { return (string)GetValue( TextProperty ); }
@@ -105,7 +105,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     キャプションを指定、または取得します。
+		/// キャプションを指定、または取得します。
 		/// </summary>
 		public string Caption {
 			get { return (string)GetValue( CaptionProperty ); }
@@ -113,7 +113,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     メッセージボックスイメージを指定、または取得します。
+		/// メッセージボックスイメージを指定、または取得します。
 		/// </summary>
 		public MessageBoxImage Image {
 			get { return (MessageBoxImage)( GetValue( ImageProperty ) ?? default( MessageBoxImage ) ); }
@@ -121,7 +121,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     メッセージボックスボタンを指定、または取得します。
+		/// メッセージボックスボタンを指定、または取得します。
 		/// </summary>
 		public MessageBoxButton Button {
 			get { return (MessageBoxButton)( GetValue( ButtonProperty ) ?? default( MessageBoxButton ) ); }
@@ -129,7 +129,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     メッセージボックスの既定の結果を指定、または取得します。
+		/// メッセージボックスの既定の結果を指定、または取得します。
 		/// </summary>
 		public MessageBoxResult DefaultResult {
 			get { return (MessageBoxResult)( GetValue( DefaultResultProperty ) ?? default( MessageBoxResult ) ); }
@@ -137,8 +137,8 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
-		///     通常このメソッドは、自身の新しいインスタンスを返すように実装します。
+		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
+		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
 		/// </summary>
 		/// <returns>自身の新しいインスタンス</returns>
 		protected override Freezable CreateInstanceCore() {

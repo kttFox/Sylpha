@@ -8,18 +8,18 @@ using JetBrains.Annotations;
 
 namespace Sylpha {
 	/// <summary>
-	///     変更通知オブジェクトの基底クラスです。
+	/// 変更通知オブジェクトの基底クラスです。
 	/// </summary>
 	[Serializable]
 	public class NotificationObject : INotifyPropertyChanged {
 		/// <summary>
-		///     プロパティ変更通知イベントです。
+		/// プロパティ変更通知イベントです。
 		/// </summary>
 		[field: NonSerialized]
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		/// <summary>
-		///     プロパティ変更通知イベントを発生させます。
+		/// プロパティ変更通知イベントを発生させます。
 		/// </summary>
 		/// <param name="source"></param>
 		/// <param name="propertyExpression">() => プロパティ形式のラムダ式</param>
@@ -37,7 +37,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     プロパティ変更通知イベントを発生させます
+		/// プロパティ変更通知イベントを発生させます
 		/// </summary>
 		/// <param name="propertyName">プロパティ名</param>
 		[NotifyPropertyChangedInvocator]
@@ -47,7 +47,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     前と値が違うなら変更して、プロパティ変更通知イベントを発生させます
+		/// 前と値が違うなら変更して、プロパティ変更通知イベントを発生させます
 		/// </summary>
 		/// <typeparam name="T">プロパティの型</typeparam>
 		/// <param name="source">元の値</param>
@@ -73,7 +73,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     前と値が違うなら変更して、プロパティ変更通知イベントを発生させます
+		/// 前と値が違うなら変更して、プロパティ変更通知イベントを発生させます
 		/// </summary>
 		/// <typeparam name="T">プロパティの型</typeparam>
 		/// <param name="source">元の値</param>

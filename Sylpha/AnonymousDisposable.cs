@@ -3,14 +3,14 @@ using JetBrains.Annotations;
 
 namespace Sylpha {
 	/// <summary>
-	///     指定されたリソース解放用のActionをIDisposableとして扱います。
+	/// 指定されたリソース解放用のActionをIDisposableとして扱います。
 	/// </summary>
 	public class AnonymousDisposable : IDisposable {
 		[NotNull] private readonly Action _releaseAction;
 		private bool _disposed;
 
 		/// <summary>
-		///     コンストラクタ
+		/// コンストラクタ
 		/// </summary>
 		/// <param name="releaseAction">リソースを解放するためのアクション</param>
 		public AnonymousDisposable( [NotNull] Action releaseAction ) {
@@ -18,7 +18,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     コンストラクタで指定されたアクションを呼び出します。
+		/// コンストラクタで指定されたアクションを呼び出します。
 		/// </summary>
 		public void Dispose() {
 			Dispose( true );

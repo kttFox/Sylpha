@@ -10,7 +10,7 @@ namespace Sylpha.Commands {
 			new List<WeakReference<EventHandler>>();
 
 		/// <summary>
-		///     コマンドが実行可能かどうかが変化した時に発生します。
+		/// コマンドが実行可能かどうかが変化した時に発生します。
 		/// </summary>
 		public event EventHandler CanExecuteChanged {
 			add { _canExecuteChangedHandlers.Add( new WeakReference<EventHandler>( value ) ); }
@@ -24,7 +24,7 @@ namespace Sylpha.Commands {
 		}
 
 		/// <summary>
-		///     コマンドが実行可能かどうかが変化した時に呼び出されます。
+		/// コマンドが実行可能かどうかが変化した時に呼び出されます。
 		/// </summary>
 		protected void OnCanExecuteChanged() {
 			var uiDispatcher = DispatcherHelper.UIDispatcher

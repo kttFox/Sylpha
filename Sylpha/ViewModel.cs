@@ -5,7 +5,7 @@ using Sylpha.Messaging;
 
 namespace Sylpha {
 	/// <summary>
-	///     ViewModelの基底クラスです。
+	/// ViewModelの基底クラスです。
 	/// </summary>
 	[Serializable]
 	public abstract class ViewModel : NotificationObject, IDisposable {
@@ -16,7 +16,7 @@ namespace Sylpha {
 		[NonSerialized] private InteractionMessenger _messenger;
 
 		/// <summary>
-		///     このViewModelクラスの基本CompositeDisposableです。
+		/// このViewModelクラスの基本CompositeDisposableです。
 		/// </summary>
 		[XmlIgnore]
 		[NotNull]
@@ -26,7 +26,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     このViewModelクラスの基本Messengerインスタンスです。
+		/// このViewModelクラスの基本Messengerインスタンスです。
 		/// </summary>
 		[XmlIgnore]
 		[NotNull]
@@ -36,7 +36,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     このインスタンスによって使用されているすべてのリソースを解放します。
+		/// このインスタンスによって使用されているすべてのリソースを解放します。
 		/// </summary>
 		public void Dispose() {
 			Dispose( true );

@@ -7,7 +7,7 @@ using Sylpha.EventListeners.Internals;
 
 namespace Sylpha.EventListeners.WeakEvents {
 	/// <summary>
-	///     INotifyCollectionChanged.NotifyCollectionChangedを受信するためのWeakイベントリスナです。
+	/// INotifyCollectionChanged.NotifyCollectionChangedを受信するためのWeakイベントリスナです。
 	/// </summary>
 	public sealed class CollectionChangedWeakEventListener :
 		WeakEventListener<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>,
@@ -15,7 +15,7 @@ namespace Sylpha.EventListeners.WeakEvents {
 		[NotNull] private readonly AnonymousCollectionChangedEventHandlerBag _bag;
 
 		/// <summary>
-		///     コンストラクタ
+		/// コンストラクタ
 		/// </summary>
 		/// <param name="source">INotifyCollectionChangedオブジェクト</param>
 		public CollectionChangedWeakEventListener( [NotNull] INotifyCollectionChanged source ) {
@@ -30,7 +30,7 @@ namespace Sylpha.EventListeners.WeakEvents {
 		}
 
 		/// <summary>
-		///     コンストラクタ。リスナのインスタンスの作成と同時にハンドラを一つ登録します。
+		/// コンストラクタ。リスナのインスタンスの作成と同時にハンドラを一つ登録します。
 		/// </summary>
 		/// <param name="source">INotifyCollectionChangedオブジェクト</param>
 		/// <param name="handler">NotifyCollectionChangedイベントハンドラ</param>
@@ -65,7 +65,7 @@ namespace Sylpha.EventListeners.WeakEvents {
 		}
 
 		/// <summary>
-		///     このリスナインスタンスに新たなハンドラを追加します。
+		/// このリスナインスタンスに新たなハンドラを追加します。
 		/// </summary>
 		/// <param name="handler">NotifyCollectionChangedイベントハンドラ</param>
 		public void RegisterHandler( NotifyCollectionChangedEventHandler handler ) {
@@ -74,7 +74,7 @@ namespace Sylpha.EventListeners.WeakEvents {
 		}
 
 		/// <summary>
-		///     このリスナインスタンスにプロパティ名でフィルタリング済のハンドラを追加します。
+		/// このリスナインスタンスにプロパティ名でフィルタリング済のハンドラを追加します。
 		/// </summary>
 		/// <param name="action">ハンドラを登録したいNotifyCollectionChangedAction</param>
 		/// <param name="handler">actionで指定されたNotifyCollectionChangedActionに対応したNotifyCollectionChangedイベントハンドラ</param>

@@ -4,7 +4,7 @@ using Microsoft.Win32;
 
 namespace Sylpha.Behaviors.Messaging {
 	/// <summary>
-	///     「ファイルを保存する」ダイアログを表示するアクションです。<see cref="SavingFileSelectionMessage" />に対応します。
+	/// 「ファイルを保存する」ダイアログを表示するアクションです。<see cref="SavingFileSelectionMessage" />に対応します。
 	/// </summary>
 	public class SaveFileDialogInteractionMessageAction : InteractionMessageAction<DependencyObject> {
 		protected override void InvokeAction( InteractionMessage message ) {

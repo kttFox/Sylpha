@@ -8,14 +8,14 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Sylpha.Dialogs {
 	/// <summary>
-	///     <see cref="FolderSelectionDialog" /> implementation based on Win32 Common Item Dialog.
+	/// <see cref="FolderSelectionDialog" /> implementation based on Win32 Common Item Dialog.
 	/// </summary>
 	internal sealed class CommonOpenFileFolderSelectionDialog : FolderSelectionDialog {
 		[NotNull] private readonly CommonOpenFileDialog _commonOpenFileDialog;
 		[CanBeNull] private readonly string _defaultTitle;
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="CommonOpenFileFolderSelectionDialog" /> class.
+		/// Initializes a new instance of the <see cref="CommonOpenFileFolderSelectionDialog" /> class.
 		/// </summary>
 		public CommonOpenFileFolderSelectionDialog() {
 			_commonOpenFileDialog = new CommonOpenFileDialog { IsFolderPicker = true, Multiselect = false };
@@ -23,12 +23,12 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     Gets or sets the title of the dialog.
+		/// Gets or sets the title of the dialog.
 		/// </summary>
 		/// <value>
-		///     The title of the dialog.
-		///     Some dialog cannot support this value.
-		///     The <c>null</c> or empty indicates using default title.
+		/// The title of the dialog.
+		/// Some dialog cannot support this value.
+		/// The <c>null</c> or empty indicates using default title.
 		/// </value>
 		public override string Title {
 			get { return _commonOpenFileDialog.Title; }
@@ -36,7 +36,7 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     This property is not supported.
+		/// This property is not supported.
 		/// </summary>
 		/// <value>Always <see cref="F:String.Empty" />.</value>
 		public override string Description {
@@ -54,10 +54,10 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     Gets or sets the selected path.
+		/// Gets or sets the selected path.
 		/// </summary>
 		/// <value>
-		///     The selected path. This will be default path when the dialog is opened.
+		/// The selected path. This will be default path when the dialog is opened.
 		/// </value>
 		public override string SelectedPath {
 			get { return _commonOpenFileDialog.FileName; }
@@ -79,18 +79,18 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     Gets or sets the selected paths.
+		/// Gets or sets the selected paths.
 		/// </summary>
 		public override string[] SelectedPaths {
 			get { return _commonOpenFileDialog.FileNames.ToArray(); }
 		}
 
 		/// <summary>
-		///     Releases unmanaged and - optionally - managed resources
+		/// Releases unmanaged and - optionally - managed resources
 		/// </summary>
 		/// <param name="disposing">
-		///     <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only
-		///     unmanaged resources.
+		/// <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only
+		/// unmanaged resources.
 		/// </param>
 		protected override void Dispose( bool disposing ) {
 			if( disposing ) _commonOpenFileDialog.Dispose();
@@ -98,11 +98,11 @@ namespace Sylpha.Dialogs {
 		}
 
 		/// <summary>
-		///     Shows the dialog with specified <see cref="Window" /> as host window.
+		/// Shows the dialog with specified <see cref="Window" /> as host window.
 		/// </summary>
 		/// <param name="hostWindow">The host window which will host this dialog. This value will not be <c>null</c>.</param>
 		/// <returns>
-		///     The result of the dialog.
+		/// The result of the dialog.
 		/// </returns>
 		protected override bool? ShowDialogCore( [NotNull] Window hostWindow ) {
 			if( hostWindow == null ) throw new ArgumentNullException( nameof( hostWindow ) );

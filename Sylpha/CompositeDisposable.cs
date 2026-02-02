@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 namespace Sylpha {
 	/// <summary>
-	///     複数のIDisposableオブジェクトをまとめて操作するための機能を提供します。
+	/// 複数のIDisposableオブジェクトをまとめて操作するための機能を提供します。
 	/// </summary>
 	public class CompositeDisposable : IDisposable, ICollection<IDisposable> {
 		[NotNull] private readonly object _lockObject = new object();
@@ -13,14 +13,14 @@ namespace Sylpha {
 		private bool _disposed;
 
 		/// <summary>
-		///     コンストラクタ
+		/// コンストラクタ
 		/// </summary>
 		public CompositeDisposable() {
 			_targetLists = new List<IDisposable>();
 		}
 
 		/// <summary>
-		///     コンストラクタ
+		/// コンストラクタ
 		/// </summary>
 		/// <param name="sourceDisposableList">ソースとなるIDisposableコレクション</param>
 		public CompositeDisposable( [NotNull] IEnumerable<IDisposable> sourceDisposableList ) {
@@ -30,7 +30,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     IDisposableコレクションの列挙子を取得します。
+		/// IDisposableコレクションの列挙子を取得します。
 		/// </summary>
 		/// <returns>IDisposableコレクションの列挙子</returns>
 		public IEnumerator<IDisposable> GetEnumerator() {
@@ -44,7 +44,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     末尾にオブジェクトを追加します。
+		/// 末尾にオブジェクトを追加します。
 		/// </summary>
 		/// <param name="item">追加するオブジェクト</param>
 		public void Add( IDisposable item ) {
@@ -55,7 +55,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     すべての要素を削除します。
+		/// すべての要素を削除します。
 		/// </summary>
 		public void Clear() {
 			ThrowExceptionIfDisposed();
@@ -63,7 +63,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     ある要素がこのコレクションに含まれているかどうかを判断します。
+		/// ある要素がこのコレクションに含まれているかどうかを判断します。
 		/// </summary>
 		/// <param name="item">コレクションに含まれているか判断したい要素</param>
 		/// <returns>このコレクションに含まれているかどうか</returns>
@@ -75,7 +75,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     全体を互換性のある1次元の配列にコピーします。コピー操作は、コピー先の配列の指定したインデックスから始まります。
+		/// 全体を互換性のある1次元の配列にコピーします。コピー操作は、コピー先の配列の指定したインデックスから始まります。
 		/// </summary>
 		/// <param name="array">コピー先の配列</param>
 		/// <param name="arrayIndex">コピー先の配列のどこからコピー操作をするかのインデックス</param>
@@ -85,7 +85,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     実際に格納されている要素の数を取得します。
+		/// 実際に格納されている要素の数を取得します。
 		/// </summary>
 		public int Count {
 			get {
@@ -95,7 +95,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     このコレクションが読み取り専用かどうかを取得します。(常にfalseを返します)
+		/// このコレクションが読み取り専用かどうかを取得します。(常にfalseを返します)
 		/// </summary>
 		public bool IsReadOnly {
 			get {
@@ -105,7 +105,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     最初に見つかった特定のオブジェクトを削除します。
+		/// 最初に見つかった特定のオブジェクトを削除します。
 		/// </summary>
 		/// <param name="item">削除したいオブジェクト</param>
 		/// <returns>削除できたかどうか</returns>
@@ -118,7 +118,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     このコレクションに含まれるすべての要素をDisposeします。
+		/// このコレクションに含まれるすべての要素をDisposeします。
 		/// </summary>
 		public void Dispose() {
 			Dispose( true );
@@ -126,7 +126,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     IDisposableの代わりに、リソースを解放するActionを末尾に追加します。
+		/// IDisposableの代わりに、リソースを解放するActionを末尾に追加します。
 		/// </summary>
 		/// <param name="releaseAction">リソースを解放するためのAction</param>
 		public void Add( [NotNull] Action releaseAction ) {
@@ -138,7 +138,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     先頭にオブジェクトを追加します。
+		/// 先頭にオブジェクトを追加します。
 		/// </summary>
 		/// <param name="item">追加するオブジェクト</param>
 		public void AddFirst( IDisposable item ) {
@@ -149,7 +149,7 @@ namespace Sylpha {
 		}
 
 		/// <summary>
-		///     IDisposableの代わりに、リソースを解放するActionを先頭に追加します。
+		/// IDisposableの代わりに、リソースを解放するActionを先頭に追加します。
 		/// </summary>
 		/// <param name="releaseAction">リソースを解放するためのAction</param>
 		public void AddFirst( [NotNull] Action releaseAction ) {

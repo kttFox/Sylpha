@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	///     Windowを最大化・最小化・閉じる・通常化させるための相互作用メッセージです。
+	/// Windowを最大化・最小化・閉じる・通常化させるための相互作用メッセージです。
 	/// </summary>
 	public class WindowActionMessage : InteractionMessage {
 		// Using a DependencyProperty as the backing store for Action.  This enables animation, styling, binding, etc...
@@ -15,14 +15,14 @@ namespace Sylpha.Messaging {
 		public WindowActionMessage() { }
 
 		/// <summary>
-		///     メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public WindowActionMessage( string messageKey )
 			: base( messageKey ) { }
 
 		/// <summary>
-		///     メッセージキーとWindowが遷移すべき状態を定義して、新しい相互作用メッセージのインスタンスを生成します。
+		/// メッセージキーとWindowが遷移すべき状態を定義して、新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="action">Windowが遷移すべき状態を表すWindowAction列挙体</param>
 		/// <param name="messageKey">メッセージキー</param>
@@ -32,14 +32,14 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     Windowが遷移すべき状態を定義して、新しい相互作用メッセージのインスタンスを生成します。
+		/// Windowが遷移すべき状態を定義して、新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="action">Windowが遷移すべき状態を表すWindowAction列挙体</param>
 		public WindowActionMessage( WindowAction action )
 			: this( action, null ) { }
 
 		/// <summary>
-		///     Windowが遷移すべき状態を表すWindowAction列挙体を指定、または取得します。
+		/// Windowが遷移すべき状態を表すWindowAction列挙体を指定、または取得します。
 		/// </summary>
 		public WindowAction Action {
 			get { return (WindowAction)( GetValue( ActionProperty ) ?? default( WindowAction ) ); }
@@ -47,8 +47,8 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
-		///     通常このメソッドは、自身の新しいインスタンスを返すように実装します。
+		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
+		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
 		/// </summary>
 		/// <returns>自身の新しいインスタンス</returns>
 		protected override Freezable CreateInstanceCore() {

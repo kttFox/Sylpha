@@ -7,8 +7,8 @@ using Sylpha.Messaging;
 
 namespace Sylpha.Behaviors.Messaging {
 	/// <summary>
-	///     ViewModelからの相互作用メッセージに対応するアクションの基底抽象クラスです<br />
-	///     独自のアクションを定義する場合はこのクラスを継承してください。
+	/// ViewModelからの相互作用メッセージに対応するアクションの基底抽象クラスです<br />
+	/// 独自のアクションを定義する場合はこのクラスを継承してください。
 	/// </summary>
 	/// <typeparam name="T">このアクションがアタッチ可能な型を示します。</typeparam>
 	[ContentProperty( "DirectInteractionMessage" )]
@@ -26,7 +26,7 @@ namespace Sylpha.Behaviors.Messaging {
 				typeof( InteractionMessageAction<T> ), new PropertyMetadata( true ) );
 
 		/// <summary>
-		///     Viewで直接相互作用メッセージを定義する場合に使用する、DirectInteractionMessageを指定、または取得します。
+		/// Viewで直接相互作用メッセージを定義する場合に使用する、DirectInteractionMessageを指定、または取得します。
 		/// </summary>
 		public DirectInteractionMessage DirectInteractionMessage {
 			get { return (DirectInteractionMessage)GetValue( DirectInteractionMessageProperty ); }
@@ -34,7 +34,7 @@ namespace Sylpha.Behaviors.Messaging {
 		}
 
 		/// <summary>
-		///     Windowがアクティブな時のみアクションを実行するかどうかを指定、または取得します。初期値はtrueです。
+		/// Windowがアクティブな時のみアクションを実行するかどうかを指定、または取得します。初期値はtrueです。
 		/// </summary>
 		public bool InvokeActionOnlyWhenWindowIsActive {
 			get { return (bool)( GetValue( InvokeActionOnlyWhenWindowIsActiveProperty ) ?? default( bool ) ); }

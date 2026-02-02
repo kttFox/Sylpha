@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 
 namespace Sylpha.EventListeners.WeakEvents {
 	/// <summary>
-	///     汎用WeakEventリスナオブジェクトです。
+	/// 汎用WeakEventリスナオブジェクトです。
 	/// </summary>
 	/// <typeparam name="THandler">対象のイベントのイベントハンドラ型</typeparam>
 	/// <typeparam name="TEventArgs">対象のイベントのイベント引数型</typeparam>
@@ -18,7 +18,7 @@ namespace Sylpha.EventListeners.WeakEvents {
 		protected WeakEventListener() { }
 
 		/// <summary>
-		///     コンストラクタ
+		/// コンストラクタ
 		/// </summary>
 		/// <param name="conversion">ジェネリックイベントハンドラ型をTHandler方に変換するFunc</param>
 		/// <param name="add">h => obj.Event += > h の様な形でイベントの購読を登録するためのAction。hはTHandler型です。</param>
@@ -37,7 +37,7 @@ namespace Sylpha.EventListeners.WeakEvents {
 		}
 
 		/// <summary>
-		///     イベントソースとの接続を解除します。
+		/// イベントソースとの接続を解除します。
 		/// </summary>
 		public void Dispose() {
 			Dispose( true );

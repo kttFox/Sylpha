@@ -3,8 +3,8 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	///     相互作用メッセージの基底クラスです。<br />
-	///     Viewからのアクション実行後、戻り値情報が必要ない相互作用メッセージを作成する場合はこのクラスを継承して相互作用メッセージを作成します。
+	/// 相互作用メッセージの基底クラスです。<br />
+	/// Viewからのアクション実行後、戻り値情報が必要ない相互作用メッセージを作成する場合はこのクラスを継承して相互作用メッセージを作成します。
 	/// </summary>
 	public class InteractionMessage : Freezable {
 		// Using a DependencyProperty as the backing store for MessageKey.  This enables animation, styling, binding, etc...
@@ -16,7 +16,7 @@ namespace Sylpha.Messaging {
 		public InteractionMessage() { }
 
 		/// <summary>
-		///     メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public InteractionMessage( string messageKey ) {
@@ -24,7 +24,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     メッセージキーを指定、または取得します。
+		/// メッセージキーを指定、または取得します。
 		/// </summary>
 		public string MessageKey {
 			get { return (string)GetValue( MessageKeyProperty ); }
@@ -32,8 +32,8 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
-		///     通常このメソッドは、自身の新しいインスタンスを返すように実装します。
+		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
+		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
 		/// </summary>
 		/// <returns>自身の新しいインスタンス</returns>
 		protected override Freezable CreateInstanceCore() {

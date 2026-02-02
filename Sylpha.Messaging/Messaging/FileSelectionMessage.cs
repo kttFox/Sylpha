@@ -3,9 +3,9 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	///     ファイルを開く・ファイルを保存するアクション用の共通相互作用メッセージ基底抽象クラスです。<br />
-	///     ファイルを開くアクションをViewに行わせたい場合は、<see cref="FileSelectionMessage" />を使用してください。<br />
-	///     ファイルを保存するアクションをViewに行わせたい場合は、<see cref="SavingFileSelectionMessage" />を使用してください。
+	/// ファイルを開く・ファイルを保存するアクション用の共通相互作用メッセージ基底抽象クラスです。<br />
+	/// ファイルを開くアクションをViewに行わせたい場合は、<see cref="FileSelectionMessage" />を使用してください。<br />
+	/// ファイルを保存するアクションをViewに行わせたい場合は、<see cref="SavingFileSelectionMessage" />を使用してください。
 	/// </summary>
 	public abstract class FileSelectionMessage : ResponsiveInteractionMessage<string[]> {
 		// Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
@@ -44,7 +44,7 @@ namespace Sylpha.Messaging {
 			: base( messageKey ) { }
 
 		/// <summary>
-		///     ダイアログタイトルを指定、または取得します。
+		/// ダイアログタイトルを指定、または取得します。
 		/// </summary>
 		[NotNull]
 		public string Title {
@@ -53,7 +53,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     ファイルの拡張子Filterを指定、または取得します。
+		/// ファイルの拡張子Filterを指定、または取得します。
 		/// </summary>
 		[NotNull]
 		public string Filter {
@@ -62,7 +62,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     拡張子を指定しなかった場合、自動で拡張子を追加するかどうかを指定、または取得します。デフォルトはtrueです。
+		/// 拡張子を指定しなかった場合、自動で拡張子を追加するかどうかを指定、または取得します。デフォルトはtrueです。
 		/// </summary>
 		public bool AddExtension {
 			get { return (bool)( GetValue( AddExtensionProperty ) ?? default( bool ) ); }
@@ -70,7 +70,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     ダイアログに表示される初期ディレクトリを指定、または取得します。
+		/// ダイアログに表示される初期ディレクトリを指定、または取得します。
 		/// </summary>
 		[NotNull]
 		public string InitialDirectory {
@@ -79,7 +79,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     ファイルダイアログで指定されたファイルのパスを含む文字列を指定、または取得します。
+		/// ファイルダイアログで指定されたファイルのパスを含む文字列を指定、または取得します。
 		/// </summary>
 		[NotNull]
 		public string FileName {
@@ -88,8 +88,8 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		///     派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
-		///     通常このメソッドは、自身の新しいインスタンスを返すように実装します。
+		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
+		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
 		/// </summary>
 		/// <returns>自身の新しいインスタンス</returns>
 		protected abstract override Freezable CreateInstanceCore();

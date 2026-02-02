@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Commands {
 	/// <summary>
-	///     ViewModelにおいて、Viewからメッセージ、あるいはオブジェクトを受け取って動作するコマンドを表します。
+	/// ViewModelにおいて、Viewからメッセージ、あるいはオブジェクトを受け取って動作するコマンドを表します。
 	/// </summary>
 	/// <typeparam name="T">Viewから受け取るオブジェクトの型</typeparam>
 	public sealed class ListenerCommand<T> : Command, ICommand, INotifyPropertyChanged {
@@ -14,13 +14,13 @@ namespace Sylpha.Commands {
 		[NotNull] private readonly Action<T> _execute;
 
 		/// <summary>
-		///     コンストラクタ
+		/// コンストラクタ
 		/// </summary>
 		/// <param name="execute">コマンドが実行するAction</param>
 		public ListenerCommand( [NotNull] Action<T> execute ) : this( execute, null ) { }
 
 		/// <summary>
-		///     コンストラクタ
+		/// コンストラクタ
 		/// </summary>
 		/// <param name="execute">コマンドが実行するAction</param>
 		/// <param name="canExecute">コマンドが実行可能かどうかをあらわすFunc&lt;bool&gt;</param>
@@ -30,7 +30,7 @@ namespace Sylpha.Commands {
 		}
 
 		/// <summary>
-		///     コマンドが実行可能かどうかを取得します。
+		/// コマンドが実行可能かどうかを取得します。
 		/// </summary>
 		public bool CanExecute {
 			get { return _canExecute == null || _canExecute(); }
@@ -48,12 +48,12 @@ namespace Sylpha.Commands {
 		}
 
 		/// <summary>
-		///     コマンドが実行可能かどうかが変化した時に発生します。
+		/// コマンドが実行可能かどうかが変化した時に発生します。
 		/// </summary>
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		/// <summary>
-		///     コマンドを実行します。
+		/// コマンドを実行します。
 		/// </summary>
 		/// <param name="parameter">Viewから渡されたオブジェクト</param>
 		public void Execute( T parameter ) {
@@ -67,7 +67,7 @@ namespace Sylpha.Commands {
 		}
 
 		/// <summary>
-		///     コマンドが実行可能かどうかが変化したことを通知します。
+		/// コマンドが実行可能かどうかが変化したことを通知します。
 		/// </summary>
 		public void RaiseCanExecuteChanged() {
 			OnPropertyChanged();
