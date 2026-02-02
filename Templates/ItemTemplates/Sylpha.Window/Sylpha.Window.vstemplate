@@ -3,15 +3,31 @@
   <TemplateData>
     <Name>Sylpha Window (WPF)</Name>
     <Description>Create a Window class for Sylpha.</Description>
+    <Icon>Sylpha64.png</Icon>
+    <TemplateID>Sylpha.Window</TemplateID>
     <ProjectType>CSharp</ProjectType>
     <SortOrder>100</SortOrder>
-	<TemplateID>F24F899D-76D8-4AE7-BC85-4DC720FB1F17</TemplateID>
-    <DefaultName>Window.xaml</DefaultName>
-    <ProvideDefaultName>true</ProvideDefaultName>
-    <Icon>Sylpha64.png</Icon>
+    <RequiredFrameworkVersion>3.0</RequiredFrameworkVersion>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>Window.xaml</DefaultName>
+    <AppliesTo>CSharp + WPF</AppliesTo>
+    <ShowByDefault>false</ShowByDefault>
   </TemplateData>
   <TemplateContent>
+    <References>
+      <Reference>
+        <Assembly>System</Assembly>
+      </Reference>
+      <Reference>
+        <Assembly>WindowsBase</Assembly>
+      </Reference>
+      <Reference>
+        <Assembly>PresentationCore</Assembly>
+      </Reference>
+      <Reference>
+        <Assembly>PresentationFramework</Assembly>
+      </Reference>
+    </References>
     <ProjectItem ReplaceParameters="true" TargetFileName="$fileinputname$.xaml">Window.xaml</ProjectItem>
     <ProjectItem ReplaceParameters="true" SubType="Code" TargetFileName="$fileinputname$.xaml.cs">Window.xaml.cs</ProjectItem>
   </TemplateContent>

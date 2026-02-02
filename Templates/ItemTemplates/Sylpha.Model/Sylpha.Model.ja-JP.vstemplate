@@ -4,12 +4,15 @@
     <Name>Sylpha Model</Name>
     <Description>Sylpha用のModelクラスを作成します。</Description>
     <ProjectType>CSharp</ProjectType>
+    <AppliesTo>CSharp + WPF</AppliesTo>
     <SortOrder>100</SortOrder>
-	<TemplateID>18D02B08-CDAA-4655-ABDE-6C347FD43D15</TemplateID>
+    <TemplateID>Sylpha.Model</TemplateID>
+    <RequiredFrameworkVersion>4.5.2</RequiredFrameworkVersion>
     <DefaultName>Model.cs</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <Icon>Sylpha64.png</Icon>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <ShowByDefault>false</ShowByDefault>
   </TemplateData>
   <TemplateContent>
     <ProjectItem ReplaceParameters="true" SubType="Code" TargetFileName="$fileinputname$.cs">Model.cs</ProjectItem>
