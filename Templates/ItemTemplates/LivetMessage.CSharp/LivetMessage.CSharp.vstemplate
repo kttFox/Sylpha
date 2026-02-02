@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Livet WPF interaction message</Name>
+    <Description>Create an interaction message for Livet</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>WPF</ProjectSubType>
+    <SortOrder>0</SortOrder>
+    <DefaultName>Message.cs</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <Icon>LivetMessage.ico</Icon>
+    <PreviewImage>Livet.png</PreviewImage>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true" SubType="Code" TargetFileName="$fileinputname$.cs">Message.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>
