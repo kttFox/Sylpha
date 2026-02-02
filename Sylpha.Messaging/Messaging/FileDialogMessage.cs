@@ -4,33 +4,7 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// ファイルを開く、保存するアクション用の共通メッセージ基底抽象クラスです。
 	/// </summary>
-	public abstract class FileDialogMessage : RequestMessage<string[]> {
-		#region Register Title
-		/// <summary>
-		/// ダイアログタイトルを指定、または取得します。
-		/// </summary>
-		public string? Title {
-			get { return (string?)GetValue( TitleProperty ); }
-			set { SetValue( TitleProperty, value ); }
-		}
-
-		public static readonly DependencyProperty TitleProperty =
-			DependencyProperty.Register( nameof( Title ), typeof( string ), typeof( FileDialogMessage ), new PropertyMetadata( null ) );
-		#endregion
-
-		#region Register InitialDirectory
-		/// <summary>
-		/// ダイアログに表示される初期ディレクトリを指定、または取得します。
-		/// </summary>
-		public string? InitialDirectory {
-			get { return (string?)GetValue( InitialDirectoryProperty ); }
-			set { SetValue( InitialDirectoryProperty, value ); }
-		}
-
-		public static readonly DependencyProperty InitialDirectoryProperty =
-			DependencyProperty.Register( nameof( InitialDirectory ), typeof( string ), typeof( FileDialogMessage ), new PropertyMetadata( null ) );
-		#endregion
-
+	public abstract class FileDialogMessage : CommonItemDialogMessage {
 		#region Register FilterIndex
 		public int FilterIndex {
 			get { return (int)GetValue( FilterIndexProperty ); }
@@ -135,11 +109,6 @@ namespace Sylpha.Messaging {
 		/// <param name="messageKey">メッセージキー</param>
 		protected FileDialogMessage( string? messageKey ) : base( messageKey ) { }
 
-		/// <summary>
-		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
-		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
-		/// </summary>
-		/// <returns>自身の新しいインスタンス</returns>
-		protected abstract override Freezable CreateInstanceCore();
+		
 	}
 }

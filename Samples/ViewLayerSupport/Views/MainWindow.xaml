@@ -16,7 +16,7 @@
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="ContentRendered">
 			<s:CallMethodAction MethodName="Initialize"
-								MethodTarget="{Binding}" />
+								 MethodTarget="{Binding}" />
 		</i:EventTrigger>
 
 		<i:EventTrigger EventName="Closed">
@@ -25,10 +25,18 @@
 	</i:Interaction.Triggers>
 
 	<StackPanel Margin="10">
+		<StackPanel.Resources>
+			<Style TargetType="Button">
+				<Setter Property="Height" Value="30" />
+				<Setter Property="Padding" Value="10, 0" />
+				<Setter Property="Margin" Value="5" />
+			</Style>
+		</StackPanel.Resources>
+
 		<TextBlock FontSize="32"
-				   Text="View layer support sample" />
-		<Button Margin="5"
-				Content="CallMethodAction">
+				   Text="Sylpha Sample" />
+
+		<Button Content="CallMethodAction">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<s:ShowWindowMessageAction>
@@ -39,8 +47,8 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
-		<Button Margin="5"
-				Content="Messaging">
+
+		<Button Content="Messaging">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<s:ShowWindowMessageAction>
@@ -51,5 +59,6 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
+
 	</StackPanel>
 </Window>
