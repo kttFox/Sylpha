@@ -25,19 +25,6 @@ namespace Sylpha.Messaging.Behaviors {
 					DependencyProperty.Register( nameof( DirectMessage ), typeof( DirectMessage ), typeof( MessageAction<T> ), new PropertyMetadata( null ) );
 		#endregion
 		
-		#region Register InvokeActionOnlyWhenWindowIsActive
-		/// <summary>
-		/// Windowがアクティブな時のみアクションを実行するかどうかを指定、または取得します。初期値はtrueです。
-		/// </summary>
-		public bool InvokeActionOnlyWhenWindowIsActive {
-			get { return (bool)( GetValue( InvokeActionOnlyWhenWindowIsActiveProperty ) ?? default( bool ) ); }
-			set { SetValue( InvokeActionOnlyWhenWindowIsActiveProperty, value ); }
-		}
-
-		public static readonly DependencyProperty InvokeActionOnlyWhenWindowIsActiveProperty =
-			DependencyProperty.Register( nameof(InvokeActionOnlyWhenWindowIsActive), typeof( bool ), typeof( MessageAction<T> ), new PropertyMetadata( true ) );
-		#endregion
-
 		protected sealed override void Invoke( object parameter ) {
 			var metadata = DesignerProperties.IsInDesignModeProperty.GetMetadata( typeof( DependencyObject ) );
 			if( (bool)( metadata?.DefaultValue ?? false ) ) return;
@@ -50,7 +37,6 @@ namespace Sylpha.Messaging.Behaviors {
 
 			var window = Window.GetWindow( AssociatedObject );
 			if( window == null ) return;
-			if( !window.IsActive && InvokeActionOnlyWhenWindowIsActive ) return;
 			if( message == null ) return;
 
 			InvokeAction( message );

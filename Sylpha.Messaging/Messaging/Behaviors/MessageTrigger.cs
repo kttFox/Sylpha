@@ -32,42 +32,54 @@ namespace Sylpha.Messaging.Behaviors {
 			var newMessenger = (Messenger)e.NewValue;
 
 			thisReference._listener =
-				new WeakEventListener<EventHandler<MessageRaisedEventArgs>,
-					MessageRaisedEventArgs>(
+				new WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs>(
 					h => h,
 					h => newMessenger.Raised += h,
 					h => newMessenger.Raised -= h,
 					thisReference.MessageReceived );
 		}
-		#endregion
 
-		#region Register InvokeActionsOnlyWhileAttachedObjectLoaded
-		/// <summary>
-		/// アタッチされたオブジェクトがロードされている期間(Loaded~Unloaded)だけActionを実行するかどうかを指定、または取得します。デフォルトはfalseです。
-		/// </summary>
-		public bool InvokeActionsOnlyWhileAttachedObjectLoaded {
-			get { return (bool)( GetValue( InvokeActionsOnlyWhileAttachedObjectLoadedProperty ) ?? default( bool ) ); }
-			set { SetValue( InvokeActionsOnlyWhileAttachedObjectLoadedProperty, value ); }
-		}
-		public static readonly DependencyProperty InvokeActionsOnlyWhileAttachedObjectLoadedProperty =
-			DependencyProperty.Register( nameof( InvokeActionsOnlyWhileAttachedObjectLoaded ), typeof( bool ), typeof( MessageTrigger ), new PropertyMetadata( false ) );
-		#endregion
+		private void MessageReceived( object? sender, MessageRaisedEventArgs e ) {
+			if( e == null ) throw new ArgumentNullException( nameof( e ) );
 
-		#region Register IsEnable
-		/// <summary>
-		/// このトリガーが有効かどうかを指定、または取得します。デフォルトはtrueです。
-		/// </summary>
-		public bool IsEnable {
-			get { return (bool)( GetValue( IsEnableProperty ) ); }
-			set { SetValue( IsEnableProperty, value ); }
+			var message = e.Message;
+
+			var cloneMessage = (Message)message.Clone();
+			cloneMessage.Freeze();
+
+			var checkResult = false;
+
+			DoActionOnDispatcher( () => {
+				if( MessageKey != cloneMessage.MessageKey ) {
+					return;
+				}
+
+				checkResult = true;
+			} );
+
+			if( !checkResult ) return;
+
+			DoActionOnDispatcher( () => InvokeActions( cloneMessage ) );
+
+
+			if( message is IRequest requestMessage ) {
+				requestMessage.Response = ( (IRequest)cloneMessage ).Response;
+			}
 		}
-		public static readonly DependencyProperty IsEnableProperty =
-			DependencyProperty.Register( nameof( IsEnable ), typeof( Messenger ), typeof( MessageTrigger ), new PropertyMetadata( true ) );
+
+		private void DoActionOnDispatcher( Action action ) {
+			if( Dispatcher == null ) throw new InvalidOperationException( "Dispatcher is null." );
+
+			if( Dispatcher.CheckAccess() ) {
+				action();
+			} else {
+				Dispatcher.Invoke( action );
+			}
+		}
+
 		#endregion
 
 		private WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs>? _listener;
-
-		private bool _loaded = true;
 
 		/// <summary>
 		/// このトリガーが反応するメッセージのメッセージキーを指定、または取得します。<br />
@@ -75,79 +87,21 @@ namespace Sylpha.Messaging.Behaviors {
 		/// </summary>
 		public string? MessageKey { get; set; }
 
-		public void Dispose() {
-			Dispose( true );
-			GC.SuppressFinalize( this );
-		}
-		private void MessageReceived( object? sender, MessageRaisedEventArgs e ) {
-			if( e == null ) throw new ArgumentNullException( nameof( e ) );
-
-			var message = e.Message;
-
-			var cloneMessage = (Message)message.Clone();
-
-			cloneMessage.Freeze();
-
-			var checkResult = false;
-
-			void CheckAction() {
-				if( !IsEnable ) return;
-				if( this.InvokeActionsOnlyWhileAttachedObjectLoaded && !_loaded ) return;
-				if( !( string.IsNullOrEmpty( MessageKey ) || MessageKey == cloneMessage.MessageKey ) ) return;
-
-				checkResult = true;
-			}
-
-			DoActionOnDispatcher( CheckAction );
-
-			if( !checkResult ) return;
-
-			DoActionOnDispatcher( () => InvokeActions( cloneMessage ) );
-
-
-			if( message is IRequest responsiveMessage ) {
-				object? response;
-				if( ( response = ( (IRequest)cloneMessage ).Response ) != null )
-					responsiveMessage.Response = response;
-			}
-		}
-
-		private void DoActionOnDispatcher( Action action ) {
-			if( action == null ) throw new ArgumentNullException( nameof( action ) );
-			if( Dispatcher == null ) throw new InvalidOperationException( "Dispatcher is null." );
-
-			if( Dispatcher.CheckAccess() )
-				action();
-			else
-				Dispatcher.Invoke( action );
-		}
 
 		protected override void OnAttached() {
 			base.OnAttached();
-
-			if( AssociatedObject == null ) return;
-
-			AssociatedObject.Loaded += AssociatedObjectLoaded;
-			AssociatedObject.Unloaded += AssociatedObjectUnloaded;
-		}
-
-		private void AssociatedObjectLoaded( object sender, RoutedEventArgs e ) {
-			_loaded = true;
-		}
-
-		private void AssociatedObjectUnloaded( object sender, RoutedEventArgs e ) {
-			_loaded = false;
 		}
 
 		protected override void OnDetaching() {
 			if( Messenger != null ) _listener?.Dispose();
 
-			if( AssociatedObject != null ) {
-				AssociatedObject.Loaded -= AssociatedObjectLoaded;
-				AssociatedObject.Unloaded -= AssociatedObjectUnloaded;
-			}
-
 			base.OnDetaching();
+		}
+
+		#region Dispose
+		public void Dispose() {
+			Dispose( true );
+			GC.SuppressFinalize( this );
 		}
 
 		private bool _disposed;
@@ -158,5 +112,6 @@ namespace Sylpha.Messaging.Behaviors {
 			_listener?.Dispose();
 			_disposed = true;
 		}
+		#endregion
 	}
 }
