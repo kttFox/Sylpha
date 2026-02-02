@@ -4,7 +4,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="LivetCask.Behaviors/LivetCask.Behaviors.csproj" />
   <Project Path="LivetCask.EventListeners/LivetCask.EventListeners.csproj" />
   <Project Path="LivetCask.Extensions/LivetCask.Extensions.csproj" />
   <Project Path="LivetCask.Messaging/LivetCask.Messaging.csproj" />

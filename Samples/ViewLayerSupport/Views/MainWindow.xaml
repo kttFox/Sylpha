@@ -38,30 +38,6 @@
 		<TextBlock FontSize="32"
 				   Text="View layer support sample" />
 		<Button Margin="5"
-				Content="TextBoxBindingSupportBehavior">
-			<i:Interaction.Triggers>
-				<i:EventTrigger EventName="Click">
-					<l:TransitionInteractionMessageAction>
-						<l:DirectInteractionMessage>
-							<l:TransitionMessage WindowType="{x:Type v:TextBoxBindingSupportBehaviorWindow}" />
-						</l:DirectInteractionMessage>
-					</l:TransitionInteractionMessageAction>
-				</i:EventTrigger>
-			</i:Interaction.Triggers>
-		</Button>
-		<Button Margin="5"
-				Content="PasswordBoxBindingSupportBehavior">
-			<i:Interaction.Triggers>
-				<i:EventTrigger EventName="Click">
-					<l:TransitionInteractionMessageAction>
-						<l:DirectInteractionMessage>
-							<l:TransitionMessage WindowType="{x:Type v:PasswordBoxBindingSupportBehaviorWindow}" />
-						</l:DirectInteractionMessage>
-					</l:TransitionInteractionMessageAction>
-				</i:EventTrigger>
-			</i:Interaction.Triggers>
-		</Button>
-		<Button Margin="5"
 				Content="LivetCallMethodAction">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">

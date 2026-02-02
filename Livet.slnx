@@ -25,7 +25,6 @@
   </Folder>
   <Project Path="Livet.Annotations/Livet.Annotations.shproj" />
   <Project Path="Livet.Test/Livet.Test.csproj" />
-  <Project Path="LivetCask.Behaviors/LivetCask.Behaviors.csproj" />
   <Project Path="LivetCask.EventListeners/LivetCask.EventListeners.csproj" />
   <Project Path="LivetCask.Extensions/LivetCask.Extensions.csproj" />
   <Project Path="LivetCask.Messaging/LivetCask.Messaging.csproj" />
