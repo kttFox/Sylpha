@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Sylpha Window (WPF)</Name>
+    <Description>Create a Window class for Sylpha.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>100</SortOrder>
+	<TemplateID>F24F899D-76D8-4AE7-BC85-4DC720FB1F17</TemplateID>
+    <DefaultName>Window.xaml</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <Icon>Sylpha64.png</Icon>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true" TargetFileName="$fileinputname$.xaml">Window.xaml</ProjectItem>
+    <ProjectItem ReplaceParameters="true" SubType="Code" TargetFileName="$fileinputname$.xaml.cs">Window.xaml.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

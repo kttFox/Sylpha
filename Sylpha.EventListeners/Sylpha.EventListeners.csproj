@@ -8,27 +8,27 @@
     <PackageId>Sylpha.EventListeners</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>kttFox</Authors>
-    <Description>
-      Livet is the infrastructure of MVVM pattern on WPF.
-It supports .NET Framework 4.5.2 or later and .NET Core 3.1, and licensed as zlib/libpng.
-This package is for useful event listeners using weak event pattern for MVVM pattern.
-    </Description>
-    <Copyright>Copyright (c) 2025 kttFox</Copyright>
+    <Description>Sylpha is an MVVM infrastructure framework for WPF.
+This package provides EventListeners.</Description>
+    <Copyright>Copyright (c) 2026 kttFox</Copyright>
     <PackageLicenseFile>license-en.txt</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/runceel/Livet</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/ugaya40/Livet/master/Images/Livet.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/runceel/Livet</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/kttFox/Sylpha</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/kttFox/Sylpha</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>MVVM WPF</PackageTags>
+    <PackageTags>Sylpha, WPF, MVVM, EventListener, WeakEventListener</PackageTags>
     <NeutralLanguage />
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
     <Version>$(PackageVersion)</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SylphaSnk\opensource.snk</AssemblyOriginatorKeyFile>
+    <PackageIcon>Sylpha.png</PackageIcon>
   </PropertyGroup>
-
   <ItemGroup>
+    <None Include="..\Images\Sylpha.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\license-en.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

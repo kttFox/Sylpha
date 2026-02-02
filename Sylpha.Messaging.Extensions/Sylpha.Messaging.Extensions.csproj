@@ -1,64 +1,65 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="..\Sylpha.props" />
+  <Import Project="..\Sylpha.props" />
 
-	<PropertyGroup>
-		<LangVersion>10</LangVersion>
-		<UseWpf>true</UseWpf>
-		<UseWindowsForms>true</UseWindowsForms>
-		<RootNamespace>Sylpha</RootNamespace>
-		<AssemblyName>Sylpha.Messaging.Extensions</AssemblyName>
-		<PackageId>Sylpha.Messaging.Extensions</PackageId>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Authors>kttFox</Authors>
-		<Description>
-			An assembly for Livet extension. Currently, there is folder browser features.
-		</Description>
-		<Copyright>Copyright (c) 2025 kttFox</Copyright>
-		<PackageLicenseFile>license-en.txt</PackageLicenseFile>
-		<PackageProjectUrl>https://github.com/runceel/Livet</PackageProjectUrl>
-		<PackageIconUrl>https://raw.githubusercontent.com/ugaya40/Livet/master/Images/Livet.png</PackageIconUrl>
-		<RepositoryUrl>https://github.com/runceel/Livet</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageTags>MVVM WPF</PackageTags>
-		<NeutralLanguage />
-		<AssemblyVersion>$(Version)</AssemblyVersion>
-		<FileVersion>$(Version)</FileVersion>
-		<Version>$(PackageVersion)</Version>
-		<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>..\SylphaSnk\opensource.snk</AssemblyOriginatorKeyFile>
-	</PropertyGroup>
+  <PropertyGroup>
+    <UseWpf>true</UseWpf>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>Sylpha</RootNamespace>
+    <AssemblyName>Sylpha.Messaging.Extensions</AssemblyName>
+    <PackageId>Sylpha.Messaging.Extensions</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>kttFox</Authors>
+    <Description>This is an extension library for Sylpha.Messaging.
+This package adds folder browser functionality using the Windows API.</Description>
+    <Copyright>Copyright (c) 2026 kttFox</Copyright>
+    <PackageLicenseFile>license-en.txt</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/kttFox/Sylpha</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/kttFox/Sylpha</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Sylpha, WPF, MVVM, Messenger</PackageTags>
+    <NeutralLanguage />
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <FileVersion>$(Version)</FileVersion>
+    <Version>$(PackageVersion)</Version>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\SylphaSnk\opensource.snk</AssemblyOriginatorKeyFile>
+    <PackageIcon>Sylpha.png</PackageIcon>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="InternalReservedAttributeGenerator" Version="0.1.2" />
-		<PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
-		<PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31">
-		</PackageReference>
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31">
+    </PackageReference>
+  </ItemGroup>
 
-	<ItemGroup>
-		<None Include="..\license-en.txt">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\license-en.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\Images\Sylpha.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Sylpha.Messaging\Sylpha.Messaging.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sylpha.Messaging\Sylpha.Messaging.csproj" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<DependentUpon>Resources.resx</DependentUpon>
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-		</Compile>
-	</ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-			<Generator>ResXFileCodeGenerator</Generator>
-		</EmbeddedResource>
-	</ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

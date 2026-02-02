@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Sylpha.props" />
+	
   <PropertyGroup>
     <UseWpf>true</UseWpf>
     <RootNamespace>Sylpha</RootNamespace>
@@ -7,37 +8,39 @@
     <PackageId>Sylpha.Messaging</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>kttFox</Authors>
-    <Description>
-      Livet is the infrastructure of MVVM pattern on WPF.
-It supports .NET Framework 4.5.2 or later and .NET Core 3.1, and licensed as zlib/libpng.
-This package is for useful messaging features between View layer and ViewModel layer for MVVM pattern.
-    </Description>
-    <Copyright>Copyright (c) 2025 kttFox</Copyright>
-    <PackageLicenseFile>license-en.txt</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/runceel/Livet</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/ugaya40/Livet/master/Images/Livet.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/runceel/Livet</RepositoryUrl>
+    <Description>Sylpha is an MVVM infrastructure framework for WPF.
+This package provides MVVM messaging between Views and ViewModels.</Description>
+    <Copyright>Copyright (c) 2026 kttFox</Copyright>
+	<PackageLicenseFile>license-en.txt</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/kttFox/Sylpha</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/kttFox/Sylpha</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>MVVM WPF</PackageTags>
+    <PackageTags>Sylpha, WPF, MVVM, Messaging, Messenger, Message</PackageTags>
     <NeutralLanguage />
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
     <Version>$(PackageVersion)</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SylphaSnk\opensource.snk</AssemblyOriginatorKeyFile>
+    <PackageIcon>Sylpha.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Include="..\Images\Sylpha.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\license-en.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <ProjectReference Include="..\Sylpha.EventListeners\Sylpha.EventListeners.csproj" />

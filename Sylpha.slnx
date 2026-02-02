@@ -1,8 +1,4 @@
 <Solution>
-  <Configurations>
-    <Platform Name="Any CPU" />
-    <Platform Name="x86" />
-  </Configurations>
   <Folder Name="/Samples/">
     <Project Path="Samples/ViewLayerSupport/ViewLayerSupport.csproj" />
   </Folder>
@@ -11,14 +7,14 @@
     <File Path="Sylpha.props" />
   </Folder>
   <Folder Name="/Templates/">
-    <Project Path="Templates/Sylpha.Extensibility/Sylpha.Extensibility.csproj" Id="1e6a8600-faee-4a7b-8118-7366ec8e0582" />
-    <Project Path="Templates/Sylpha.ProjectTemplate.CSharp.NETCore/Sylpha.ProjectTemplate.CSharp.NETCore.csproj" Id="e6999a6d-614b-4d41-bae2-14fb16d1bd2c" />
-    <Project Path="Templates/Sylpha.ProjectTemplate.CSharp/Sylpha.ProjectTemplate.CSharp.csproj" Id="7c69d055-0538-4f7c-a11f-623dfeeab1a7" />
+    <Project Path="Templates/Sylpha.Extensibility/Sylpha.Extensibility.csproj" Id="cab30e9f-830c-402b-82DB-3fac30c195f3" />
+    <Project Path="Templates/Sylpha.ProjectTemplate.NETCore/Sylpha.ProjectTemplate.NETCore.csproj" Id="dc80f20a-1f81-450e-9149-e6bd1b5dc5e0" />
+    <Project Path="Templates/Sylpha.ProjectTemplate/Sylpha.ProjectTemplate.csproj" Id="8ef5969e-edf0-45b2-b3bd-869881cee73f" />
   </Folder>
   <Folder Name="/Templates/ItemTemplates/">
-    <Project Path="Templates/ItemTemplates/SylphaModel.CSharp/SylphaModel.CSharp.csproj" Id="af7a7eaa-0999-4619-80fe-41bbc58fbbb0" />
-    <Project Path="Templates/ItemTemplates/SylphaViewModel.CSharp/SylphaViewModel.CSharp.csproj" Id="7de713e7-01c0-4223-ac06-cb53ac65a78c" />
-    <Project Path="Templates/ItemTemplates/SylphaWindow.CSharp/SylphaWindow.CSharp.csproj" Id="794a2b28-e4aa-4cc8-bcd0-acf3d2068cde" />
+    <Project Path="Templates/ItemTemplates/Sylpha.Model/Sylpha.Model.csproj" Id="796ca9fb-cb54-477e-83e9-f323d6c52850" />
+    <Project Path="Templates/ItemTemplates/Sylpha.ViewModel/Sylpha.ViewModel.csproj" Id="d7bc7f39-8f83-4e5c-bc37-05c99ffd7faa" />
+    <Project Path="Templates/ItemTemplates/Sylpha.Window/Sylpha.Window.csproj" Id="4023567e-b348-44cc-8b5b-c8032baf1376" />
   </Folder>
   <Project Path="Sylpha.Test/Sylpha.Test.csproj" />
   <Project Path="Sylpha.EventListeners/Sylpha.EventListeners.csproj" />

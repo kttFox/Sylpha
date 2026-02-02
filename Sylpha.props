@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Version>4.0.2</Version>
+    <Version>1.0</Version>
     <PackageVersion>$(Version)</PackageVersion>
 	<TargetFrameworks>net6.0-windows;net462;net48</TargetFrameworks>
 	<LangVersion>14</LangVersion>

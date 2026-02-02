@@ -21,7 +21,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{1E6A8600-FAEE-4A7B-8118-7366EC8E0582}</ProjectGuid>
+    <ProjectGuid>{CAB30E9F-830C-402B-82DB-3FAC30C195F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sylpha.Extensibility</RootNamespace>
@@ -58,9 +58,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Livet.png">
+    <Content Include="..\..\license-en.txt">
+      <Link>license-en.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\license-jp.txt">
+      <Link>license-jp.txt</Link>
     </Content>
     <Content Include="snippets.pkgdef">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -81,11 +85,6 @@
     <Content Include="Snippets\CSharp\SylphaSnippets\SylphaViewModelCommand_CSharp.snippet">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <None Include="license-en.rtf" />
-    <Content Include="license-jp.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include="Snippets\CSharp\SylphaSnippets\SylphaShortProperty_CSharp.snippet">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -94,44 +93,49 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Livet.ico">
+    <Content Include="..\..\Images\Sylpha.ico">
+      <Link>Sylpha.ico</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="stylesheet.css" />
+    <Content Include="..\..\Images\Sylpha.png">
+      <Link>Sylpha.png</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ItemTemplates\SylphaModel.CSharp\SylphaModel.CSharp.csproj">
-      <Project>{AF7A7EAA-0999-4619-80FE-41BBC58FBBB0}</Project>
-      <Name>SylphaModel.CSharp</Name>
+    <ProjectReference Include="..\ItemTemplates\Sylpha.Model\Sylpha.Model.csproj">
+      <Project>{796CA9FB-CB54-477E-83E9-F323D6C52850}</Project>
+      <Name>Sylpha.Model</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\ItemTemplates\SylphaViewModel.CSharp\SylphaViewModel.CSharp.csproj">
-      <Project>{7DE713E7-01C0-4223-AC06-CB53AC65A78C}</Project>
-      <Name>SylphaViewModel.CSharp</Name>
+    <ProjectReference Include="..\ItemTemplates\Sylpha.ViewModel\Sylpha.ViewModel.csproj">
+      <Project>{D7BC7F39-8F83-4E5C-BC37-05C99FFD7FAA}</Project>
+      <Name>Sylpha.ViewModel</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\ItemTemplates\SylphaWindow.CSharp\SylphaWindow.CSharp.csproj">
-      <Project>{794A2B28-E4AA-4CC8-BCD0-ACF3D2068CDE}</Project>
-      <Name>SylphaWindow.CSharp</Name>
+    <ProjectReference Include="..\ItemTemplates\Sylpha.Window\Sylpha.Window.csproj">
+      <Project>{4023567E-B348-44CC-8B5B-C8032BAF1376}</Project>
+      <Name>Sylpha.Window</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\Sylpha.ProjectTemplate.CSharp.NETCore\Sylpha.ProjectTemplate.CSharp.NETCore.csproj">
-      <Project>{E6999A6D-614B-4D41-BAE2-14FB16D1BD2C}</Project>
-      <Name>Sylpha.ProjectTemplate.CSharp.NETCore</Name>
+    <ProjectReference Include="..\Sylpha.ProjectTemplate.NETCore\Sylpha.ProjectTemplate.NETCore.csproj">
+      <Project>{DC80F20A-1F81-450E-9149-E6BD1B5DC5E0}</Project>
+      <Name>Sylpha.ProjectTemplate.NETCore</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\Sylpha.ProjectTemplate.CSharp\Sylpha.ProjectTemplate.CSharp.csproj">
-      <Project>{7C69D055-0538-4F7C-A11F-623DFEEAB1A7}</Project>
-      <Name>Sylpha.ProjectTemplate.CSharp</Name>
+    <ProjectReference Include="..\Sylpha.ProjectTemplate\Sylpha.ProjectTemplate.csproj">
+      <Project>{8EF5969E-EDF0-45B2-B3BD-869881CEE73F}</Project>
+      <Name>Sylpha.ProjectTemplate</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>

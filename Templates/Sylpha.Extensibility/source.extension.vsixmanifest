@@ -3,14 +3,14 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011"
                  xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Sylpha.Extensibility.084f01b5-62d7-4528-8c21-e58fe0e6ba24" Version="4.0.0" Language="en-US"
-                  Publisher="Kazuki Ohta" />
+        <Identity Id="Sylpha.Extensibility.C7094021-182A-4C48-9B3E-AD2050C478A6" Version="1.0.0" Language="en-US"
+                  Publisher="kttFox" />
         <DisplayName>Sylpha</DisplayName>
-        <Description xml:space="preserve">Provide a project template, item templates and code snippets for development WPF app using Livet and C#.</Description>
-        <MoreInfo>https://github.com/runceel/Livet</MoreInfo>
-        <License>license-jp.rtf</License>
-        <Icon>Livet.ico</Icon>
-        <PreviewImage>Livet.png</PreviewImage>
+        <Description xml:space="preserve">Provide a project template and code snippets for development WPF app using Sylpha and C#.</Description>
+        <MoreInfo>https://github.com/kttFox/Sylpha</MoreInfo>
+        <License>license-en.txt</License>
+        <Icon>Sylpha.ico</Icon>
+        <PreviewImage>Sylpha.png</PreviewImage>
         <Tags>WPF, MVVM, Sylpha</Tags>
     </Metadata>
     <Installation>
@@ -22,34 +22,22 @@
         </InstallationTarget>
     </Installation>
     <Dependencies>
-        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
     </Dependencies>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project"
-               d:ProjectName="Sylpha.ProjectTemplate.CSharp"
-               d:TargetPath="|Sylpha.ProjectTemplate.CSharp;TemplateProjectOutputGroup|" Path="ProjectTemplates"
+               d:ProjectName="Sylpha.ProjectTemplate"
+               d:TargetPath="|Sylpha.ProjectTemplate;TemplateProjectOutputGroup|" Path="ProjectTemplates"
                d:VsixSubPath="ProjectTemplates" />
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="File" Path="snippets.pkgdef" />
-        <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project"
-               d:ProjectName="SylphaInteractionMessageAction.CSharp"
-               d:TargetPath="|SylphaInteractionMessageAction.CSharp;TemplateProjectOutputGroup|" Path="ItemTemplates"
-               d:VsixSubPath="ItemTemplates" />
-        <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="SylphaMessage.CSharp"
-               d:TargetPath="|SylphaMessage.CSharp;TemplateProjectOutputGroup|" Path="ItemTemplates"
-               d:VsixSubPath="ItemTemplates" />
-        <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="SylphaModel.CSharp"
-               d:TargetPath="|SylphaModel.CSharp;TemplateProjectOutputGroup|" Path="ItemTemplates"
-               d:VsixSubPath="ItemTemplates" />
-        <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="SylphaViewModel.CSharp"
-               d:TargetPath="|SylphaViewModel.CSharp;TemplateProjectOutputGroup|" Path="ItemTemplates"
-               d:VsixSubPath="ItemTemplates" />
-        <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="SylphaWindow.CSharp"
-               d:TargetPath="|SylphaWindow.CSharp;TemplateProjectOutputGroup|" Path="ItemTemplates"
+        <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="Sylpha.Window"
+               d:TargetPath="|Sylpha.Window;TemplateProjectOutputGroup|" Path="ItemTemplates"
                d:VsixSubPath="ItemTemplates" />
         <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project"
-               d:ProjectName="Sylpha.ProjectTemplate.CSharp.NETCore"
-               d:TargetPath="|Sylpha.ProjectTemplate.CSharp.NETCore;TemplateProjectOutputGroup|" Path="ProjectTemplates"
+               d:ProjectName="Sylpha.ProjectTemplate.NETCore"
+               d:TargetPath="|Sylpha.ProjectTemplate.NETCore;TemplateProjectOutputGroup|" Path="ProjectTemplates"
                d:VsixSubPath="ProjectTemplates" />
+        <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="Sylpha.ViewModel" d:TargetPath="|Sylpha.ViewModel;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+        <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="Sylpha.Model" d:TargetPath="|Sylpha.Model;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
     </Assets>
     <Prerequisites>
         <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0, 18.0)" DisplayName="Visual Studio core editor" />
