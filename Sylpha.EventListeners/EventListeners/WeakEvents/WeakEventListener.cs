@@ -1,20 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using JetBrains.Annotations;
 
 namespace Sylpha.EventListeners.WeakEvents {
 	/// <summary>
-	/// 汎用WeakEventリスナオブジェクトです。
+	/// 汎用WeakEventリスナーオブジェクトです。
 	/// </summary>
 	/// <typeparam name="THandler">対象のイベントのイベントハンドラ型</typeparam>
 	/// <typeparam name="TEventArgs">対象のイベントのイベント引数型</typeparam>
 	[PublicAPI]
-	public class WeakEventListener<THandler, TEventArgs> : IDisposable where TEventArgs : EventArgs {
-		private readonly bool _initialized;
-		private EventHandler<TEventArgs>? _handler;
-		private Action<THandler>? _remove;
-		private THandler? _resultHandler;
+	public class WeakEventListener<THandler, TEventArgs> : IDisposable where THandler : Delegate where TEventArgs : EventArgs {
 
+#pragma warning disable CS8618 // null 非許容のフィールドには、コンストラクターの終了時に非 null 値が入っていなければなりません。'required' 修飾子を追加するか、null 許容として宣言することを検討してください。
+		/// <summary>
+		/// 継承先ではInitializeを呼び出して初期化を行ってください。
+		/// </summary>
 		protected WeakEventListener() { }
+#pragma warning restore CS8618
 
 		/// <summary>
 		/// コンストラクタ
@@ -30,7 +34,6 @@ namespace Sylpha.EventListeners.WeakEvents {
 			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
 
 			Initialize( conversion, add, remove, handler );
-			_initialized = true;
 		}
 
 		private static void ReceiveEvent( WeakReference<WeakEventListener<THandler, TEventArgs>> listenerWeakReference, object? sender, TEventArgs args ) {
@@ -48,8 +51,16 @@ namespace Sylpha.EventListeners.WeakEvents {
 			return conversion( ( sender, e ) => ReceiveEvent( listenerWeakReference, sender, e ) );
 		}
 
+		private bool _initialized;
+
+		private EventHandler<TEventArgs> _handler;
+		private Action<THandler> _remove;
+		private THandler _attachHandler;
+
+		[MemberNotNull( nameof( _handler ), nameof( _remove ), nameof( _attachHandler ) )]
 		protected void Initialize( Func<EventHandler<TEventArgs>, THandler> conversion, Action<THandler> add, Action<THandler> remove, EventHandler<TEventArgs> handler ) {
-			if( _initialized ) return;
+			if( _initialized ) throw new Exception( "すでにInitialize済みです。" );
+			_initialized = true;
 
 			if( conversion == null ) throw new ArgumentNullException( nameof( conversion ) );
 			if( add == null ) throw new ArgumentNullException( nameof( add ) );
@@ -57,26 +68,25 @@ namespace Sylpha.EventListeners.WeakEvents {
 			_handler = handler ?? throw new ArgumentNullException( nameof( handler ) );
 			_remove = remove ?? throw new ArgumentNullException( nameof( remove ) );
 
-			_resultHandler = GetStaticHandler( new WeakReference<WeakEventListener<THandler, TEventArgs>>( this ), conversion );
+			_attachHandler = GetStaticHandler( new WeakReference<WeakEventListener<THandler, TEventArgs>>( this ), conversion );
 
-			add( _resultHandler );
+			add( _attachHandler );
 		}
 
 		#region Dispose
-		protected virtual void Dispose( bool disposing ) {
-			if( _disposed ) return;
-
-			if( disposing ) {
-				_remove?.Invoke( _resultHandler! );
-				_handler = null;
-				_resultHandler = default;
-				_remove = null;
-			}
-
-			_disposed = true;
-		}
-
 		private bool _disposed;
+
+		protected virtual void Dispose( bool disposing ) {
+			if( !_disposed ) {
+				_disposed = true;
+				if( disposing ) {
+					_remove( _attachHandler );
+					_handler = default!;
+					_remove = default!;
+					_attachHandler = default!;
+				}
+			}
+		}
 
 		/// <summary>
 		/// イベントソースとの接続を解除します。

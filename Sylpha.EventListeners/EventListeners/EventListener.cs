@@ -4,11 +4,19 @@ using JetBrains.Annotations;
 
 namespace Sylpha.EventListeners {
 	/// <summary>
-	/// 汎用イベントリスナオブジェクトです。
+	/// 汎用イベントリスナーオブジェクトです。
 	/// </summary>
 	/// <typeparam name="THandler">イベントハンドラーの型</typeparam>
 	[PublicAPI]
-	public class EventListener<THandler> : IDisposable where THandler : class {
+	public class EventListener<THandler> : IDisposable where THandler : Delegate {
+		
+#pragma warning disable CS8618 // null 非許容のフィールドには、コンストラクターの終了時に非 null 値が入っていなければなりません。'required' 修飾子を追加するか、null 許容として宣言することを検討してください。
+		/// <summary>
+		/// 継承先ではInitializeを呼び出して初期化を行ってください。
+		/// </summary>
+		protected EventListener() { }
+#pragma warning restore CS8618
+
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
@@ -23,26 +31,21 @@ namespace Sylpha.EventListeners {
 			Initialize( add, remove, handler );
 		}
 
-		protected EventListener() { }
-		
-
 		private bool _initialized;
 
-		private Action<THandler>? _remove;
-		private THandler? _handler;
+		private Action<THandler> _remove;
+		private THandler _handler;
 
-		[MemberNotNull( nameof( _remove ), nameof( _handler ) )]
+		[MemberNotNull( nameof( _handler ), nameof( _remove ) )]
 		protected void Initialize( Action<THandler> add, Action<THandler> remove, THandler handler ) {
-			if( _initialized ) {
-				throw new Exception( "すでに初期化済みです。" );
-			}
+			if( _initialized ) { throw new Exception( "すでに初期化済みです。" ); }
+			_initialized = true;
 
 			if( add == null ) throw new ArgumentNullException( nameof( add ) );
-			_handler = handler ?? throw new ArgumentNullException( nameof( handler ) );
 			_remove = remove ?? throw new ArgumentNullException( nameof( remove ) );
+			_handler = handler ?? throw new ArgumentNullException( nameof( handler ) );
 
 			add( handler );
-			_initialized = true;
 		}
 
 		#region Dispose
@@ -51,7 +54,7 @@ namespace Sylpha.EventListeners {
 				_disposed = true;
 
 				if( disposing ) {
-					_remove?.Invoke( _handler! );
+					_remove( _handler );
 				}
 			}
 		}

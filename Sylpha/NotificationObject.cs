@@ -29,10 +29,8 @@ namespace Sylpha {
 		// ReSharper disable once UnusedParameter.Global
 		protected virtual void RaisePropertyChanged<T>( ref T source, Expression<Func<T>> propertyExpression ) {
 			if( propertyExpression == null ) throw new ArgumentNullException( nameof( propertyExpression ) );
-
-			if( propertyExpression.Body is not MemberExpression ) throw new NotSupportedException( "このメソッドでは ()=>プロパティ の形式のラムダ式以外許可されません" );
-
-			var memberExpression = (MemberExpression)propertyExpression.Body;
+			if( propertyExpression.Body is not MemberExpression memberExpression ) throw new NotSupportedException( "このメソッドでは ()=>プロパティ の形式のラムダ式以外許可されません" );
+			
 			RaisePropertyChanged( memberExpression.Member.Name );
 		}
 
@@ -55,17 +53,15 @@ namespace Sylpha {
 		/// <returns>値の変更有無</returns>
 		[NotifyPropertyChangedInvocator]
 		protected bool SetProperty<T>( ref T source, T value, [CallerMemberName] string propertyName = "" ) {
-			//値が同じだったら何もしない
 			if( EqualityComparer<T>.Default.Equals( source, value ) ) {
 				return false;
 			}
 
 			source = value;
 			RaisePropertyChanged( propertyName );
-
 			return true;
 		}
 
-		
+
 	}
 }
