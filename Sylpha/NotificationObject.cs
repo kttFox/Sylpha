@@ -27,7 +27,7 @@ namespace Sylpha {
 		/// <exception cref="NotSupportedException">() => プロパティ 以外の形式のラムダ式が指定されました。</exception>
 		[NotifyPropertyChangedInvocator]
 		// ReSharper disable once UnusedParameter.Global
-		protected virtual void RaisePropertyChanged<T>( ref T source, Expression<Func<T>> propertyExpression ) {
+		protected virtual void RaisePropertyChanged<T>( Expression<Func<T>> propertyExpression ) {
 			if( propertyExpression == null ) throw new ArgumentNullException( nameof( propertyExpression ) );
 			if( propertyExpression.Body is not MemberExpression memberExpression ) throw new NotSupportedException( "このメソッドでは ()=>プロパティ の形式のラムダ式以外許可されません" );
 			
