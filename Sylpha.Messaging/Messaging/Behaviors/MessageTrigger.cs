@@ -5,7 +5,7 @@ using Sylpha.EventListeners.WeakEvents;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// ViewModelからの相互作用メッセージを受信し、アクションを実行します。
+	/// ViewModelからのメッセージを受信し、アクションを実行します。
 	/// </summary>
 	public class MessageTrigger : TriggerBase<FrameworkElement>, IDisposable {
 		// Using a DependencyProperty as the backing store for Messenger.  This enables animation, styling, binding, etc...
@@ -51,8 +51,8 @@ namespace Sylpha.Messaging.Behaviors {
 		}
 
 		/// <summary>
-		/// このトリガーが反応する相互作用メッセージのメッセージキーを指定、または取得します。<br />
-		/// このプロパティが指定されていない場合、このトリガーは全ての相互作用メッセージに反応します。
+		/// このトリガーが反応するメッセージのメッセージキーを指定、または取得します。<br />
+		/// このプロパティが指定されていない場合、このトリガーは全てのメッセージに反応します。
 		/// </summary>
 		public string? MessageKey { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// Windowを最大化・最小化・閉じる・通常化させるための相互作用メッセージです。
+	/// Windowを最大化・最小化・閉じる・通常化させるためのメッセージです。
 	/// </summary>
 	public class WindowActionMessage : Message {
 		// Using a DependencyProperty as the backing store for Action.  This enables animation, styling, binding, etc...
@@ -12,13 +12,13 @@ namespace Sylpha.Messaging {
 		public WindowActionMessage() { }
 
 		/// <summary>
-		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// メッセージキーを指定して新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public WindowActionMessage( string? messageKey ) : base( messageKey ) { }
 
 		/// <summary>
-		/// メッセージキーとWindowが遷移すべき状態を定義して、新しい相互作用メッセージのインスタンスを生成します。
+		/// メッセージキーとWindowが遷移すべき状態を定義して、新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="action">Windowが遷移すべき状態を表すWindowAction列挙体</param>
 		/// <param name="messageKey">メッセージキー</param>

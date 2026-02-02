@@ -3,8 +3,8 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// 相互作用メッセージの基底クラスです。<br />
-	/// Viewからのアクション実行後、戻り値情報が必要ない相互作用メッセージを作成する場合はこのクラスを継承して相互作用メッセージを作成します。
+	/// メッセージの基底クラスです。<br />
+	/// Viewからのアクション実行後、戻り値情報が必要ないメッセージを作成する場合はこのクラスを継承してメッセージを作成します。
 	/// </summary>
 	[PublicAPI]
 	public class Message : Freezable {
@@ -15,7 +15,7 @@ namespace Sylpha.Messaging {
 		public Message() { }
 
 		/// <summary>
-		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// メッセージキーを指定して新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public Message( string? messageKey ) {

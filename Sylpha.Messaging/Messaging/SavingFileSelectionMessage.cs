@@ -2,7 +2,7 @@
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// ファイルを保存する 用の相互作用メッセージです。
+	/// ファイルを保存する 用のメッセージです。
 	/// </summary>
 	public class SavingFileSelectionMessage : FileSelectionMessage {
 		// Using a DependencyProperty as the backing store for CreatePrompt.  This enables animation, styling, binding, etc...
@@ -16,7 +16,7 @@ namespace Sylpha.Messaging {
 		public SavingFileSelectionMessage() { }
 
 		/// <summary>
-		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// メッセージキーを指定して新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public SavingFileSelectionMessage( string? messageKey ) : base( messageKey ) { }

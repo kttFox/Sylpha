@@ -20,7 +20,7 @@ namespace Sylpha.Messaging {
 		public InformationMessage() { }
 
 		/// <summary>
-		/// 表示するメッセージ・キャプション・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージキーを指定して、新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
@@ -32,7 +32,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージキーを指定して、新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>

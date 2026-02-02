@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// 画面遷移アクション用の相互作用メッセージです。
+	/// 画面遷移アクション用のメッセージです。
 	/// </summary>
 	[ContentProperty( nameof(TransitionViewModel) )]
 	[PublicAPI]
@@ -26,20 +26,20 @@ namespace Sylpha.Messaging {
 		public TransitionMessage() { }
 
 		/// <summary>
-		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// メッセージキーを指定して新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public TransitionMessage( string? messageKey ) : base( messageKey ) { }
 
 		/// <summary>
-		/// 新しいWindowのDataContextに設定するViewModelとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// 新しいWindowのDataContextに設定するViewModelとメッセージキーを指定して新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		/// <param name="messageKey">メッセージキー</param>
 		public TransitionMessage( INotifyPropertyChanged transitionViewModel, string? messageKey ) : this( null, transitionViewModel, TransitionMode.UnKnown, messageKey ) { }
 
 		/// <summary>
-		/// 新しいWindowのDataContextに設定するViewModelと画面遷移モードとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// 新しいWindowのDataContextに設定するViewModelと画面遷移モードとメッセージキーを指定して新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		/// <param name="mode">画面遷移の方法を決定するTransitionMode列挙体。初期値はUnKnownです。</param>
@@ -47,7 +47,7 @@ namespace Sylpha.Messaging {
 		public TransitionMessage( INotifyPropertyChanged transitionViewModel, TransitionMode mode, string? messageKey ) : this( null, transitionViewModel, mode, messageKey ) { }
 
 		/// <summary>
-		/// 新しいWindowの型と新しいWindowに設定するViewModel、画面遷移モードとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// 新しいWindowの型と新しいWindowに設定するViewModel、画面遷移モードとメッセージキーを指定して新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="windowType">新しいWindowの型</param>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
@@ -66,13 +66,13 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		/// 新しいWindowのDataContextに設定するViewModelを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// 新しいWindowのDataContextに設定するViewModelを指定して新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		public TransitionMessage( INotifyPropertyChanged transitionViewModel ) : this( null, transitionViewModel, TransitionMode.UnKnown ) { }
 
 		/// <summary>
-		/// 新しいWindowのDataContextに設定するViewModelと画面遷移モードを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// 新しいWindowのDataContextに設定するViewModelと画面遷移モードを指定して新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		/// <param name="mode">画面遷移の方法を決定するTransitionMode列挙体。初期値はUnKnownです。</param>

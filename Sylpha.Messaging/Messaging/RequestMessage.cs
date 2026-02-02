@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// 戻り値のある相互作用メッセージの抽象基底クラスです。
+	/// 戻り値のあるメッセージの抽象基底クラスです。
 	/// </summary>
 	public abstract class RequestMessage : Message {
 		internal RequestMessage() { }
@@ -15,7 +15,7 @@ namespace Sylpha.Messaging {
 	}
 
 	/// <summary>
-	/// 戻り値のある相互作用メッセージの基底クラスです。
+	/// 戻り値のあるメッセージの基底クラスです。
 	/// </summary>
 	/// <typeparam name="TResult"></typeparam>
 	[PublicAPI]
@@ -23,7 +23,7 @@ namespace Sylpha.Messaging {
 		public RequestMessage() { }
 
 		/// <summary>
-		/// メッセージキーを使用して、戻り値のある新しい相互作用メッセージのインスタンスを生成します
+		/// メッセージキーを使用して、戻り値のある新しいメッセージのインスタンスを生成します
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public RequestMessage( string? messageKey ) : base( messageKey ) { }

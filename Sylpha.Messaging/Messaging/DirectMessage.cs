@@ -5,7 +5,7 @@ using System.Windows.Markup;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// Viewから直接相互作用メッセージを定義する際に使用します。
+	/// Viewから直接メッセージを定義する際に使用します。
 	/// </summary>
 	[ContentProperty( nameof(Message) )]
 	public class DirectMessage : Freezable {
@@ -37,7 +37,7 @@ namespace Sylpha.Messaging {
 
 		/// <summary>
 		/// アクション実行後に実行するコマンドを指定、または取得します<br />
-		/// このプロパティが設定されていた場合、アクションの実行後アクションの実行に使用した相互作用メッセージをパラメータとしてコマンドを呼び出します。
+		/// このプロパティが設定されていた場合、アクションの実行後アクションの実行に使用したメッセージをパラメータとしてコマンドを呼び出します。
 		/// </summary>
 		public ICommand CallbackCommand {
 			get { return (ICommand)GetValue( CallbackCommandProperty ); }
@@ -46,7 +46,7 @@ namespace Sylpha.Messaging {
 
 		/// <summary>
 		/// アクション実行後に実行するメソッドを持つオブジェクトを指定、または取得します<br />
-		/// このプロパティとCallbackMethodNameが設定されていた場合、アクションの実行後アクションの実行に使用した相互作用メッセージをパラメータとしてメソッドを呼び出します。
+		/// このプロパティとCallbackMethodNameが設定されていた場合、アクションの実行後アクションの実行に使用したメッセージをパラメータとしてメソッドを呼び出します。
 		/// </summary>
 		public object CallbackMethodTarget {
 			get { return GetValue( CallbackMethodTargetProperty ); }
@@ -55,7 +55,7 @@ namespace Sylpha.Messaging {
 
 		/// <summary>
 		/// アクション実行後に実行するメソッドの名前を指定、または取得します<br />
-		/// このプロパティとCallbackMethodTargetが設定されていた場合、アクションの実行後アクションの実行に使用した相互作用メッセージをパラメータとしてメソッドを呼び出します。
+		/// このプロパティとCallbackMethodTargetが設定されていた場合、アクションの実行後アクションの実行に使用したメッセージをパラメータとしてメソッドを呼び出します。
 		/// </summary>
 		public string CallbackMethodName {
 			get { return (string)GetValue( CallbackMethodNameProperty ); }

@@ -2,7 +2,7 @@
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// 確認相互作用メッセージを表します。
+	/// 確認メッセージを表します。
 	/// </summary>
 	public class ConfirmationMessage : RequestMessage<bool?> {
 		// Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
@@ -26,7 +26,7 @@ namespace Sylpha.Messaging {
 			DependencyProperty.Register( nameof( DefaultResult ), typeof( MessageBoxResult ), typeof( ConfirmationMessage ), new PropertyMetadata( MessageBoxResult.OK ) );
 
 		/// <summary>
-		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージボックスボタン・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージボックスボタン・メッセージキーを指定して、新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
@@ -43,7 +43,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージボックスボタン・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージボックスボタン・メッセージキーを指定して、新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
@@ -53,7 +53,7 @@ namespace Sylpha.Messaging {
 		public ConfirmationMessage( string text, string caption, MessageBoxImage image, MessageBoxButton button, string? messageKey ) : this( text, caption, image, button, MessageBoxResult.OK, messageKey ) { }
 
 		/// <summary>
-		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージキーを指定して、新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
@@ -62,7 +62,7 @@ namespace Sylpha.Messaging {
 		public ConfirmationMessage( string text, string caption, MessageBoxImage image, string? messageKey ) : this( text, caption, image, MessageBoxButton.OK, messageKey ) { }
 
 		/// <summary>
-		/// 表示するメッセージ・キャプション・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
+		/// 表示するメッセージ・キャプション・メッセージキーを指定して、新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>

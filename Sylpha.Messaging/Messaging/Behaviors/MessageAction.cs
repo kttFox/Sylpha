@@ -5,7 +5,7 @@ using System.Windows.Markup;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// ViewModelからの相互作用メッセージに対応するアクションの基底抽象クラスです<br />
+	/// ViewModelからのメッセージに対応するアクションの基底抽象クラスです<br />
 	/// 独自のアクションを定義する場合はこのクラスを継承してください。
 	/// </summary>
 	/// <typeparam name="T">このアクションがアタッチ可能な型を示します。</typeparam>

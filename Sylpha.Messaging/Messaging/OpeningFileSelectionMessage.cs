@@ -2,7 +2,7 @@
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// ファイルを開く アクション用の相互作用メッセージです。
+	/// ファイルを開く アクション用のメッセージです。
 	/// </summary>
 	public class OpeningFileSelectionMessage : FileSelectionMessage {
 		// Using a DependencyProperty as the backing store for MultiSelect.  This enables animation, styling, binding, etc...
@@ -12,7 +12,7 @@ namespace Sylpha.Messaging {
 		public OpeningFileSelectionMessage() { }
 
 		/// <summary>
-		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
+		/// メッセージキーを指定して新しいメッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public OpeningFileSelectionMessage( string? messageKey ) : base( messageKey ) { }

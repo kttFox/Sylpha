@@ -2,7 +2,7 @@
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// ファイルを開く・ファイルを保存するアクション用の共通相互作用メッセージ基底抽象クラスです。<br />
+	/// ファイルを開く・ファイルを保存するアクション用の共通メッセージ基底抽象クラスです。<br />
 	/// ファイルを開くアクションをViewに行わせたい場合は、<see cref="FileSelectionMessage" />を使用してください。<br />
 	/// ファイルを保存するアクションをViewに行わせたい場合は、<see cref="SavingFileSelectionMessage" />を使用してください。
 	/// </summary>

@@ -8,9 +8,9 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	public class Messenger {
 		/// <summary>
-		/// 指定された相互作用メッセージを同期的に送信します。
+		/// 指定されたメッセージを同期的に送信します。
 		/// </summary>
-		/// <param name="message">相互作用メッセージ</param>
+		/// <param name="message">メッセージ</param>
 		public void Raise( Message message ) {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 			if( !message.IsFrozen ) message.Freeze();
@@ -19,11 +19,11 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		/// 指定された、戻り値情報のある相互作用メッセージを同期的に送信します。
+		/// 指定された、戻り値情報のあるメッセージを同期的に送信します。
 		/// </summary>
-		/// <typeparam name="T">戻り値情報のある相互作用メッセージの型</typeparam>
-		/// <param name="message">戻り値情報のある相互作用メッセージ</param>
-		/// <returns>アクション実行後に、戻り情報を含んだ相互作用メッセージ</returns>
+		/// <typeparam name="T">戻り値情報のあるメッセージの型</typeparam>
+		/// <param name="message">戻り値情報のあるメッセージ</param>
+		/// <returns>アクション実行後に、戻り情報を含んだメッセージ</returns>
 		public T GetResponse<T>( T message ) where T : RequestMessage {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 			if( !message.IsFrozen ) message.Freeze();
@@ -33,14 +33,14 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		/// 相互作用メッセージが送信された時に発生するイベントです。
+		/// メッセージが送信された時に発生するイベントです。
 		/// </summary>
 		public event EventHandler<MessageRaisedEventArgs>? Raised;
 
 		/// <summary>
-		/// 指定された相互作用メッセージを非同期で送信します。
+		/// 指定されたメッセージを非同期で送信します。
 		/// </summary>
-		/// <param name="message">相互作用メッセージ</param>
+		/// <param name="message">メッセージ</param>
 		public async Task RaiseAsync( Message message ) {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
@@ -50,10 +50,10 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		/// 指定された、戻り値情報のある相互作用メッセージを非同期で送信します。
+		/// 指定された、戻り値情報のあるメッセージを非同期で送信します。
 		/// </summary>
-		/// <typeparam name="T">戻り値情報のある相互作用メッセージの型</typeparam>
-		/// <param name="message">戻り値情報のある相互作用メッセージ</param>
+		/// <typeparam name="T">戻り値情報のあるメッセージの型</typeparam>
+		/// <param name="message">戻り値情報のあるメッセージ</param>
 		public async Task<T?> GetResponseAsync<T>( T message ) where T : RequestMessage {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
@@ -64,7 +64,7 @@ namespace Sylpha.Messaging {
 	}
 
 	/// <summary>
-	/// 相互作用メッセージ送信時イベント用のイベント引数です。
+	/// メッセージ送信時イベント用のイベント引数です。
 	/// </summary>
 	public class MessageRaisedEventArgs : EventArgs {
 		private Message _message;
