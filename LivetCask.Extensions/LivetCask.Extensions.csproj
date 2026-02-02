@@ -38,21 +38,9 @@
 		<Reference Include="System.Windows.Forms" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Remove="Microsoft.WindowsAPICodePack.dll" />
-		<None Remove="Microsoft.WindowsAPICodePack.Shell.dll" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Include="..\ReferenceAssemblies\Microsoft.WindowsAPICodePack.dll" Pack="true" PackagePath="lib\net452" />
-		<Content Include="..\ReferenceAssemblies\Microsoft.WindowsAPICodePack.Shell.dll" Pack="true" PackagePath="lib\net452" />
-    <Content Include="..\ReferenceAssemblies\Microsoft.WindowsAPICodePack.dll" Pack="true" PackagePath="lib\netcoreapp3.1" />
-    <Content Include="..\ReferenceAssemblies\Microsoft.WindowsAPICodePack.Shell.dll" Pack="true" PackagePath="lib\netcoreapp3.1" />
-    <Content Include="..\ReferenceAssemblies\Microsoft.WindowsAPICodePack.dll" Pack="true" PackagePath="lib\net6.0-windows7" />
-    <Content Include="..\ReferenceAssemblies\Microsoft.WindowsAPICodePack.Shell.dll" Pack="true" PackagePath="lib\net6.0-windows7" />
-  </ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="InternalReservedAttributeGenerator" Version="0.1.2" />
 		<PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
+		<PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31">
 		</PackageReference>
 	</ItemGroup>
@@ -66,15 +54,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\LivetCask\LivetCask.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="Microsoft.WindowsAPICodePack">
-			<HintPath>..\ReferenceAssemblies\Microsoft.WindowsAPICodePack.dll</HintPath>
-		</Reference>
-		<Reference Include="Microsoft.WindowsAPICodePack.Shell">
-			<HintPath>..\ReferenceAssemblies\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>
