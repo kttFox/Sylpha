@@ -33,9 +33,11 @@ It supports .NET Framework 4.5.2 or later, .NET Core 3.1, .NET 6 and licensed as
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sylpha.EventListeners\Sylpha.EventListeners.csproj" />
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Sylpha.Messaging\Sylpha.Messaging.csproj" />
-    <ProjectReference Include="..\Sylpha.Mvvm\Sylpha.Mvvm.csproj" />
   </ItemGroup>
 
 </Project>
