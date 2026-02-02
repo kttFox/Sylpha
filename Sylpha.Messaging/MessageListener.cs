@@ -8,19 +8,15 @@ using Sylpha.EventListeners.WeakEvents;
 
 namespace Sylpha.Messaging {
 	public sealed class MessageListener : IDisposable, IEnumerable<KeyValuePair<string, ConcurrentBag<Action<Message>>>> {
-		private readonly ConcurrentDictionary<string, ConcurrentBag<Action<Message>>> _actionDictionary = new();
+		private readonly ConcurrentDictionary<string, ConcurrentBag<Action<Message>>> _actionDictionary = [];
 
 		private readonly WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs> _listener;
 
 		private readonly WeakReference<Messenger> _source;
-		private Dispatcher _dispatcher;
-
-		private bool _disposed;
 
 		public MessageListener( Messenger messenger ) {
 			if( messenger == null ) throw new ArgumentNullException( nameof( messenger ) );
 
-			_dispatcher = Dispatcher.CurrentDispatcher;
 			_source = new( messenger );
 			_listener = new(
 					h => h,
@@ -32,25 +28,17 @@ namespace Sylpha.Messaging {
 
 		public MessageListener( Messenger messenger, string? messageKey, Action<Message> action ) : this( messenger ) {
 			if( action == null ) throw new ArgumentNullException( nameof( action ) );
-			messageKey ??= string.Empty;
 
-			RegisterAction( messageKey, action );
+			RegisterAction( messageKey ?? string.Empty, action );
 		}
 
 		public MessageListener( Messenger messenger, Action<Message> action ) : this( messenger, null, action ) { }
 
 		public Dispatcher Dispatcher {
-			get { return _dispatcher; }
-			set { _dispatcher = value ?? throw new ArgumentNullException( nameof( value ) ); }
-		}
-
-		public void Dispose() {
-			Dispose( true );
-
-			// ReSharper disable once GCSuppressFinalizeForTypeWithoutDestructor
-			GC.SuppressFinalize( this );
-		}
-
+			get;
+			set { field = value ?? throw new ArgumentNullException( nameof( value ) ); }
+		} = Dispatcher.CurrentDispatcher;
+		
 		IEnumerator<KeyValuePair<string, ConcurrentBag<Action<Message>>>> IEnumerable<KeyValuePair<string, ConcurrentBag<Action<Message>>>>.GetEnumerator() {
 			ThrowExceptionIfDisposed();
 			return _actionDictionary.GetEnumerator();
@@ -61,14 +49,7 @@ namespace Sylpha.Messaging {
 			return _actionDictionary.GetEnumerator();
 		}
 
-		public void RegisterAction( Action<Message> action ) {
-			if( action == null ) throw new ArgumentNullException( nameof( action ) );
-
-			ThrowExceptionIfDisposed();
-			var dic = _actionDictionary.GetOrAdd( string.Empty, _ => [] ) ?? throw new InvalidOperationException();
-
-			dic.Add( action );
-		}
+		public void RegisterAction( Action<Message> action ) =>	RegisterAction( string.Empty, action );
 
 		public void RegisterAction( string messageKey, Action<Message> action ) {
 			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
@@ -135,31 +116,25 @@ namespace Sylpha.Messaging {
 			}
 		}
 
-		public void Add( Action<Message> action ) {
-			if( action == null ) throw new ArgumentNullException( nameof( action ) );
+		public void Add( Action<Message> action ) => RegisterAction( string.Empty, action );
 
-			RegisterAction( action );
-		}
-
-		public void Add( string messageKey, Action<Message> action ) {
-			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
-			if( action == null ) throw new ArgumentNullException( nameof( action ) );
-
-			RegisterAction( messageKey, action );
-		}
+		public void Add( string messageKey, Action<Message> action ) => RegisterAction( messageKey, action );
 
 		public void Add( string messageKey, params Action<Message>[] actions ) {
 			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
 			if( actions == null ) throw new ArgumentNullException( nameof( actions ) );
 
-			foreach( var action in actions.Where( a => a != null ) ) {
+			foreach( var action in actions ) {
 				RegisterAction( messageKey, action );
 			}
 		}
 
-		private void ThrowExceptionIfDisposed() {
-			if( _disposed ) throw new ObjectDisposedException( "EventListener" );
+		#region Dispose
+		public void Dispose() {
+			Dispose( true );
 		}
+
+		private bool _disposed;
 
 		private void Dispose( bool disposing ) {
 			if( _disposed ) return;
@@ -167,5 +142,10 @@ namespace Sylpha.Messaging {
 			if( disposing ) _listener.Dispose();
 			_disposed = true;
 		}
+
+		private void ThrowExceptionIfDisposed() {
+			if( _disposed ) throw new ObjectDisposedException( "EventListener" );
+		}
+		#endregion
 	}
 }

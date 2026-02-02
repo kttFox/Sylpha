@@ -71,16 +71,17 @@ namespace Sylpha.Messaging {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
 			if( CallbackCommand != null ) {
-				if( CallbackCommand.CanExecute( message ) )
+				if( CallbackCommand.CanExecute( message ) ) {
 					CallbackCommand.Execute( message );
+				}
 			}
 
-			if( CallbackMethodTarget != null && CallbackMethodName != null )
-				_callbackMethod.Invoke( CallbackMethodTarget, CallbackMethodName, message );
+			if( CallbackMethodTarget != null && CallbackMethodName != null ) {
+				_callbackMethod.Invoke( CallbackMethodTarget, CallbackMethodName, message.GetType(), message );
+			}
 		}
 
-		protected override Freezable CreateInstanceCore() {
-			return new DirectMessage();
-		}
+		protected override Freezable CreateInstanceCore() => new DirectMessage();
+
 	}
 }
