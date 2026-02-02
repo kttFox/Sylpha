@@ -102,20 +102,6 @@
     <Content Include="stylesheet.css" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ItemTemplates\LivetInteractionMessageAction.CSharp\LivetInteractionMessageAction.CSharp.csproj">
-      <Project>{A05A0E54-4F4C-48E8-94C2-551F0B0C959A}</Project>
-      <Name>LivetInteractionMessageAction.CSharp</Name>
-      <VSIXSubPath>ItemTemplates</VSIXSubPath>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-    </ProjectReference>
-    <ProjectReference Include="..\ItemTemplates\LivetMessage.CSharp\LivetMessage.CSharp.csproj">
-      <Project>{7E9AE206-6FE5-4B1F-9FEB-6ABF29C2A938}</Project>
-      <Name>LivetMessage.CSharp</Name>
-      <VSIXSubPath>ItemTemplates</VSIXSubPath>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-    </ProjectReference>
     <ProjectReference Include="..\ItemTemplates\LivetModel.CSharp\LivetModel.CSharp.csproj">
       <Project>{AF7A7EAA-0999-4619-80FE-41BBC58FBBB0}</Project>
       <Name>LivetModel.CSharp</Name>
