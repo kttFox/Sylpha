@@ -13,7 +13,7 @@ namespace Sylpha.NUnit.EventListeners {
 
 			var publisher = new TestEventPublisher();
 
-			var listener = new PropertyChangedWeakEventListener( publisher, ( sender, e ) => listenerSuccess = true );
+			var listener = new PropertyChangedWeakEventListener( publisher ) { ( sender, e ) => listenerSuccess = true };
 
 			//------------------
 			listenerSuccess.Is( false );
@@ -133,10 +133,10 @@ namespace Sylpha.NUnit.EventListeners {
 			var listener1 = new PropertyChangedWeakEventListener( publisher )
 			{
 				{"Dummy1", (sender, e) => { e.PropertyName.Is("Dummy1"); handler1Called = true; }},
-				{() => publisher.Dummy2,
+				{() => publisher.Dummy2,[
 						(sender, e) => { e.PropertyName.Is("Dummy2"); handler2Called = true;},
 						(sender, e) => { e.PropertyName.Is("Dummy2"); handler3Called = true;}
-				},
+				]},
 				(sender,e) => handler4Called = true,
 				{"Dummy1", (sender, e) => { e.PropertyName.Is("Dummy1"); handler5Called = true; }}
 			};
@@ -259,7 +259,7 @@ namespace Sylpha.NUnit.EventListeners {
 
 			var eventPublisher = new TestEventPublisher();
 
-			var listener1 = new PropertyChangedWeakEventListener( eventPublisher, ( sender, e ) => listener1Success = true );
+			var listener1 = new PropertyChangedWeakEventListener( eventPublisher ) { ( sender, e ) => listener1Success = true };
 
 			var listenerWeakReference = new WeakReference( listener1 );
 

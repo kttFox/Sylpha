@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 
@@ -25,11 +24,6 @@ namespace Sylpha.EventListeners.Internals {
 			_source = new WeakReference<INotifyPropertyChanged>( source );
 		}
 
-		public AnonymousPropertyChangedEventHandlerBag( INotifyPropertyChanged source, PropertyChangedEventHandler handler ) : this( source ) {
-			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
-			RegisterHandler( handler );
-		}
-
 		IEnumerator<KeyValuePair<string, List<PropertyChangedEventHandler>>> IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>>.GetEnumerator() {
 			// ReSharper disable once InconsistentlySynchronizedField
 			return _handlerDictionary.GetEnumerator();
@@ -46,31 +40,19 @@ namespace Sylpha.EventListeners.Internals {
 			RegisterHandler( string.Empty, handler );
 		}
 
-		public void RegisterHandler( string propertyName, PropertyChangedEventHandler handler ) {
-			if( propertyName == null ) throw new ArgumentNullException( nameof( propertyName ) );
-			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
+		public void RegisterHandler( params IEnumerable<PropertyChangedEventHandler> handlers ) {
+			RegisterHandler( string.Empty, handlers );
+		}
 
+		public void RegisterHandler( string propertyName, params IEnumerable<PropertyChangedEventHandler> handlers ) {
 			lock( _handlerDictionaryLockObject ) {
 				if( !_handlerDictionary.TryGetValue( propertyName, out var bag ) ) {
 					bag = [];
 					_lockObjectDictionary.Add( bag, new () );
 					_handlerDictionary[propertyName] = bag;
 				}
-
-				bag.Add( handler );
+				bag.AddRange( handlers );
 			}
-		}
-
-		public void RegisterHandler<T>( Expression<Func<T>> propertyExpression, PropertyChangedEventHandler handler ) {
-			if( propertyExpression == null ) throw new ArgumentNullException( nameof( propertyExpression ) );
-			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
-			if( propertyExpression.Body is not MemberExpression ) {
-				throw new NotSupportedException( "このメソッドでは ()=>プロパティ の形式のラムダ式以外許可されません" );
-			}
-
-			var memberExpression = (MemberExpression)propertyExpression.Body;
-
-			RegisterHandler( memberExpression.Member.Name, handler );
 		}
 
 		public void ExecuteHandler( PropertyChangedEventArgs e ) {
@@ -108,51 +90,6 @@ namespace Sylpha.EventListeners.Internals {
 					}
 				}
 			}
-		}
-
-		public void Add( PropertyChangedEventHandler handler ) {
-			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
-
-			RegisterHandler( handler );
-		}
-
-		public void Add( string propertyName, PropertyChangedEventHandler handler ) {
-			if( propertyName == null ) throw new ArgumentNullException( nameof( propertyName ) );
-
-			RegisterHandler( propertyName, handler );
-		}
-
-		public void Add( string propertyName, params PropertyChangedEventHandler[] handlers ) {
-			if( propertyName == null ) throw new ArgumentNullException( nameof( propertyName ) );
-			if( handlers == null ) throw new ArgumentNullException( nameof( handlers ) );
-
-			foreach( var handler in handlers.Where( h => h != null ) ) {
-				RegisterHandler( propertyName, handler );
-			}
-		}
-
-		public void Add<T>( Expression<Func<T>> propertyExpression, PropertyChangedEventHandler handler ) {
-			if( propertyExpression == null ) throw new ArgumentNullException( nameof( propertyExpression ) );
-			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
-			if( propertyExpression.Body is not MemberExpression ) {
-				throw new NotSupportedException( "このメソッドでは ()=>プロパティ の形式のラムダ式以外許可されません" );
-			}
-
-			var memberExpression = (MemberExpression)propertyExpression.Body;
-
-			Add( memberExpression.Member.Name, handler );
-		}
-
-		public void Add<T>( Expression<Func<T>> propertyExpression, params PropertyChangedEventHandler[] handlers ) {
-			if( propertyExpression == null ) throw new ArgumentNullException( nameof( propertyExpression ) );
-			if( handlers == null ) throw new ArgumentNullException( nameof( handlers ) );
-			if( propertyExpression.Body is not MemberExpression ) {
-				throw new NotSupportedException( "このメソッドでは ()=>プロパティ の形式のラムダ式以外許可されません" );
-			}
-
-			var memberExpression = (MemberExpression)propertyExpression.Body;
-
-			Add( memberExpression.Member.Name, handlers );
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using Sylpha.EventListeners.Internals;
 
 namespace Sylpha.EventListeners.WeakEvents {
@@ -27,24 +28,6 @@ namespace Sylpha.EventListeners.WeakEvents {
 			);
 		}
 
-		/// <summary>
-		/// コンストラクタ。リスナのインスタンスの作成と同時にハンドラを一つ登録します。
-		/// </summary>
-		/// <param name="source">INotifyCollectionChangedオブジェクト</param>
-		/// <param name="handler">NotifyCollectionChangedイベントハンドラ</param>
-		public CollectionChangedWeakEventListener( INotifyCollectionChanged source, NotifyCollectionChangedEventHandler handler ) {
-			if( source == null ) throw new ArgumentNullException( nameof( source ) );
-			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
-
-			_bag = new AnonymousCollectionChangedEventHandlerBag( source, handler );
-			Initialize(
-				h => new NotifyCollectionChangedEventHandler( h ?? throw new ArgumentNullException( nameof( h ) ) ),
-				h => source.CollectionChanged += h,
-				h => source.CollectionChanged -= h,
-				( sender, e ) => _bag.ExecuteHandler( e ?? throw new ArgumentNullException( nameof( e ) ) )
-			);
-		}
-
 		IEnumerator<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>> IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>.GetEnumerator()
 			=> ( (IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>)_bag ).GetEnumerator();
 
@@ -52,38 +35,30 @@ namespace Sylpha.EventListeners.WeakEvents {
 			=> ( (IEnumerable)_bag ).GetEnumerator();
 
 		/// <summary>
-		/// このリスナインスタンスに新たなハンドラを追加します。
+		/// このリスナーインスタンスに新たなハンドラを追加します。
 		/// </summary>
 		/// <param name="handler">NotifyCollectionChangedイベントハンドラ</param>
 		public void RegisterHandler( NotifyCollectionChangedEventHandler handler ) {
+			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
+
 			ThrowExceptionIfDisposed();
 			_bag.RegisterHandler( handler );
 		}
 
 		/// <summary>
-		/// このリスナインスタンスにプロパティ名でフィルタリング済のハンドラを追加します。
+		/// このリスナーインスタンスにプロパティ名でフィルタリング済のハンドラを追加します。
 		/// </summary>
 		/// <param name="action">ハンドラを登録したいNotifyCollectionChangedAction</param>
-		/// <param name="handler">actionで指定されたNotifyCollectionChangedActionに対応したNotifyCollectionChangedイベントハンドラ</param>
-		public void RegisterHandler( NotifyCollectionChangedAction action, NotifyCollectionChangedEventHandler handler ) {
+		/// <param name="handlers">actionで指定されたNotifyCollectionChangedActionに対応したNotifyCollectionChangedイベントハンドラ</param>
+		public void RegisterHandler( NotifyCollectionChangedAction action, params IEnumerable<NotifyCollectionChangedEventHandler> handlers ) {
+			if( handlers == null || handlers.Contains( null ) ) throw new ArgumentNullException( nameof( handlers ) );
+
 			ThrowExceptionIfDisposed();
-			_bag.RegisterHandler( action, handler );
+			_bag.RegisterHandler( action, handlers );
 		}
 
-		public void Add( NotifyCollectionChangedEventHandler handler ) {
-			ThrowExceptionIfDisposed();
-			_bag.Add( handler );
-		}
-
-		public void Add( NotifyCollectionChangedAction action, NotifyCollectionChangedEventHandler handler ) {
-			ThrowExceptionIfDisposed();
-			_bag.Add( action, handler );
-		}
-
-		public void Add( NotifyCollectionChangedAction action, params NotifyCollectionChangedEventHandler[] handlers ) {
-			if( handlers == null ) throw new ArgumentNullException( nameof( handlers ) );
-			ThrowExceptionIfDisposed();
-			_bag.Add( action, handlers );
-		}
+		public void Add( NotifyCollectionChangedEventHandler handler ) => RegisterHandler( handler );
+		public void Add( NotifyCollectionChangedAction action, NotifyCollectionChangedEventHandler handler ) => RegisterHandler( action, handler );
+		public void Add( NotifyCollectionChangedAction action, IEnumerable<NotifyCollectionChangedEventHandler> handlers ) => RegisterHandler( action, handlers );
 	}
 }

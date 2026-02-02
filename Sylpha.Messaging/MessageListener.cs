@@ -90,7 +90,7 @@ namespace Sylpha.Messaging {
 
 		public void Add( string messageKey, Action<Message> action ) => RegisterAction( messageKey, action );
 
-		public void Add( string messageKey, params Action<Message>[] actions ) {
+		public void Add( string messageKey, IEnumerable<Action<Message>> actions ) {
 			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
 			if( actions == null ) throw new ArgumentNullException( nameof( actions ) );
 

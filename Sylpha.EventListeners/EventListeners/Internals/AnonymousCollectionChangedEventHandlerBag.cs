@@ -27,12 +27,6 @@ namespace Sylpha.EventListeners.Internals {
 			_source = new WeakReference<INotifyCollectionChanged>( source );
 		}
 
-		public AnonymousCollectionChangedEventHandlerBag( INotifyCollectionChanged source, NotifyCollectionChangedEventHandler handler ) : this( source ) {
-			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
-
-			RegisterHandler( handler );
-		}
-
 		IEnumerator<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>> IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>.GetEnumerator() {
 			// ReSharper disable once InconsistentlySynchronizedField
 			return _handlerDictionary.GetEnumerator();
@@ -43,11 +37,11 @@ namespace Sylpha.EventListeners.Internals {
 			return _handlerDictionary.GetEnumerator();
 		}
 
-		public void RegisterHandler( NotifyCollectionChangedEventHandler handler ) {
-			lock( _allHandlerListLockObject ) { _allHandlerList.Add( handler ); }
+		public void RegisterHandler( params IEnumerable<NotifyCollectionChangedEventHandler> handlers ) {
+			lock( _allHandlerListLockObject ) { _allHandlerList.AddRange( handlers ); }
 		}
 
-		public void RegisterHandler( NotifyCollectionChangedAction action, NotifyCollectionChangedEventHandler handler ) {
+		public void RegisterHandler( NotifyCollectionChangedAction action, params IEnumerable<NotifyCollectionChangedEventHandler> handlers ) {
 			lock( _handlerDictionaryLockObject ) {
 				if( !_handlerDictionary.TryGetValue( action, out var bag ) ) {
 					bag = [];
@@ -55,7 +49,7 @@ namespace Sylpha.EventListeners.Internals {
 					_handlerDictionary[action] = bag;
 				}
 
-				bag.Add( handler );
+				bag.AddRange( handlers );
 			}
 		}
 
@@ -81,22 +75,7 @@ namespace Sylpha.EventListeners.Internals {
 						handler( sourceResult, e );
 					}
 				}
-			}
-		}
 
-		public void Add( NotifyCollectionChangedEventHandler handler ) {
-			RegisterHandler( handler );
-		}
-
-		public void Add( NotifyCollectionChangedAction action, NotifyCollectionChangedEventHandler handler ) {
-			RegisterHandler( action, handler );
-		}
-
-		public void Add( NotifyCollectionChangedAction action, params NotifyCollectionChangedEventHandler[] handlers ) {
-			if( handlers == null ) throw new ArgumentNullException( nameof( handlers ) );
-
-			foreach( var handler in handlers ) {
-				RegisterHandler( action, handler );
 			}
 		}
 	}

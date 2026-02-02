@@ -13,7 +13,7 @@ namespace Sylpha.NUnit.EventListeners {
 
 			var publisher = new TestEventPublisher();
 
-			var listener = new CollectionChangedEventListener( publisher, ( sender, e ) => listenerSuccess = true );
+			var listener = new CollectionChangedEventListener( publisher ) { ( sender, e ) => listenerSuccess = true };
 
 			//------------------
 			listenerSuccess.Is( false );
@@ -133,10 +133,10 @@ namespace Sylpha.NUnit.EventListeners {
 			var listener1 = new CollectionChangedEventListener( publisher )
 			{
 				{NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler1Called = true; }},
-				{NotifyCollectionChangedAction.Remove,
+				{NotifyCollectionChangedAction.Remove,[
 						(sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Remove); handler2Called = true;},
 						(sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Remove); handler3Called = true;}
-				},
+				]},
 				(sender,e) => handler4Called = true,
 				{NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler5Called = true; }}
 			};

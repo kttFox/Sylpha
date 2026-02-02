@@ -55,10 +55,10 @@ namespace Sylpha.NUnit.Messaging {
 			var listener1 = new MessageListener( publisher )
 			{
 				{"Dummy1", _ => handler1Called = true},
-				{"Dummy2",
+				{"Dummy2",[
 						_ => handler2Called = true,
 						_ => handler3Called = true
-				},
+				]},
 				_ => handler4Called = true,
 				{"Dummy1", _ => handler5Called = true}
 			};
