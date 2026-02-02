@@ -129,8 +129,8 @@ namespace Sylpha.NUnit.Messaging {
 
 			listenerSuccess.Is( false );
 
-			publisher.GetResponse( message )!.Response.Is( "test" );
-			publisher.GetResponse( message )!.Response.Is( "test" );
+			publisher.Raise( message ).Response.Is( "test" );
+			publisher.Raise( message ).Response.Is( "test" );
 			listenerSuccess.Is( true );
 		}
 

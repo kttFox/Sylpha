@@ -10,11 +10,18 @@ namespace Sylpha.Messaging {
 	}
 
 	/// <summary>
+	/// 戻り値のあるメッセージの共通インターフェイス
+	/// </summary>
+	public interface IRequestMessage<TResult> {
+		TResult? Response { get; set; }
+	}
+
+	/// <summary>
 	/// 戻り値のあるメッセージ
 	/// </summary>
 	/// <typeparam name="TResult"></typeparam>
 	[PublicAPI]
-	public class RequestMessage<TResult> : Message, IRequestMessage {
+	public class RequestMessage<TResult> : Message, IRequestMessage<TResult>, IRequestMessage {
 		/// <summary>
 		/// 戻り値のある新しいメッセージのインスタンスを生成します
 		/// </summary>
@@ -47,7 +54,7 @@ namespace Sylpha.Messaging {
 	/// 値と戻り値のあるメッセージの抽象基底クラスです。
 	/// </summary>
 	[PublicAPI]
-	public class RequestMessage<TValue, TResult> : Message<TValue>, IRequestMessage {
+	public class RequestMessage<TValue, TResult> : Message<TValue>, IRequestMessage<TResult>, IRequestMessage {
 		/// <summary>
 		/// 値と戻り値のある新しいメッセージのインスタンスを生成します。
 		/// </summary>

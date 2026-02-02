@@ -20,7 +20,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand CallMethodCommand => field ??= new DelegateCommand( DoCallMethodCommand );
 
 		private void DoCallMethodCommand() {
-			var r = this.Messenger.GetResponse( new CallFuncMessage<string>( "GetText" ) );
+			var r = this.Messenger.Raise( new CallFuncMessage<string>( "GetText" ) );
 			_ = r.Result;
 		}
 		#endregion
@@ -29,7 +29,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand ShowWindowCommand => field ??= new DelegateCommand( DoShowWindowCommand );
 
 		private void DoShowWindowCommand() {
-			var r = this.Messenger.GetResponse( new ShowWindowMessage<MultiMessageActionWindow>() { 
+			var r = this.Messenger.Raise( new ShowWindowMessage<MultiMessageActionWindow>() { 
 				WindowSettingAction = w => { 
 					w.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 					w.Title = "Shown by ShowWindowMessage";
@@ -47,7 +47,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand OpenFileDialogCommand => field ??= new DelegateCommand( DoOpenFileDialogCommand );
 
 		private void DoOpenFileDialogCommand() {
-			var r = this.Messenger.GetResponse( new OpenFileDialogMessage() );
+			var r = this.Messenger.Raise( new OpenFileDialogMessage() );
 			_ = r.Response;
 		}
 		#endregion
@@ -56,7 +56,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand SaveFileDialogCommand => field ??= new DelegateCommand( DoSaveFileDialogCommand );
 
 		private void DoSaveFileDialogCommand() {
-			var r = this.Messenger.GetResponse( new SaveFileDialogMessage() );
+			var r = this.Messenger.Raise( new SaveFileDialogMessage() );
 			_ = r.Response;
 		}
 		#endregion
@@ -74,7 +74,7 @@ namespace ViewLayerSupport.ViewModels {
 
 		private void DoOpenFolderDialogCommand() {
 #if NET8_0_OR_GREATER
-			var r = this.Messenger.GetResponse( new OpenFolderDialogMessage() );
+			var r = this.Messenger.Raise( new OpenFolderDialogMessage() );
 			_ = r.Response;
 #endif
 		}
@@ -84,7 +84,7 @@ namespace ViewLayerSupport.ViewModels {
 		public DelegateCommand CommonOpenFileDialogCommand => field ??= new DelegateCommand( DoCommonOpenFileDialogCommand );
 
 		private void DoCommonOpenFileDialogCommand() {
-			var r = this.Messenger.GetResponse( new CommonOpenFileDialogMessage() );
+			var r = this.Messenger.Raise( new CommonOpenFileDialogMessage() );
 			_ = r.Response;
 		}
 		#endregion

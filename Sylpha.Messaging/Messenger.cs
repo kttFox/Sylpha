@@ -8,58 +8,24 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	public class Messenger {
 		/// <summary>
-		/// 指定されたメッセージを同期的に送信します。
-		/// </summary>
-		/// <param name="message">メッセージ</param>
-		public void Raise( Message message ) {
-			if( message == null ) throw new ArgumentNullException( nameof( message ) );
-			if( !message.IsFrozen ) message.Freeze();
-
-			Raised?.Invoke( this, new MessageRaisedEventArgs( message ) );
-		}
-
-		/// <summary>
-		/// 指定された、戻り値情報のあるメッセージを同期的に送信します。
-		/// </summary>
-		/// <typeparam name="T">戻り値情報のあるメッセージの型</typeparam>
-		/// <param name="message">戻り値情報のあるメッセージ</param>
-		/// <returns>アクション実行後に、戻り情報を含んだメッセージ</returns>
-		public T GetResponse<T>( T message ) where T : Message, IRequestMessage {
-			if( message == null ) throw new ArgumentNullException( nameof( message ) );
-			if( !message.IsFrozen ) message.Freeze();
-
-			Raised?.Invoke( this, new MessageRaisedEventArgs( message ) );
-			return message;
-		}
-
-		/// <summary>
 		/// メッセージが送信された時に発生するイベントです。
 		/// </summary>
 		public event EventHandler<MessageRaisedEventArgs>? Raised;
 
+
 		/// <summary>
-		/// 指定されたメッセージを非同期で送信します。
+		/// 指定されたメッセージを送信します。
 		/// </summary>
+		/// <typeparam name="T">メッセージの型</typeparam>
 		/// <param name="message">メッセージ</param>
-		public async Task RaiseAsync( Message message ) {
+		/// <returns>アクション実行後のメッセージ(引数と同じ)</returns>
+		public T Raise<T>( T message ) where T : Message {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
-
 			if( !message.IsFrozen ) message.Freeze();
 
-			await Task.Factory.StartNew( () => Raise( message ) );
-		}
+			Raised?.Invoke( this, new MessageRaisedEventArgs( message ) );
 
-		/// <summary>
-		/// 指定された、戻り値情報のあるメッセージを非同期で送信します。
-		/// </summary>
-		/// <typeparam name="T">戻り値情報のあるメッセージの型</typeparam>
-		/// <param name="message">戻り値情報のあるメッセージ</param>
-		public async Task<T?> GetResponseAsync<T>( T message ) where T : Message, IRequestMessage {
-			if( message == null ) throw new ArgumentNullException( nameof( message ) );
-
-			if( !message.IsFrozen ) message.Freeze();
-
-			return await Task<T?>.Factory.StartNew( () => GetResponse( message ) );
+			return message;
 		}
 	}
 

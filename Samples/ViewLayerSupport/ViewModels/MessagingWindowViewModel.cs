@@ -13,12 +13,12 @@ namespace ViewLayerSupport.ViewModels {
 
 		public string OutputMessage { get; set => SetProperty( ref field, value ); }
 
-		public async void MessageBoxFromViewModel() {
+		public void MessageBoxFromViewModel() {
 			var message = new MessageBoxMessage( "これはテスト用メッセージです。", "テスト" ) {
 				Button = MessageBoxButton.OKCancel,
 				MessageKey = "MessageKey_MessageBox",
 			};
-			await Messenger.RaiseAsync( message );
+			Messenger.Raise( message );
 			OutputMessage = $"[{DateTime.Now}]: MessageBoxFromViewModel: {message.Response}";
 		}
 
@@ -55,7 +55,7 @@ namespace ViewLayerSupport.ViewModels {
 
 		private void DoOpenFolderDialogCommand() {
 #if NET8_0_OR_GREATER
-			var message = this.Messenger.GetResponse( new OpenFolderDialogMessage() {
+			var message = this.Messenger.Raise( new OpenFolderDialogMessage() {
 				Title = "フォルダを選択してください",
 			} );
 
