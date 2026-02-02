@@ -29,7 +29,7 @@ namespace Livet.Behaviors.Messaging
 
         private bool _disposed;
 
-        [CanBeNull] private LivetWeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
+        [CanBeNull] private WeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
             InteractionMessageRaisedEventArgs> _listener;
 
         private bool _loaded = true;
@@ -86,7 +86,7 @@ namespace Livet.Behaviors.Messaging
             var newMessenger = (InteractionMessenger) e.NewValue;
 
             thisReference._listener =
-                new LivetWeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
+                new WeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
                     InteractionMessageRaisedEventArgs>(
                     h => h,
                     h => newMessenger.Raised += h,

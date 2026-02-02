@@ -8,7 +8,7 @@ namespace Livet
     /// <summary>
     ///     複数のIDisposableオブジェクトをまとめて操作するための機能を提供します。
     /// </summary>
-    public class LivetCompositeDisposable : IDisposable, ICollection<IDisposable>
+    public class CompositeDisposable : IDisposable, ICollection<IDisposable>
     {
         [NotNull] private readonly object _lockObject = new object();
         [NotNull] private readonly List<IDisposable> _targetLists;
@@ -17,7 +17,7 @@ namespace Livet
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        public LivetCompositeDisposable()
+        public CompositeDisposable()
         {
             _targetLists = new List<IDisposable>();
         }
@@ -26,7 +26,7 @@ namespace Livet
         ///     コンストラクタ
         /// </summary>
         /// <param name="sourceDisposableList">ソースとなるIDisposableコレクション</param>
-        public LivetCompositeDisposable([NotNull] IEnumerable<IDisposable> sourceDisposableList)
+        public CompositeDisposable([NotNull] IEnumerable<IDisposable> sourceDisposableList)
         {
             if (sourceDisposableList == null) throw new ArgumentNullException(nameof(sourceDisposableList));
 

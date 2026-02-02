@@ -11,7 +11,7 @@ namespace Livet.EventListeners.WeakEvents
     ///     INotifyCollectionChanged.NotifyCollectionChangedを受信するためのWeakイベントリスナです。
     /// </summary>
     public sealed class CollectionChangedWeakEventListener :
-        LivetWeakEventListener<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>,
+        WeakEventListener<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>,
         IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>
     {
         [NotNull] private readonly AnonymousCollectionChangedEventHandlerBag _bag;

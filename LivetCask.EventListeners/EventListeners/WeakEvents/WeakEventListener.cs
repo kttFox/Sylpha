@@ -8,7 +8,7 @@ namespace Livet.EventListeners.WeakEvents
     /// </summary>
     /// <typeparam name="THandler">対象のイベントのイベントハンドラ型</typeparam>
     /// <typeparam name="TEventArgs">対象のイベントのイベント引数型</typeparam>
-    public class LivetWeakEventListener<THandler, TEventArgs> : IDisposable where TEventArgs : EventArgs
+    public class WeakEventListener<THandler, TEventArgs> : IDisposable where TEventArgs : EventArgs
     {
         private readonly bool _initialized;
         private bool _disposed;
@@ -17,7 +17,7 @@ namespace Livet.EventListeners.WeakEvents
         [CanBeNull] private Action<THandler> _remove;
         [CanBeNull] private THandler _resultHandler;
 
-        protected LivetWeakEventListener() { }
+        protected WeakEventListener() { }
 
         /// <summary>
         ///     コンストラクタ
@@ -26,7 +26,7 @@ namespace Livet.EventListeners.WeakEvents
         /// <param name="add">h => obj.Event += > h の様な形でイベントの購読を登録するためのAction。hはTHandler型です。</param>
         /// <param name="remove">h => obj.Event += > h の様な形でイベントの購読を登録するためのAction。hはTHandler型です。</param>
         /// <param name="handler">イベントを受信した際に行いたいアクション</param>
-        public LivetWeakEventListener([NotNull] Func<EventHandler<TEventArgs>, THandler> conversion,
+        public WeakEventListener([NotNull] Func<EventHandler<TEventArgs>, THandler> conversion,
             [NotNull] Action<THandler> add,
             [NotNull] Action<THandler> remove, [NotNull] EventHandler<TEventArgs> handler)
         {
@@ -49,7 +49,7 @@ namespace Livet.EventListeners.WeakEvents
         }
 
         private static void ReceiveEvent(
-            [NotNull] WeakReference<LivetWeakEventListener<THandler, TEventArgs>> listenerWeakReference, object sender,
+            [NotNull] WeakReference<WeakEventListener<THandler, TEventArgs>> listenerWeakReference, object sender,
             TEventArgs args)
         {
             if (listenerWeakReference == null) throw new ArgumentNullException(nameof(listenerWeakReference));
@@ -59,7 +59,7 @@ namespace Livet.EventListeners.WeakEvents
         }
 
         private static THandler GetStaticHandler(
-            [NotNull] WeakReference<LivetWeakEventListener<THandler, TEventArgs>> listenerWeakReference,
+            [NotNull] WeakReference<WeakEventListener<THandler, TEventArgs>> listenerWeakReference,
             [NotNull] Func<EventHandler<TEventArgs>, THandler> conversion)
         {
             if (listenerWeakReference == null) throw new ArgumentNullException(nameof(listenerWeakReference));
@@ -80,7 +80,7 @@ namespace Livet.EventListeners.WeakEvents
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _remove = remove ?? throw new ArgumentNullException(nameof(remove));
 
-            _resultHandler = GetStaticHandler(new WeakReference<LivetWeakEventListener<THandler, TEventArgs>>(this),
+            _resultHandler = GetStaticHandler(new WeakReference<WeakEventListener<THandler, TEventArgs>>(this),
                 conversion);
 
             add(_resultHandler);
@@ -88,7 +88,7 @@ namespace Livet.EventListeners.WeakEvents
 
         protected void ThrowExceptionIfDisposed()
         {
-            if (_disposed) throw new ObjectDisposedException("LivetWeakEventListener");
+            if (_disposed) throw new ObjectDisposedException("WeakEventListener");
         }
 
         protected virtual void Dispose(bool disposing)

@@ -8,21 +8,21 @@ namespace Livet.Behaviors
     /// <summary>
     ///     引数を一つだけ持つメソッドに対応したCallMethodActionです。
     /// </summary>
-    public class LivetCallMethodAction : TriggerAction<DependencyObject>
+    public class CallMethodAction : TriggerAction<DependencyObject>
     {
         // Using a DependencyProperty as the backing store for MethodTarget.  This enables animation, styling, binding, etc...
         [NotNull] public static readonly DependencyProperty MethodTargetProperty =
-            DependencyProperty.Register("MethodTarget", typeof(object), typeof(LivetCallMethodAction),
+            DependencyProperty.Register("MethodTarget", typeof(object), typeof(CallMethodAction),
                 new PropertyMetadata(null));
 
         // Using a DependencyProperty as the backing store for MethodName.  This enables animation, styling, binding, etc...
         [NotNull] public static readonly DependencyProperty MethodNameProperty =
-            DependencyProperty.Register("MethodName", typeof(string), typeof(LivetCallMethodAction),
+            DependencyProperty.Register("MethodName", typeof(string), typeof(CallMethodAction),
                 new PropertyMetadata(null));
 
         // Using a DependencyProperty as the backing store for MethodParameter.  This enables animation, styling, binding, etc...
         [NotNull] public static readonly DependencyProperty MethodParameterProperty =
-            DependencyProperty.Register("MethodParameter", typeof(object), typeof(LivetCallMethodAction),
+            DependencyProperty.Register("MethodParameter", typeof(object), typeof(CallMethodAction),
                 new PropertyMetadata(null, OnMethodParameterChanged));
 
         [NotNull] private readonly MethodBinderWithArgument _callbackMethod = new MethodBinderWithArgument();
@@ -59,9 +59,9 @@ namespace Livet.Behaviors
 
         private static void OnMethodParameterChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            var action = sender as LivetCallMethodAction
+            var action = sender as CallMethodAction
                          ?? throw new ArgumentException(
-                             $"Value must be a {nameof(LivetCallMethodAction)}.",
+                             $"Value must be a {nameof(CallMethodAction)}.",
                              nameof(sender));
 
             action._parameterSet = true;

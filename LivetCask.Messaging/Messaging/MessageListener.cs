@@ -16,7 +16,7 @@ namespace Livet.Messaging
         private readonly ConcurrentDictionary<string, ConcurrentBag<Action<InteractionMessage>>> _actionDictionary =
             new ConcurrentDictionary<string, ConcurrentBag<Action<InteractionMessage>>>();
 
-        [NotNull] private readonly LivetWeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
+        [NotNull] private readonly WeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
             InteractionMessageRaisedEventArgs> _listener;
 
         [NotNull] private readonly WeakReference<InteractionMessenger> _source;
@@ -31,7 +31,7 @@ namespace Livet.Messaging
             _dispatcher = Dispatcher.CurrentDispatcher;
             _source = new WeakReference<InteractionMessenger>(messenger);
             _listener =
-                new LivetWeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
+                new WeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
                     InteractionMessageRaisedEventArgs>
                 (
                     h => h,

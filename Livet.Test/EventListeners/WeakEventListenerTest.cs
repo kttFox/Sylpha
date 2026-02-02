@@ -5,7 +5,7 @@ using System;
 namespace Livet.NUnit.EventListeners
 {
     [TestFixture()]
-    public class LivetWeakEventListenerTest
+    public class WeakEventListenerTest
     {
         [Test()]
         public void LifeCycleTest()
@@ -14,7 +14,7 @@ namespace Livet.NUnit.EventListeners
 
             var eventPublisher = new TestEventPublisher();
 
-            var listener1 = new LivetWeakEventListener<EventHandler, EventArgs>(
+            var listener1 = new WeakEventListener<EventHandler, EventArgs>(
                 h => new EventHandler(h),
                 h => eventPublisher.EmptyEvent += h,
                 h => eventPublisher.EmptyEvent -= h,
@@ -43,7 +43,7 @@ namespace Livet.NUnit.EventListeners
 
             var eventPublisher = new TestEventPublisher();
 
-            var listener1 = new LivetWeakEventListener<EventHandler, EventArgs>(
+            var listener1 = new WeakEventListener<EventHandler, EventArgs>(
                 h => new EventHandler(h),
                 h => eventPublisher.EmptyEvent += h,
                 h => eventPublisher.EmptyEvent -= h,

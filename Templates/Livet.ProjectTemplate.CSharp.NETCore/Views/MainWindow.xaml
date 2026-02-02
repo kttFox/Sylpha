@@ -17,7 +17,7 @@
     <behaviors:Interaction.Triggers>
         <!--  When ContentRendered event raised, Initialize method of ViewModel would be called.  -->
         <behaviors:EventTrigger EventName="ContentRendered">
-            <l:LivetCallMethodAction MethodName="Initialize" MethodTarget="{Binding}" />
+            <l:CallMethodAction MethodName="Initialize" MethodTarget="{Binding}" />
         </behaviors:EventTrigger>
 
         <!--  Dispose method is called, when Window closing.  -->

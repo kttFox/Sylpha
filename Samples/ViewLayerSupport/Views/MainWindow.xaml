@@ -21,8 +21,8 @@
 
 		<!--  WindowのContentRenderedイベントのタイミングでViewModelのInitializeメソッドが呼ばれます  -->
 		<i:EventTrigger EventName="ContentRendered">
-			<l:LivetCallMethodAction MethodName="Initialize"
-									 MethodTarget="{Binding}" />
+			<l:CallMethodAction MethodName="Initialize"
+								MethodTarget="{Binding}" />
 		</i:EventTrigger>
 
 		<!--  Windowが閉じたタイミングでViewModelのDisposeメソッドが呼ばれます  -->
@@ -38,12 +38,12 @@
 		<TextBlock FontSize="32"
 				   Text="View layer support sample" />
 		<Button Margin="5"
-				Content="LivetCallMethodAction">
+				Content="CallMethodAction">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<l:TransitionInteractionMessageAction>
 						<l:DirectInteractionMessage>
-							<l:TransitionMessage WindowType="{x:Type v:LivetCallMethodActionWindow}" />
+							<l:TransitionMessage WindowType="{x:Type v:CallMethodActionWindow}" />
 						</l:DirectInteractionMessage>
 					</l:TransitionInteractionMessageAction>
 				</i:EventTrigger>

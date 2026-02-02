@@ -21,7 +21,7 @@ namespace ViewLayerSupport.ViewModels
          * 
          * Modelが十分にリッチであるならコマンドにこだわる必要はありません。
          * View側のコードビハインドを使用しないMVVMパターンの実装を行う場合でも、ViewModelにメソッドを定義し、
-         * LivetCallMethodActionなどから直接メソッドを呼び出してください。
+         * CallMethodActionなどから直接メソッドを呼び出してください。
          * 
          * ViewModelのコマンドを呼び出せるLivetのすべてのビヘイビア・トリガー・アクションは
          * 同様に直接ViewModelのメソッドを呼び出し可能です。

@@ -11,11 +11,11 @@ namespace ViewLayerSupport.Views
      */
 
     /// <summary>
-    ///     LivetCallMethodActionWindow.xaml の相互作用ロジック
+    ///     CallMethodActionWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class LivetCallMethodActionWindow : Window
+    public partial class CallMethodActionWindow : Window
     {
-        public LivetCallMethodActionWindow()
+        public CallMethodActionWindow()
         {
             InitializeComponent();
         }

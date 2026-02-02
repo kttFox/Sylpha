@@ -12,7 +12,7 @@ namespace Livet.EventListeners.WeakEvents
     ///     INotifyPropertyChanged.PropertyChangedを受信するためのWeakイベントリスナです。
     /// </summary>
     public sealed class PropertyChangedWeakEventListener :
-        LivetWeakEventListener<PropertyChangedEventHandler, PropertyChangedEventArgs>,
+        WeakEventListener<PropertyChangedEventHandler, PropertyChangedEventArgs>,
         IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>>
     {
         [NotNull] private readonly AnonymousPropertyChangedEventHandlerBag _bag;

@@ -11,7 +11,7 @@ namespace Livet
     [Serializable]
     public abstract class ViewModel : NotificationObject, IDisposable
     {
-        [NonSerialized] private LivetCompositeDisposable _compositeDisposable;
+        [NonSerialized] private CompositeDisposable _compositeDisposable;
 
         [NonSerialized] private bool _disposed;
 
@@ -22,9 +22,9 @@ namespace Livet
         /// </summary>
         [XmlIgnore]
         [NotNull]
-        public LivetCompositeDisposable CompositeDisposable
+        public CompositeDisposable CompositeDisposable
         {
-            get { return _compositeDisposable ?? (_compositeDisposable = new LivetCompositeDisposable()); }
+            get { return _compositeDisposable ?? (_compositeDisposable = new CompositeDisposable()); }
             set { _compositeDisposable = value; }
         }
 
