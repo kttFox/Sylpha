@@ -27,7 +27,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\LivetCask.StatefulModel\LivetCask.StatefulModel.csproj" />
 		<ProjectReference Include="..\LivetCask\LivetCask.csproj" />
 	</ItemGroup>
 
