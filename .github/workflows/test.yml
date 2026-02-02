@@ -1,0 +1,124 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  setup:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: | 
+            6.0.x  
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Restore dependencies
+        run: |
+          dotnet restore Sylpha.Code.slnx
+          dotnet restore Sylpha.Test\Sylpha.Test.csproj
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+
+  build:
+    runs-on: windows-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: | 
+            6.0.x  
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore Sylpha.Code.slnx
+
+      - name: Build
+        run: dotnet build Sylpha.Code.slnx --configuration Release --no-restore
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            **/bin/Release/
+            **/obj/
+
+  test:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: | 
+            6.0.x  
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+
+      - name: Test (.NET 10)
+        id: test_net10
+        run: dotnet test Sylpha.Test\Sylpha.Test.csproj --framework net10.0-windows --configuration Release --no-build --verbosity normal
+        continue-on-error: true
+
+      - name: Test (.NET 9)
+        id: test_net9
+        run: dotnet test Sylpha.Test\Sylpha.Test.csproj --framework net9.0-windows --configuration Release --no-build --verbosity normal
+        continue-on-error: true
+
+      - name: Test (.NET 8)
+        id: test_net8
+        run: dotnet test Sylpha.Test\Sylpha.Test.csproj --framework net8.0-windows --configuration Release --no-build --verbosity normal
+        continue-on-error: true
+
+      - name: Test (.NET 6)
+        id: test_net6
+        run: dotnet test Sylpha.Test\Sylpha.Test.csproj --framework net6.0-windows --configuration Release --no-build --verbosity normal
+        continue-on-error: true
+
+      - name: Test (.NET Framework 4.6.2)
+        id: test_net462
+        run: dotnet test Sylpha.Test\Sylpha.Test.csproj --framework net462 --configuration Release --no-build --verbosity normal
+        continue-on-error: true
+
+      - name: Test (.NET Framework 4.8)
+        id: test_net48
+        run: dotnet test Sylpha.Test\Sylpha.Test.csproj --framework net48 --configuration Release --no-build --verbosity normal
+        continue-on-error: true
+
+      - name: Check test results
+        if: always()
+        run: |
+          if ("${{ steps.test_net10.outcome }}" -eq "failure" -or
+              "${{ steps.test_net9.outcome }}" -eq "failure" -or
+              "${{ steps.test_net8.outcome }}" -eq "failure" -or
+              "${{ steps.test_net6.outcome }}" -eq "failure" -or
+              "${{ steps.test_net462.outcome }}" -eq "failure" -or
+              "${{ steps.test_net48.outcome }}" -eq "failure") {
+            Write-Host "One or more tests failed"
+            exit 1
+          }
+          Write-Host "All tests passed"
+
