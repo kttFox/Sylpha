@@ -100,17 +100,18 @@ namespace Sylpha.Messaging {
 		}
 
 		#region Dispose
-		public void Dispose() {
-			Dispose( true );
-		}
-
 		private bool _disposed;
 
 		private void Dispose( bool disposing ) {
-			if( _disposed ) return;
+			if( !_disposed ) {
+				_disposed = true;
 
-			if( disposing ) _listener.Dispose();
-			_disposed = true;
+				if( disposing ) _listener.Dispose();
+			}
+		}
+
+		public void Dispose() {
+			Dispose( true );
 		}
 
 		private void ThrowExceptionIfDisposed() {

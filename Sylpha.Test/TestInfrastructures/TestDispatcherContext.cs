@@ -39,7 +39,6 @@ namespace Sylpha.NUnit {
 		#region dispose
 		public void Dispose() {
 			Dispose( true );
-			GC.SuppressFinalize( this );
 		}
 
 		private bool _disposed = false;

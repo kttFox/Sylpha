@@ -80,18 +80,19 @@ namespace Sylpha.Messaging.Behaviors {
 		}
 
 		#region Dispose
-		public void Dispose() {
-			Dispose( true );
-			GC.SuppressFinalize( this );
+		protected virtual void Dispose( bool disposing ) {
+			if( !_disposed ) {
+				_disposed = true;
+				if( disposing ) {
+					_listener?.Dispose();
+				}
+			}
 		}
 
 		private bool _disposed;
 
-		protected virtual void Dispose( bool disposing ) {
-			if( _disposed ) return;
-
-			_listener?.Dispose();
-			_disposed = true;
+		public void Dispose() {
+			Dispose( true );
 		}
 		#endregion
 	}

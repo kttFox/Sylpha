@@ -45,29 +45,27 @@ namespace Sylpha.EventListeners {
 			_initialized = true;
 		}
 
-		protected void ThrowExceptionIfDisposed() {
-			if( _disposed ) throw new ObjectDisposedException( "EventListener" );
+		#region Dispose
+		protected virtual void Dispose( bool disposing ) {
+			if( !_disposed ) {
+				_disposed = true;
+
+				if( disposing ) {
+					_remove?.Invoke( _handler! );
+				}
+			}
 		}
 
-		#region Dispose
+		private bool _disposed;
+
 		/// <summary>
 		/// イベントハンドラの登録を解除します。
 		/// </summary>
 		public void Dispose() {
 			Dispose( true );
-			GC.SuppressFinalize( this );
 		}
-
-		private bool _disposed;
-
-		protected virtual void Dispose( bool disposing ) {
-			if( _disposed ) return;
-
-			if( disposing ) {
-				_remove?.Invoke( _handler! );
-			}
-
-			_disposed = true;
+		protected void ThrowExceptionIfDisposed() {
+			if( _disposed ) throw new ObjectDisposedException( "EventListener" );
 		}
 
 		#endregion

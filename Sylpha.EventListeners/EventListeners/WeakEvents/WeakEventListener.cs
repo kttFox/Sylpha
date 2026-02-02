@@ -10,8 +10,6 @@ namespace Sylpha.EventListeners.WeakEvents {
 	[PublicAPI]
 	public class WeakEventListener<THandler, TEventArgs> : IDisposable where TEventArgs : EventArgs {
 		private readonly bool _initialized;
-		private bool _disposed;
-
 		private EventHandler<TEventArgs>? _handler;
 		private Action<THandler>? _remove;
 		private THandler? _resultHandler;
@@ -33,14 +31,6 @@ namespace Sylpha.EventListeners.WeakEvents {
 
 			Initialize( conversion, add, remove, handler );
 			_initialized = true;
-		}
-
-		/// <summary>
-		/// イベントソースとの接続を解除します。
-		/// </summary>
-		public void Dispose() {
-			Dispose( true );
-			GC.SuppressFinalize( this );
 		}
 
 		private static void ReceiveEvent( WeakReference<WeakEventListener<THandler, TEventArgs>> listenerWeakReference, object? sender, TEventArgs args ) {
@@ -72,10 +62,7 @@ namespace Sylpha.EventListeners.WeakEvents {
 			add( _resultHandler );
 		}
 
-		protected void ThrowExceptionIfDisposed() {
-			if( _disposed ) throw new ObjectDisposedException( "WeakEventListener" );
-		}
-
+		#region Dispose
 		protected virtual void Dispose( bool disposing ) {
 			if( _disposed ) return;
 
@@ -88,5 +75,19 @@ namespace Sylpha.EventListeners.WeakEvents {
 
 			_disposed = true;
 		}
+
+		private bool _disposed;
+
+		/// <summary>
+		/// イベントソースとの接続を解除します。
+		/// </summary>
+		public void Dispose() {
+			Dispose( true );
+		}
+
+		protected void ThrowExceptionIfDisposed() {
+			if( _disposed ) throw new ObjectDisposedException( "WeakEventListener" );
+		}
+		#endregion
 	}
 }
