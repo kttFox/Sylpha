@@ -12,10 +12,12 @@ namespace Sylpha.NUnit.Messaging {
 			var publisher = new Messenger();
 			var message = new Message<int>( 1 );
 
-			var listener = new MessageListener( publisher, m => {
-				( (Message<int>)m ).Value.Is( 1 );
-				listenerSuccess = true;
-			} );
+			var listener = new MessageListener( publisher ){
+				m => {
+					( (Message<int>)m ).Value.Is( 1 );
+					listenerSuccess = true;
+				}
+			};
 
 			//------------------
 			listenerSuccess.Is( false );
@@ -120,12 +122,14 @@ namespace Sylpha.NUnit.Messaging {
 			var publisher = new Messenger();
 			var message = new RequestMessage<int, string>( 1 );
 
-			var listener = new MessageListener( publisher, m => {
-				var rm = (RequestMessage<int, string>)m;
-				rm.Value.Is( 1 );
-				rm.Response = "test";
-				listenerSuccess = true;
-			} );
+			var listener = new MessageListener( publisher ){
+				m => {
+					var rm = (RequestMessage<int, string>)m;
+					rm.Value.Is( 1 );
+					rm.Response = "test";
+					listenerSuccess = true;
+				}
+			};
 
 			listenerSuccess.Is( false );
 

@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Threading;
 
 namespace Sylpha.EventListeners.Internals {
-	internal class AnonymousPropertyChangedEventHandlerBag : IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>> {
+	internal class PropertyChangedEventHandlerBag {
 #if NET9_0_OR_GREATER
 		private readonly Lock _handlerDictionaryLockObject = new();
 		private readonly Dictionary<List<PropertyChangedEventHandler>, Lock> _lockObjectDictionary = [];
@@ -18,21 +18,14 @@ namespace Sylpha.EventListeners.Internals {
 		private readonly Dictionary<string, List<PropertyChangedEventHandler>> _handlerDictionary = [];
 		private readonly WeakReference<INotifyPropertyChanged> _source;
 
-		public AnonymousPropertyChangedEventHandlerBag( INotifyPropertyChanged source ) {
-			if( source == null ) throw new ArgumentNullException( nameof( source ) );
-
+		public PropertyChangedEventHandlerBag( INotifyPropertyChanged source ) {
 			_source = new WeakReference<INotifyPropertyChanged>( source );
 		}
 
-		IEnumerator<KeyValuePair<string, List<PropertyChangedEventHandler>>> IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>>.GetEnumerator() {
+		internal IEnumerator<KeyValuePair<string, List<PropertyChangedEventHandler>>> GetEnumerator()
 			// ReSharper disable once InconsistentlySynchronizedField
-			return _handlerDictionary.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			// ReSharper disable once InconsistentlySynchronizedField
-			return _handlerDictionary.GetEnumerator();
-		}
+			=> _handlerDictionary.GetEnumerator();
+		
 
 		public void RegisterHandler( PropertyChangedEventHandler handler ) {
 			RegisterHandler( string.Empty, handler );

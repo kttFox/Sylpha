@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using Sylpha.EventListeners.WeakEvents;
 
 namespace Sylpha.Messaging {
@@ -21,14 +22,6 @@ namespace Sylpha.Messaging {
 				);
 		}
 
-		public MessageListener( Messenger messenger, string? messageKey, Action<Message> action ) : this( messenger ) {
-			if( action == null ) throw new ArgumentNullException( nameof( action ) );
-
-			RegisterAction( messageKey ?? string.Empty, action );
-		}
-
-		public MessageListener( Messenger messenger, Action<Message> action ) : this( messenger, null, action ) { }
-
 		IEnumerator<KeyValuePair<string, ConcurrentBag<Action<Message>>>> IEnumerable<KeyValuePair<string, ConcurrentBag<Action<Message>>>>.GetEnumerator() {
 			ThrowExceptionIfDisposed();
 			return _actionDictionary.GetEnumerator();
@@ -39,15 +32,18 @@ namespace Sylpha.Messaging {
 			return _actionDictionary.GetEnumerator();
 		}
 
-		public void RegisterAction( Action<Message> action ) => RegisterAction( string.Empty, action );
+		public void RegisterAction( params IEnumerable<Action<Message>> actions ) => RegisterAction( string.Empty, actions );
 
-		public void RegisterAction( string messageKey, Action<Message> action ) {
+		public void RegisterAction( string messageKey, params IEnumerable<Action<Message>> actions ) {
 			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
-			if( action == null ) throw new ArgumentNullException( nameof( action ) );
+			if( actions == null || actions.Contains( null ) ) throw new ArgumentNullException( nameof( actions ) );
 
 			ThrowExceptionIfDisposed();
 
-			_actionDictionary.GetOrAdd( messageKey, x => [] ).Add( action );
+			var bag = _actionDictionary.GetOrAdd( messageKey, x => [] );
+			foreach( var action in actions ) {
+				bag.Add( action );
+			}
 		}
 
 		private void MessageReceived( object? sender, MessageRaisedEventArgs e ) {

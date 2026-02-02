@@ -8,10 +8,10 @@ using Sylpha.EventListeners.Internals;
 
 namespace Sylpha.EventListeners.WeakEvents {
 	/// <summary>
-	/// INotifyPropertyChanged.PropertyChangedを受信するためのWeakイベントリスナです。
+	/// INotifyPropertyChanged.PropertyChangedを受信するためのWeakイベントリスナーです。
 	/// </summary>
 	public sealed class PropertyChangedWeakEventListener : WeakEventListener<PropertyChangedEventHandler, PropertyChangedEventArgs>, IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>>, IDisposable {
-		private readonly AnonymousPropertyChangedEventHandlerBag _bag;
+		private readonly PropertyChangedEventHandlerBag _bag;
 
 		/// <summary>
 		/// コンストラクタ
@@ -20,7 +20,7 @@ namespace Sylpha.EventListeners.WeakEvents {
 		public PropertyChangedWeakEventListener( INotifyPropertyChanged source ) {
 			if( source == null ) throw new ArgumentNullException( nameof( source ) );
 
-			_bag = new AnonymousPropertyChangedEventHandlerBag( source );
+			_bag = new PropertyChangedEventHandlerBag( source );
 			Initialize(
 				h => new PropertyChangedEventHandler( h ?? throw new ArgumentNullException( nameof( h ) ) ),
 				h => source.PropertyChanged += h,
@@ -29,17 +29,11 @@ namespace Sylpha.EventListeners.WeakEvents {
 			);
 		}
 
+		IEnumerator<KeyValuePair<string, List<PropertyChangedEventHandler>>> IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>>.GetEnumerator()
+			=> _bag.GetEnumerator();
 
-
-		IEnumerator<KeyValuePair<string, List<PropertyChangedEventHandler>>> IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>>.GetEnumerator() {
-			ThrowExceptionIfDisposed();
-			return ( (IEnumerable<KeyValuePair<string, List<PropertyChangedEventHandler>>>)_bag ).GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			ThrowExceptionIfDisposed();
-			return ( (IEnumerable)_bag ).GetEnumerator();
-		}
+		IEnumerator IEnumerable.GetEnumerator()
+			=> _bag.GetEnumerator();
 
 		/// <summary>
 		/// このリスナーインスタンスに新たなハンドラを追加します。

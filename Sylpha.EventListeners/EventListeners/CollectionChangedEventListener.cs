@@ -7,10 +7,10 @@ using Sylpha.EventListeners.Internals;
 
 namespace Sylpha.EventListeners {
 	/// <summary>
-	/// INotifyCollectionChanged.NotifyCollectionChangedを受信するためのイベントリスナです。
+	/// INotifyCollectionChanged.NotifyCollectionChangedを受信するためのイベントリスナーです。
 	/// </summary>
 	public sealed class CollectionChangedEventListener : EventListener<NotifyCollectionChangedEventHandler>, IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>, IDisposable {
-		private readonly AnonymousCollectionChangedEventHandlerBag _bag;
+		private readonly CollectionChangedEventHandlerBag _bag;
 
 		/// <summary>
 		/// コンストラクタ
@@ -19,7 +19,7 @@ namespace Sylpha.EventListeners {
 		public CollectionChangedEventListener( INotifyCollectionChanged source ) {
 			if( source == null ) throw new ArgumentNullException( nameof( source ) );
 
-			_bag = new AnonymousCollectionChangedEventHandlerBag( source );
+			_bag = new CollectionChangedEventHandlerBag( source );
 			Initialize(
 				h => source.CollectionChanged += h,
 				h => source.CollectionChanged -= h,
@@ -27,15 +27,11 @@ namespace Sylpha.EventListeners {
 			);
 		}
 
+		IEnumerator<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>> IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>.GetEnumerator()
+			=> _bag.GetEnumerator();
 
-
-		IEnumerator<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>> IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>.GetEnumerator() {
-			return ( (IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>)_bag ).GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			return ( (IEnumerable)_bag ).GetEnumerator();
-		}
+		IEnumerator IEnumerable.GetEnumerator()
+			=> _bag.GetEnumerator();
 
 		/// <summary>
 		/// このリスナーインスタンスに新たなハンドラを追加します。

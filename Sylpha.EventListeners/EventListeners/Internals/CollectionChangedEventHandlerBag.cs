@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 
 namespace Sylpha.EventListeners.Internals {
-	internal class AnonymousCollectionChangedEventHandlerBag : IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>> {
+	internal class CollectionChangedEventHandlerBag {
 #if NET9_0_OR_GREATER
 		private readonly Lock _allHandlerListLockObject = new();
 		private readonly Lock _handlerDictionaryLockObject = new();
@@ -21,21 +21,14 @@ namespace Sylpha.EventListeners.Internals {
 		private readonly Dictionary<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>> _handlerDictionary = [];
 		private readonly WeakReference<INotifyCollectionChanged> _source;
 
-		public AnonymousCollectionChangedEventHandlerBag( INotifyCollectionChanged source ) {
-			if( source == null ) throw new ArgumentNullException( nameof( source ) );
-
+		public CollectionChangedEventHandlerBag( INotifyCollectionChanged source ) {
 			_source = new WeakReference<INotifyCollectionChanged>( source );
 		}
 
-		IEnumerator<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>> IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>.GetEnumerator() {
+		internal IEnumerator<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>> GetEnumerator() 
 			// ReSharper disable once InconsistentlySynchronizedField
-			return _handlerDictionary.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			// ReSharper disable once InconsistentlySynchronizedField
-			return _handlerDictionary.GetEnumerator();
-		}
+			=> _handlerDictionary.GetEnumerator();
+			
 
 		public void RegisterHandler( params IEnumerable<NotifyCollectionChangedEventHandler> handlers ) {
 			lock( _allHandlerListLockObject ) { _allHandlerList.AddRange( handlers ); }
