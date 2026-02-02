@@ -109,7 +109,6 @@ namespace Sylpha.Messaging {
 		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
 		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
 		/// </summary>
-		/// <returns>自身の新しいインスタンス</returns>
 		protected override Freezable CreateInstanceCore() => new MessageBoxMessage();
 	}
 }
