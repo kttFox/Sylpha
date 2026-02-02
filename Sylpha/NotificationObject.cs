@@ -42,8 +42,7 @@ namespace Sylpha {
 		/// <param name="propertyName">プロパティ名</param>
 		[NotifyPropertyChangedInvocator]
 		protected virtual void RaisePropertyChanged( [CallerMemberName] string propertyName = "" ) {
-			var threadSafeHandler = Interlocked.CompareExchange( ref PropertyChanged, null, null );
-			threadSafeHandler?.Invoke( this, EventArgsFactory.GetPropertyChangedEventArgs( propertyName ) );
+			PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( propertyName ) );
 		}
 
 		/// <summary>

@@ -13,7 +13,6 @@ namespace $safeprojectname$
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            DispatcherHelper.UIDispatcher = Dispatcher;
             //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
         }
 
