@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Threading;
 using Sylpha.EventListeners.WeakEvents;
 
 namespace Sylpha.Messaging {
@@ -12,12 +10,9 @@ namespace Sylpha.Messaging {
 
 		private readonly WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs> _listener;
 
-		private readonly WeakReference<Messenger> _source;
-
 		public MessageListener( Messenger messenger ) {
 			if( messenger == null ) throw new ArgumentNullException( nameof( messenger ) );
 
-			_source = new( messenger );
 			_listener = new(
 					h => h,
 					h => messenger.Raised += h,
@@ -34,11 +29,6 @@ namespace Sylpha.Messaging {
 
 		public MessageListener( Messenger messenger, Action<Message> action ) : this( messenger, null, action ) { }
 
-		public Dispatcher Dispatcher {
-			get;
-			set { field = value ?? throw new ArgumentNullException( nameof( value ) ); }
-		} = Dispatcher.CurrentDispatcher;
-		
 		IEnumerator<KeyValuePair<string, ConcurrentBag<Action<Message>>>> IEnumerable<KeyValuePair<string, ConcurrentBag<Action<Message>>>>.GetEnumerator() {
 			ThrowExceptionIfDisposed();
 			return _actionDictionary.GetEnumerator();
@@ -49,16 +39,15 @@ namespace Sylpha.Messaging {
 			return _actionDictionary.GetEnumerator();
 		}
 
-		public void RegisterAction( Action<Message> action ) =>	RegisterAction( string.Empty, action );
+		public void RegisterAction( Action<Message> action ) => RegisterAction( string.Empty, action );
 
 		public void RegisterAction( string messageKey, Action<Message> action ) {
 			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
 			if( action == null ) throw new ArgumentNullException( nameof( action ) );
 
 			ThrowExceptionIfDisposed();
-			var dic = _actionDictionary.GetOrAdd( messageKey, _ => [] ) ?? throw new InvalidOperationException();
 
-			dic.Add( action );
+			_actionDictionary.GetOrAdd( messageKey, x => [] ).Add( action );
 		}
 
 		private void MessageReceived( object? sender, MessageRaisedEventArgs e ) {
@@ -67,11 +56,9 @@ namespace Sylpha.Messaging {
 
 			var message = e.Message;
 			var clonedMessage = (Message)message.Clone();
-
 			clonedMessage.Freeze();
 
-			DoActionOnDispatcher( () => { GetValue( e, clonedMessage ); } );
-
+			GetValue( e, clonedMessage );
 
 			if( message is IRequestMessage requestMessage ) {
 				object? response = ( (IRequestMessage)clonedMessage ).Response;
@@ -84,35 +71,18 @@ namespace Sylpha.Messaging {
 		private void GetValue( MessageRaisedEventArgs e, Message cloneMessage ) {
 			if( e == null ) throw new ArgumentNullException( nameof( e ) );
 
-			var result = _source.TryGetTarget( out _ );
-
-			if( !result ) return;
-
 			if( e.Message.MessageKey != null ) {
-				_actionDictionary.TryGetValue( e.Message.MessageKey, out var list );
-
-				if( list != null ) {
+				if( _actionDictionary.TryGetValue( e.Message.MessageKey, out var list ) ) {
 					foreach( var action in list ) {
 						action( cloneMessage );
 					}
 				}
 			}
 
-			_actionDictionary.TryGetValue( string.Empty, out var allList );
-			if( allList == null ) return;
-
-			foreach( var action in allList ) {
-				action( cloneMessage );
-			}
-		}
-
-		private void DoActionOnDispatcher( Action action ) {
-			if( action == null ) throw new ArgumentNullException( nameof( action ) );
-
-			if( Dispatcher.CheckAccess() ) {
-				action();
-			} else {
-				Dispatcher.Invoke( action );
+			if( _actionDictionary.TryGetValue( string.Empty, out var allList ) ) {
+				foreach( var action in allList ) {
+					action( cloneMessage );
+				}
 			}
 		}
 

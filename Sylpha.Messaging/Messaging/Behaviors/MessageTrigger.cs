@@ -45,20 +45,11 @@ namespace Sylpha.Messaging.Behaviors {
 			var cloneMessage = (Message)message.Clone();
 			cloneMessage.Freeze();
 
-			var checkResult = false;
+			if( MessageKey != cloneMessage.MessageKey ) {
+				return;
+			}
 
-			DoActionOnDispatcher( () => {
-				if( MessageKey != cloneMessage.MessageKey ) {
-					return;
-				}
-
-				checkResult = true;
-			} );
-
-			if( !checkResult ) return;
-
-			DoActionOnDispatcher( () => InvokeActions( cloneMessage ) );
-
+			InvokeActions( cloneMessage );
 
 			if( message is IRequestMessage requestMessage ) {
 				requestMessage.Response = ( (IRequestMessage)cloneMessage ).Response;
@@ -67,17 +58,6 @@ namespace Sylpha.Messaging.Behaviors {
 				showWindowMessage.WindowViewModel = ( (ShowWindowMessage)cloneMessage ).WindowViewModel;
 			}
 		}
-
-		private void DoActionOnDispatcher( Action action ) {
-			if( Dispatcher == null ) throw new InvalidOperationException( "Dispatcher is null." );
-
-			if( Dispatcher.CheckAccess() ) {
-				action();
-			} else {
-				Dispatcher.Invoke( action );
-			}
-		}
-
 		#endregion
 
 		private WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs>? _listener;
