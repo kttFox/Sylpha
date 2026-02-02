@@ -18,7 +18,7 @@ namespace Sylpha.Messaging.Behaviors {
 
 		// Using a DependencyProperty as the backing store for OwnedFromThis.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty OwnedFromThisProperty =
-			DependencyProperty.Register( nameof( IsOwned ), typeof( bool ), typeof( TransitionInteractionMessageAction ), new PropertyMetadata( true ) );
+			DependencyProperty.Register( nameof( OwnedFromThis ), typeof( bool ), typeof( TransitionInteractionMessageAction ), new PropertyMetadata( true ) );
 
 		/// <summary>
 		/// 遷移するウインドウの型を指定、または取得します。
@@ -40,7 +40,7 @@ namespace Sylpha.Messaging.Behaviors {
 		/// <summary>
 		/// 遷移先ウィンドウがこのウィンドウに所有されるかを設定します。
 		/// </summary>
-		public bool IsOwned {
+		public bool OwnedFromThis {
 			get { return (bool)( GetValue( OwnedFromThisProperty ) ?? default( bool ) ); }
 			set { SetValue( OwnedFromThisProperty, value ); }
 		}
@@ -76,7 +76,7 @@ namespace Sylpha.Messaging.Behaviors {
 					if( transitionMessage.TransitionViewModel != null )
 						targetWindow.DataContext = transitionMessage.TransitionViewModel;
 
-					if( IsOwned ) targetWindow.Owner = Window.GetWindow( associatedObject );
+					if( OwnedFromThis ) targetWindow.Owner = Window.GetWindow( associatedObject );
 
 					if( mode == TransitionMode.Normal ) {
 						targetWindow.Show();
@@ -95,13 +95,13 @@ namespace Sylpha.Messaging.Behaviors {
 
 						if( transitionMessage.TransitionViewModel != null )
 							window.DataContext = transitionMessage.TransitionViewModel;
-						if( IsOwned ) window.Owner = Window.GetWindow( associatedObject );
+						if( OwnedFromThis ) window.Owner = Window.GetWindow( associatedObject );
 						window.Show();
 						transitionMessage.Response = null;
 					} else {
 						if( transitionMessage.TransitionViewModel != null )
 							window.DataContext = transitionMessage.TransitionViewModel;
-						if( IsOwned ) window.Owner = Window.GetWindow( associatedObject );
+						if( OwnedFromThis ) window.Owner = Window.GetWindow( associatedObject );
 						window.Activate();
 
 						// 最小化中なら戻す
