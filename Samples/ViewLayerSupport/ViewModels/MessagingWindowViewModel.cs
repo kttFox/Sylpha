@@ -6,6 +6,9 @@ using Sylpha.Messaging;
 
 namespace ViewLayerSupport.ViewModels {
 	public class MessagingWindowViewModel : ViewModel {
+		public void Initialize() { }
+
+
 		private string _outputMessage;
 
 		public string OutputMessage {
@@ -45,7 +48,6 @@ namespace ViewLayerSupport.ViewModels {
 
 			OutputMessage = $"{DateTime.Now}: FolderSelected: {selectedPaths}";
 		}
-
-		public void Initialize() { }
+		
 	}
 }

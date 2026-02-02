@@ -2,9 +2,8 @@
 using System.Windows;
 using Microsoft.Xaml.Behaviors;
 using System.Windows.Markup;
-using Sylpha.Messaging;
 
-namespace Sylpha.Behaviors.Messaging {
+namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// ViewModelからの相互作用メッセージに対応するアクションの基底抽象クラスです<br />
 	/// 独自のアクションを定義する場合はこのクラスを継承してください。

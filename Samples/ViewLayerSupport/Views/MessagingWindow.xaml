@@ -51,7 +51,9 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
-		<Button Content="Single FileDialog">
+
+		<Button Margin="0,10,0,0"
+				Content="Single FileDialog">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<s:OpenFileDialogInteractionMessageAction>
@@ -76,27 +78,41 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
-		<Button Content="Single FolderDialog">
+		<Button Margin="0,10,0,0"
+				Content="CommonOpenFileDialog">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<s:FolderBrowserDialogInteractionMessageAction>
 						<s:DirectInteractionMessage CallbackMethodName="FolderSelected"
 													CallbackMethodTarget="{Binding}">
-							<s:FolderSelectionMessage Description="フォルダーの選択"
-													  DialogPreference="None" />
+							<s:FolderSelectionMessage Title="フォルダの選択"
+													  DialogPreference="CommonItemDialog" />
 						</s:DirectInteractionMessage>
 					</s:FolderBrowserDialogInteractionMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
-		<Button Content="Multi FolderDialog">
+		<Button Content="Single FolderBrowserDialog">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<s:FolderBrowserDialogInteractionMessageAction>
 						<s:DirectInteractionMessage CallbackMethodName="FolderSelected"
 													CallbackMethodTarget="{Binding}">
 							<s:FolderSelectionMessage Description="フォルダーの選択"
-													  DialogPreference="None"
+													  DialogPreference="FolderBrowser" />
+						</s:DirectInteractionMessage>
+					</s:FolderBrowserDialogInteractionMessageAction>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</Button>
+		<Button Content="Multi FolderBrowserDialog">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Click">
+					<s:FolderBrowserDialogInteractionMessageAction>
+						<s:DirectInteractionMessage CallbackMethodName="FolderSelected"
+													CallbackMethodTarget="{Binding}">
+							<s:FolderSelectionMessage Description="フォルダーの選択"
+													  DialogPreference="FolderBrowser"
 													  Multiselect="True" />
 						</s:DirectInteractionMessage>
 					</s:FolderBrowserDialogInteractionMessageAction>

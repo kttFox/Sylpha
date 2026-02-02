@@ -2,7 +2,7 @@
 using System.Windows;
 using Microsoft.Xaml.Behaviors;
 
-namespace Sylpha.Behaviors {
+namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// 引数を一つだけ持つメソッドに対応したCallMethodActionです。
 	/// </summary>

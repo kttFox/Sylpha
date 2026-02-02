@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
 using JetBrains.Annotations;
-using Sylpha.Messaging;
 
-namespace Sylpha.Behaviors.Messaging {
+namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// Windowの最小化・最大化・閉じるを行うアクションです。WindowActionMessageに対応します。
 	/// </summary>

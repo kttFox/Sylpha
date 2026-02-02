@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Windows;
 using JetBrains.Annotations;
-using Sylpha.Messaging;
 
-namespace Sylpha.Behaviors.Messaging {
+namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// 画面遷移(Window)を行うアクションです。<see cref="TransitionMessage" />に対応します。
 	/// </summary>

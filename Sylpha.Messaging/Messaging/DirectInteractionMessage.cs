@@ -2,9 +2,8 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
-using Sylpha.Messaging;
 
-namespace Sylpha.Behaviors.Messaging {
+namespace Sylpha.Messaging {
 	/// <summary>
 	/// Viewから直接相互作用メッセージを定義する際に使用します。
 	/// </summary>

@@ -1,7 +1,6 @@
 ﻿using System.Windows;
-using Sylpha.Messaging;
 
-namespace Sylpha.Behaviors.Messaging {
+namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// 確認ダイアログを表示するアクションです。<see cref="ConfirmationMessage" />に対応します。
 	/// </summary>

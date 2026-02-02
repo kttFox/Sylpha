@@ -1,8 +1,7 @@
 ﻿using System.Windows;
-using Sylpha.Messaging;
 using Microsoft.Win32;
 
-namespace Sylpha.Behaviors.Messaging {
+namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// 「ファイルを開く」ダイアログを表示するアクションです。<see cref="OpeningFileSelectionMessage" />に対応します。
 	/// </summary>

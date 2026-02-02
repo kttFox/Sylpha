@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
 using Sylpha.Dialogs;
-using Sylpha.Messaging;
 
-namespace Sylpha.Behaviors.Messaging {
+namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// Show folder browser dialog.
 	/// <see cref="InteractionMessageAction{T}" /> for <see cref="FolderSelectionMessage" />.

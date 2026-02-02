@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using JetBrains.Annotations;
-using Sylpha.Messaging;
 
-namespace Sylpha.Behaviors.Messaging {
+namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// 情報ダイアログを表示するアクションです。InformationMessageに対応します。
 	/// </summary>

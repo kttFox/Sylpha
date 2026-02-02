@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Sylpha.Behaviors {
+namespace Sylpha.Messaging {
 	/// <summary>
 	/// ビヘイビア・トリガー・アクションでのメソッド直接バインディングを可能にするためのクラスです。<br />
 	/// 引数の無いメソッドを実行します。メソッドの実行は最大限キャッシュされます。

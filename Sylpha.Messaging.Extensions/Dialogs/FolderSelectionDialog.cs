@@ -44,6 +44,7 @@ namespace Sylpha.Dialogs {
 		/// </summary>
 		public abstract string[] SelectedPaths { get; }
 
+		#region Dispose
 		/// <summary>
 		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
 		/// </summary>
@@ -59,6 +60,7 @@ namespace Sylpha.Dialogs {
 		/// <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
 		/// </param>
 		protected virtual void Dispose( bool disposing ) { }
+		#endregion
 
 		/// <summary>
 		/// Shows the dialog with specified <see cref="Window" /> as host window.

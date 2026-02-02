@@ -2,9 +2,8 @@
 using System.Windows;
 using Microsoft.Xaml.Behaviors;
 using Sylpha.EventListeners.WeakEvents;
-using Sylpha.Messaging;
 
-namespace Sylpha.Behaviors.Messaging {
+namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// ViewModelからの相互作用メッセージを受信し、アクションを実行します。
 	/// </summary>
@@ -23,8 +22,7 @@ namespace Sylpha.Behaviors.Messaging {
 
 		private bool _disposed;
 
-		private WeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
-			InteractionMessageRaisedEventArgs>? _listener;
+		private WeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>, InteractionMessageRaisedEventArgs>? _listener;
 
 		private bool _loaded = true;
 

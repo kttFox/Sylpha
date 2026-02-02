@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
-using IWin32Window = System.Windows.Forms.IWin32Window;
 
 namespace Sylpha.Dialogs {
 	/// <summary>
@@ -115,7 +114,7 @@ namespace Sylpha.Dialogs {
 		/// <summary>
 		/// A simple <see cref="System.Windows.Interop.IWin32Window" /> implementation wraps HWND.
 		/// </summary>
-		private sealed class WindowsFormsWin32Window : IWin32Window {
+		private sealed class WindowsFormsWin32Window : System.Windows.Forms.IWin32Window {
 			/// <summary>
 			/// Initializes a new instance of the <see cref="WindowsFormsWin32Window" /> class.
 			/// </summary>

@@ -8,7 +8,7 @@ namespace Sylpha.Dialogs {
 	/// <summary>
 	/// The factory to abstract concrete implementation of <see cref="FolderSelectionDialog" />.
 	/// </summary>
-	internal sealed class FolderSelectionDialogFactory {
+	internal static class FolderSelectionDialogFactory {
 		/// <summary>
 		/// Gets a value indicating whether this platform can use Win32 Common Item Dialog.
 		/// </summary>
