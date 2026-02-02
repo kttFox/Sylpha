@@ -1,0 +1,16 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="LivetCask.Behaviors/LivetCask.Behaviors.csproj" />
+  <Project Path="LivetCask.Collections/LivetCask.Collections.csproj" />
+  <Project Path="LivetCask.Core/LivetCask.Core.csproj" />
+  <Project Path="LivetCask.EventListeners/LivetCask.EventListeners.csproj" />
+  <Project Path="LivetCask.Extensions/LivetCask.Extensions.csproj" />
+  <Project Path="LivetCask.Messaging/LivetCask.Messaging.csproj" />
+  <Project Path="LivetCask.Mvvm/LivetCask.Mvvm.csproj" />
+  <Project Path="LivetCask.StatefulModel/LivetCask.StatefulModel.csproj" />
+  <Project Path="LivetCask/LivetCask.csproj" />
+</Solution>

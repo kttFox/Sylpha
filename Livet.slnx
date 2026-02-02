@@ -1,0 +1,37 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Samples/">
+    <Project Path="Samples/ViewLayerSupport/ViewLayerSupport.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Livet.props" />
+  </Folder>
+  <Folder Name="/Templates/">
+    <Project Path="Templates/Livet.Extensibility/Livet.Extensibility.csproj" Id="1e6a8600-faee-4a7b-8118-7366ec8e0582" />
+    <Project Path="Templates/Livet.ProjectTemplate.CSharp.NETCore/Livet.ProjectTemplate.CSharp.NETCore.csproj" Id="e6999a6d-614b-4d41-bae2-14fb16d1bd2c" />
+    <Project Path="Templates/Livet.ProjectTemplate.CSharp/Livet.ProjectTemplate.CSharp.csproj" Id="7c69d055-0538-4f7c-a11f-623dfeeab1a7" />
+  </Folder>
+  <Folder Name="/Templates/ItemTemplates/">
+    <Project Path="Templates/ItemTemplates/Livet.ItemTemplateExtension/Livet.ItemTemplateExtension.csproj" Id="37a0605c-c950-4446-9b2a-94e6b3d6c0b5" />
+    <Project Path="Templates/ItemTemplates/LivetInteractionMessageAction.CSharp/LivetInteractionMessageAction.CSharp.csproj" Id="a05a0e54-4f4c-48e8-94c2-551f0b0c959a" />
+    <Project Path="Templates/ItemTemplates/LivetMessage.CSharp/LivetMessage.CSharp.csproj" Id="7e9ae206-6fe5-4b1f-9feb-6abf29c2a938" />
+    <Project Path="Templates/ItemTemplates/LivetModel.CSharp/LivetModel.CSharp.csproj" Id="af7a7eaa-0999-4619-80fe-41bbc58fbbb0" />
+    <Project Path="Templates/ItemTemplates/LivetViewModel.CSharp/LivetViewModel.CSharp.csproj" Id="7de713e7-01c0-4223-ac06-cb53ac65a78c" />
+    <Project Path="Templates/ItemTemplates/LivetWindow.CSharp/LivetWindow.CSharp.csproj" Id="794a2b28-e4aa-4cc8-bcd0-acf3d2068cde" />
+  </Folder>
+  <Project Path="Livet.Annotations/Livet.Annotations.shproj" />
+  <Project Path="Livet.Test/Livet.Test.csproj" />
+  <Project Path="LivetCask.Behaviors/LivetCask.Behaviors.csproj" />
+  <Project Path="LivetCask.Collections/LivetCask.Collections.csproj" />
+  <Project Path="LivetCask.Core/LivetCask.Core.csproj" />
+  <Project Path="LivetCask.EventListeners/LivetCask.EventListeners.csproj" />
+  <Project Path="LivetCask.Extensions/LivetCask.Extensions.csproj" />
+  <Project Path="LivetCask.Messaging/LivetCask.Messaging.csproj" />
+  <Project Path="LivetCask.Mvvm/LivetCask.Mvvm.csproj" />
+  <Project Path="LivetCask.StatefulModel/LivetCask.StatefulModel.csproj" />
+  <Project Path="LivetCask/LivetCask.csproj" />
+</Solution>
