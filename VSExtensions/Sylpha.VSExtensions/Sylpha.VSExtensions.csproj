@@ -24,8 +24,8 @@
     <ProjectGuid>{CAB30E9F-830C-402B-82DB-3FAC30C195F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sylpha.Extensibility</RootNamespace>
-    <AssemblyName>Sylpha.Extensibility</AssemblyName>
+    <RootNamespace>Sylpha.Extensions</RootNamespace>
+    <AssemblyName>Sylpha.Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>false</IncludeAssemblyInVSIXContainer>
@@ -123,14 +123,14 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\Sylpha.ProjectTemplate.NETCore\Sylpha.ProjectTemplate.NETCore.csproj">
+    <ProjectReference Include="..\ProjectTemplate\Sylpha.ProjectTemplate.NETCore\Sylpha.ProjectTemplate.NETCore.csproj">
       <Project>{DC80F20A-1F81-450E-9149-E6BD1B5DC5E0}</Project>
       <Name>Sylpha.ProjectTemplate.NETCore</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\Sylpha.ProjectTemplate\Sylpha.ProjectTemplate.csproj">
+    <ProjectReference Include="..\ProjectTemplate\Sylpha.ProjectTemplate\Sylpha.ProjectTemplate.csproj">
       <Project>{8EF5969E-EDF0-45B2-B3BD-869881CEE73F}</Project>
       <Name>Sylpha.ProjectTemplate</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>

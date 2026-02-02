@@ -6,17 +6,21 @@
     <File Path=".editorconfig" />
     <File Path="Sylpha.props" />
   </Folder>
-  <Folder Name="/Templates/">
-    <Project Path="Templates/Sylpha.Extensibility/Sylpha.Extensibility.csproj" Id="cab30e9f-830c-402b-82DB-3fac30c195f3" />
-    <Project Path="Templates/Sylpha.ProjectTemplate.NETCore/Sylpha.ProjectTemplate.NETCore.csproj" Id="dc80f20a-1f81-450e-9149-e6bd1b5dc5e0" />
-    <Project Path="Templates/Sylpha.ProjectTemplate/Sylpha.ProjectTemplate.csproj" Id="8ef5969e-edf0-45b2-b3bd-869881cee73f" />
-  </Folder>
-  <Folder Name="/Templates/ItemTemplates/">
-    <Project Path="Templates/ItemTemplates/Sylpha.Model/Sylpha.Model.csproj" Id="796ca9fb-cb54-477e-83e9-f323d6c52850" />
-    <Project Path="Templates/ItemTemplates/Sylpha.ViewModel/Sylpha.ViewModel.csproj" Id="d7bc7f39-8f83-4e5c-bc37-05c99ffd7faa" />
-    <Project Path="Templates/ItemTemplates/Sylpha.Window/Sylpha.Window.csproj" Id="4023567e-b348-44cc-8b5b-c8032baf1376" />
-  </Folder>
   <Project Path="Sylpha.Test/Sylpha.Test.csproj" />
+  <Folder Name="/VSExtensions/">
+    <Project Path="VSExtensions/Sylpha.VSExtensions/Sylpha.VSExtensions.csproj" Id="cab30e9f-830c-402b-82db-3fac30c195f3">
+      <Build Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/VSExtensions/ItemTemplates/">
+    <Project Path="VSExtensions/ItemTemplates/Sylpha.Model/Sylpha.Model.csproj" Id="796ca9fb-cb54-477e-83e9-f323d6c52850" />
+    <Project Path="VSExtensions/ItemTemplates/Sylpha.ViewModel/Sylpha.ViewModel.csproj" Id="d7bc7f39-8f83-4e5c-bc37-05c99ffd7faa" />
+    <Project Path="VSExtensions/ItemTemplates/Sylpha.Window/Sylpha.Window.csproj" Id="4023567e-b348-44cc-8b5b-c8032baf1376" />
+  </Folder>
+  <Folder Name="/VSExtensions/ProjectTemplate/">
+    <Project Path="VSExtensions/ProjectTemplate/Sylpha.ProjectTemplate.NETCore/Sylpha.ProjectTemplate.NETCore.csproj" Id="dc80f20a-1f81-450e-9149-e6bd1b5dc5e0" />
+    <Project Path="VSExtensions/ProjectTemplate/Sylpha.ProjectTemplate/Sylpha.ProjectTemplate.csproj" Id="8ef5969e-edf0-45b2-b3bd-869881cee73f" />
+  </Folder>
   <Project Path="Sylpha.EventListeners/Sylpha.EventListeners.csproj" />
   <Project Path="Sylpha.Messaging.Extensions/Sylpha.Messaging.Extensions.csproj" />
   <Project Path="Sylpha.Messaging/Sylpha.Messaging.csproj" />
