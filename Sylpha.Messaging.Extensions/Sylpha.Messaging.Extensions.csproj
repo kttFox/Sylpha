@@ -29,7 +29,7 @@ This package adds folder browser functionality using the Windows API.</Descripti
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31">
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135">
     </PackageReference>
   </ItemGroup>
 
