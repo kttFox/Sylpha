@@ -25,13 +25,13 @@ namespace ViewLayerSupport.ViewModels {
 			OutputMessage = $"{DateTime.Now}: MessageBoxFromViewModel: {message.Response}";
 		}
 
-		public void MessageBoxFromView( [NotNull] MessageBoxMessage messageBoxMessage ) {
+		public void MessageBoxFromView( MessageBoxMessage messageBoxMessage ) {
 			if( messageBoxMessage == null ) throw new ArgumentNullException( nameof( messageBoxMessage ) );
 
 			OutputMessage = $"{DateTime.Now}: MessageBoxFromView: {messageBoxMessage.Response}";
 		}
 
-		public void FileSelected( [NotNull] OpenFileDialogMessage message ) {
+		public void FileSelected( OpenFileDialogMessage message ) {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
 

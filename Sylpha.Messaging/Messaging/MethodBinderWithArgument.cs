@@ -1,123 +1,151 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Sylpha.Messaging {
+
 	/// <summary>
-	/// ビヘイビア・トリガー・アクションでのメソッド直接バインディングを可能にするためのクラスです。<br />
-	/// 引数が一つだけ存在するメソッドを実行します。メソッドの実行は最大限キャッシュされます。
+	/// 単一引数を持つインスタンスメソッドをリフレクションで取得し、呼び出すクラスです。
 	/// </summary>
 	public class MethodBinderWithArgument {
-		private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<object, object?>>> MethodCacheDictionary = new();
+		private static readonly ConcurrentDictionary<(Type targetType, string methodName, Type argumentType), Action<object, object?>> ActionCacheDictionary = [];
+		private static readonly ConcurrentDictionary<(Type targetType, string methodName, Type argumentType), Func<object, object?, object>> FuncCacheDictionary = [];
 
-		private Type? _argumentType;
-		private Action<object, object?>? _method;
-		private MethodInfo? _methodInfo;
-		private string? _methodName;
-		private Type? _targetObjectType;
+		private static readonly List<Task> TaskList = [];
 
-		public void Invoke( object targetObject, string methodName, object? argument ) {
-			if( targetObject == null ) throw new ArgumentNullException( nameof( targetObject ) );
+		/// <summary>
+		/// 現在バックグラウンドで実行中のデリゲート生成タスクの列挙を取得します。
+		/// </summary>
+		public static IEnumerable<Task> Tasks => TaskList;
+
+		private (Type TargetType, string MethodName, Type ArgumentType)? _MethodCache;
+		private Action<object, object?>? _actionCache;
+		private Func<object, object?, object>? _funcCache;
+
+		private MethodInfo? _methodInfoCache;
+
+		public object? Invoke( object target, string methodName, object argument ) {
+			if( target == null ) throw new ArgumentNullException( nameof( target ) );
 			if( methodName == null ) throw new ArgumentNullException( nameof( methodName ) );
+			if( argument == null ) throw new ArgumentNullException( nameof( argument ) );
 
-			var newTargetObjectType = targetObject.GetType();
-			var newArgumentType = argument?.GetType();
-
-			if( _targetObjectType == newTargetObjectType &&
-				_methodName == methodName &&
-				_argumentType == newArgumentType ) {
-				if( _method != null ) {
-					_method( targetObject, argument );
-					return;
-				}
-
-				if( TryGetCacheFromMethodCacheDictionary( out _method ) ) {
-					_method?.Invoke( targetObject, argument );
-					return;
-				}
-
-				if( _methodInfo != null ) {
-					_methodInfo.Invoke( targetObject, [argument] );
-					return;
-				}
-			}
-
-			_targetObjectType = newTargetObjectType;
-			_argumentType = newArgumentType;
-			_methodName = methodName;
-
-			if( TryGetCacheFromMethodCacheDictionary( out _method ) ) {
-				_method?.Invoke( targetObject, argument );
-				return;
-			}
-
-			_methodInfo = _targetObjectType?.GetMethods()
-				.FirstOrDefault( method => {
-					if( method.Name != methodName ) return false;
-
-					var parameters = method.GetParameters();
-					if( parameters.Length != 1 ) return false;
-
-					var parameterType = parameters[0].ParameterType ?? throw new ArgumentException();
-					if( parameterType.IsInterface ) {
-						if( _argumentType != null
-							&& !_argumentType.GetInterfaces().Contains( parameterType ) ) return false;
-					} else {
-						if( _argumentType != null && !_argumentType.IsSubclassOf( parameterType )
-												  && _argumentType != parameterType ) return false;
-					}
-
-					return method.ReturnType == typeof( void );
-				} );
-
-			if( _methodInfo == null ) {
-				throw new ArgumentException(
-					$"{_targetObjectType?.Name} 型に {_argumentType?.Name} 型の引数を一つだけ持つメソッド {methodName} が見つかりません。" );
-			}
-
-			_methodInfo.Invoke( targetObject, [argument] );
-
-			var taskArgument = new Tuple<Type?, MethodInfo, Type>( _targetObjectType, _methodInfo, _methodInfo.GetParameters()[0].ParameterType );
-
-			Task.Factory.StartNew( arg => {
-				if( arg == null ) throw new ArgumentNullException( nameof( arg ) );
-
-				var taskArg = (Tuple<Type, MethodInfo, Type>)arg;
-
-				var paraTarget = Expression.Parameter( typeof( object ), "target" );
-				var paraMessage = Expression.Parameter( typeof( object ), nameof( argument ) );
-
-				var method = Expression.Lambda<Action<object, object?>>
-				(
-					Expression.Call
-					(
-						Expression.Convert( paraTarget, taskArg.Item1 ?? throw new ArgumentException() ),
-						taskArg.Item2 ?? throw new ArgumentException(),
-						Expression.Convert( paraMessage, taskArg.Item3 ?? throw new ArgumentException() )
-					),
-					paraTarget,
-					paraMessage
-				).Compile();
-
-				var dic = MethodCacheDictionary.GetOrAdd( taskArg.Item1, _ => [] ) ?? throw new InvalidOperationException();
-				dic.TryAdd( taskArg.Item2.Name, method );
-			}, taskArgument );
+			return Invoke( target, methodName, argument.GetType(), argument );
 		}
 
-		private bool TryGetCacheFromMethodCacheDictionary( out Action<object, object?>? m ) {
-			if( _targetObjectType == null ) throw new InvalidOperationException();
-			if( _methodName == null ) throw new InvalidOperationException();
+		/// <summary>
+		/// 引数を１つ持つインスタンスメソッドをリフレクションで取得し、呼び出すクラスです。
+		/// </summary>
+		/// <param name="target">メソッドを呼び出すインスタンス</param>
+		/// <param name="methodName">呼び出すメソッドの名前</param>
+		/// <param name="argumentType">渡す引数の型</param>
+		/// <param name="argument">実際に渡す引数のインスタンス</param>
+		/// <returns>呼び出し結果。戻り値が void の場合は null を返します。</returns>
+		/// <exception cref="ArgumentNullException">target、methodName、または argumentType が null の場合</exception>
+		/// <exception cref="ArgumentException">指定したシグネチャのメソッドが見つからない場合</exception>
+		public object? Invoke( object target, string methodName, Type argumentType, object? argument ) {
+			if( target == null ) throw new ArgumentNullException( nameof( target ) );
+			if( methodName == null ) throw new ArgumentNullException( nameof( methodName ) );
+			if( argumentType == null ) throw new ArgumentNullException( nameof( argumentType ) );
 
-			m = null;
-			var foundAction = false;
-			if( MethodCacheDictionary.TryGetValue( _targetObjectType, out var actionDictionary ) ) {
-				foundAction = actionDictionary.TryGetValue( _methodName, out m );
+			var key = (TargetType: target.GetType(), MethodName: methodName,  ArgumentType: argumentType );
+			if( key == _MethodCache ) {
+				if( _actionCache != null ) {
+					_actionCache( target, argument );
+					return null;
+				}
+				if( _funcCache != null ) {
+					return _funcCache( target, argument );
+				}
+
+				if( ActionCacheDictionary.TryGetValue( key, out _actionCache ) ) {
+					_actionCache( target, argument );
+					return null;
+				}
+				if( FuncCacheDictionary.TryGetValue( key, out _funcCache ) ) {
+					return _funcCache( target, argument );
+				}
+
+				if( _methodInfoCache != null ) {
+					return _methodInfoCache.Invoke( target, [argument] );
+				}
+
+				throw new Exception( "Cache Error" );
+
+			} else {
+				_MethodCache = key;
+				_actionCache = null;
+				_funcCache = null;
+
+				if( ActionCacheDictionary.TryGetValue( key, out _actionCache ) ) {
+					_actionCache( target, argument );
+					return null;
+				}
+				if( FuncCacheDictionary.TryGetValue( key, out _funcCache ) ) {
+					return _funcCache( target, argument );
+				}
 			}
 
-			return foundAction;
+			_methodInfoCache = key.TargetType
+									.GetMethods( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
+									.Where( method => method.Name == methodName )
+									.FirstOrDefault( method => {
+										var parameters = method.GetParameters();
+										return parameters.Length == 1
+												&& ( parameters[0].ParameterType == argumentType || parameters[0].ParameterType.IsAssignableFrom( argumentType ) );
+									} );
+			if( _methodInfoCache == null ) {
+				throw new ArgumentException( $"{key.TargetType.Name} 型に {argumentType.Name} 型の引数を１つ持つメソッド {methodName} が見つかりません。" );
+			}
+
+			// キャッシュ処理
+			var taskArgs = new { TargetType = key.TargetType, MethodInfo = _methodInfoCache, ParameterType = _methodInfoCache.GetParameters()[0].ParameterType };
+			var t = Task.Run( () => {
+				if( _methodInfoCache.ReturnType == typeof( void ) ) {
+					var paraTarget = Expression.Parameter( typeof( object ), "target" );
+					var paraParameterType = Expression.Parameter( typeof( object ), "argument" );
+
+					var method = Expression.Lambda<Action<object, object?>>(
+									Expression.Call(
+										Expression.Convert( paraTarget, taskArgs.TargetType ),
+										taskArgs.MethodInfo,
+										Expression.Convert( paraParameterType, taskArgs.ParameterType )
+									),
+									paraTarget,
+									paraParameterType
+								).Compile();
+
+					ActionCacheDictionary.TryAdd( (taskArgs.TargetType, taskArgs.MethodInfo.Name, taskArgs.ParameterType), method );
+				} else {
+					var paraTarget = Expression.Parameter( typeof( object ), "target" );
+					var paraParameterType = Expression.Parameter( typeof( object ), "argument" );
+
+					var method = Expression.Lambda<Func<object, object?, object>>(
+									Expression.Convert(
+										Expression.Call(
+											Expression.Convert( paraTarget, taskArgs.TargetType ),
+											taskArgs.MethodInfo,
+											Expression.Convert( paraParameterType, taskArgs.ParameterType )
+										),
+										typeof( object )
+									),
+									paraTarget,
+									paraParameterType
+								).Compile();
+
+					FuncCacheDictionary.TryAdd( (taskArgs.TargetType, taskArgs.MethodInfo.Name, taskArgs.ParameterType), method );
+
+				}
+			} );
+			TaskList.Add( t );
+			t.ContinueWith( task => {
+				TaskList.Remove( task );
+			} );
+
+			return _methodInfoCache.Invoke( target, [argument] );
 		}
 	}
 }

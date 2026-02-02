@@ -24,7 +24,7 @@ namespace Sylpha.Messaging {
 		/// <typeparam name="T">戻り値情報のあるメッセージの型</typeparam>
 		/// <param name="message">戻り値情報のあるメッセージ</param>
 		/// <returns>アクション実行後に、戻り情報を含んだメッセージ</returns>
-		public T GetResponse<T>( T message ) where T : Message, IRequest {
+		public T GetResponse<T>( T message ) where T : Message, IRequestMessage {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 			if( !message.IsFrozen ) message.Freeze();
 
@@ -54,7 +54,7 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		/// <typeparam name="T">戻り値情報のあるメッセージの型</typeparam>
 		/// <param name="message">戻り値情報のあるメッセージ</param>
-		public async Task<T?> GetResponseAsync<T>( T message ) where T : Message, IRequest {
+		public async Task<T?> GetResponseAsync<T>( T message ) where T : Message, IRequestMessage {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
 			if( !message.IsFrozen ) message.Freeze();
@@ -66,23 +66,12 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// メッセージ送信時イベント用のイベント引数です。
 	/// </summary>
-	public class MessageRaisedEventArgs : EventArgs {
-		private Message _message;
-
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="message">Message</param>
-		public MessageRaisedEventArgs( Message message ) {
-			_message = message ?? throw new ArgumentNullException( nameof( message ) );
-		}
+	/// <param name="message">Message</param>
+	public class MessageRaisedEventArgs( Message message ) : EventArgs {
 
 		/// <summary>
 		/// 送信されたメッセージ
 		/// </summary>
-		public Message Message {
-			get { return _message; }
-			set { _message = value ?? throw new ArgumentNullException( nameof( value ) ); }
-		}
+		public Message Message { get; } = message ?? throw new ArgumentNullException( nameof( message ) );
 	}
 }

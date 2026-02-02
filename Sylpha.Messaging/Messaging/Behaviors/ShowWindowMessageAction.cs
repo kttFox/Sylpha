@@ -83,8 +83,6 @@ namespace Sylpha.Messaging.Behaviors {
 
 					message.Response = window.ShowDialog();
 				}
-
-				message.ViewModel ??= window.DataContext as INotifyPropertyChanged;
 			}
 		}
 

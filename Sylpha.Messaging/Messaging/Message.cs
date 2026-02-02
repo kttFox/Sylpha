@@ -19,7 +19,7 @@ namespace Sylpha.Messaging {
 		}
 
 		public static readonly DependencyProperty MessageKeyProperty =
-			DependencyProperty.Register( nameof( MessageKey ), typeof( string ), typeof( Message ), new PropertyMetadata( default( string? ) ) );
+			DependencyProperty.Register( nameof( MessageKey ), typeof( string ), typeof( Message ), new PropertyMetadata( null ) );
 		#endregion
 
 		/// <summary>

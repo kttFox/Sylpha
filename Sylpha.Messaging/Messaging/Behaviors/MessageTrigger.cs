@@ -21,27 +21,25 @@ namespace Sylpha.Messaging.Behaviors {
 					DependencyProperty.Register( nameof( Messenger ), typeof( Messenger ), typeof( MessageTrigger ), new PropertyMetadata( null, MessengerChanged ) );
 		
 		private static void MessengerChanged( DependencyObject d, DependencyPropertyChangedEventArgs e ) {
-			if( d == null ) throw new ArgumentNullException( nameof( d ) );
-			var thisReference = (MessageTrigger)d;
+			var sender = (MessageTrigger)d;
 
 			if( e.OldValue == e.NewValue ) return;
 
-			if( e.OldValue != null ) thisReference._listener?.Dispose();
+			if( e.OldValue != null ) {
+				sender._listener?.Dispose();
+			}
 
-			if( e.NewValue == null ) return;
-			var newMessenger = (Messenger)e.NewValue;
-
-			thisReference._listener =
-				new WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs>(
-					h => h,
-					h => newMessenger.Raised += h,
-					h => newMessenger.Raised -= h,
-					thisReference.MessageReceived );
+			if( e.NewValue is Messenger messenger ) {
+				sender._listener =
+					new WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs>(
+						h => h,
+						h => messenger.Raised += h,
+						h => messenger.Raised -= h,
+						sender.MessageReceived );
+			}
 		}
 
 		private void MessageReceived( object? sender, MessageRaisedEventArgs e ) {
-			if( e == null ) throw new ArgumentNullException( nameof( e ) );
-
 			var message = e.Message;
 
 			var cloneMessage = (Message)message.Clone();
@@ -62,8 +60,11 @@ namespace Sylpha.Messaging.Behaviors {
 			DoActionOnDispatcher( () => InvokeActions( cloneMessage ) );
 
 
-			if( message is IRequest requestMessage ) {
-				requestMessage.Response = ( (IRequest)cloneMessage ).Response;
+			if( message is IRequestMessage requestMessage ) {
+				requestMessage.Response = ( (IRequestMessage)cloneMessage ).Response;
+			}
+			if( message is ShowWindowMessage showWindowMessage ) {
+				showWindowMessage.ViewModel = ( (ShowWindowMessage)cloneMessage ).ViewModel;
 			}
 		}
 
