@@ -7,9 +7,7 @@ using System.ComponentModel;
 using Sylpha;
 using Sylpha.Commands;
 using Sylpha.Messaging;
-using Sylpha.Messaging.IO;
 using Sylpha.EventListeners;
-using Sylpha.Messaging.Windows;
 
 using $safeprojectname$.Models;
 

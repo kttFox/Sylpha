@@ -3,9 +3,8 @@ using System.Linq;
 using System.Windows;
 using Sylpha.Dialogs;
 using Sylpha.Messaging;
-using Sylpha.Messaging.IO;
 
-namespace Sylpha.Behaviors.Messaging.IO
+namespace Sylpha.Behaviors.Messaging
 {
     /// <summary>
     ///     Show folder browser dialog.

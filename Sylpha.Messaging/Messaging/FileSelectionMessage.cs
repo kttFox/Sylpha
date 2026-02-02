@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using JetBrains.Annotations;
 
-namespace Sylpha.Messaging.IO
+namespace Sylpha.Messaging
 {
     /// <summary>
     ///     ファイルを開く・ファイルを保存するアクション用の共通相互作用メッセージ基底抽象クラスです。<br />

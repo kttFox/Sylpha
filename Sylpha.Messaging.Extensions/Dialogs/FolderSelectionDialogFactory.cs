@@ -1,8 +1,8 @@
 using System;
 using System.Globalization;
-using Sylpha.Messaging.IO;
 using Sylpha.Properties;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Sylpha.Messaging;
 
 namespace Sylpha.Dialogs
 {

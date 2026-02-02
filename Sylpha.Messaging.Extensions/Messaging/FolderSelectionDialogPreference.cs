@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sylpha.Messaging.IO
+namespace Sylpha.Messaging
 {
     /// <summary>
     ///     Specify preferred selection dialog implementation.

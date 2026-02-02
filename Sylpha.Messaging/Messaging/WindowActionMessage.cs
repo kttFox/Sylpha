@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using JetBrains.Annotations;
 
-namespace Sylpha.Messaging.Windows
+namespace Sylpha.Messaging
 {
     /// <summary>
     ///     Windowを最大化・最小化・閉じる・通常化させるための相互作用メッセージです。

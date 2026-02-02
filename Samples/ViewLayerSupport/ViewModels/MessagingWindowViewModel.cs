@@ -3,7 +3,6 @@ using System.Windows;
 using Sylpha;
 using JetBrains.Annotations;
 using Sylpha.Messaging;
-using Sylpha.Messaging.IO;
 
 namespace ViewLayerSupport.ViewModels
 {

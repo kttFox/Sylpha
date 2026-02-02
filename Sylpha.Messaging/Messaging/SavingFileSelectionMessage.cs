@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using JetBrains.Annotations;
 
-namespace Sylpha.Messaging.IO
+namespace Sylpha.Messaging
 {
     /// <summary>
     ///     ファイルを保存する 用の相互作用メッセージです。

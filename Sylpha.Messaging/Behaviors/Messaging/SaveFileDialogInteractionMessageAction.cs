@@ -1,9 +1,8 @@
 ﻿using System.Windows;
 using Sylpha.Messaging;
-using Sylpha.Messaging.IO;
 using Microsoft.Win32;
 
-namespace Sylpha.Behaviors.Messaging.IO
+namespace Sylpha.Behaviors.Messaging
 {
     /// <summary>
     ///     「ファイルを保存する」ダイアログを表示するアクションです。<see cref="SavingFileSelectionMessage" />に対応します。

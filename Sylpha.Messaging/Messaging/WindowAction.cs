@@ -1,4 +1,4 @@
-﻿namespace Sylpha.Messaging.Windows
+﻿namespace Sylpha.Messaging
 {
     /// <summary>
     ///     WindowActionMessageで使用する、Windowが遷移すべき状態を表します。
