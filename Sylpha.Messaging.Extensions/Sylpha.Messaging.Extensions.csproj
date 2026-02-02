@@ -24,6 +24,7 @@ This package adds folder browser functionality using the Windows API.</Descripti
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SylphaSnk\opensource.snk</AssemblyOriginatorKeyFile>
     <PackageIcon>Sylpha.png</PackageIcon>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
