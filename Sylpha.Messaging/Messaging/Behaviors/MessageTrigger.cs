@@ -105,9 +105,9 @@ namespace Sylpha.Messaging.Behaviors {
 			DoActionOnDispatcher( () => InvokeActions( cloneMessage ) );
 
 
-			if( message is RequestMessage responsiveMessage ) {
+			if( message is IRequest responsiveMessage ) {
 				object? response;
-				if( ( response = ( (RequestMessage)cloneMessage ).Response ) != null )
+				if( ( response = ( (IRequest)cloneMessage ).Response ) != null )
 					responsiveMessage.Response = response;
 			}
 		}

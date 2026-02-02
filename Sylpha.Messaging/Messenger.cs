@@ -24,7 +24,7 @@ namespace Sylpha.Messaging {
 		/// <typeparam name="T">戻り値情報のあるメッセージの型</typeparam>
 		/// <param name="message">戻り値情報のあるメッセージ</param>
 		/// <returns>アクション実行後に、戻り情報を含んだメッセージ</returns>
-		public T GetResponse<T>( T message ) where T : RequestMessage {
+		public T GetResponse<T>( T message ) where T : Message, IRequest {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 			if( !message.IsFrozen ) message.Freeze();
 
@@ -54,7 +54,7 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		/// <typeparam name="T">戻り値情報のあるメッセージの型</typeparam>
 		/// <param name="message">戻り値情報のあるメッセージ</param>
-		public async Task<T?> GetResponseAsync<T>( T message ) where T : RequestMessage {
+		public async Task<T?> GetResponseAsync<T>( T message ) where T : Message, IRequest {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
 			if( !message.IsFrozen ) message.Freeze();

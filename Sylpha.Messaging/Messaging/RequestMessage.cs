@@ -6,12 +6,8 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// 戻り値のあるメッセージの抽象基底クラスです。
 	/// </summary>
-	public abstract class RequestMessage : Message {
-		internal RequestMessage() { }
-
-		internal RequestMessage( string? messageKey ) : base( messageKey ) { }
-
-		internal object? Response { get; set; }
+	public interface IRequest {
+		object? Response { get; set; }
 	}
 
 	/// <summary>
@@ -19,7 +15,10 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	/// <typeparam name="TResult"></typeparam>
 	[PublicAPI]
-	public class RequestMessage<TResult> : RequestMessage {
+	public class RequestMessage<TResult> : Message, IRequest {
+		/// <summary>
+		/// 戻り値のある新しいメッセージのインスタンスを生成します
+		/// </summary>
 		public RequestMessage() { }
 
 		/// <summary>
@@ -29,11 +28,13 @@ namespace Sylpha.Messaging {
 		public RequestMessage( string? messageKey ) : base( messageKey ) { }
 
 		/// <summary>
-		/// 戻り値情報
+		/// 戻り値
 		/// </summary>
-		public new TResult? Response {
-			get { return (TResult?)base.Response; }
-			set { base.Response = value; }
+		public TResult? Response { get; set; }
+
+		object? IRequest.Response {
+			get => this.Response;
+			set => this.Response = (TResult?)value;
 		}
 
 		/// <summary>
@@ -41,8 +42,47 @@ namespace Sylpha.Messaging {
 		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
 		/// </summary>
 		/// <returns>自身の新しいインスタンス</returns>
-		protected override Freezable CreateInstanceCore() {
-			return new RequestMessage<TResult>();
+		protected override Freezable CreateInstanceCore() => new RequestMessage<TResult>();
+	}
+
+	/// <summary>
+	/// 値と戻り値のあるメッセージの抽象基底クラスです。
+	/// </summary>
+	[PublicAPI]
+	public class RequestMessage<TValue, TResult> : Message<TValue>, IRequest {
+		/// <summary>
+		/// 値と戻り値のある新しいメッセージのインスタンスを生成します。
+		/// </summary>
+		public RequestMessage() { }
+
+		/// <summary>
+		/// メッセージキーを使用して、値と戻り値のある新しいメッセージのインスタンスを生成します。
+		/// </summary>
+		/// <param name="messageKey">メッセージキー</param>
+		public RequestMessage( string? messageKey ) : base( messageKey ) { }
+
+		/// <summary>
+		/// メッセージキーを使用して、値と戻り値のある新しいメッセージのインスタンスを生成します。
+		/// </summary>
+		/// <param name="value">値</param>
+		/// <param name="messageKey">メッセージキー</param>
+		public RequestMessage( TValue value, string? messageKey = null ) : base( value, messageKey ) { }
+
+		/// <summary>
+		/// 戻り値
+		/// </summary>
+		public TResult? Response { get; set; }
+
+		object? IRequest.Response {
+			get => this.Response;
+			set => this.Response = (TResult?)value;
 		}
+
+		/// <summary>
+		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
+		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
+		/// </summary>
+		/// <returns>自身の新しいインスタンス</returns>
+		protected override Freezable CreateInstanceCore() => new RequestMessage<TValue, TResult>();
 	}
 }

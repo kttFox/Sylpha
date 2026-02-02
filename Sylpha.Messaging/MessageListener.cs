@@ -92,8 +92,8 @@ namespace Sylpha.Messaging {
 			DoActionOnDispatcher( () => { GetValue( e, clonedMessage ); } );
 
 
-			if( message is RequestMessage responsiveMessage ) {
-				object? response = ( (RequestMessage)clonedMessage ).Response;
+			if( message is IRequest responsiveMessage ) {
+				object? response = ( (IRequest)clonedMessage ).Response;
 				if( response != null ) {
 					responsiveMessage.Response = response;
 				}
