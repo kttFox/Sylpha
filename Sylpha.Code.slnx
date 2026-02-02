@@ -5,7 +5,7 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="Sylpha.EventListeners/Sylpha.EventListeners.csproj" />
-  <Project Path="Sylpha.Extensions/Sylpha.Extensions.csproj" />
+  <Project Path="Sylpha.Messaging.Extensions/Sylpha.Messaging.Extensions.csproj" />
   <Project Path="Sylpha.Messaging/Sylpha.Messaging.csproj" />
   <Project Path="Sylpha.Mvvm/Sylpha.Mvvm.csproj" />
   <Project Path="Sylpha/Sylpha.csproj" />

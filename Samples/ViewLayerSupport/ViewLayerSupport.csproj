@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Sylpha.Extensions\Sylpha.Extensions.csproj" />
+    <ProjectReference Include="..\..\Sylpha.Messaging.Extensions\Sylpha.Messaging.Extensions.csproj" />
     <ProjectReference Include="..\..\Sylpha\Sylpha.csproj" />
   </ItemGroup>
 

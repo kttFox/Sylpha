@@ -6,8 +6,8 @@
 		<UseWpf>true</UseWpf>
 		<UseWindowsForms>true</UseWindowsForms>
 		<RootNamespace>Sylpha</RootNamespace>
-		<AssemblyName>Sylpha.Extensions</AssemblyName>
-		<PackageId>SylphaExtensions</PackageId>
+		<AssemblyName>Sylpha.Messaging.Extensions</AssemblyName>
+		<PackageId>Sylpha.Messaging.Extensions</PackageId>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>kttFox</Authors>
 		<Description>
@@ -44,7 +44,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Sylpha\Sylpha.csproj" />
+	  <ProjectReference Include="..\Sylpha.Messaging\Sylpha.Messaging.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
