@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 
-namespace ViewLayerSupport.Views
-{
-    /* 
+namespace ViewLayerSupport.Views {
+	/* 
 	 * ViewModelからの変更通知などの各種イベントを受け取る場合は、PropertyChangedWeakEventListenerや
      * CollectionChangedWeakEventListenerを使うと便利です。独自イベントの場合はLivetWeakEventListenerが使用できます。
      * クローズ時などに、LivetCompositeDisposableに格納した各種イベントリスナをDisposeする事でイベントハンドラの開放が容易に行えます。
@@ -10,14 +9,12 @@ namespace ViewLayerSupport.Views
      * WeakEventListenerなので明示的に開放せずともメモリリークは起こしませんが、できる限り明示的に開放するようにしましょう。
      */
 
-    /// <summary>
-    ///     MessagingWindow.xaml の相互作用ロジック
-    /// </summary>
-    public partial class MessagingWindow : Window
-    {
-        public MessagingWindow()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	///     MessagingWindow.xaml の相互作用ロジック
+	/// </summary>
+	public partial class MessagingWindow : Window {
+		public MessagingWindow() {
+			InitializeComponent();
+		}
+	}
 }

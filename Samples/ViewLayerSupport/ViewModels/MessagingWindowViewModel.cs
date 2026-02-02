@@ -4,11 +4,9 @@ using Sylpha;
 using JetBrains.Annotations;
 using Sylpha.Messaging;
 
-namespace ViewLayerSupport.ViewModels
-{
-    public class MessagingWindowViewModel : ViewModel
-    {
-        /* コマンド、プロパティの定義にはそれぞれ 
+namespace ViewLayerSupport.ViewModels {
+	public class MessagingWindowViewModel : ViewModel {
+		/* コマンド、プロパティの定義にはそれぞれ 
          * 
          *  lvcom   : ViewModelCommand
          *  lvcomn  : ViewModelCommand(CanExecute無)
@@ -26,11 +24,11 @@ namespace ViewLayerSupport.ViewModels
          * 同様に直接ViewModelのメソッドを呼び出し可能です。
          */
 
-        /* ViewModelからViewを操作したい場合は、View側のコードビハインド無で処理を行いたい場合は
+		/* ViewModelからViewを操作したい場合は、View側のコードビハインド無で処理を行いたい場合は
          * Messengerプロパティからメッセージ(各種InteractionMessage)を発信する事を検討してください。
          */
 
-        /* Modelからの変更通知などの各種イベントを受け取る場合は、PropertyChangedEventListenerや
+		/* Modelからの変更通知などの各種イベントを受け取る場合は、PropertyChangedEventListenerや
          * CollectionChangedEventListenerを使うと便利です。各種ListenerはViewModelに定義されている
          * CompositeDisposableプロパティ(LivetCompositeDisposable型)に格納しておく事でイベント解放を容易に行えます。
          * 
@@ -43,59 +41,53 @@ namespace ViewLayerSupport.ViewModels
          * ViewModelを使いまわしたい時などは、ViewからDataContextDisposeActionを取り除くか、発動のタイミングをずらす事で対応可能です。
          */
 
-        /* UIDispatcherを操作する場合は、DispatcherHelperのメソッドを操作してください。
+		/* UIDispatcherを操作する場合は、DispatcherHelperのメソッドを操作してください。
          * UIDispatcher自体はApp.xaml.csでインスタンスを確保してあります。
          * 
          * LivetのViewModelではプロパティ変更通知(RaisePropertyChanged)やDispatcherCollectionを使ったコレクション変更通知は
          * 自動的にUIDispatcher上での通知に変換されます。変更通知に際してUIDispatcherを操作する必要はありません。
          */
 
-        private string _outputMessage;
+		private string _outputMessage;
 
-        public string OutputMessage
-        {
-            get { return _outputMessage; }
-            set { RaisePropertyChangedIfSet(ref _outputMessage, value); }
-        }
+		public string OutputMessage {
+			get { return _outputMessage; }
+			set { RaisePropertyChangedIfSet( ref _outputMessage, value ); }
+		}
 
-        public async void ConfirmFromViewModel()
-        {
-            var message = new ConfirmationMessage("これはテスト用メッセージです。", "テスト", "MessageKey_Confirm")
-            {
-                Button = MessageBoxButton.OKCancel
-            };
-            await Messenger.RaiseAsync(message);
-            OutputMessage = $"{DateTime.Now}: ConfirmFromViewModel: {message.Response ?? false}";
-        }
+		public async void ConfirmFromViewModel() {
+			var message = new ConfirmationMessage( "これはテスト用メッセージです。", "テスト", "MessageKey_Confirm" ) {
+				Button = MessageBoxButton.OKCancel
+			};
+			await Messenger.RaiseAsync( message );
+			OutputMessage = $"{DateTime.Now}: ConfirmFromViewModel: {message.Response ?? false}";
+		}
 
-        public void ConfirmFromView([NotNull] ConfirmationMessage message)
-        {
-            if (message == null) throw new ArgumentNullException(nameof(message));
+		public void ConfirmFromView( [NotNull] ConfirmationMessage message ) {
+			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
-            OutputMessage = $"{DateTime.Now}: ConfirmFromView: {message.Response ?? false}";
-        }
+			OutputMessage = $"{DateTime.Now}: ConfirmFromView: {message.Response ?? false}";
+		}
 
-        public void FileSelected([NotNull] OpeningFileSelectionMessage message)
-        {
-            if (message == null) throw new ArgumentNullException(nameof(message));
+		public void FileSelected( [NotNull] OpeningFileSelectionMessage message ) {
+			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
 
-            string selectedPaths = message.Response == null
-                ? "未選択"
-                : String.Join(";", message.Response);
-            OutputMessage = $"{DateTime.Now}: FileSelected: {selectedPaths}";
-        }
-        public void FolderSelected([NotNull] FolderSelectionMessage message)
-        {
-            if (message == null) throw new ArgumentNullException(nameof(message));
+			string selectedPaths = message.Response == null
+				? "未選択"
+				: String.Join( ";", message.Response );
+			OutputMessage = $"{DateTime.Now}: FileSelected: {selectedPaths}";
+		}
+		public void FolderSelected( [NotNull] FolderSelectionMessage message ) {
+			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
-            string selectedPaths = message.Response == null
-                ? "未選択"
-                : String.Join(";", message.Response);
+			string selectedPaths = message.Response == null
+				? "未選択"
+				: String.Join( ";", message.Response );
 
-            OutputMessage = $"{DateTime.Now}: FolderSelected: {selectedPaths}";
-        }
+			OutputMessage = $"{DateTime.Now}: FolderSelected: {selectedPaths}";
+		}
 
-        public void Initialize() { }
-    }
+		public void Initialize() { }
+	}
 }

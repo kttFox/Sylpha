@@ -1,40 +1,35 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace Sylpha
-{
-    /// <summary>
-    ///     指定されたリソース解放用のActionをIDisposableとして扱います。
-    /// </summary>
-    public class AnonymousDisposable : IDisposable
-    {
-        [NotNull] private readonly Action _releaseAction;
-        private bool _disposed;
+namespace Sylpha {
+	/// <summary>
+	///     指定されたリソース解放用のActionをIDisposableとして扱います。
+	/// </summary>
+	public class AnonymousDisposable : IDisposable {
+		[NotNull] private readonly Action _releaseAction;
+		private bool _disposed;
 
-        /// <summary>
-        ///     コンストラクタ
-        /// </summary>
-        /// <param name="releaseAction">リソースを解放するためのアクション</param>
-        public AnonymousDisposable([NotNull] Action releaseAction)
-        {
-            _releaseAction = releaseAction ?? throw new ArgumentNullException(nameof(releaseAction));
-        }
+		/// <summary>
+		///     コンストラクタ
+		/// </summary>
+		/// <param name="releaseAction">リソースを解放するためのアクション</param>
+		public AnonymousDisposable( [NotNull] Action releaseAction ) {
+			_releaseAction = releaseAction ?? throw new ArgumentNullException( nameof( releaseAction ) );
+		}
 
-        /// <summary>
-        ///     コンストラクタで指定されたアクションを呼び出します。
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+		/// <summary>
+		///     コンストラクタで指定されたアクションを呼び出します。
+		/// </summary>
+		public void Dispose() {
+			Dispose( true );
+			GC.SuppressFinalize( this );
+		}
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed) return;
+		protected virtual void Dispose( bool disposing ) {
+			if( _disposed ) return;
 
-            if (disposing) _releaseAction();
-            _disposed = true;
-        }
-    }
+			if( disposing ) _releaseAction();
+			_disposed = true;
+		}
+	}
 }

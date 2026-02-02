@@ -2,74 +2,70 @@
 using NUnit.Framework;
 using System;
 
-namespace Sylpha.NUnit.EventListeners
-{
-    [TestFixture()]
-    public class WeakEventListenerTest
-    {
-        [Test()]
-        public void LifeCycleTest()
-        {
-            var listener1Success = false;
+namespace Sylpha.NUnit.EventListeners {
+	[TestFixture()]
+	public class WeakEventListenerTest {
+		[Test()]
+		public void LifeCycleTest() {
+			var listener1Success = false;
 
-            var eventPublisher = new TestEventPublisher();
+			var eventPublisher = new TestEventPublisher();
 
-            var listener1 = new WeakEventListener<EventHandler, EventArgs>(
-                h => new EventHandler(h),
-                h => eventPublisher.EmptyEvent += h,
-                h => eventPublisher.EmptyEvent -= h,
-                (sender, e) => listener1Success = true);
+			var listener1 = new WeakEventListener<EventHandler, EventArgs>(
+				h => new EventHandler( h ),
+				h => eventPublisher.EmptyEvent += h,
+				h => eventPublisher.EmptyEvent -= h,
+				( sender, e ) => listener1Success = true );
 
-            //------------------
-            listener1Success.Is(false);
+			//------------------
+			listener1Success.Is( false );
 
-            eventPublisher.RaiseEmptyEvent();
+			eventPublisher.RaiseEmptyEvent();
 
-            listener1Success.Is(true);
+			listener1Success.Is( true );
 
-            //------------------
-            listener1Success = false;
+			//------------------
+			listener1Success = false;
 
-            listener1.Dispose();
-            eventPublisher.RaiseEmptyEvent();
+			listener1.Dispose();
+			eventPublisher.RaiseEmptyEvent();
 
-            listener1Success.Is(false);
-        }
+			listener1Success.Is( false );
+		}
 
-        [Test()]
-        public void WeakEventTest()
-        {
-            var listener1Success = false;
+		[Test()]
+		public void WeakEventTest() {
+			var listener1Success = false;
 
-            var eventPublisher = new TestEventPublisher();
+			var eventPublisher = new TestEventPublisher();
 
-            var listener1 = new WeakEventListener<EventHandler, EventArgs>(
-                h => new EventHandler(h),
-                h => eventPublisher.EmptyEvent += h,
-                h => eventPublisher.EmptyEvent -= h,
-                (sender, e) => listener1Success = true);
+			var listener1 = new WeakEventListener<EventHandler, EventArgs>(
+				h => new EventHandler( h ),
+				h => eventPublisher.EmptyEvent += h,
+				h => eventPublisher.EmptyEvent -= h,
+				( sender, e ) => listener1Success = true );
 
-            var listenerWeakReference = new WeakReference(listener1);
+			var listenerWeakReference = new WeakReference( listener1 );
 
-            //------------------
-            listener1Success.Is(false);
+			//------------------
+			listener1Success.Is( false );
 
-            eventPublisher.RaiseEmptyEvent();
+			eventPublisher.RaiseEmptyEvent();
 
-            listener1Success.Is(true);
+			listener1Success.Is( true );
 
-            //------------------
-            listener1Success = false;
+			//------------------
+			listener1Success = false;
 
-            listener1 = null;
+			listener1 = null;
 
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.Collect();
 
-            eventPublisher.RaiseEmptyEvent();
+			eventPublisher.RaiseEmptyEvent();
 
-            listener1Success.Is(false);
-        }
-    }
+			listener1Success.Is( false );
+		}
+	}
 }

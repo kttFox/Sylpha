@@ -4,341 +4,321 @@ using System.Threading.Tasks;
 using Sylpha.EventListeners.WeakEvents;
 using NUnit.Framework;
 
-namespace Sylpha.NUnit.EventListeners
-{
-    [TestFixture()]
-    public class CollectionChangedWeakEventListenerTest
-    {
-        [Test()]
-        public void BasicConstructorLifeCycleTest()
-        {
-            var listenerSuccess = false;
+namespace Sylpha.NUnit.EventListeners {
+	[TestFixture()]
+	public class CollectionChangedWeakEventListenerTest {
+		[Test()]
+		public void BasicConstructorLifeCycleTest() {
+			var listenerSuccess = false;
 
-            var publisher = new TestEventPublisher();
+			var publisher = new TestEventPublisher();
 
-            var listener = new CollectionChangedWeakEventListener(publisher, (sender, e) => listenerSuccess = true);
+			var listener = new CollectionChangedWeakEventListener( publisher, ( sender, e ) => listenerSuccess = true );
 
-            //------------------
-            listenerSuccess.Is(false);
+			//------------------
+			listenerSuccess.Is( false );
 
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-            listenerSuccess.Is(true);
+			listenerSuccess.Is( true );
 
-            //------------------
-            listenerSuccess = false;
+			//------------------
+			listenerSuccess = false;
 
-            listener.Dispose();
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
+			listener.Dispose();
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-            listenerSuccess.Is(false);
+			listenerSuccess.Is( false );
 
-            try
-            {
-                listener.RegisterHandler((sender, e) => listenerSuccess = true);
-            }
-            catch (Exception e)
-            {
-                e.GetType().Is(typeof(ObjectDisposedException));
-            }
-        }
+			try {
+				listener.RegisterHandler( ( sender, e ) => listenerSuccess = true );
+			} catch( Exception e ) {
+				e.GetType().Is( typeof( ObjectDisposedException ) );
+			}
+		}
 
-        [Test()]
-        public void MultipleHandlerLifeCycleTest()
-        {
-            var handler1Success = false;
-            var handler2Success = false;
+		[Test()]
+		public void MultipleHandlerLifeCycleTest() {
+			var handler1Success = false;
+			var handler2Success = false;
 
-            var publisher = new TestEventPublisher();
+			var publisher = new TestEventPublisher();
 
-            var listener = new CollectionChangedWeakEventListener(publisher);
+			var listener = new CollectionChangedWeakEventListener( publisher );
 
-            //------------------
-            handler1Success.Is(false);
-            handler2Success.Is(false);
+			//------------------
+			handler1Success.Is( false );
+			handler2Success.Is( false );
 
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-            handler1Success.Is(false);
-            handler2Success.Is(false);
+			handler1Success.Is( false );
+			handler2Success.Is( false );
 
-            //------------------
-            listener.RegisterHandler((sender, e) => handler1Success = true);
+			//------------------
+			listener.RegisterHandler( ( sender, e ) => handler1Success = true );
 
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-            handler1Success.Is(true);
-            handler2Success.Is(false);
+			handler1Success.Is( true );
+			handler2Success.Is( false );
 
-            //------------------
-            handler1Success = false;
-            handler2Success = false;
+			//------------------
+			handler1Success = false;
+			handler2Success = false;
 
-            listener.RegisterHandler((sender, e) => handler2Success = true);
+			listener.RegisterHandler( ( sender, e ) => handler2Success = true );
 
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-            handler1Success.Is(true);
-            handler2Success.Is(true);
+			handler1Success.Is( true );
+			handler2Success.Is( true );
 
-            //------------------
-            handler1Success = false;
-            handler2Success = false;
+			//------------------
+			handler1Success = false;
+			handler2Success = false;
 
-            listener.Dispose();
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
+			listener.Dispose();
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-            handler1Success.Is(false);
-            handler2Success.Is(false);
-        }
+			handler1Success.Is( false );
+			handler2Success.Is( false );
+		}
 
-        [Test()]
-        public void FilteredHandlerLifeCycleTest()
-        {
-            var handler1Called = false;
-            var handler2Called = false;
-            var handler3Called = false;
+		[Test()]
+		public void FilteredHandlerLifeCycleTest() {
+			var handler1Called = false;
+			var handler2Called = false;
+			var handler3Called = false;
 
-            var publisher = new TestEventPublisher();
+			var publisher = new TestEventPublisher();
 
-            var listener = new CollectionChangedWeakEventListener(publisher);
+			var listener = new CollectionChangedWeakEventListener( publisher );
 
-            //------------------
-            listener.RegisterHandler(NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler1Called = true; });
-            listener.RegisterHandler(NotifyCollectionChangedAction.Remove, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Remove); handler2Called = true; });
-            listener.RegisterHandler(NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler3Called = true; });
-
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, null);
-
-            handler1Called.Is(true);
-            handler2Called.Is(true);
-            handler3Called.Is(true);
-
-            //------------------
-            handler1Called = false;
-            handler2Called = false;
-            handler3Called = false;
-
-            listener.Dispose();
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, null);
-
-            handler1Called.Is(false);
-            handler2Called.Is(false);
-            handler3Called.Is(false);
-        }
-
-        [Test()]
-        public void AddHandlerKindTest()
-        {
-            var handler1Called = false;
-            var handler2Called = false;
-            var handler3Called = false;
-            var handler4Called = false;
-            var handler5Called = false;
-
-            var publisher = new TestEventPublisher();
-            var listener1 = new CollectionChangedWeakEventListener(publisher)
-            {
-                {NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler1Called = true; }},
-                {NotifyCollectionChangedAction.Remove, 
-                        (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Remove); handler2Called = true;},
-                        (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Remove); handler3Called = true;}
-                },
-                (sender,e) => handler4Called = true,
-                {NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler5Called = true; }}
-            };
-
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Reset, null);
-
-            handler1Called.Is(false);
-            handler2Called.Is(false);
-            handler3Called.Is(false);
-            handler4Called.Is(true);
-            handler5Called.Is(false);
-
-            handler4Called = false;
+			//------------------
+			listener.RegisterHandler( NotifyCollectionChangedAction.Add, ( sender, e ) => { e.Action.Is( NotifyCollectionChangedAction.Add ); handler1Called = true; } );
+			listener.RegisterHandler( NotifyCollectionChangedAction.Remove, ( sender, e ) => { e.Action.Is( NotifyCollectionChangedAction.Remove ); handler2Called = true; } );
+			listener.RegisterHandler( NotifyCollectionChangedAction.Add, ( sender, e ) => { e.Action.Is( NotifyCollectionChangedAction.Add ); handler3Called = true; } );
 
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
-
-            handler1Called.Is(true);
-            handler2Called.Is(false);
-            handler3Called.Is(false);
-            handler4Called.Is(true);
-            handler5Called.Is(true);
-
-            handler1Called = false;
-            handler4Called = false;
-            handler5Called = false;
-
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, null);
-
-            handler1Called.Is(false);
-            handler2Called.Is(true);
-            handler3Called.Is(true);
-            handler4Called.Is(true);
-            handler5Called.Is(false);
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Remove, null );
 
-            handler1Called = false;
-            handler2Called = false;
-            handler3Called = false;
-            handler4Called = false;
-            handler5Called = false;
+			handler1Called.Is( true );
+			handler2Called.Is( true );
+			handler3Called.Is( true );
+
+			//------------------
+			handler1Called = false;
+			handler2Called = false;
+			handler3Called = false;
+
+			listener.Dispose();
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Remove, null );
+
+			handler1Called.Is( false );
+			handler2Called.Is( false );
+			handler3Called.Is( false );
+		}
 
-            listener1.Dispose();
+		[Test()]
+		public void AddHandlerKindTest() {
+			var handler1Called = false;
+			var handler2Called = false;
+			var handler3Called = false;
+			var handler4Called = false;
+			var handler5Called = false;
 
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Remove, null);
+			var publisher = new TestEventPublisher();
+			var listener1 = new CollectionChangedWeakEventListener( publisher )
+			{
+				{NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler1Called = true; }},
+				{NotifyCollectionChangedAction.Remove,
+						(sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Remove); handler2Called = true;},
+						(sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Remove); handler3Called = true;}
+				},
+				(sender,e) => handler4Called = true,
+				{NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handler5Called = true; }}
+			};
 
-            handler1Called.Is(false);
-            handler2Called.Is(false);
-            handler3Called.Is(false);
-            handler4Called.Is(false);
-            handler5Called.Is(false);
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Reset, null );
 
-        }
+			handler1Called.Is( false );
+			handler2Called.Is( false );
+			handler3Called.Is( false );
+			handler4Called.Is( true );
+			handler5Called.Is( false );
 
-        [Test()]
-        public void MultiThreadHandlerTest()
-        {
-            var publisher = new TestEventPublisher();
+			handler4Called = false;
 
-            var listener = new CollectionChangedWeakEventListener(publisher);
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-            var handlerCalledCount = 0;
+			handler1Called.Is( true );
+			handler2Called.Is( false );
+			handler3Called.Is( false );
+			handler4Called.Is( true );
+			handler5Called.Is( true );
 
-            var parentTask = new Task(() =>
-            {
-                var tf = new TaskFactory(TaskCreationOptions.AttachedToParent, TaskContinuationOptions.AttachedToParent);
+			handler1Called = false;
+			handler4Called = false;
+			handler5Called = false;
 
-                for (int i = 0; i < 50; i++)
-                {
-                    tf.StartNew(() =>
-                    {
-                        for (int f = 0; f < 500; f++)
-                        {
-                            listener.RegisterHandler(NotifyCollectionChangedAction.Add, (sender, e) => { e.Action.Is(NotifyCollectionChangedAction.Add); handlerCalledCount++; });
-                        }
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Remove, null );
 
-                    });
-                }
-            });
+			handler1Called.Is( false );
+			handler2Called.Is( true );
+			handler3Called.Is( true );
+			handler4Called.Is( true );
+			handler5Called.Is( false );
 
-            parentTask.Start();
-            parentTask.Wait();
+			handler1Called = false;
+			handler2Called = false;
+			handler3Called = false;
+			handler4Called = false;
+			handler5Called = false;
 
-            handlerCalledCount.Is(0);
+			listener1.Dispose();
 
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Remove, null );
 
-            handlerCalledCount.Is(25000);
+			handler1Called.Is( false );
+			handler2Called.Is( false );
+			handler3Called.Is( false );
+			handler4Called.Is( false );
+			handler5Called.Is( false );
 
-            handlerCalledCount = 0;
+		}
 
-            listener.Dispose();
-            publisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
+		[Test()]
+		public void MultiThreadHandlerTest() {
+			var publisher = new TestEventPublisher();
 
-            handlerCalledCount.Is(0);
-        }
+			var listener = new CollectionChangedWeakEventListener( publisher );
 
-        [Test()]
-        public void SourceReferenceMemoryLeakTest()
-        {
-            var handler1Success = false;
+			var handlerCalledCount = 0;
 
-            var publisherStrongReference = new TestEventPublisher();
-            var publisherWeakReference = new WeakReference<TestEventPublisher>(publisherStrongReference);
+			var parentTask = new Task( () => {
+				var tf = new TaskFactory( TaskCreationOptions.AttachedToParent, TaskContinuationOptions.AttachedToParent );
 
-            var listener = new CollectionChangedWeakEventListener(publisherStrongReference);
-            listener.RegisterHandler((sender, e) => handler1Success = true);
+				for( int i = 0; i < 50; i++ ) {
+					tf.StartNew( () => {
+						for( int f = 0; f < 500; f++ ) {
+							listener.RegisterHandler( NotifyCollectionChangedAction.Add, ( sender, e ) => { e.Action.Is( NotifyCollectionChangedAction.Add ); handlerCalledCount++; } );
+						}
 
-            publisherStrongReference.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
+					} );
+				}
+			} );
 
-            handler1Success.Is(true);
-            listener.Dispose();
-            publisherStrongReference = null;
+			parentTask.Start();
+			parentTask.Wait();
 
-            
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
+			handlerCalledCount.Is( 0 );
 
-            TestEventPublisher resultPublisher = null;
-            publisherWeakReference.TryGetTarget(out resultPublisher).Is(false);
-            resultPublisher.IsNull();
-        }
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-        [Test()]
-        public void WeakEventTest()
-        {
-            var listener1Success = false;
+			handlerCalledCount.Is( 25000 );
 
-            var eventPublisher = new TestEventPublisher();
+			handlerCalledCount = 0;
 
-            var listener1 = new CollectionChangedWeakEventListener(eventPublisher,
-                                                                   (sender, e) => listener1Success = true);
+			listener.Dispose();
+			publisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-            var listenerWeakReference = new WeakReference(listener1);
+			handlerCalledCount.Is( 0 );
+		}
 
-            //------------------
-            listener1Success.Is(false);
+		[Test()]
+		public void SourceReferenceMemoryLeakTest() {
+			var handler1Success = false;
 
-            eventPublisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
+			var publisherStrongReference = new TestEventPublisher();
+			var publisherWeakReference = new WeakReference<TestEventPublisher>( publisherStrongReference );
 
-            listener1Success.Is(true);
+			var listener = new CollectionChangedWeakEventListener( publisherStrongReference );
+			listener.RegisterHandler( ( sender, e ) => handler1Success = true );
 
-            //------------------
-            listener1Success = false;
+			publisherStrongReference.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-            listener1 = null;
+			handler1Success.Is( true );
+			listener.Dispose();
+			publisherStrongReference = null;
 
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
 
-            eventPublisher.RaiseCollectionChanged(NotifyCollectionChangedAction.Add, null);
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.Collect();
 
-            listener1Success.Is(false);
-        }
+			TestEventPublisher resultPublisher = null;
+			publisherWeakReference.TryGetTarget( out resultPublisher ).Is( false );
+			resultPublisher.IsNull();
+		}
 
-        private class HandlerMemoryLeakTestClass : IDisposable
-        {
-            public readonly CollectionChangedWeakEventListener Listener;
+		[Test()]
+		public void WeakEventTest() {
+			var listener1Success = false;
 
-            public HandlerMemoryLeakTestClass(INotifyCollectionChanged publisher)
-            {
-                Listener = new CollectionChangedWeakEventListener(publisher);
+			var eventPublisher = new TestEventPublisher();
 
-                // This handler refers "this".
-                NotifyCollectionChangedEventHandler handler = (sender, e) => { ToString(); };
-                Listener.RegisterHandler(handler);
-                Listener.RegisterHandler(NotifyCollectionChangedAction.Reset, handler);
-            }
+			var listener1 = new CollectionChangedWeakEventListener( eventPublisher,
+																   ( sender, e ) => listener1Success = true );
 
-            public void Dispose()
-            {
-                Listener.Dispose();
-            }
-        }
+			var listenerWeakReference = new WeakReference( listener1 );
 
-        [Test()]
-        public void HandlerMemoryLeakTest()
-        {
-            var publisher = new TestEventPublisher();
+			//------------------
+			listener1Success.Is( false );
 
-            var testObject = new HandlerMemoryLeakTestClass(publisher);
-            var dummyWeakReference = new WeakReference<HandlerMemoryLeakTestClass>(testObject);
+			eventPublisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
 
-            testObject.Dispose();
-            testObject = null;
+			listener1Success.Is( true );
 
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+			//------------------
+			listener1Success = false;
 
-            HandlerMemoryLeakTestClass result = null;
-            dummyWeakReference.TryGetTarget(out result).Is(false);
-            result.IsNull();
-        }
-    }
+			listener1 = null;
+
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.Collect();
+
+			eventPublisher.RaiseCollectionChanged( NotifyCollectionChangedAction.Add, null );
+
+			listener1Success.Is( false );
+		}
+
+		private class HandlerMemoryLeakTestClass : IDisposable {
+			public readonly CollectionChangedWeakEventListener Listener;
+
+			public HandlerMemoryLeakTestClass( INotifyCollectionChanged publisher ) {
+				Listener = new CollectionChangedWeakEventListener( publisher );
+
+				// This handler refers "this".
+				NotifyCollectionChangedEventHandler handler = ( sender, e ) => { ToString(); };
+				Listener.RegisterHandler( handler );
+				Listener.RegisterHandler( NotifyCollectionChangedAction.Reset, handler );
+			}
+
+			public void Dispose() {
+				Listener.Dispose();
+			}
+		}
+
+		[Test()]
+		public void HandlerMemoryLeakTest() {
+			var publisher = new TestEventPublisher();
+
+			var testObject = new HandlerMemoryLeakTestClass( publisher );
+			var dummyWeakReference = new WeakReference<HandlerMemoryLeakTestClass>( testObject );
+
+			testObject.Dispose();
+			testObject = null;
+
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+
+			HandlerMemoryLeakTestClass result = null;
+			dummyWeakReference.TryGetTarget( out result ).Is( false );
+			result.IsNull();
+		}
+	}
 }
