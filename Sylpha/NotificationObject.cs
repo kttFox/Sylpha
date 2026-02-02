@@ -10,13 +10,14 @@ namespace Sylpha {
 	/// <summary>
 	/// 変更通知オブジェクトの基底クラスです。
 	/// </summary>
+	[PublicAPI]
 	[Serializable]
 	public class NotificationObject : INotifyPropertyChanged {
 		/// <summary>
 		/// プロパティ変更通知イベントです。
 		/// </summary>
 		[field: NonSerialized]
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		/// <summary>
 		/// プロパティ変更通知イベントを発生させます。
@@ -26,11 +27,10 @@ namespace Sylpha {
 		/// <exception cref="NotSupportedException">() => プロパティ 以外の形式のラムダ式が指定されました。</exception>
 		[NotifyPropertyChangedInvocator]
 		// ReSharper disable once UnusedParameter.Global
-		protected virtual void RaisePropertyChanged<T>( ref T source, [NotNull] Expression<Func<T>> propertyExpression ) {
+		protected virtual void RaisePropertyChanged<T>( ref T source, Expression<Func<T>> propertyExpression ) {
 			if( propertyExpression == null ) throw new ArgumentNullException( nameof( propertyExpression ) );
 
-			if( !( propertyExpression.Body is MemberExpression ) )
-				throw new NotSupportedException( "このメソッドでは ()=>プロパティ の形式のラムダ式以外許可されません" );
+			if( propertyExpression.Body is not MemberExpression ) throw new NotSupportedException( "このメソッドでは ()=>プロパティ の形式のラムダ式以外許可されません" );
 
 			var memberExpression = (MemberExpression)propertyExpression.Body;
 			RaisePropertyChanged( memberExpression.Member.Name );
@@ -41,7 +41,7 @@ namespace Sylpha {
 		/// </summary>
 		/// <param name="propertyName">プロパティ名</param>
 		[NotifyPropertyChangedInvocator]
-		protected virtual void RaisePropertyChanged( [CallerMemberName][CanBeNull] string propertyName = "" ) {
+		protected virtual void RaisePropertyChanged( [CallerMemberName] string propertyName = "" ) {
 			var threadSafeHandler = Interlocked.CompareExchange( ref PropertyChanged, null, null );
 			threadSafeHandler?.Invoke( this, EventArgsFactory.GetPropertyChangedEventArgs( propertyName ) );
 		}
@@ -56,8 +56,7 @@ namespace Sylpha {
 		/// <param name="propertyName">プロパティ名</param>
 		/// <returns>値の変更有無</returns>
 		[NotifyPropertyChangedInvocator]
-		protected bool RaisePropertyChangedIfSet<T>( ref T source, T value, string[] relatedProperties = null,
-			[CallerMemberName] string propertyName = null ) {
+		protected bool RaisePropertyChangedIfSet<T>( ref T source, T value, string[]? relatedProperties = null, [CallerMemberName] string propertyName = "" ) {
 			//値が同じだったら何もしない
 			if( EqualityComparer<T>.Default.Equals( source, value ) )
 				return false;
@@ -82,9 +81,8 @@ namespace Sylpha {
 		/// <param name="propertyName">プロパティ名</param>
 		/// <returns>値の変更有無</returns>
 		[NotifyPropertyChangedInvocator]
-		protected bool RaisePropertyChangedIfSet<T>( ref T source, T value, string relatedProperty,
-			[CallerMemberName] string propertyName = null ) {
-			return RaisePropertyChangedIfSet( ref source, value, new[] { relatedProperty }, propertyName );
+		protected bool RaisePropertyChangedIfSet<T>( ref T source, T value, string relatedProperty, [CallerMemberName] string propertyName = "" ) {
+			return RaisePropertyChangedIfSet( ref source, value, [relatedProperty], propertyName );
 		}
 	}
 }

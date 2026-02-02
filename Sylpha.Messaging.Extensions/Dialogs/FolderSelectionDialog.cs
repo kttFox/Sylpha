@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 
 namespace Sylpha.Dialogs {
@@ -13,7 +12,7 @@ namespace Sylpha.Dialogs {
 		/// <value>
 		/// The selected path. This will be default path when the dialog is opened.
 		/// </value>
-		public abstract string SelectedPath { get; set; }
+		public abstract string? SelectedPath { get; set; }
 
 		/// <summary>
 		/// Gets or sets the descriptive text to instruct the operation.
@@ -22,7 +21,7 @@ namespace Sylpha.Dialogs {
 		/// The descriptive text to instruct the operation.
 		/// Some dialog cannot support this value.
 		/// </value>
-		public abstract string Description { get; set; }
+		public abstract string? Description { get; set; }
 
 		/// <summary>
 		/// Gets or sets the title of the dialog.
@@ -32,7 +31,7 @@ namespace Sylpha.Dialogs {
 		/// Some dialog cannot support this value.
 		/// The <c>null</c> or empty indicates using default title.
 		/// </value>
-		public abstract string Title { get; set; }
+		public abstract string? Title { get; set; }
 
 
 		/// <summary>

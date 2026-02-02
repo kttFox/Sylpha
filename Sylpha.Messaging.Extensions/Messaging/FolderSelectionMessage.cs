@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
@@ -17,10 +16,8 @@ namespace Sylpha.Messaging {
 		/// <value>
 		/// <see cref="DependencyProperty" />.
 		/// </value>
-		[NotNull]
 		public static readonly DependencyProperty DescriptionProperty =
-			DependencyProperty.Register( "Description", typeof( string ), typeof( FolderSelectionMessage ),
-				new UIPropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( Description ), typeof( string ), typeof( FolderSelectionMessage ), new UIPropertyMetadata( null ) );
 
 		/// <summary>
 		/// Defines <see cref="Title" /> dependency property.
@@ -28,10 +25,8 @@ namespace Sylpha.Messaging {
 		/// <value>
 		/// <see cref="DependencyProperty" />.
 		/// </value>
-		[NotNull]
 		public static readonly DependencyProperty TitleProperty =
-			DependencyProperty.Register( "Title", typeof( string ), typeof( FolderSelectionMessage ),
-				new UIPropertyMetadata( string.Empty ) );
+			DependencyProperty.Register( nameof( Title ), typeof( string ), typeof( FolderSelectionMessage ), new UIPropertyMetadata( string.Empty ) );
 
 		/// <summary>
 		/// Defines <see cref="SelectedPath" /> dependency property.
@@ -39,10 +34,8 @@ namespace Sylpha.Messaging {
 		/// <value>
 		/// <see cref="DependencyProperty" />.
 		/// </value>
-		[NotNull]
 		public static readonly DependencyProperty SelectedPathProperty =
-			DependencyProperty.Register( "SelectedPath", typeof( string ), typeof( FolderSelectionMessage ),
-				new UIPropertyMetadata( string.Empty ) );
+			DependencyProperty.Register( nameof( SelectedPath ), typeof( string ), typeof( FolderSelectionMessage ), new UIPropertyMetadata( string.Empty ) );
 
 		/// <summary>
 		/// Defines <see cref="SelectedPath" /> dependency property.
@@ -50,20 +43,16 @@ namespace Sylpha.Messaging {
 		/// <value>
 		/// <see cref="DependencyProperty" />.
 		/// </value>
-		[NotNull]
 		public static readonly DependencyProperty DialogPreferenceProperty =
-			DependencyProperty.Register( "DialogPreference", typeof( FolderSelectionDialogPreference ),
-				typeof( FileSelectionMessage ), new UIPropertyMetadata( FolderSelectionDialogPreference.None ) );
+			DependencyProperty.Register( nameof( DialogPreference ), typeof( FolderSelectionDialogPreference ), typeof( FileSelectionMessage ), new UIPropertyMetadata( FolderSelectionDialogPreference.None ) );
 		/// <summary>
 		/// Defines <see cref="Multiselect" /> dependency property.
 		/// </summary>
 		/// <value>
 		/// <see cref="DependencyProperty" />.
 		/// </value>
-		[NotNull]
 		public static readonly DependencyProperty MultiselectProperty =
-			DependencyProperty.Register( "Multiselect", typeof( bool ),
-				typeof( FileSelectionMessage ), new UIPropertyMetadata( false ) );
+			DependencyProperty.Register( nameof( Multiselect ), typeof( bool ), typeof( FileSelectionMessage ), new UIPropertyMetadata( false ) );
 
 
 
@@ -78,8 +67,7 @@ namespace Sylpha.Messaging {
 		/// with message key.
 		/// </summary>
 		/// <param name="messageKey">The message key to identify the message instance.</param>
-		public FolderSelectionMessage( string messageKey )
-			: base( messageKey ) { }
+		public FolderSelectionMessage( string? messageKey ) : base( messageKey ) { }
 
 		/// <summary>
 		/// Gets or sets the description for folder selection dialog.
@@ -87,8 +75,8 @@ namespace Sylpha.Messaging {
 		/// <value>
 		/// The description for folder browser dialog.
 		/// </value>
-		public string Description {
-			get { return GetValue( DescriptionProperty ) as string; }
+		public string? Description {
+			get { return (string?)GetValue( DescriptionProperty ); }
 			set { SetValue( DescriptionProperty, value ); }
 		}
 
@@ -99,8 +87,8 @@ namespace Sylpha.Messaging {
 		/// The title for folder selection dialog.
 		/// If this value is <c>null</c> or empty, then the default title is used.
 		/// </value>
-		public string Title {
-			get { return GetValue( TitleProperty ) as string; }
+		public string? Title {
+			get { return (string?)GetValue( TitleProperty ); }
 			set { SetValue( TitleProperty, value ); }
 		}
 
@@ -119,8 +107,8 @@ namespace Sylpha.Messaging {
 		/// The selected path on the folder selection dialog.
 		/// This value is also used to initial selected folder in the dialog.
 		/// </value>
-		public string SelectedPath {
-			get { return GetValue( SelectedPathProperty ) as string; }
+		public string? SelectedPath {
+			get { return (string?)GetValue( SelectedPathProperty ); }
 			set { SetValue( SelectedPathProperty, value ); }
 		}
 

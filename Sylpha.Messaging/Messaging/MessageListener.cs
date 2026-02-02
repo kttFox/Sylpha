@@ -4,34 +4,25 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
-using JetBrains.Annotations;
 using Sylpha.EventListeners.WeakEvents;
 
 namespace Sylpha.Messaging {
-	public sealed class MessageListener : IDisposable,
-		IEnumerable<KeyValuePair<string, ConcurrentBag<Action<InteractionMessage>>>> {
-		[NotNull]
-		private readonly ConcurrentDictionary<string, ConcurrentBag<Action<InteractionMessage>>> _actionDictionary =
-			new ConcurrentDictionary<string, ConcurrentBag<Action<InteractionMessage>>>();
+	public sealed class MessageListener : IDisposable, IEnumerable<KeyValuePair<string, ConcurrentBag<Action<InteractionMessage>>>> {
+		private readonly ConcurrentDictionary<string, ConcurrentBag<Action<InteractionMessage>>> _actionDictionary = new();
 
-		[NotNull]
-		private readonly WeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
-			InteractionMessageRaisedEventArgs> _listener;
+		private readonly WeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>, InteractionMessageRaisedEventArgs> _listener;
 
-		[NotNull] private readonly WeakReference<InteractionMessenger> _source;
-		[NotNull] private Dispatcher _dispatcher;
+		private readonly WeakReference<InteractionMessenger> _source;
+		private Dispatcher _dispatcher;
 
 		private bool _disposed;
 
-		public MessageListener( [NotNull] InteractionMessenger messenger ) {
+		public MessageListener( InteractionMessenger messenger ) {
 			if( messenger == null ) throw new ArgumentNullException( nameof( messenger ) );
 
 			_dispatcher = Dispatcher.CurrentDispatcher;
-			_source = new WeakReference<InteractionMessenger>( messenger );
-			_listener =
-				new WeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
-					InteractionMessageRaisedEventArgs>
-				(
+			_source = new( messenger );
+			_listener = new(
 					h => h,
 					h => messenger.Raised += h,
 					h => messenger.Raised -= h,
@@ -39,19 +30,15 @@ namespace Sylpha.Messaging {
 				);
 		}
 
-		public MessageListener( [NotNull] InteractionMessenger messenger, [CanBeNull] string messageKey,
-			[NotNull] Action<InteractionMessage> action )
-			: this( messenger ) {
+		public MessageListener( InteractionMessenger messenger, string? messageKey, Action<InteractionMessage> action ) : this( messenger ) {
 			if( action == null ) throw new ArgumentNullException( nameof( action ) );
-			if( messageKey == null ) messageKey = string.Empty;
+			messageKey ??= string.Empty;
 
 			RegisterAction( messageKey, action );
 		}
 
-		public MessageListener( [NotNull] InteractionMessenger messenger, [NotNull] Action<InteractionMessage> action )
-			: this( messenger, null, action ) { }
+		public MessageListener( InteractionMessenger messenger, Action<InteractionMessage> action ) : this( messenger, null, action ) { }
 
-		[NotNull]
 		public Dispatcher Dispatcher {
 			get { return _dispatcher; }
 			set { _dispatcher = value ?? throw new ArgumentNullException( nameof( value ) ); }
@@ -64,8 +51,7 @@ namespace Sylpha.Messaging {
 			GC.SuppressFinalize( this );
 		}
 
-		IEnumerator<KeyValuePair<string, ConcurrentBag<Action<InteractionMessage>>>>
-			IEnumerable<KeyValuePair<string, ConcurrentBag<Action<InteractionMessage>>>>.GetEnumerator() {
+		IEnumerator<KeyValuePair<string, ConcurrentBag<Action<InteractionMessage>>>> IEnumerable<KeyValuePair<string, ConcurrentBag<Action<InteractionMessage>>>>.GetEnumerator() {
 			ThrowExceptionIfDisposed();
 			return _actionDictionary.GetEnumerator();
 		}
@@ -75,28 +61,26 @@ namespace Sylpha.Messaging {
 			return _actionDictionary.GetEnumerator();
 		}
 
-		public void RegisterAction( [NotNull] Action<InteractionMessage> action ) {
+		public void RegisterAction( Action<InteractionMessage> action ) {
 			if( action == null ) throw new ArgumentNullException( nameof( action ) );
 
 			ThrowExceptionIfDisposed();
-			var dic = _actionDictionary.GetOrAdd( string.Empty, _ => new ConcurrentBag<Action<InteractionMessage>>() )
-					  ?? throw new InvalidOperationException();
+			var dic = _actionDictionary.GetOrAdd( string.Empty, _ => [] ) ?? throw new InvalidOperationException();
 
 			dic.Add( action );
 		}
 
-		public void RegisterAction( [NotNull] string messageKey, [NotNull] Action<InteractionMessage> action ) {
+		public void RegisterAction( string messageKey, Action<InteractionMessage> action ) {
 			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
 			if( action == null ) throw new ArgumentNullException( nameof( action ) );
 
 			ThrowExceptionIfDisposed();
-			var dic = _actionDictionary.GetOrAdd( messageKey, _ => new ConcurrentBag<Action<InteractionMessage>>() )
-					  ?? throw new InvalidOperationException();
+			var dic = _actionDictionary.GetOrAdd( messageKey, _ => [] ) ?? throw new InvalidOperationException();
 
 			dic.Add( action );
 		}
 
-		private void MessageReceived( object sender, [NotNull] InteractionMessageRaisedEventArgs e ) {
+		private void MessageReceived( object? sender, InteractionMessageRaisedEventArgs e ) {
 			if( e == null ) throw new ArgumentNullException( nameof( e ) );
 			if( _disposed ) return;
 
@@ -107,15 +91,16 @@ namespace Sylpha.Messaging {
 
 			DoActionOnDispatcher( () => { GetValue( e, clonedMessage ); } );
 
-			var responsiveMessage = message as ResponsiveInteractionMessage;
 
-			object response;
-			if( responsiveMessage != null &&
-				( response = ( (ResponsiveInteractionMessage)clonedMessage ).Response ) != null )
-				responsiveMessage.Response = response;
+			if( message is ResponsiveInteractionMessage responsiveMessage ) {
+				object? response = ( (ResponsiveInteractionMessage)clonedMessage ).Response;
+				if( response != null ) {
+					responsiveMessage.Response = response;
+				}
+			}
 		}
 
-		private void GetValue( [NotNull] InteractionMessageRaisedEventArgs e, InteractionMessage cloneMessage ) {
+		private void GetValue( InteractionMessageRaisedEventArgs e, InteractionMessage cloneMessage ) {
 			if( e == null ) throw new ArgumentNullException( nameof( e ) );
 
 			var result = _source.TryGetTarget( out _ );
@@ -126,45 +111,50 @@ namespace Sylpha.Messaging {
 				_actionDictionary.TryGetValue( e.Message.MessageKey, out var list );
 
 				if( list != null ) {
-					foreach( var action in list )
+					foreach( var action in list ) {
 						action( cloneMessage );
+					}
 				}
 			}
 
 			_actionDictionary.TryGetValue( string.Empty, out var allList );
 			if( allList == null ) return;
 
-			foreach( var action in allList )
+			foreach( var action in allList ) {
 				action( cloneMessage );
+			}
 		}
 
-		private void DoActionOnDispatcher( [NotNull] Action action ) {
+		private void DoActionOnDispatcher( Action action ) {
 			if( action == null ) throw new ArgumentNullException( nameof( action ) );
 
-			if( Dispatcher.CheckAccess() )
+			if( Dispatcher.CheckAccess() ) {
 				action();
-			else
+			} else {
 				Dispatcher.Invoke( action );
+			}
 		}
 
-		public void Add( [NotNull] Action<InteractionMessage> action ) {
+		public void Add( Action<InteractionMessage> action ) {
 			if( action == null ) throw new ArgumentNullException( nameof( action ) );
 
 			RegisterAction( action );
 		}
 
-		public void Add( [NotNull] string messageKey, [NotNull] Action<InteractionMessage> action ) {
+		public void Add( string messageKey, Action<InteractionMessage> action ) {
 			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
 			if( action == null ) throw new ArgumentNullException( nameof( action ) );
 
 			RegisterAction( messageKey, action );
 		}
 
-		public void Add( [NotNull] string messageKey, [NotNull] params Action<InteractionMessage>[] actions ) {
+		public void Add( string messageKey, params Action<InteractionMessage>[] actions ) {
 			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
 			if( actions == null ) throw new ArgumentNullException( nameof( actions ) );
 
-			foreach( var action in actions.Where( a => a != null ) ) RegisterAction( messageKey, action );
+			foreach( var action in actions.Where( a => a != null ) ) {
+				RegisterAction( messageKey, action );
+			}
 		}
 
 		private void ThrowExceptionIfDisposed() {

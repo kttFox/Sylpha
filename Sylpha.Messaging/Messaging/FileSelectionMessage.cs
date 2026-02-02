@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
@@ -9,44 +8,32 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	public abstract class FileSelectionMessage : ResponsiveInteractionMessage<string[]> {
 		// Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty TitleProperty =
-			DependencyProperty.Register( "Title", typeof( string ), typeof( FileSelectionMessage ),
-				new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( Title ), typeof( string ), typeof( FileSelectionMessage ), new PropertyMetadata( null ) );
 
 		// Using a DependencyProperty as the backing store for Filter.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty FilterProperty =
-			DependencyProperty.Register( "Filter", typeof( string ), typeof( FileSelectionMessage ),
-				new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( Filter ), typeof( string ), typeof( FileSelectionMessage ), new PropertyMetadata( null ) );
 
 		// Using a DependencyProperty as the backing store for AddExtension.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty AddExtensionProperty =
-			DependencyProperty.Register( "AddExtension", typeof( bool ), typeof( FileSelectionMessage ),
-				new PropertyMetadata( true ) );
+			DependencyProperty.Register( nameof( AddExtension ), typeof( bool ), typeof( FileSelectionMessage ), new PropertyMetadata( true ) );
 
 		// Using a DependencyProperty as the backing store for InitialDirectory.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty InitialDirectoryProperty =
-			DependencyProperty.Register( "InitialDirectory", typeof( string ), typeof( FileSelectionMessage ),
-				new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( InitialDirectory ), typeof( string ), typeof( FileSelectionMessage ), new PropertyMetadata( null ) );
 
 		// Using a DependencyProperty as the backing store for FileName.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty FileNameProperty =
-			DependencyProperty.Register( "FileName", typeof( string ), typeof( FileSelectionMessage ),
-				new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( FileName ), typeof( string ), typeof( FileSelectionMessage ), new PropertyMetadata( null ) );
 
 		protected FileSelectionMessage() { }
 
-		protected FileSelectionMessage( string messageKey )
-			: base( messageKey ) { }
+		protected FileSelectionMessage( string? messageKey ) : base( messageKey ) { }
 
 		/// <summary>
 		/// ダイアログタイトルを指定、または取得します。
 		/// </summary>
-		[NotNull]
 		public string Title {
 			get { return (string)GetValue( TitleProperty ) ?? string.Empty; }
 			set { SetValue( TitleProperty, value ); }
@@ -55,7 +42,6 @@ namespace Sylpha.Messaging {
 		/// <summary>
 		/// ファイルの拡張子Filterを指定、または取得します。
 		/// </summary>
-		[NotNull]
 		public string Filter {
 			get { return (string)GetValue( FilterProperty ) ?? string.Empty; }
 			set { SetValue( FilterProperty, value ); }
@@ -72,7 +58,6 @@ namespace Sylpha.Messaging {
 		/// <summary>
 		/// ダイアログに表示される初期ディレクトリを指定、または取得します。
 		/// </summary>
-		[NotNull]
 		public string InitialDirectory {
 			get { return (string)GetValue( InitialDirectoryProperty ) ?? string.Empty; }
 			set { SetValue( InitialDirectoryProperty, value ); }
@@ -81,7 +66,6 @@ namespace Sylpha.Messaging {
 		/// <summary>
 		/// ファイルダイアログで指定されたファイルのパスを含む文字列を指定、または取得します。
 		/// </summary>
-		[NotNull]
 		public string FileName {
 			get { return (string)GetValue( FileNameProperty ) ?? string.Empty; }
 			set { SetValue( FileNameProperty, value ); }

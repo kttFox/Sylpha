@@ -4,15 +4,15 @@ using System.Collections.Specialized;
 
 namespace Sylpha.NUnit {
 	public class TestEventPublisher : INotifyPropertyChanged, INotifyCollectionChanged {
-		public EventHandler EmptyEvent;
+		public EventHandler? EmptyEvent;
 
-		public EventHandler<StringEventArgs> StringEvent;
+		public EventHandler<StringEventArgs>? StringEvent;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public event NotifyCollectionChangedEventHandler CollectionChanged;
+		public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
-		public object Dummy2 { get; set; }
+		public object? Dummy2 { get; set; }
 
 		public void RaiseEmptyEvent() {
 			var handler = EmptyEvent;
@@ -30,7 +30,7 @@ namespace Sylpha.NUnit {
 			}
 		}
 
-		public void RaisePropertyChanged( string propertyName ) {
+		public void RaisePropertyChanged( string? propertyName ) {
 			var handler = PropertyChanged;
 
 			if( handler != null ) {
@@ -38,7 +38,7 @@ namespace Sylpha.NUnit {
 			}
 		}
 
-		public void RaiseCollectionChanged( NotifyCollectionChangedAction action, object item ) {
+		public void RaiseCollectionChanged( NotifyCollectionChangedAction action, object? item ) {
 			var handler = CollectionChanged;
 
 			if( handler != null ) {

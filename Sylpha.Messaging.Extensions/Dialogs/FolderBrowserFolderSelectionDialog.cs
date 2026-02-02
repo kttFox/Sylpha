@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
-using JetBrains.Annotations;
 using IWin32Window = System.Windows.Forms.IWin32Window;
 
 namespace Sylpha.Dialogs {
@@ -14,7 +12,7 @@ namespace Sylpha.Dialogs {
 	/// <see cref="T:System.Windows.Forms.FolderBrowserDialog" />.
 	/// </summary>
 	internal sealed class FolderBrowserFolderSelectionDialog : FolderSelectionDialog {
-		[NotNull] private readonly FolderBrowserDialog _folderBrowserDialog;
+		private readonly FolderBrowserDialog _folderBrowserDialog;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FolderBrowserFolderSelectionDialog" /> class.
@@ -33,7 +31,7 @@ namespace Sylpha.Dialogs {
 		/// <value>
 		/// The descriptive text to instruct the operation.
 		/// </value>
-		public override string Description {
+		public override string? Description {
 			get { return _folderBrowserDialog.Description; }
 			set { _folderBrowserDialog.Description = value; }
 		}
@@ -44,7 +42,7 @@ namespace Sylpha.Dialogs {
 		/// <value>
 		/// The selected path. This will be default path when the dialog is opened.
 		/// </value>
-		public override string SelectedPath {
+		public override string? SelectedPath {
 			get { return _folderBrowserDialog.SelectedPath; }
 			set {
 				// FolderBrowserDialog.SelectedPath must ends with Path.DirectorySeparatorChar.
@@ -59,7 +57,7 @@ namespace Sylpha.Dialogs {
 		/// This property is not supported.
 		/// </summary>
 		/// <value>Always <see cref="F:String.Empty" />.</value>
-		public override string Title {
+		public override string? Title {
 			get { return string.Empty; }
 			set { }
 		}
@@ -78,9 +76,7 @@ namespace Sylpha.Dialogs {
 		/// Gets or sets the selected paths.
 		/// </summary>
 		/// <value>Always return SelectedPath.</value>
-		public override string[] SelectedPaths {
-			get { return new[] { SelectedPath }; }
-		}
+		public override string[] SelectedPaths => ( this.SelectedPath == null ) ? [] : [this.SelectedPath];
 
 		/// <summary>
 		/// Releases unmanaged and - optionally - managed resources
@@ -102,7 +98,7 @@ namespace Sylpha.Dialogs {
 		/// <returns>
 		/// The result of the dialog.
 		/// </returns>
-		protected override bool? ShowDialogCore( [NotNull] Window hostWindow ) {
+		protected override bool? ShowDialogCore( Window hostWindow ) {
 			if( hostWindow == null ) throw new ArgumentNullException( nameof( hostWindow ) );
 
 			// ReSharper disable once SwitchStatementMissingSomeCases

@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
@@ -7,34 +6,24 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	public class ConfirmationMessage : ResponsiveInteractionMessage<bool?> {
 		// Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty TextProperty =
-			DependencyProperty.Register( "Text", typeof( string ), typeof( ConfirmationMessage ),
-				new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( Text ), typeof( string ), typeof( ConfirmationMessage ), new PropertyMetadata( null ) );
 
 		// Using a DependencyProperty as the backing store for Caption.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty CaptionProperty =
-			DependencyProperty.Register( "Caption", typeof( string ), typeof( ConfirmationMessage ),
-				new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( Caption ), typeof( string ), typeof( ConfirmationMessage ), new PropertyMetadata( null ) );
 
 		// Using a DependencyProperty as the backing store for Image.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty ImageProperty =
-			DependencyProperty.Register( "Image", typeof( MessageBoxImage ), typeof( ConfirmationMessage ),
-				new PropertyMetadata() );
+			DependencyProperty.Register( nameof( Image ), typeof( MessageBoxImage ), typeof( ConfirmationMessage ), new PropertyMetadata() );
 
 		// Using a DependencyProperty as the backing store for Button.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty ButtonProperty =
-			DependencyProperty.Register( "Button", typeof( MessageBoxButton ), typeof( ConfirmationMessage ),
-				new PropertyMetadata( MessageBoxButton.OKCancel ) );
+			DependencyProperty.Register( nameof( Button ), typeof( MessageBoxButton ), typeof( ConfirmationMessage ), new PropertyMetadata( MessageBoxButton.OKCancel ) );
 
 		// Using a DependencyProperty as the backing store for DefaultResult.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty DefaultResultProperty =
-			DependencyProperty.Register( "DefaultResult", typeof( MessageBoxResult ), typeof( ConfirmationMessage ),
-				new PropertyMetadata( MessageBoxResult.OK ) );
+			DependencyProperty.Register( nameof( DefaultResult ), typeof( MessageBoxResult ), typeof( ConfirmationMessage ), new PropertyMetadata( MessageBoxResult.OK ) );
 
 		/// <summary>
 		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージボックスボタン・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
@@ -45,9 +34,7 @@ namespace Sylpha.Messaging {
 		/// <param name="button">メッセージボックスボタン</param>
 		/// <param name="defaultResult">既定の結果</param>
 		/// <param name="messageKey">メッセージキー</param>
-		public ConfirmationMessage( string text, string caption, MessageBoxImage image, MessageBoxButton button,
-			MessageBoxResult defaultResult, string messageKey )
-			: base( messageKey ) {
+		public ConfirmationMessage( string text, string caption, MessageBoxImage image, MessageBoxButton button, MessageBoxResult defaultResult, string? messageKey ) : base( messageKey ) {
 			Text = text;
 			Caption = caption;
 			Image = image;
@@ -63,9 +50,7 @@ namespace Sylpha.Messaging {
 		/// <param name="image">メッセージボックスイメージ</param>
 		/// <param name="button">メッセージボックスボタン</param>
 		/// <param name="messageKey">メッセージキー</param>
-		public ConfirmationMessage( string text, string caption, MessageBoxImage image, MessageBoxButton button,
-			string messageKey )
-			: this( text, caption, image, button, MessageBoxResult.OK, messageKey ) { }
+		public ConfirmationMessage( string text, string caption, MessageBoxImage image, MessageBoxButton button, string? messageKey ) : this( text, caption, image, button, MessageBoxResult.OK, messageKey ) { }
 
 		/// <summary>
 		/// 表示するメッセージ・キャプション・メッセージボックスイメージ・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
@@ -74,8 +59,7 @@ namespace Sylpha.Messaging {
 		/// <param name="caption">キャプション</param>
 		/// <param name="image">メッセージボックスイメージ</param>
 		/// <param name="messageKey">メッセージキー</param>
-		public ConfirmationMessage( string text, string caption, MessageBoxImage image, string messageKey )
-			: this( text, caption, image, MessageBoxButton.OK, messageKey ) { }
+		public ConfirmationMessage( string text, string caption, MessageBoxImage image, string? messageKey ) : this( text, caption, image, MessageBoxButton.OK, messageKey ) { }
 
 		/// <summary>
 		/// 表示するメッセージ・キャプション・メッセージキーを指定して、新しい相互作用メッセージのインスタンスを生成します。
@@ -83,16 +67,8 @@ namespace Sylpha.Messaging {
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
 		/// <param name="messageKey">メッセージキー</param>
-		public ConfirmationMessage( string text, string caption, string messageKey )
-			: this( text, caption, MessageBoxImage.None, messageKey ) { }
+		public ConfirmationMessage( string text, string caption, string? messageKey = null ) : this( text, caption, MessageBoxImage.None, messageKey ) { }
 
-		/// <summary>
-		/// 表示するメッセージ・キャプションを指定して、新しい相互作用メッセージのインスタンスを生成します。
-		/// </summary>
-		/// <param name="text">表示するメッセージ</param>
-		/// <param name="caption">キャプション</param>
-		public ConfirmationMessage( string text, string caption )
-			: this( text, caption, null ) { }
 
 		public ConfirmationMessage() { }
 

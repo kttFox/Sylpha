@@ -10,28 +10,22 @@ namespace Sylpha.Behaviors.Messaging {
 	/// </summary>
 	public class TransitionInteractionMessageAction : InteractionMessageAction<FrameworkElement> {
 		// Using a DependencyProperty as the backing store for WindowType.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty WindowTypeProperty =
-			DependencyProperty.Register( "WindowType", typeof( Type ), typeof( TransitionInteractionMessageAction ),
-				new PropertyMetadata() );
+			DependencyProperty.Register( nameof( WindowType ), typeof( Type ), typeof( TransitionInteractionMessageAction ), new PropertyMetadata() );
 
 		// Using a DependencyProperty as the backing store for Mode.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty ModeProperty =
-			DependencyProperty.Register( "Mode", typeof( TransitionMode ), typeof( TransitionInteractionMessageAction ),
-				new PropertyMetadata( TransitionMode.Normal ) );
+			DependencyProperty.Register( nameof( Mode ), typeof( TransitionMode ), typeof( TransitionInteractionMessageAction ), new PropertyMetadata( TransitionMode.Normal ) );
 
 		// Using a DependencyProperty as the backing store for OwnedFromThis.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty OwnedFromThisProperty =
-			DependencyProperty.Register( "IsOwned", typeof( bool ), typeof( TransitionInteractionMessageAction ),
-				new PropertyMetadata( true ) );
+			DependencyProperty.Register( nameof( IsOwned ), typeof( bool ), typeof( TransitionInteractionMessageAction ), new PropertyMetadata( true ) );
 
 		/// <summary>
 		/// 遷移するウインドウの型を指定、または取得します。
 		/// </summary>
-		public Type WindowType {
-			get { return (Type)GetValue( WindowTypeProperty ); }
+		public Type? WindowType {
+			get { return (Type?)GetValue( WindowTypeProperty ); }
 			set { SetValue( WindowTypeProperty, value ); }
 		}
 
@@ -60,9 +54,10 @@ namespace Sylpha.Behaviors.Messaging {
 		}
 
 		protected override void InvokeAction( InteractionMessage message ) {
-			if( !( message is TransitionMessage transitionMessage ) ) return;
+			if( message is not TransitionMessage transitionMessage ) return;
 
-			var targetType = transitionMessage.WindowType != null ? transitionMessage.WindowType : WindowType;
+			var targetType = transitionMessage.WindowType ?? WindowType;
+			if( targetType == null ) return;
 			if( !IsValidWindowType( targetType ) ) return;
 
 			var defaultConstructor = targetType.GetConstructor( Type.EmptyTypes )
@@ -71,9 +66,7 @@ namespace Sylpha.Behaviors.Messaging {
 			if( Mode == TransitionMode.UnKnown && transitionMessage.Mode == TransitionMode.UnKnown ) return;
 
 			var mode = transitionMessage.Mode == TransitionMode.UnKnown ? Mode : transitionMessage.Mode;
-			var associatedObject = AssociatedObject
-								   ?? throw new InvalidOperationException(
-									   $"{nameof( AssociatedObject )} cannot be null." );
+			var associatedObject = AssociatedObject ?? throw new InvalidOperationException( $"{nameof( AssociatedObject )} cannot be null." );
 
 			switch( mode ) {
 				case TransitionMode.Normal:

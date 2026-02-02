@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Windows;
+using JetBrains.Annotations;
 using Sylpha.Messaging;
 
 namespace Sylpha.Behaviors.Messaging {
 	/// <summary>
 	/// Windowの最小化・最大化・閉じるを行うアクションです。WindowActionMessageに対応します。
 	/// </summary>
+	[PublicAPI]
 	public class WindowInteractionMessageAction : InteractionMessageAction<FrameworkElement> {
 		protected override void InvokeAction( InteractionMessage message ) {
 			// ReSharper disable once InvertIf

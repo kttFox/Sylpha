@@ -2,9 +2,9 @@
 
 namespace Sylpha.NUnit.TestInfrastructures {
 	public class TestViewModel : ViewModel {
-		Action _disposeAction;
-		Action _test1Action;
-		Action<string> _test2Action;
+		readonly Action _disposeAction;
+		readonly Action _test1Action;
+		readonly Action<string> _test2Action;
 
 		public TestViewModel( int i, Action test1Action, Action<string> test2Action, Action disposeAction ) {
 			Number = i;

@@ -245,3 +245,12 @@ dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.required_suffix = 
 dotnet_naming_style.begins_with_i.word_separator = 
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+# IDE2001: 埋め込みステートメントは独自の行に配置する必要があります
+dotnet_diagnostic.IDE2001.severity = none
+
+# CA1510: ArgumentNullException スロー ヘルパーを使用する
+dotnet_diagnostic.CA1510.severity = none
+
+# CA1513: ObjectDisposedException スロー ヘルパーを使用する
+dotnet_diagnostic.CA1513.severity = none

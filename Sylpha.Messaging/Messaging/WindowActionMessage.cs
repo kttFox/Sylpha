@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
@@ -7,10 +6,8 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	public class WindowActionMessage : InteractionMessage {
 		// Using a DependencyProperty as the backing store for Action.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty ActionProperty =
-			DependencyProperty.Register( "Action", typeof( WindowAction ), typeof( WindowActionMessage ),
-				new PropertyMetadata() );
+			DependencyProperty.Register( nameof( Action ), typeof( WindowAction ), typeof( WindowActionMessage ), new PropertyMetadata() );
 
 		public WindowActionMessage() { }
 
@@ -18,25 +15,16 @@ namespace Sylpha.Messaging {
 		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
-		public WindowActionMessage( string messageKey )
-			: base( messageKey ) { }
+		public WindowActionMessage( string? messageKey ) : base( messageKey ) { }
 
 		/// <summary>
 		/// メッセージキーとWindowが遷移すべき状態を定義して、新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="action">Windowが遷移すべき状態を表すWindowAction列挙体</param>
 		/// <param name="messageKey">メッセージキー</param>
-		public WindowActionMessage( WindowAction action, string messageKey )
-			: this( messageKey ) {
+		public WindowActionMessage( WindowAction action, string? messageKey = null ) : this( messageKey ) {
 			Action = action;
 		}
-
-		/// <summary>
-		/// Windowが遷移すべき状態を定義して、新しい相互作用メッセージのインスタンスを生成します。
-		/// </summary>
-		/// <param name="action">Windowが遷移すべき状態を表すWindowAction列挙体</param>
-		public WindowActionMessage( WindowAction action )
-			: this( action, null ) { }
 
 		/// <summary>
 		/// Windowが遷移すべき状態を表すWindowAction列挙体を指定、または取得します。

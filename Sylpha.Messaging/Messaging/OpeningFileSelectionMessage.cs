@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
@@ -7,10 +6,8 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	public class OpeningFileSelectionMessage : FileSelectionMessage {
 		// Using a DependencyProperty as the backing store for MultiSelect.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty MultiSelectProperty =
-			DependencyProperty.Register( "MultiSelect", typeof( bool ), typeof( OpeningFileSelectionMessage ),
-				new PropertyMetadata( false ) );
+			DependencyProperty.Register( nameof( MultiSelect ), typeof( bool ), typeof( OpeningFileSelectionMessage ), new PropertyMetadata( false ) );
 
 		public OpeningFileSelectionMessage() { }
 
@@ -18,8 +15,7 @@ namespace Sylpha.Messaging {
 		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
-		public OpeningFileSelectionMessage( string messageKey )
-			: base( messageKey ) { }
+		public OpeningFileSelectionMessage( string? messageKey ) : base( messageKey ) { }
 
 		/// <summary>
 		/// 複数ファイルを選択可能かを取得、または設定します。

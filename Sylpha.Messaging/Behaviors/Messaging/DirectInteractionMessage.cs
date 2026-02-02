@@ -2,40 +2,31 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
-using JetBrains.Annotations;
 using Sylpha.Messaging;
 
 namespace Sylpha.Behaviors.Messaging {
 	/// <summary>
 	/// Viewから直接相互作用メッセージを定義する際に使用します。
 	/// </summary>
-	[ContentProperty( "Message" )]
+	[ContentProperty( nameof(Message) )]
 	public class DirectInteractionMessage : Freezable {
 		// Using a DependencyProperty as the backing store for Message.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty MessageProperty =
-			DependencyProperty.Register( "Message", typeof( InteractionMessage ), typeof( DirectInteractionMessage ),
-				new UIPropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( Message ), typeof( InteractionMessage ), typeof( DirectInteractionMessage ), new UIPropertyMetadata( null ) );
 
 		// Using a DependencyProperty as the backing store for CallbackCommand.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty CallbackCommandProperty =
-			DependencyProperty.Register( "CallbackCommand", typeof( ICommand ), typeof( DirectInteractionMessage ),
-				new UIPropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( CallbackCommand ), typeof( ICommand ), typeof( DirectInteractionMessage ), new UIPropertyMetadata( null ) );
 
 		// Using a DependencyProperty as the backing store for CallbackMethodTarget.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty CallbackMethodTargetProperty =
-			DependencyProperty.Register( "CallbackMethodTarget", typeof( object ), typeof( DirectInteractionMessage ),
-				new UIPropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( CallbackMethodTarget ), typeof( object ), typeof( DirectInteractionMessage ), new UIPropertyMetadata( null ) );
 
 		// Using a DependencyProperty as the backing store for MethodName.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty CallbackMethodNameProperty =
-			DependencyProperty.Register( "CallbackMethodName", typeof( string ), typeof( DirectInteractionMessage ),
-				new UIPropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( CallbackMethodName ), typeof( string ), typeof( DirectInteractionMessage ), new UIPropertyMetadata( null ) );
 
-		[NotNull] private readonly MethodBinderWithArgument _callbackMethod = new MethodBinderWithArgument();
+		private readonly MethodBinderWithArgument _callbackMethod = new();
 
 		/// <summary>
 		/// 相互作用メッセージ(各種InteractionMessage)を指定、または取得します。
@@ -72,7 +63,7 @@ namespace Sylpha.Behaviors.Messaging {
 			set { SetValue( CallbackMethodNameProperty, value ); }
 		}
 
-		internal void InvokeCallbacks( [NotNull] InteractionMessage message ) {
+		internal void InvokeCallbacks( InteractionMessage message ) {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
 			if( CallbackCommand != null ) {

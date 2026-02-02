@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace Sylpha.Behaviors {
 	/// <summary>
@@ -12,18 +11,15 @@ namespace Sylpha.Behaviors {
 	/// 引数が一つだけ存在するメソッドを実行します。メソッドの実行は最大限キャッシュされます。
 	/// </summary>
 	public class MethodBinderWithArgument {
-		[NotNull]
-		private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<object, object>>>
-			MethodCacheDictionary =
-				new ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<object, object>>>();
+		private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<object, object?>>> MethodCacheDictionary = new();
 
-		private Type _argumentType;
-		private Action<object, object> _method;
-		private MethodInfo _methodInfo;
-		private string _methodName;
-		private Type _targetObjectType;
+		private Type? _argumentType;
+		private Action<object, object?>? _method;
+		private MethodInfo? _methodInfo;
+		private string? _methodName;
+		private Type? _targetObjectType;
 
-		public void Invoke( [NotNull] object targetObject, [NotNull] string methodName, [CanBeNull] object argument ) {
+		public void Invoke( object targetObject, string methodName, object? argument ) {
 			if( targetObject == null ) throw new ArgumentNullException( nameof( targetObject ) );
 			if( methodName == null ) throw new ArgumentNullException( nameof( methodName ) );
 
@@ -44,7 +40,7 @@ namespace Sylpha.Behaviors {
 				}
 
 				if( _methodInfo != null ) {
-					_methodInfo.Invoke( targetObject, new[] { argument } );
+					_methodInfo.Invoke( targetObject, [argument] );
 					return;
 				}
 			}
@@ -63,10 +59,9 @@ namespace Sylpha.Behaviors {
 					if( method.Name != methodName ) return false;
 
 					var parameters = method.GetParameters();
-
 					if( parameters.Length != 1 ) return false;
 
-					var parameterType = parameters[0]?.ParameterType ?? throw new ArgumentException();
+					var parameterType = parameters[0].ParameterType ?? throw new ArgumentException();
 					if( parameterType.IsInterface ) {
 						if( _argumentType != null
 							&& !_argumentType.GetInterfaces().Contains( parameterType ) ) return false;
@@ -83,10 +78,9 @@ namespace Sylpha.Behaviors {
 					$"{_targetObjectType?.Name} 型に {_argumentType?.Name} 型の引数を一つだけ持つメソッド {methodName} が見つかりません。" );
 			}
 
-			_methodInfo.Invoke( targetObject, new[] { argument } );
+			_methodInfo.Invoke( targetObject, [argument] );
 
-			var taskArgument = new Tuple<Type, MethodInfo, Type>( _targetObjectType, _methodInfo,
-				_methodInfo.GetParameters()[0].ParameterType );
+			var taskArgument = new Tuple<Type?, MethodInfo, Type>( _targetObjectType, _methodInfo, _methodInfo.GetParameters()[0].ParameterType );
 
 			Task.Factory.StartNew( arg => {
 				if( arg == null ) throw new ArgumentNullException( nameof( arg ) );
@@ -94,9 +88,9 @@ namespace Sylpha.Behaviors {
 				var taskArg = (Tuple<Type, MethodInfo, Type>)arg;
 
 				var paraTarget = Expression.Parameter( typeof( object ), "target" );
-				var paraMessage = Expression.Parameter( typeof( object ), "argument" );
+				var paraMessage = Expression.Parameter( typeof( object ), nameof( argument ) );
 
-				var method = Expression.Lambda<Action<object, object>>
+				var method = Expression.Lambda<Action<object, object?>>
 				(
 					Expression.Call
 					(
@@ -108,21 +102,21 @@ namespace Sylpha.Behaviors {
 					paraMessage
 				).Compile();
 
-				var dic = MethodCacheDictionary.GetOrAdd( taskArg.Item1,
-							  _ => new ConcurrentDictionary<string, Action<object, object>>() )
-						  ?? throw new InvalidOperationException();
+				var dic = MethodCacheDictionary.GetOrAdd( taskArg.Item1, _ => [] ) ?? throw new InvalidOperationException();
 				dic.TryAdd( taskArg.Item2.Name, method );
 			}, taskArgument );
 		}
 
-		private bool TryGetCacheFromMethodCacheDictionary( out Action<object, object> m ) {
+		private bool TryGetCacheFromMethodCacheDictionary( out Action<object, object?>? m ) {
 			if( _targetObjectType == null ) throw new InvalidOperationException();
 			if( _methodName == null ) throw new InvalidOperationException();
 
 			m = null;
 			var foundAction = false;
-			if( MethodCacheDictionary.TryGetValue( _targetObjectType, out var actionDictionary ) )
+			if( MethodCacheDictionary.TryGetValue( _targetObjectType, out var actionDictionary ) ) {
 				foundAction = actionDictionary.TryGetValue( _methodName, out m );
+			}
+
 			return foundAction;
 		}
 	}

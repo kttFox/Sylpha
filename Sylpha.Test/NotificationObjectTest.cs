@@ -44,9 +44,9 @@ namespace Sylpha.NUnit {
 
 		class RaisePropertyChangedIfSetTestObject : NotificationObject {
 
-			private string _Prop1;
+			private string? _Prop1;
 
-			public string Prop1 {
+			public string? Prop1 {
 				get => _Prop1;
 				set => RaisePropertyChangedIfSet( ref _Prop1, value );
 			}
@@ -54,9 +54,9 @@ namespace Sylpha.NUnit {
 
 		class RaisePropertyChangedIfSetWithRelatedPropertyTestObject : NotificationObject {
 
-			private string _Source;
+			private string? _Source;
 
-			public string Source {
+			public string? Source {
 				get => _Source;
 				set => RaisePropertyChangedIfSet( ref _Source, value, nameof( Output ) );
 			}
@@ -65,12 +65,11 @@ namespace Sylpha.NUnit {
 		}
 		class RaisePropertyChangedIfSetWithManyRelatedPropertiesTestObject : NotificationObject {
 
-			private string _Source;
+			private string? _Source;
 
-			public string Source {
+			public string? Source {
 				get => _Source;
-				set => RaisePropertyChangedIfSet( ref _Source, value,
-					new[] { nameof( Output1 ), nameof( Output2 ) } );
+				set => RaisePropertyChangedIfSet( ref _Source, value, [nameof( Output1 ), nameof( Output2 )] );
 			}
 
 			public string Output1 => $"Output1: {Source}";

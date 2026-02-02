@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using Sylpha.Dialogs;
 using Sylpha.Messaging;

@@ -1,16 +1,11 @@
 ﻿using System.Collections.Concurrent;
 using System.ComponentModel;
-using JetBrains.Annotations;
 
 namespace Sylpha {
 	internal static class EventArgsFactory {
-		[NotNull]
-		private static readonly ConcurrentDictionary<string, PropertyChangedEventArgs>
-			PropertyChangedEventArgsDictionary = new ConcurrentDictionary<string, PropertyChangedEventArgs>();
+		private static readonly ConcurrentDictionary<string, PropertyChangedEventArgs> PropertyChangedEventArgsDictionary = new();
 
-		public static PropertyChangedEventArgs GetPropertyChangedEventArgs( [CanBeNull] string propertyName ) {
-			return PropertyChangedEventArgsDictionary.GetOrAdd( propertyName ?? string.Empty,
-				name => new PropertyChangedEventArgs( name ) );
-		}
+		public static PropertyChangedEventArgs GetPropertyChangedEventArgs( string? propertyName ) 
+			=> PropertyChangedEventArgsDictionary.GetOrAdd( propertyName ?? string.Empty, name => new PropertyChangedEventArgs( name ) );
 	}
 }

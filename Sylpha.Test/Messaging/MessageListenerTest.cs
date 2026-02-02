@@ -129,7 +129,8 @@ namespace Sylpha.NUnit.Messaging {
 
 			listenerSuccess.Is( false );
 
-			publisher.GetResponse( message ).Response.Is( "test" );
+			publisher.GetResponse( message )!.Response.Is( "test" );
+			publisher.GetResponse( message )!.Response.Is( "test" );
 			listenerSuccess.Is( true );
 		}
 
@@ -155,8 +156,7 @@ namespace Sylpha.NUnit.Messaging {
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
 
-			InteractionMessenger resultPublisher = null;
-			publisherWeakReference.TryGetTarget( out resultPublisher ).Is( false );
+			publisherWeakReference.TryGetTarget( out var resultPublisher ).Is( false );
 			resultPublisher.IsNull();
 		}
 	}

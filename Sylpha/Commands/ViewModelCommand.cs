@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Threading;
 using System.Windows.Input;
 using JetBrains.Annotations;
 
@@ -9,21 +8,15 @@ namespace Sylpha.Commands {
 	/// ViewModelがViewに公開するコマンドを表します。
 	/// </summary>
 	public sealed class ViewModelCommand : Command, ICommand, INotifyPropertyChanged {
-		[CanBeNull] private readonly Func<bool> _canExecute;
-		[NotNull] private readonly Action _execute;
-
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="execute">コマンドが実行するAction</param>
-		public ViewModelCommand( [NotNull] Action execute ) : this( execute, null ) { }
+		private readonly Func<bool>? _canExecute;
+		private readonly Action _execute;
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		/// <param name="execute">コマンドが実行するAction</param>
 		/// <param name="canExecute">コマンドが実行可能かどうかをあらわすFunc&lt;bool&gt;</param>
-		public ViewModelCommand( [NotNull] Action execute, [CanBeNull] Func<bool> canExecute ) {
+		public ViewModelCommand( Action execute, Func<bool>? canExecute = null ) {
 			_execute = execute ?? throw new ArgumentNullException( nameof( execute ) );
 			_canExecute = canExecute;
 		}
@@ -31,22 +24,20 @@ namespace Sylpha.Commands {
 		/// <summary>
 		/// コマンドが実行可能かどうかを取得します。
 		/// </summary>
-		public bool CanExecute {
-			get { return _canExecute?.Invoke() ?? true; }
-		}
+		public bool CanExecute => _canExecute?.Invoke() ?? true;
 
-		void ICommand.Execute( object parameter ) {
+		void ICommand.Execute( object? parameter ) {
 			Execute();
 		}
 
-		bool ICommand.CanExecute( object parameter ) {
+		bool ICommand.CanExecute( object? parameter ) {
 			return CanExecute;
 		}
 
 		/// <summary>
 		/// コマンドが実行可能かどうかが変化した時に発生します。
 		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		/// <summary>
 		/// コマンドを実行します。
@@ -57,8 +48,7 @@ namespace Sylpha.Commands {
 
 		[NotifyPropertyChangedInvocator]
 		private void OnPropertyChanged() {
-			Interlocked.CompareExchange( ref PropertyChanged, null, null )
-				?.Invoke( this, EventArgsFactory.GetPropertyChangedEventArgs( "CanExecute" ) );
+			PropertyChanged?.Invoke( this, EventArgsFactory.GetPropertyChangedEventArgs( nameof( CanExecute ) ) );
 		}
 
 		/// <summary>

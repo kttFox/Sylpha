@@ -5,8 +5,7 @@ using System.Threading;
 
 namespace Sylpha.NUnit {
 	public class TestDispatcherContext : IDisposable {
-		private Dispatcher _dispatcher = null;
-		private bool _disposed = false;
+		private Dispatcher? _dispatcher = null;
 
 		public TestDispatcherContext() {
 			var dispatcherRunFlag = false;
@@ -18,22 +17,32 @@ namespace Sylpha.NUnit {
 
 			while( _dispatcher == null ) { Thread.Sleep( 10 ); }
 
-			_dispatcher.BeginInvoke( ( (Action)( () => dispatcherRunFlag = true ) ) );
+			_dispatcher.BeginInvoke( (Action)( () => dispatcherRunFlag = true ) );
 
 			while( !dispatcherRunFlag ) { Thread.Sleep( 10 ); }
 		}
 
-		public void Dispose() {
-			Dispose( true );
-			GC.SuppressFinalize( this );
-		}
 
-		public Dispatcher Dispatcher {
+		public Dispatcher? Dispatcher {
 			get {
 				ThrowExceptionIfDisposed();
 				return _dispatcher;
 			}
 		}
+
+		protected void ThrowExceptionIfDisposed() {
+			if( _disposed ) {
+				throw new ObjectDisposedException( "DispatcherContext" );
+			}
+		}
+
+		#region dispose
+		public void Dispose() {
+			Dispose( true );
+			GC.SuppressFinalize( this );
+		}
+
+		private bool _disposed = false;
 
 		protected virtual void Dispose( bool disposing ) {
 			if( _disposed ) return;
@@ -45,11 +54,6 @@ namespace Sylpha.NUnit {
 			}
 			_disposed = true;
 		}
-
-		protected void ThrowExceptionIfDisposed() {
-			if( _disposed ) {
-				throw new ObjectDisposedException( "DispatcherContext" );
-			}
-		}
+		#endregion
 	}
 }

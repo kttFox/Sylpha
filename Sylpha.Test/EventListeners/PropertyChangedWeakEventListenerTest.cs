@@ -249,8 +249,7 @@ namespace Sylpha.NUnit.EventListeners {
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
 
-			TestEventPublisher resultPublisher = null;
-			publisherWeakReference.TryGetTarget( out resultPublisher ).Is( false );
+			publisherWeakReference.TryGetTarget( out var resultPublisher ).Is( false );
 			resultPublisher.IsNull();
 		}
 
@@ -292,7 +291,7 @@ namespace Sylpha.NUnit.EventListeners {
 				Listener = new PropertyChangedWeakEventListener( publisher );
 
 				// This handler refers "this".
-				PropertyChangedEventHandler handler = ( sender, e ) => { ToString(); };
+				PropertyChangedEventHandler handler = ( sender, e ) => { _ = ToString(); };
 				Listener.RegisterHandler( handler );
 				Listener.RegisterHandler( "Dummy1", handler );
 			}
@@ -315,8 +314,7 @@ namespace Sylpha.NUnit.EventListeners {
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 
-			HandlerMemoryLeakTestClass result = null;
-			dummyWeakReference.TryGetTarget( out result ).Is( false );
+			dummyWeakReference.TryGetTarget( out var result ).Is( false );
 			result.IsNull();
 		}
 	}

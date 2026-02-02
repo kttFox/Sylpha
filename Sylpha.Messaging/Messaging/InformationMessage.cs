@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
@@ -7,21 +6,16 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	public class InformationMessage : InteractionMessage {
 		// Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty TextProperty =
-			DependencyProperty.Register( "Text", typeof( string ), typeof( InformationMessage ), new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( Text ), typeof( string ), typeof( InformationMessage ), new PropertyMetadata( null ) );
 
 		// Using a DependencyProperty as the backing store for Caption.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty CaptionProperty =
-			DependencyProperty.Register( "Caption", typeof( string ), typeof( InformationMessage ),
-				new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( Caption ), typeof( string ), typeof( InformationMessage ), new PropertyMetadata( null ) );
 
 		// Using a DependencyProperty as the backing store for Image.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty ImageProperty =
-			DependencyProperty.Register( "Image", typeof( MessageBoxImage ), typeof( InformationMessage ),
-				new PropertyMetadata() );
+			DependencyProperty.Register( nameof( Image ), typeof( MessageBoxImage ), typeof( InformationMessage ), new PropertyMetadata() );
 
 		public InformationMessage() { }
 
@@ -31,7 +25,7 @@ namespace Sylpha.Messaging {
 		/// <param name="text">表示するメッセージ</param>
 		/// <param name="caption">キャプション</param>
 		/// <param name="messageKey">メッセージキー</param>
-		public InformationMessage( string text, string caption, string messageKey ) : base( messageKey ) {
+		public InformationMessage( string text, string caption, string? messageKey ) : base( messageKey ) {
 			Text = text;
 			Caption = caption;
 			MessageKey = messageKey;
@@ -44,8 +38,7 @@ namespace Sylpha.Messaging {
 		/// <param name="caption">キャプション</param>
 		/// <param name="image">メッセージボックスイメージ</param>
 		/// <param name="messageKey">メッセージキー</param>
-		public InformationMessage( string text, string caption, MessageBoxImage image, string messageKey )
-			: base( messageKey ) {
+		public InformationMessage( string text, string caption, MessageBoxImage image, string? messageKey ) : base( messageKey ) {
 			Text = text;
 			Caption = caption;
 			MessageKey = messageKey;

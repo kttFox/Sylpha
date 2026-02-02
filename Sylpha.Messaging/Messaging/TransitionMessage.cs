@@ -8,25 +8,20 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// 画面遷移アクション用の相互作用メッセージです。
 	/// </summary>
-	[ContentProperty( "TransitionViewModel" )]
+	[ContentProperty( nameof(TransitionViewModel) )]
+	[PublicAPI]
 	public class TransitionMessage : ResponsiveInteractionMessage<bool?> {
 		// Using a DependencyProperty as the backing store for TransitionViewModel.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty TransitionViewModelProperty =
-			DependencyProperty.Register( "TransitionViewModel", typeof( INotifyPropertyChanged ), typeof( TransitionMessage ),
-				new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( TransitionViewModel ), typeof( INotifyPropertyChanged ), typeof( TransitionMessage ), new PropertyMetadata( null ) );
 
 		// Using a DependencyProperty as the backing store for Mode.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty ModeProperty =
-			DependencyProperty.Register( "Mode", typeof( TransitionMode ), typeof( TransitionMessage ),
-				new PropertyMetadata( TransitionMode.UnKnown ) );
+			DependencyProperty.Register( nameof( Mode ), typeof( TransitionMode ), typeof( TransitionMessage ), new PropertyMetadata( TransitionMode.UnKnown ) );
 
 		// Using a DependencyProperty as the backing store for WindowType.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty WindowTypeProperty =
-			DependencyProperty.Register( "WindowType", typeof( Type ), typeof( TransitionMessage ),
-				new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( WindowType ), typeof( Type ), typeof( TransitionMessage ), new PropertyMetadata( null ) );
 
 		public TransitionMessage() { }
 
@@ -34,15 +29,14 @@ namespace Sylpha.Messaging {
 		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
-		public TransitionMessage( string messageKey ) : base( messageKey ) { }
+		public TransitionMessage( string? messageKey ) : base( messageKey ) { }
 
 		/// <summary>
 		/// 新しいWindowのDataContextに設定するViewModelとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		/// <param name="messageKey">メッセージキー</param>
-		public TransitionMessage( INotifyPropertyChanged transitionViewModel, string messageKey )
-			: this( null, transitionViewModel, TransitionMode.UnKnown, messageKey ) { }
+		public TransitionMessage( INotifyPropertyChanged transitionViewModel, string? messageKey ) : this( null, transitionViewModel, TransitionMode.UnKnown, messageKey ) { }
 
 		/// <summary>
 		/// 新しいWindowのDataContextに設定するViewModelと画面遷移モードとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
@@ -50,8 +44,7 @@ namespace Sylpha.Messaging {
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		/// <param name="mode">画面遷移の方法を決定するTransitionMode列挙体。初期値はUnKnownです。</param>
 		/// <param name="messageKey">メッセージキー</param>
-		public TransitionMessage( INotifyPropertyChanged transitionViewModel, TransitionMode mode, string messageKey )
-			: this( null, transitionViewModel, mode, messageKey ) { }
+		public TransitionMessage( INotifyPropertyChanged transitionViewModel, TransitionMode mode, string? messageKey ) : this( null, transitionViewModel, mode, messageKey ) { }
 
 		/// <summary>
 		/// 新しいWindowの型と新しいWindowに設定するViewModel、画面遷移モードとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
@@ -60,8 +53,7 @@ namespace Sylpha.Messaging {
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		/// <param name="mode">画面遷移の方法を決定するTransitionMode列挙体。初期値はUnKnownです。</param>
 		/// <param name="messageKey">メッセージキー</param>
-		public TransitionMessage( Type windowType, INotifyPropertyChanged transitionViewModel, TransitionMode mode, string messageKey )
-			: base( messageKey ) {
+		public TransitionMessage( Type? windowType, INotifyPropertyChanged transitionViewModel, TransitionMode mode, string? messageKey = null ) : base( messageKey ) {
 			Mode = mode;
 			TransitionViewModel = transitionViewModel;
 
@@ -77,25 +69,14 @@ namespace Sylpha.Messaging {
 		/// 新しいWindowのDataContextに設定するViewModelを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
-		public TransitionMessage( INotifyPropertyChanged transitionViewModel )
-			: this( null, transitionViewModel, TransitionMode.UnKnown, null ) { }
+		public TransitionMessage( INotifyPropertyChanged transitionViewModel ) : this( null, transitionViewModel, TransitionMode.UnKnown ) { }
 
 		/// <summary>
 		/// 新しいWindowのDataContextに設定するViewModelと画面遷移モードを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
 		/// <param name="mode">画面遷移の方法を決定するTransitionMode列挙体。初期値はUnKnownです。</param>
-		public TransitionMessage( INotifyPropertyChanged transitionViewModel, TransitionMode mode )
-			: this( null, transitionViewModel, mode, null ) { }
-
-		/// <summary>
-		/// 新しいWindowの型と新しいWindowに設定するViewModel、画面遷移モードとメッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
-		/// </summary>
-		/// <param name="windowType">新しいWindowの型</param>
-		/// <param name="transitionViewModel">新しいWindowのDataContextに設定するViewModel</param>
-		/// <param name="mode">画面遷移の方法を決定するTransitionMode列挙体。初期値はUnKnownです。</param>
-		public TransitionMessage( Type windowType, INotifyPropertyChanged transitionViewModel, TransitionMode mode )
-			: this( windowType, transitionViewModel, mode, null ) { }
+		public TransitionMessage( INotifyPropertyChanged transitionViewModel, TransitionMode mode ) : this( null, transitionViewModel, mode ) { }
 
 		/// <summary>
 		/// 新しいWindowのDataContextに設定するViewModelを指定、または取得します。
@@ -117,8 +98,8 @@ namespace Sylpha.Messaging {
 		/// <summary>
 		/// 新しいWindowの型を指定、または取得します。
 		/// </summary>
-		public Type WindowType {
-			get { return (Type)GetValue( WindowTypeProperty ); }
+		public Type? WindowType {
+			get { return (Type?)GetValue( WindowTypeProperty ); }
 			set { SetValue( WindowTypeProperty, value ); }
 		}
 

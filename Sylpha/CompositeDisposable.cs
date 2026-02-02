@@ -7,26 +7,31 @@ namespace Sylpha {
 	/// <summary>
 	/// 複数のIDisposableオブジェクトをまとめて操作するための機能を提供します。
 	/// </summary>
+	[PublicAPI]
 	public class CompositeDisposable : IDisposable, ICollection<IDisposable> {
-		[NotNull] private readonly object _lockObject = new object();
-		[NotNull] private readonly List<IDisposable> _targetLists;
+#if NET9_0_OR_GREATER
+		private readonly System.Threading.Lock _lockObject = new();
+#else
+		private readonly object _lockObject = new();
+#endif
+
+		private readonly List<IDisposable> _targetLists;
 		private bool _disposed;
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		public CompositeDisposable() {
-			_targetLists = new List<IDisposable>();
+			_targetLists = [];
 		}
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		/// <param name="sourceDisposableList">ソースとなるIDisposableコレクション</param>
-		public CompositeDisposable( [NotNull] IEnumerable<IDisposable> sourceDisposableList ) {
+		public CompositeDisposable( IEnumerable<IDisposable> sourceDisposableList ) {
 			if( sourceDisposableList == null ) throw new ArgumentNullException( nameof( sourceDisposableList ) );
-
-			_targetLists = new List<IDisposable>( sourceDisposableList );
+			_targetLists = [.. sourceDisposableList];
 		}
 
 		/// <summary>
@@ -129,7 +134,7 @@ namespace Sylpha {
 		/// IDisposableの代わりに、リソースを解放するActionを末尾に追加します。
 		/// </summary>
 		/// <param name="releaseAction">リソースを解放するためのAction</param>
-		public void Add( [NotNull] Action releaseAction ) {
+		public void Add( Action releaseAction ) {
 			if( releaseAction == null ) throw new ArgumentNullException( nameof( releaseAction ) );
 
 			ThrowExceptionIfDisposed();
@@ -152,7 +157,7 @@ namespace Sylpha {
 		/// IDisposableの代わりに、リソースを解放するActionを先頭に追加します。
 		/// </summary>
 		/// <param name="releaseAction">リソースを解放するためのAction</param>
-		public void AddFirst( [NotNull] Action releaseAction ) {
+		public void AddFirst( Action releaseAction ) {
 			if( releaseAction == null ) throw new ArgumentNullException( nameof( releaseAction ) );
 
 			ThrowExceptionIfDisposed();
@@ -163,14 +168,14 @@ namespace Sylpha {
 		protected virtual void Dispose( bool disposing ) {
 			if( _disposed ) return;
 
-			if( disposing )
-				lock( _lockObject ) { _targetLists.ForEach( item => item?.Dispose() ); }
-
+			if( disposing ) {
+				lock( _lockObject ) { _targetLists.ForEach( item => item.Dispose() ); }
+			}
 			_disposed = true;
 		}
 
 		protected void ThrowExceptionIfDisposed() {
-			if( _disposed ) throw new ObjectDisposedException( "CompositeDisposable" );
+			if( _disposed ) throw new ObjectDisposedException( nameof(CompositeDisposable) );
 		}
 	}
 }

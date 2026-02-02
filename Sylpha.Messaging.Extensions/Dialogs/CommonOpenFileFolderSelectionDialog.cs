@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using JetBrains.Annotations;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Sylpha.Dialogs {
@@ -11,8 +9,8 @@ namespace Sylpha.Dialogs {
 	/// <see cref="FolderSelectionDialog" /> implementation based on Win32 Common Item Dialog.
 	/// </summary>
 	internal sealed class CommonOpenFileFolderSelectionDialog : FolderSelectionDialog {
-		[NotNull] private readonly CommonOpenFileDialog _commonOpenFileDialog;
-		[CanBeNull] private readonly string _defaultTitle;
+		private readonly CommonOpenFileDialog _commonOpenFileDialog;
+		private readonly string? _defaultTitle;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CommonOpenFileFolderSelectionDialog" /> class.
@@ -30,7 +28,7 @@ namespace Sylpha.Dialogs {
 		/// Some dialog cannot support this value.
 		/// The <c>null</c> or empty indicates using default title.
 		/// </value>
-		public override string Title {
+		public override string? Title {
 			get { return _commonOpenFileDialog.Title; }
 			set { _commonOpenFileDialog.Title = string.IsNullOrEmpty( value ) ? _defaultTitle : value; }
 		}
@@ -39,7 +37,7 @@ namespace Sylpha.Dialogs {
 		/// This property is not supported.
 		/// </summary>
 		/// <value>Always <see cref="F:String.Empty" />.</value>
-		public override string Description {
+		public override string? Description {
 			get { return string.Empty; }
 			set { }
 		}
@@ -59,10 +57,10 @@ namespace Sylpha.Dialogs {
 		/// <value>
 		/// The selected path. This will be default path when the dialog is opened.
 		/// </value>
-		public override string SelectedPath {
+		public override string? SelectedPath {
 			get { return _commonOpenFileDialog.FileName; }
 			set {
-				DirectoryInfo asDirectory = null;
+				DirectoryInfo? asDirectory = null;
 				try { asDirectory = value != null ? new DirectoryInfo( value ) : null; } catch( ArgumentException ) { }
 
 				if( asDirectory == null )
@@ -104,7 +102,7 @@ namespace Sylpha.Dialogs {
 		/// <returns>
 		/// The result of the dialog.
 		/// </returns>
-		protected override bool? ShowDialogCore( [NotNull] Window hostWindow ) {
+		protected override bool? ShowDialogCore( Window hostWindow ) {
 			if( hostWindow == null ) throw new ArgumentNullException( nameof( hostWindow ) );
 
 			// ReSharper disable once SwitchStatementMissingSomeCases

@@ -1,21 +1,29 @@
 ﻿using System;
-using JetBrains.Annotations;
 
 namespace Sylpha {
 	/// <summary>
 	/// 指定されたリソース解放用のActionをIDisposableとして扱います。
 	/// </summary>
 	public class AnonymousDisposable : IDisposable {
-		[NotNull] private readonly Action _releaseAction;
-		private bool _disposed;
+		private readonly Action _releaseAction;
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		/// <param name="releaseAction">リソースを解放するためのアクション</param>
-		public AnonymousDisposable( [NotNull] Action releaseAction ) {
+		public AnonymousDisposable( Action releaseAction ) {
 			_releaseAction = releaseAction ?? throw new ArgumentNullException( nameof( releaseAction ) );
 		}
+
+		#region Dispose
+		protected virtual void Dispose( bool disposing ) {
+			if( _disposed ) return;
+
+			if( disposing ) _releaseAction();
+			_disposed = true;
+		}
+
+		private bool _disposed;
 
 		/// <summary>
 		/// コンストラクタで指定されたアクションを呼び出します。
@@ -24,12 +32,6 @@ namespace Sylpha {
 			Dispose( true );
 			GC.SuppressFinalize( this );
 		}
-
-		protected virtual void Dispose( bool disposing ) {
-			if( _disposed ) return;
-
-			if( disposing ) _releaseAction();
-			_disposed = true;
-		}
+		#endregion
 	}
 }

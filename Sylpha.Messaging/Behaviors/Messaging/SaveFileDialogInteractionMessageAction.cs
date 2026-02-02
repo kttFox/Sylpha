@@ -1,11 +1,13 @@
 ﻿using System.Windows;
-using Sylpha.Messaging;
+using JetBrains.Annotations;
 using Microsoft.Win32;
+using Sylpha.Messaging;
 
 namespace Sylpha.Behaviors.Messaging {
 	/// <summary>
 	/// 「ファイルを保存する」ダイアログを表示するアクションです。<see cref="SavingFileSelectionMessage" />に対応します。
 	/// </summary>
+	[PublicAPI]
 	public class SaveFileDialogInteractionMessageAction : InteractionMessageAction<DependencyObject> {
 		protected override void InvokeAction( InteractionMessage message ) {
 			// ReSharper disable once InvertIf

@@ -36,18 +36,16 @@ namespace Sylpha.Dialogs {
 						return new CommonOpenFileFolderSelectionDialog();
 					return new FolderBrowserFolderSelectionDialog();
 				}
-
-				case FolderSelectionDialogPreference.FolderBrowser: { return new FolderBrowserFolderSelectionDialog(); }
-
+				case FolderSelectionDialogPreference.FolderBrowser: {
+					return new FolderBrowserFolderSelectionDialog();
+				}
 				case FolderSelectionDialogPreference.CommonItemDialog: {
 					if( !CanUseCommonItemDialog ) {
-						throw new PlatformNotSupportedException( Resources
-							.FolderSelectionDialogFactory_CommonItemDialogIsSupportedFromWindowsNT6 );
+						throw new PlatformNotSupportedException( Resources.FolderSelectionDialogFactory_CommonItemDialogIsSupportedFromWindowsNT6 );
 					}
 
 					return new CommonOpenFileFolderSelectionDialog();
 				}
-
 				default: {
 					throw new ArgumentException(
 						string.Format(

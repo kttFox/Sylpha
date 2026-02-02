@@ -2,23 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using JetBrains.Annotations;
 using Sylpha.EventListeners.Internals;
 
 namespace Sylpha.EventListeners.WeakEvents {
 	/// <summary>
 	/// INotifyCollectionChanged.NotifyCollectionChangedを受信するためのWeakイベントリスナです。
 	/// </summary>
-	public sealed class CollectionChangedWeakEventListener :
-		WeakEventListener<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>,
-		IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>> {
-		[NotNull] private readonly AnonymousCollectionChangedEventHandlerBag _bag;
+	public sealed class CollectionChangedWeakEventListener : WeakEventListener<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>, IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>, IDisposable {
+		private readonly AnonymousCollectionChangedEventHandlerBag _bag;
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		/// <param name="source">INotifyCollectionChangedオブジェクト</param>
-		public CollectionChangedWeakEventListener( [NotNull] INotifyCollectionChanged source ) {
+		public CollectionChangedWeakEventListener( INotifyCollectionChanged source ) {
 			if( source == null ) throw new ArgumentNullException( nameof( source ) );
 
 			_bag = new AnonymousCollectionChangedEventHandlerBag( source );
@@ -26,7 +23,8 @@ namespace Sylpha.EventListeners.WeakEvents {
 				h => new NotifyCollectionChangedEventHandler( h ?? throw new ArgumentNullException( nameof( h ) ) ),
 				h => source.CollectionChanged += h,
 				h => source.CollectionChanged -= h,
-				( sender, e ) => _bag.ExecuteHandler( e ?? throw new ArgumentNullException( nameof( e ) ) ) );
+				( sender, e ) => _bag.ExecuteHandler( e ?? throw new ArgumentNullException( nameof( e ) ) )
+			);
 		}
 
 		/// <summary>
@@ -34,8 +32,7 @@ namespace Sylpha.EventListeners.WeakEvents {
 		/// </summary>
 		/// <param name="source">INotifyCollectionChangedオブジェクト</param>
 		/// <param name="handler">NotifyCollectionChangedイベントハンドラ</param>
-		public CollectionChangedWeakEventListener( [NotNull] INotifyCollectionChanged source,
-			[NotNull] NotifyCollectionChangedEventHandler handler ) {
+		public CollectionChangedWeakEventListener( INotifyCollectionChanged source, NotifyCollectionChangedEventHandler handler ) {
 			if( source == null ) throw new ArgumentNullException( nameof( source ) );
 			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
 
@@ -44,25 +41,15 @@ namespace Sylpha.EventListeners.WeakEvents {
 				h => new NotifyCollectionChangedEventHandler( h ?? throw new ArgumentNullException( nameof( h ) ) ),
 				h => source.CollectionChanged += h,
 				h => source.CollectionChanged -= h,
-				( sender, e ) => _bag.ExecuteHandler( e ?? throw new ArgumentNullException( nameof( e ) ) ) );
+				( sender, e ) => _bag.ExecuteHandler( e ?? throw new ArgumentNullException( nameof( e ) ) )
+			);
 		}
 
-		IEnumerator<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>
-			IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>.
-			GetEnumerator() {
-			return
-				( (
-						IEnumerable
-						<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>)
-					_bag ).GetEnumerator();
-		}
+		IEnumerator<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>> IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>.GetEnumerator()
+			=> ( (IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>)_bag ).GetEnumerator();
 
-		IEnumerator IEnumerable.GetEnumerator() {
-			return ( (
-					IEnumerable
-					<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>)
-				_bag ).GetEnumerator();
-		}
+		IEnumerator IEnumerable.GetEnumerator()
+			=> ( (IEnumerable)_bag ).GetEnumerator();
 
 		/// <summary>
 		/// このリスナインスタンスに新たなハンドラを追加します。
@@ -84,17 +71,18 @@ namespace Sylpha.EventListeners.WeakEvents {
 		}
 
 		public void Add( NotifyCollectionChangedEventHandler handler ) {
+			ThrowExceptionIfDisposed();
 			_bag.Add( handler );
 		}
 
 		public void Add( NotifyCollectionChangedAction action, NotifyCollectionChangedEventHandler handler ) {
+			ThrowExceptionIfDisposed();
 			_bag.Add( action, handler );
 		}
 
-		public void Add( NotifyCollectionChangedAction action,
-			[NotNull] params NotifyCollectionChangedEventHandler[] handlers ) {
+		public void Add( NotifyCollectionChangedAction action, params NotifyCollectionChangedEventHandler[] handlers ) {
 			if( handlers == null ) throw new ArgumentNullException( nameof( handlers ) );
-
+			ThrowExceptionIfDisposed();
 			_bag.Add( action, handlers );
 		}
 	}

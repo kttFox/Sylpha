@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 
 namespace Sylpha.EventListeners {
@@ -6,33 +7,49 @@ namespace Sylpha.EventListeners {
 	/// 汎用イベントリスナオブジェクトです。
 	/// </summary>
 	/// <typeparam name="THandler">イベントハンドラーの型</typeparam>
+	[PublicAPI]
 	public class EventListener<THandler> : IDisposable where THandler : class {
-		private readonly bool _initialized;
-
-		// ReSharper disable once NotAccessedField.Local
-		[CanBeNull] private Action<THandler> _add;
-		private bool _disposed;
-		[CanBeNull] private THandler _handler;
-		[CanBeNull] private Action<THandler> _remove;
-
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		/// <param name="add">h => obj.Event += > h の様な形でイベントの購読を登録するためのAction。hはTHandler型です。</param>
 		/// <param name="remove">h => obj.Event -= > h の様な形でイベントの購読を解除するためのAction。hはTHandler型です。</param>
 		/// <param name="handler">イベントを受信した際に行いたいアクション</param>
-		public EventListener( [NotNull] Action<THandler> add, [NotNull] Action<THandler> remove,
-			[NotNull] THandler handler ) {
+		public EventListener( Action<THandler> add, Action<THandler> remove, THandler handler ) {
 			if( add == null ) throw new ArgumentNullException( nameof( add ) );
 			if( remove == null ) throw new ArgumentNullException( nameof( remove ) );
 			if( handler == null ) throw new ArgumentNullException( nameof( handler ) );
 
 			Initialize( add, remove, handler );
-			_initialized = true;
 		}
 
 		protected EventListener() { }
+		
 
+		private bool _initialized;
+
+		private Action<THandler>? _remove;
+		private THandler? _handler;
+
+		[MemberNotNull( nameof( _remove ), nameof( _handler ) )]
+		protected void Initialize( Action<THandler> add, Action<THandler> remove, THandler handler ) {
+			if( _initialized ) {
+				throw new Exception( "すでに初期化済みです。" );
+			}
+
+			if( add == null ) throw new ArgumentNullException( nameof( add ) );
+			_handler = handler ?? throw new ArgumentNullException( nameof( handler ) );
+			_remove = remove ?? throw new ArgumentNullException( nameof( remove ) );
+
+			add( handler );
+			_initialized = true;
+		}
+
+		protected void ThrowExceptionIfDisposed() {
+			if( _disposed ) throw new ObjectDisposedException( "EventListener" );
+		}
+
+		#region Dispose
 		/// <summary>
 		/// イベントハンドラの登録を解除します。
 		/// </summary>
@@ -41,31 +58,18 @@ namespace Sylpha.EventListeners {
 			GC.SuppressFinalize( this );
 		}
 
-		protected void Initialize( [NotNull] Action<THandler> add, [NotNull] Action<THandler> remove,
-			[NotNull] THandler handler ) {
-			if( _initialized ) return;
-
-			_add = add ?? throw new ArgumentNullException( nameof( add ) );
-			_handler = handler ?? throw new ArgumentNullException( nameof( handler ) );
-			_remove = remove ?? throw new ArgumentNullException( nameof( remove ) );
-			add( handler );
-		}
-
-		protected void ThrowExceptionIfDisposed() {
-			if( _disposed ) throw new ObjectDisposedException( "EventListener" );
-		}
+		private bool _disposed;
 
 		protected virtual void Dispose( bool disposing ) {
 			if( _disposed ) return;
 
 			if( disposing ) {
-				_remove?.Invoke( _handler );
-				_add = null;
-				_remove = null;
-				_handler = null;
+				_remove?.Invoke( _handler! );
 			}
 
 			_disposed = true;
 		}
+
+		#endregion
 	}
 }

@@ -2,7 +2,6 @@
 using System.Windows;
 using Microsoft.Xaml.Behaviors;
 using System.Windows.Markup;
-using JetBrains.Annotations;
 using Sylpha.Messaging;
 
 namespace Sylpha.Behaviors.Messaging {
@@ -11,19 +10,15 @@ namespace Sylpha.Behaviors.Messaging {
 	/// 独自のアクションを定義する場合はこのクラスを継承してください。
 	/// </summary>
 	/// <typeparam name="T">このアクションがアタッチ可能な型を示します。</typeparam>
-	[ContentProperty( "DirectInteractionMessage" )]
+	[ContentProperty( nameof(DirectInteractionMessage) )]
 	public abstract class InteractionMessageAction<T> : TriggerAction<T> where T : DependencyObject {
 		// Using a DependencyProperty as the backing store for DirectInteractionMessage.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty DirectInteractionMessageProperty =
-			DependencyProperty.Register( "DirectInteractionMessage", typeof( DirectInteractionMessage ),
-				typeof( InteractionMessageAction<T> ), new PropertyMetadata() );
+			DependencyProperty.Register( nameof(DirectInteractionMessage), typeof( DirectInteractionMessage ), typeof( InteractionMessageAction<T> ), new PropertyMetadata() );
 
 		// Using a DependencyProperty as the backing store for InvokeActionOnlyWhenWindowIsActive.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty InvokeActionOnlyWhenWindowIsActiveProperty =
-			DependencyProperty.Register( "InvokeActionOnlyWhenWindowIsActive", typeof( bool ),
-				typeof( InteractionMessageAction<T> ), new PropertyMetadata( true ) );
+			DependencyProperty.Register( nameof(InvokeActionOnlyWhenWindowIsActive), typeof( bool ), typeof( InteractionMessageAction<T> ), new PropertyMetadata( true ) );
 
 		/// <summary>
 		/// Viewで直接相互作用メッセージを定義する場合に使用する、DirectInteractionMessageを指定、または取得します。
@@ -42,7 +37,7 @@ namespace Sylpha.Behaviors.Messaging {
 		}
 
 		protected sealed override void Invoke( object parameter ) {
-			var metadata = DesignerProperties.IsInDesignModeProperty?.GetMetadata( typeof( DependencyObject ) );
+			var metadata = DesignerProperties.IsInDesignModeProperty.GetMetadata( typeof( DependencyObject ) );
 			if( (bool)( metadata?.DefaultValue ?? false ) ) return;
 
 			var message = parameter as InteractionMessage;

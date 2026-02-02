@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Xml.Serialization;
-using JetBrains.Annotations;
 using Sylpha.Messaging;
 
 namespace Sylpha {
@@ -9,32 +8,28 @@ namespace Sylpha {
 	/// </summary>
 	[Serializable]
 	public abstract class ViewModel : NotificationObject, IDisposable {
-		[NonSerialized] private CompositeDisposable _compositeDisposable;
-
-		[NonSerialized] private bool _disposed;
-
-		[NonSerialized] private InteractionMessenger _messenger;
 
 		/// <summary>
 		/// このViewModelクラスの基本CompositeDisposableです。
 		/// </summary>
 		[XmlIgnore]
-		[NotNull]
 		public CompositeDisposable CompositeDisposable {
-			get { return _compositeDisposable ?? ( _compositeDisposable = new CompositeDisposable() ); }
-			set { _compositeDisposable = value; }
+			get => _compositeDisposable ??= [];
+			set => _compositeDisposable = value;
 		}
+		[NonSerialized] private CompositeDisposable? _compositeDisposable;
 
 		/// <summary>
 		/// このViewModelクラスの基本Messengerインスタンスです。
 		/// </summary>
 		[XmlIgnore]
-		[NotNull]
-		public InteractionMessenger Messenger {
-			get { return _messenger ?? ( _messenger = new InteractionMessenger() ); }
-			set { _messenger = value; }
+		[field: NonSerialized]
+		public InteractionMessenger Messenger { 
+			get => field ??= new InteractionMessenger();
+			set;
 		}
 
+		#region Dispose
 		/// <summary>
 		/// このインスタンスによって使用されているすべてのリソースを解放します。
 		/// </summary>
@@ -43,10 +38,13 @@ namespace Sylpha {
 			GC.SuppressFinalize( this );
 		}
 
+		[NonSerialized] private bool _disposed;
+
 		protected virtual void Dispose( bool disposing ) {
 			if( _disposed ) return;
 			if( disposing ) _compositeDisposable?.Dispose();
 			_disposed = true;
 		}
+		#endregion
 	}
 }

@@ -73,7 +73,7 @@ namespace Sylpha.NUnit.Commands {
 
 				var semaphore = new Semaphore( 0, 1 );
 				var releaseReceiver = new EventReceiver( command, () => semaphore.Release() );
-
+				
 				command.RaiseCanExecuteChanged();
 				semaphore.WaitOne( 1000 ).Is( true );
 
@@ -99,7 +99,7 @@ namespace Sylpha.NUnit.Commands {
 
 		public class EventReceiver {
 			public EventReceiver( ICommand command, Action eventReceivedAction ) {
-				HandlerStrongReference = new EventHandler( ( sender, e ) => eventReceivedAction() );
+				HandlerStrongReference = ( sender, e ) => eventReceivedAction();
 				command.CanExecuteChanged += HandlerStrongReference;
 			}
 

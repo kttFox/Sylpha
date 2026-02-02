@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using JetBrains.Annotations;
 
 namespace Sylpha.Messaging {
 	/// <summary>
@@ -7,16 +6,12 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	public class SavingFileSelectionMessage : FileSelectionMessage {
 		// Using a DependencyProperty as the backing store for CreatePrompt.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty CreatePromptProperty =
-			DependencyProperty.Register( "CreatePrompt", typeof( bool ), typeof( SavingFileSelectionMessage ),
-				new PropertyMetadata( false ) );
+			DependencyProperty.Register( nameof( CreatePrompt ), typeof( bool ), typeof( SavingFileSelectionMessage ), new PropertyMetadata( false ) );
 
 		// Using a DependencyProperty as the backing store for OverwritePrompt.  This enables animation, styling, binding, etc...
-		[NotNull]
 		public static readonly DependencyProperty OverwritePromptProperty =
-			DependencyProperty.Register( "OverwritePrompt", typeof( bool ), typeof( SavingFileSelectionMessage ),
-				new PropertyMetadata( true ) );
+			DependencyProperty.Register( nameof( OverwritePrompt ), typeof( bool ), typeof( SavingFileSelectionMessage ), new PropertyMetadata( true ) );
 
 		public SavingFileSelectionMessage() { }
 
@@ -24,8 +19,7 @@ namespace Sylpha.Messaging {
 		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
-		public SavingFileSelectionMessage( string messageKey )
-			: base( messageKey ) { }
+		public SavingFileSelectionMessage( string? messageKey ) : base( messageKey ) { }
 
 		/// <summary>
 		/// ユーザーが存在しないファイルを指定した場合に、ファイルを作成することを確認するメッセージを表示するかどうかを指定、または取得します。デフォルトはfalseです。
