@@ -67,7 +67,8 @@
 			</i:Interaction.Triggers>
 		</Button>
 
-		<Button Content="OpenFileDialog" Margin="5,10,5,5">
+		<Button Margin="5,10,5,5"
+				Content="OpenFileDialog">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<s:OpenFileDialogMessageAction>

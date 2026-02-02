@@ -20,11 +20,13 @@
         <i:EventTrigger EventName="ContentRendered">
             <s:CallMethodAction MethodName="Initialize" MethodTarget="{Binding}" />
         </i:EventTrigger>
-
         <i:EventTrigger EventName="Closed">
             <s:DataContextDisposeAction />
         </i:EventTrigger>
-    </i:Interaction.Triggers>
+	    <s:MessageTrigger Messenger="{Binding Messenger}">
+		    <s:MultiMessageAction />
+	    </s:MessageTrigger>
+	</i:Interaction.Triggers>
 
     <Grid>
 

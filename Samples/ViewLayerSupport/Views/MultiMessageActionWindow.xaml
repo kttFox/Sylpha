@@ -1,0 +1,63 @@
+﻿<Window x:Class="ViewLayerSupport.Views.MultiMessageActionWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+		xmlns:s="http://schemas.sylpha.com/wpf/mvvm"
+		xmlns:v="clr-namespace:ViewLayerSupport.Views"
+		xmlns:vm="clr-namespace:ViewLayerSupport.ViewModels"
+		Title="MultiMessageActionWindow"
+		Width="525"
+		Height="450">
+
+	<Window.DataContext>
+		<vm:MultiMessageActionWindowViewModel />
+	</Window.DataContext>
+
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="ContentRendered">
+			<s:CallMethodAction MethodName="Initialize"
+								 MethodTarget="{Binding}" />
+		</i:EventTrigger>
+
+		<i:EventTrigger EventName="Closed">
+			<s:DataContextDisposeAction />
+		</i:EventTrigger>
+
+		<s:MessageTrigger x:Name="MessageTrigger"
+						   Messenger="{Binding Messenger}">
+			<s:MultiMessageAction />
+			<!-- NET8_0_OR_GREATER
+			<s:OpenFolderDialogMessageAction/>
+			-->
+			<s:CommonOpenFileDialogMessageAction />
+		</s:MessageTrigger>
+
+	</i:Interaction.Triggers>
+
+	<StackPanel>
+		<StackPanel.Resources>
+			<Style TargetType="Button">
+				<Setter Property="Height" Value="30" />
+				<Setter Property="Padding" Value="10, 0" />
+				<Setter Property="Margin" Value="5" />
+			</Style>
+		</StackPanel.Resources>
+
+		<Button Command="{Binding MessageBoxCommand}"
+				Content="MessageBox" />
+		<Button Command="{Binding CallMethodCommand}"
+				Content="CallMethod" />
+		<Button Command="{Binding WindowActionCommand}"
+				Content="WindowAction" />
+		<Button Command="{Binding ShowWindowCommand}"
+				Content="ShowWindow" />
+		<Button Command="{Binding OpenFileDialogCommand}"
+				Content="OpenFileDialog" />
+		<Button Command="{Binding SaveFileDialogCommand}"
+				Content="SaveFileDialog" />
+		<Button Command="{Binding OpenFolderDialogCommand}"
+				Content="OpenFolderDialog (net8.0)" />
+		<Button Command="{Binding CommonOpenFileDialogCommand}"
+				Content="CommonOpenFileDialog" />
+	</StackPanel>
+</Window>

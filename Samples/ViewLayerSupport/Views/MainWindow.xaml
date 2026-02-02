@@ -60,5 +60,17 @@
 			</i:Interaction.Triggers>
 		</Button>
 
+		<Button Content="MultiMessageAction">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Click">
+					<s:ShowWindowMessageAction>
+						<s:DirectMessage>
+							<s:ShowWindowMessage WindowType="{x:Type v:MultiMessageActionWindow}" />
+						</s:DirectMessage>
+					</s:ShowWindowMessageAction>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</Button>
+
 	</StackPanel>
 </Window>

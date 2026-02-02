@@ -11,21 +11,23 @@
 		Width="525"
         mc:Ignorable="d">
 
-    <Window.DataContext>
-        <vm:$safeitemname$ViewModel />
-    </Window.DataContext>
-    
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="ContentRendered">
-            <s:CallMethodAction MethodTarget="{Binding}" MethodName="Initialize" />
-        </i:EventTrigger>
+	<Window.DataContext>
+		<vm:$safeitemname$ViewModel />
+	</Window.DataContext>
 
-        <i:EventTrigger EventName="Closed">
-            <s:DataContextDisposeAction />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="ContentRendered">
+			<s:CallMethodAction MethodTarget="{Binding}" MethodName="Initialize" />
+		</i:EventTrigger>
+		<i:EventTrigger EventName="Closed">
+			<s:DataContextDisposeAction />
+		</i:EventTrigger>
+		<s:MessageTrigger Messenger="{Binding Messenger}">
+			<s:MultiMessageAction />
+		</s:MessageTrigger>
+	</i:Interaction.Triggers>
 
-    <Grid>
-
-    </Grid>
+	<Grid>
+		<Border/>
+	</Grid>
 </Window>
