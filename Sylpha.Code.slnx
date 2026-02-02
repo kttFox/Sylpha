@@ -4,6 +4,10 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Sylpha.props" />
+  </Folder>
   <Project Path="Sylpha.EventListeners/Sylpha.EventListeners.csproj" />
   <Project Path="Sylpha.Messaging.Extensions/Sylpha.Messaging.Extensions.csproj" />
   <Project Path="Sylpha.Messaging/Sylpha.Messaging.csproj" />
