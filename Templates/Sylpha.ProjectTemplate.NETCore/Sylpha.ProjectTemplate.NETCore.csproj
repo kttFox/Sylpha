@@ -77,6 +77,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <VSTemplate Include="Sylpha.ProjectTemplate.NETCore.ja-JP.vstemplate">
+      <Culture>1041</Culture>
+    </VSTemplate>
     <Content Include="Sylpha64.png" />
     <None Include="ProjectTemplate.csproj" />
   </ItemGroup>

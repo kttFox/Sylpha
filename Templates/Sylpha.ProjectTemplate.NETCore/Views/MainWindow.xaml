@@ -15,19 +15,16 @@
     </Window.DataContext>
 
     <behaviors:Interaction.Triggers>
-        <!--  When ContentRendered event raised, Initialize method of ViewModel would be called.  -->
         <behaviors:EventTrigger EventName="ContentRendered">
             <l:CallMethodAction MethodName="Initialize" MethodTarget="{Binding}" />
         </behaviors:EventTrigger>
 
-        <!--  Dispose method is called, when Window closing.  -->
         <behaviors:EventTrigger EventName="Closed">
             <l:DataContextDisposeAction />
         </behaviors:EventTrigger>
-
-        <!--  If you make user choose 'OK or Cancel' closing Window, then please use Window Close cancel Behavior.  -->
-
     </behaviors:Interaction.Triggers>
 
-    <Grid />
+    <Grid>
+
+	</Grid>
 </Window>

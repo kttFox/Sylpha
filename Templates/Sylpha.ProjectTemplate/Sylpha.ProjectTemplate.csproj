@@ -87,6 +87,9 @@
     <VSTemplate Include="Sylpha.ProjectTemplate.vstemplate" />
   </ItemGroup>
   <ItemGroup>
+    <VSTemplate Include="Sylpha.ProjectTemplate.ja-JP.vstemplate">
+      <Culture>1041</Culture>
+    </VSTemplate>
     <Content Include="Sylpha64.png" />
   </ItemGroup>
   <ItemGroup>
