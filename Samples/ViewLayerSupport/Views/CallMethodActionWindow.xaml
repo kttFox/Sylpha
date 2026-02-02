@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-	xmlns:l="http://schemas.sylpha.com/wpf/mvvm"
+	xmlns:s="http://schemas.sylpha.com/wpf/mvvm"
     xmlns:v="clr-namespace:ViewLayerSupport.Views"
     xmlns:vm="clr-namespace:ViewLayerSupport.ViewModels"
     Title="CallMethodActionWindow"
@@ -22,12 +22,12 @@
 
         <!--  WindowのContentRenderedイベントのタイミングでViewModelのInitializeメソッドが呼ばれます  -->
         <i:EventTrigger EventName="ContentRendered">
-            <l:CallMethodAction MethodName="Initialize" MethodTarget="{Binding}" />
+            <s:CallMethodAction MethodName="Initialize" MethodTarget="{Binding}" />
         </i:EventTrigger>
 
         <!--  Windowが閉じたタイミングでViewModelのDisposeメソッドが呼ばれます  -->
         <i:EventTrigger EventName="Closed">
-            <l:DataContextDisposeAction />
+            <s:DataContextDisposeAction />
         </i:EventTrigger>
 
         <!--  WindowのCloseキャンセル処理に対応する場合は、WindowCloseCancelBehaviorの使用を検討してください  -->
@@ -38,7 +38,7 @@
         <TextBox x:Name="TextBox">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="TextChanged">
-                    <l:CallMethodAction
+                    <s:CallMethodAction
                         MethodName="TextChanged"
                         MethodParameter="{Binding Text,
                                                   ElementName=TextBox}"

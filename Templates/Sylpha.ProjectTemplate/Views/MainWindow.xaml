@@ -2,27 +2,29 @@
     x:Class="$safeprojectname$.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:l="http://schemas.sylpha.com/wpf/mvvm"
-    xmlns:v="clr-namespace:$safeprojectname$.Views"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:s="http://schemas.sylpha.com/wpf/mvvm"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:$safeprojectname$.ViewModels"
     Title="MainWindow"
     Width="525"
-    Height="350">
+    Height="350"
+    mc:Ignorable="d">
 
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
 
-    <behaviors:Interaction.Triggers>
-        <behaviors:EventTrigger EventName="ContentRendered">
-            <l:CallMethodAction MethodName="Initialize" MethodTarget="{Binding}" />
-        </behaviors:EventTrigger>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="ContentRendered">
+            <s:CallMethodAction MethodName="Initialize" MethodTarget="{Binding}" />
+        </i:EventTrigger>
 
-        <behaviors:EventTrigger EventName="Closed">
-            <l:DataContextDisposeAction />
-        </behaviors:EventTrigger>
-    </behaviors:Interaction.Triggers>
+        <i:EventTrigger EventName="Closed">
+            <s:DataContextDisposeAction />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Grid>
 
