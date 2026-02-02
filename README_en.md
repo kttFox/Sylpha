@@ -1,438 +1,484 @@
-[日本語はこちら](README.md)
+> **Note:** This file was translated using AI.
 
-Work in progress...
+# Sylpha
 
-# Livet
+[日本語版はこちら](README.md)
 
-## About Livet
+![](Images/Sylpha.png)
 
-Livet is an infrastructure for MVVM(Model/View/ViewModel) pattern on WPF.
-It is supporting .NET Framework 4.5.2 or lator and .NET Core 3.0(still in preview), and it is provided zlib/libpng license.
-At zlib/libpng licence, you don't need displaying copyright using just a library, when you publish a software with the library.
+Sylpha is an MVVM (Model/View/ViewModel) pattern infrastructure for WPF, created based on [Livet](https://github.com/runceel/Livet).  
+It supports .NET Framework 4.6.2 / 4.8 and above, as well as .NET 6 / 8 / 9 / 10 and above.  
+Visual Studio 2026 and C# 14 or later is recommended.
 
-At zlib/libpng licence, you don't need displaying copyright, when you publish a software with the library.
-However, if you changed the source code, you would have to need it.
+## Installation
+Available on NuGet.
 
-## Introduction
+- [Sylpha](https://www.nuget.org/packages/Sylpha/)
 
-Livet can be used using an extension of Visual Studio 2017 / 2019. It provides a project template, item tempaltes and useful code snippets. It is designed the best when using it.
-The extension can be found searching Livet at online category on `Manage extensions`.
+Alternatively, feature-specific packages are available for using only specific functionalities.  
+- [Sylpha.EventListeners](https://www.nuget.org/packages/Sylpha.EventListeners)
+- [Sylpha.Messaging](https://www.nuget.org/packages/Sylpha.Messaging)
+- [Sylpha.Messaging.Extensions](https://www.nuget.org/packages/Sylpha.Messaging.Extensions)
 
-![](images/2019-07-01-16-19-40.png)
+#### Dependencies
+![Project Dependencies](<Images/Project Dependencies.png>)
 
-And the library is published on NuGet.
 
-- [LivetCask](https://www.nuget.org/packages/LivetCask/)
-- [LivetExtensions](https://www.nuget.org/packages/LivetExtensions/)
+### Visual Studio Support
 
-## Working with Visual Studio and Livet
+Like Livet, Sylpha provides Visual Studio extensions.  
+The extension provides project templates, item templates, and code snippets.  
+[Sylpha (Visual Studio Extensions)](https://marketplace.visualstudio.com/items?itemName=kttFox.Sylpha)
 
-Livet is designed to use on Visual Studio.
+![](Images/VSExtension.png)
 
-#### Visual Studio features for Livet
+#### Project Templates
+![Project Templates](Images/ProjectTemplate_en.png)
+- Sylpha WPF Application (.NET6)
+- Sylpha WPF Application (.NET Framework)
 
-Livet provides Project templates, Item templates and code snippets.
+#### Item Templates
+![Item Templates](Images/ItemTemplate_en.png)
+- Sylpha Window (WPF)
+- Sylpha Class - Model
+- Sylpha Class - ViewModel
 
-![Project templates](images/2019-07-01-16-24-39.png)
 
-![Item templates](images/2019-07-01-16-25-38.png)
+#### Code Snippets
+- scom : DelegateCommand
+- scomn : DelegateCommand (without CanExecute)
+- scomx : DelegateCommand&lt;T&gt; (with parameter)
+- scomxn : DelegateCommand&lt;T&gt; (with parameter, without CanExecute)
+- sprop : Notification Property (change notification property)
 
-Code snippets are as below:
+Uses the field keyword.
 
-- lvcom : ViewModelCommand
-- lvcomn : ViewModelCommand(Non CanExecute)
-- llcom : ListenerCommand(with a parameter)
-- llcomn : ListenerCommand(with a parameter, Non CanExecute)
-- lprop : Notification property
-- lsprop : Notification property(Short version)
+## View Support
 
-## View support features
+The Sylpha View namespace is `http://schemas.sylpha.com/wpf/mvvm`.
+```xml
+<Window
+	xmlns:s="http://schemas.sylpha.com/wpf/mvvm">
+```
 
-Livet provides features to be able to use data binding any place at View layer.
+### MessageAction
 
-#### Behaviors that make non bindable property to be bindable property.
+Sylpha provides MessageAction that can receive messages sent from Sylpha's Messenger and other sources.  
+This MessageAction can not only receive messages from the Messenger but also be triggered from EventTrigger and similar sources.  
+This allows you to display another window or show a message box triggered by click events, all within the View's XAML.
 
-WPF provides data binding feature for dependency properties, however, there aren't non bindable properties.
-So, we want to use data binding, but we are writing code to sync data at code behind.
+For messages with return values (such as MessageBoxMessage), it also supports calling ViewModel methods or commands with the return value as an argument.
 
-Livet provides behaviors and actions to make non bindable properties to be able to bind ( excludes start with type of 'System.Windows').
+#### CallMethodAction
+Invokes methods.  
+Searches for methods of the corresponding type using reflection.
+
+Using CallMethodAction allows you to invoke methods in response to events.
+
+#### Action to call ViewModel methods from View events
+
+You can pass one argument to a method using the MethodParameter property.  
+**In Sylpha, when you want to pass Null to MethodParameter, the MethodParameterType property has been added to provide type information.**
 
 ```xml
-<Button Height="50" Content="Please mouse over here">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="MouseEnter">
-            <!-- Originally, IsMouseOver is not a bindable property -->
-            <l:ButtonSetStateToSourceAction Source="{Binding ButtonMouseOver, Mode=TwoWay}" Property="IsMouseOver" />
-        </i:EventTrigger>
-        <i:EventTrigger EventName="MouseLeave">
-            <!--  Originally, IsMouseOver is a not bindable property  -->
-            <l:ButtonSetStateToSourceAction Source="{Binding ButtonMouseOver, Mode=TwoWay}" Property="IsMouseOver" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+<Button Content="Call ViewModel method - ButtonClick with param">
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="Click">
+			<s:CallMethodAction MethodName="ButtonClick"
+								 MethodParameter="TextParam"
+								 MethodTarget="{Binding}" />
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
+</Button>
+
+<!-- MethodParameterType -->
+<Button Content="Call ViewModel method - ButtonClick( null )">
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="Click">
+			<s:CallMethodAction xmlns:sys="clr-namespace:System;assembly=mscorlib"
+								 MethodName="ButtonClick"
+								 MethodParameter="{x:Null}"
+								 MethodParameterType="{x:Type sys:String}"
+								 MethodTarget="{Binding .}" />
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
 </Button>
 ```
-
-```xml
-<WebBrowser Grid.Row="1" Grid.ColumnSpan="2">
-    <i:Interaction.Behaviors>
-        <!--  Originally, Source is not a bindable property  -->
-        <l:WebBrowserSetStateToControlBehavior Source="{Binding Url}" Property="Source" />
-    </i:Interaction.Behaviors>
-</WebBrowser>
-```
-
-And, Livet provides a behavior make non bindable properties SelectedText, SelectionLength and SelectionStart to be able to bind for TextBox.
-
-```xml
-<TextBox>
-    <i:Interaction.Behaviors>
-        <l:TextBoxBindingSupportBehavior
-            SelectedText="{Binding SelectedText}"
-            SelectionLength="{Binding SelectionLength}"
-            SelectionStart="{Binding SelectionStart}" />
-    </i:Interaction.Behaviors>
-</TextBox>
-```
-
-Same as TextBox, Livet provides a behavior make non bindable Password property to be able to bind for PasswordBox.
-
-```xml
-<PasswordBox>
-    <i:Interaction.Behaviors>
-        <l:PasswordBoxBindingSupportBehavior Password="{Binding Password}" />
-    </i:Interaction.Behaviors>
-</PasswordBox>
-```
-
-#### Calling ViewModel's method from View's event
-
-In Livet, LivetCallMethodAction is provided to invoke a ViewModel's method.
-It is better performance than standard CallMethodAction, and it is passing a parameter using MethodParameter.
-
-```xml
-<TextBox x:Name="textBox">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="TextChanged">
-            <l:LivetCallMethodAction
-                MethodName="TextChanged"
-                MethodParameter="{Binding Text, ElementName=textBox}"
-                MethodTarget="{Binding}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-</TextBox>
-```
-
-#### Messenger
-
-At Livet.Behaviors.Messaging namespace, there is an action for receiving a message from Messenger of Livet.
-The action is not only receiving a message, it can fire an another action from EventTrigger and other triggers.
-
-So, it can simply show an another window, display a confirm dialog and more when triggered click event, don't throuth ViewModel layer.
-So, it can show an another window, display a confirm dialog and more when triggered click event, without go through ViewModel layer, simply.
-
-```
-Reference information:
-At almost all libraries for MVVM pattern, when a button clicked and then displaying a confirm dialog, and process the result at ViewModel layer, it has to receive event using command at ViewModel, and sending a message to View layer, and then process the message, and passing the result using callback to ViewModel layer.
-
-Flow of usual MVVM libraries: View -> ViewModel -> View -> ViewModel
-Flow of Livet: View -> ViewModel
-```
-
-And also, you can pass a return value to a ViewModel's method and command, when the message has a return value(for ex: message for showing confirmation dialog).
-
-A case of sending a message from ViewModel, first define InteractionMessageTrigger at View layer and set action to the message.
-
-```xml
-<l:InteractionMessageTrigger MessageKey="MessageKey_Confirm" Messenger="{Binding Messenger}">
-    <l:ConfirmationDialogInteractionMessageAction />
-</l:InteractionMessageTrigger>
-```
-
-And, sending a message using Messenger from ViewModel.
-
 ```cs
-public async void ConfirmFromViewModel()
-{
-    var message = new ConfirmationMessage("This is a test message.", "For test", "MessageKey_Confirm")
-    {
-        Button = MessageBoxButton.OKCancel,
-    };
-    await Messenger.RaiseAsync(message);
-    OutputMessage = $"{DateTime.Now}: ConfirmFromViewModel: {message.Response ?? false}";
+void ButtonClick( string? param ) {
+	this.Text = $"[{DateTime.Now}] ViewModel - Button Clicked with param: {param ?? "null"}";
 }
 ```
 
-Using `MessageKey_Confirm` as a message key, which deciding InteractionMessageTrigger is invoked.
+#### DirectMessage
+Used when defining messages directly from the View.
 
-For view origin, defining DirectInteractionMessage to Action, and defining a message you use to a child of DirectInteractionMessage.
+When you want to define messages in the View, specify [DirectMessage] -> [corresponding Message] in sequence for MessageAction.  
+By using DirectMessage, you can call methods like CallMethodAction.  
 
+For example, to show a confirmation dialog when a button is clicked:
 ```xml
-<Button Content="ConfirmFromView">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Click">
-            <l:ConfirmationDialogInteractionMessageAction>
-                <l:DirectInteractionMessage CallbackMethodName="ConfirmFromView" CallbackMethodTarget="{Binding}">
-                    <l:ConfirmationMessage Caption="For test" Text="This is a test message." />
-                </l:DirectInteractionMessage>
-            </l:ConfirmationDialogInteractionMessageAction>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+<Button Content="MessageBoxFromView">
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="Click">
+			<s:MessageBoxMessageAction>
+				<s:DirectMessage CallbackMethodName="MessageBoxFromView" CallbackMethodTarget="{Binding}">
+					<s:MessageBoxMessage Caption="Test" Text="This is a test message." />
+				</s:DirectMessage>
+			</s:MessageBoxMessageAction>
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
 </Button>
 ```
-
-In the above example, after executing Action, setting to call ConfirmFromView method of ViewModel.
-At ConfirmFromView method, its can use the message.
+In the above example, the ViewModel's MessageBoxFromView method is specified to be called after the MessageAction executes.  
+The MessageBoxFromView method receives MessageBoxMessage as an argument for processing.
 
 ```cs
-public void ConfirmFromView(ConfirmationMessage message)
-{
-    OutputMessage = $"{DateTime.Now}: ConfirmFromView: {message.Response ?? false}";
+public void MessageBoxFromView( MessageBoxMessage message ) {
+	OutputMessage = $"{DateTime.Now}: MessageBoxFromView: {message.Response}";
 }
 ```
 
-Actions and Messages are defined in Livet are confirmation dialog, information diealog, file dialog, navigating window, folder dialog(It references Windows API Code Pack, so, it is deferent package that is Livet.Extensions) and more.
+### Messenger
 
-A following code is an example to use folder selection dialog message of Livet.Extensions.
+Sylpha's Messenger is used the same way as Livet's, but has been improved for more intuitive use.
 
-```xml
-<Button Content="Folder">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Click">
-            <l:FolderBrowserDialogInteractionMessageAction>
-                <l:DirectInteractionMessage CallbackMethodName="FolderSelected" CallbackMethodTarget="{Binding}">
-                    <l:FolderSelectionMessage Description="Select folder" DialogPreference="None" />
-                </l:DirectInteractionMessage>
-            </l:FolderBrowserDialogInteractionMessageAction>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-</Button>
-```
-
-#### General purpose EnumToBooleanConverter
-
-In Livet, there are classes that implements IValueConverter to convert between boolean and enum that are all enum type under System.Windows namespace.
+To use the Messenger, first specify MessageTrigger and MessageAction in the View.
 
 ```xml
-<Window.WindowState>
-    <Binding ElementName="checkBox" Path="IsChecked">
-        <Binding.Converter>
-            <l:WindowStateAndBooleanConverter
-                ConvertBackDefaultBooleanValue="False"
-                ConvertBackWhenNormal="True"
-                ConvertWhenFalse="Maximized"
-                ConvertWhenTrue="Normal" />
-        </Binding.Converter>
-    </Binding>
-</Window.WindowState>
+<s:MessageTrigger MessageKey="MessageKey_MsgBox" Messenger="{Binding Messenger}">
+	<s:MessageBoxMessageAction />
+</s:MessageTrigger>
 ```
 
-#### Other view features
-
-DataTrigger of Blend SDK don't support initial value. So, LivetDataTrigger that can set initial value, and also, there are SetFocusAction to manage focus, WindowCloseCancelBehavior that cancel Window close and delegate canceling logic to ViewModel, DataContextDisposeAction that is to call Dispose method of DataContext when Window closing, and more.
-
-## ViewModel support
-
-Livet は Presentation Domain Separation(PDS) に沿って開発されることを前提としています。その前提の上では ViewModel にはあまりコードが書かれないという考えの上で ViewModel サポートの機能を提供しています。
-
-#### ViewModel の Messenger プロパティと CompositeDisposable プロパティ
-
-Messenger は前述の View サポートの Messenger で解説したメッセージを受け取るアクションに ViewModel からメッセージを伝えるために用意されています。CompositeDisposable プロパティは IEnumerable<IDisposable> インターフェースを実装していて、ViewModel が Dispose される際に同時に破棄したいリソースを格納するために使用されます。
-
-Livet の ViewModel 機能を使用する場合は、ViewModel と一緒に破棄したいリソースは基本的に ViewModel の CompositeDisposable プロパティに追加する事になります。
+Then, send messages using the Messenger from the ViewModel.
 
 ```cs
-CompositeDisposable.Add(someResource);
+public void MessageBoxFromViewModel() {
+	var message = new MessageBoxMessage( "This is a test message.", "Test" ) {
+		Button = MessageBoxButton.OKCancel,
+		MessageKey = "MessageKey_MsgBox",
+	};
+	Messenger.Raise( message );
+	OutputMessage = $"[{DateTime.Now}]: MessageBoxFromViewModel: {message.Response}";
+}
 ```
 
-#### DispatcherCollectionとReadOnlyDispatcherCollection
+MessageTrigger triggers the MessageAction using "MessageKey_MsgBox" as the message key identifier.
 
-DispatcherCollection は、既存の変更通知コレクションをコンストラクタの引数にとり、その変更通知を指定された Dispatcher 上で行うコレクションです。ReadOnlyDispatcherCollection、DispatcherCollection をコンストラクタの引数にとる読み取り専用ラッパーとなります。
+#### Sylpha.Messaging
+The standard action and message combinations defined in Sylpha are as follows:  
+|MessageAction|Message|Description|
+|:---|:---|:---|
+|MessageBoxMessageAction|MessageBoxMessage|Message box|
+|ShowWindowMessageAction|ShowWindowMessage|Window navigation|
+|OpenFileDialogMessageAction|OpenFileDialogMessage|Open file dialog|
+|OpenFolderDialogMessageAction|OpenFolderDialogMessage|Folder selection dialog (.NET8 and later)|
+|SaveFileDialogMessageAction|SaveFileDialogMessage|Save file dialog|
+|WindowActionMessageAction|WindowActionMessage|Window maximize, minimize, close, etc.|
+|CallMethodAction|CallActionMessage<br>CallActionMessage&lt;TResult&gt;<br>CallFuncMessage&lt;TParameter&gt;<br>CallFuncMessage&lt;TParameter, TResult&gt;|Function invocation|
 
-#### ViewModelHelper.CreateReadOnlyDispatcherCollection<TModel,TViewModel>
+#### Sylpha.Messaging.Extensions
+Packaged separately because it uses Windows API Code Pack.
+|MessageAction|Message|Description|
+|:---|:---|:---|
+|CommonOpenFileDialogMessageAction|CommonOpenFileDialogMessage|Folder selection dialog|
 
-CreateReadOnlyDispatcherCollection を使用すると、Model の変更通知コレクションを指定し、その Model のコレクションの変更と連動する ReadOnlyDispatcherCollection を生成できます。Func<TModel,TViewModel> を指定して TMode l型と TViewModel 型の相互変換を行います。
+### MultiMessageAction
 
-```cs
-var source = new ObservableCollection<int> { 1, 2, 3 };
-var result = ViewModelHelper.CreateReadOnlyDispatcherCollection(
-    source,
-    x => new TestViewModel(x * x),
-    DispatcherHelper.UIDispatcher);
+A MultiMessageAction covering all standard Sylpha actions has been created.  
+By defining it as standard on a Window, you can save the trouble of setting up MessageActions.  
+
+Since MessageAction and Message are paired, the need for MessageKey is minimal, and using this is recommended.
+
+```xml
+<s:MessageTrigger Messenger="{Binding Messenger}">
+	<s:MultiMessageAction />
+</s:MessageTrigger>
 ```
 
-CreateReadOnlyDispatcherCollection を使用して生成された TViewModel の要素が IDisposable であった場合、source コレクションから Remove された場合など要素削除時には Dispose が呼ばれます。
-生成されたコレクションの Dispose を呼ぶことで、ソースコレクションとの連動は解除され、TViewModel が IDisposable であった場合は生成された TViewModel 型に対して Dipose が呼ばれます。
+### Messenger Extension Methods
+In Livet, Messenger.Raise() or Messenger.GetResponse() was the standard for sending messages to the Messenger.  
+In Sylpha, Messenger.Raise() returns the sent Message, unifying to Raise().  
 
-#### PropertyChangedEventListener/CollectionChangedEventListener
+Furthermore, by adding extension methods to the Messenger for each defined Message, we've minimized the use of Raise().
+```cs
+// Standard
+Messenger.Raise( new MessageBoxMessage( "hello" ) )
 
-ViewModel では Model のイベントを監視するケースが多くあります。C# でイベントハンドラの監視と解除をラムダ式を使って行うと解除が出来ないという問題があります。
+// MessageBoxMessage extension method
+Messenger.MessageBox( new MessageBoxMessage( "hello" ) )
+```
+Using these extension methods allows you to avoid confusion about which Message class to pass to Raise() and properly distinguish whether there's a return value.
+
+
+### Initialize / DataContextDisposeAction
+Like Livet, Sylpha supports two events in the Window class initial setup.
+
+The ContentRendered event is set to the ViewModel's Initialize method.  
+In Livet, you needed to provide Initialize, but in Sylpha, it's defined as a virtual method in ViewModel, so you can use it simply by overriding.
+
+The Closed event is set to DataContextDisposeAction.  
+ViewModel has a DisposableCollection property for EventListener and other resources to be disposed, and since it inherits IDisposable, it needs to be disposed.  
+This is the setting to dispose the ViewModel.
+
+```xml
+<Window xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+		xmlns:s="http://schemas.sylpha.com/wpf/mvvm">
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="ContentRendered">
+			<s:CallMethodAction MethodName="Initialize"
+								MethodTarget="{Binding}" />
+		</i:EventTrigger>
+
+		<i:EventTrigger EventName="Closed">
+			<s:DataContextDisposeAction />
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
+</Window>
+```
+
+## ViewModel Support
+
+### Messenger and DisposableCollection Property
+
+As explained in the View Support section above, Messenger is provided to communicate messages from ViewModel to MessageAction.  
+The Messenger's DisposableCollection property inherits from Collection&lt;IDisposable&gt; and is used to store resources that should be disposed when the ViewModel is disposed.
+
+Resources that should be disposed together with the ViewModel should basically be added to the ViewModel's DisposableCollection property.
 
 ```cs
-// 購読解除できない
+DisposableCollection.Add( someResource );
+// or
+someResource.AddTo( DisposableCollection );
+```
+
+### EventListener&lt;THandler&gt;
+ViewModels often need to monitor Model events.  
+However, there's a problem in C# where event handlers registered with lambda expressions cannot be unsubscribed.
+
+```cs
+// Cannot unsubscribe
 var model = new Model();
-model.PropertyChanged += (s, e) =>
-{
-    // do something
+model.SampleEvent += (s, e) => {
+	// Processing
 };
 ```
 
-Livet の PropertyChangedEventListener を使用すると、ラムダ式を使用したプロパティ変更のイベントのハンドリングが出来て購読解除を行うことも出来ます。
+To solve this problem, a generic EventListener&lt;THandler&gt; that wraps event subscription/unsubscription and lambda expressions is provided.
 
 ```cs
 var model = new Model();
-var listener = new PropertyChangedEventListener(model)
-{
-    // コレクション初期化子で指定可能
-    {
-        // プロパティ名指定でイベントハンドラーを設定
-        nameof(Model.Input1),
-        (s, e) =>
-        {
-            // do something
-        }
-    },
-    {
-        // プロパティ名を式木で設定
-        () => model.Input2,
-        (s, e) =>
-        {
-            // do something
-        }
-    },
-    // プロパティ名を指定せずに PropertyChanged イベントに対する処理も設定可能
-    (s, e) =>
-    {
-        // do something
-    }
-};
+var listener = new EventListener<EventHandler<SampleEventArgs>>(
+	h => model.SampleEvent += h,
+	h => model.SampleEvent -= h,
+	(s, e) => {
+		// Processing
+	});
 
-// 個別登録も可能
-listener.RegisterHandler(nameof(Model.Input1), (s, e) => { });
-listener.RegisterHandler(() => model.Input2, (s, e) => { });
-listener.RegisterHandler((s, e) => { });
-
-// 購読解除（ViewModel の破棄時に解除する場合は前述の CompositeDisposable を使用
+// Unsubscribe
 listener.Dispose();
 ```
 
-CollectionChangedEventListener はそのコレクション変更通知版です。PropertyChangedEventListener ほど多機能ではありませんが似た様な事が可能です。
-また、汎用 EventListener として EventListener を用意してあります。
+### PropertyChangedEventListener
+For property change (INotifyPropertyChanged) events
 
 ```cs
-var model = new Model();
-var handler = new EventListener<EventListener<SampleEventArgs>>(
-    h => model.SampleEvent += h,
-    h => model.SampleEvent -= h,
-    (s, e) =>
-    {
-        // do something
-    });
+var model = new Model(); // INotifyPropertyChanged
+var listener = new PropertyChangedEventListener( model ) {
+	// Can be specified with collection initializer
+	
+	// Processing for PropertyChanged event without specifying property name
+	(s, e) => { /* Processing */ },
+	
+	// Set event handler with property name
+	{ nameof(Model.Input1), (s, e) => { /* Processing */ } },
 
-// 購読解除
-handler.Dispose();
+	// Set property name using expression tree
+	{ () => model.Input2, (s, e) => { /* Processing */ } },
+};
+
+// Individual registration is also possible
+listener.RegisterHandler((s, e) => { });
+listener.RegisterHandler(nameof(Model.Input1), (s, e) => { });
+listener.RegisterHandler(nameof(Model.Input1), (s, e) => { }, (s, e) => { }); // Multiple handlers allowed
+listener.RegisterHandler(() => model.Input2, (s, e) => { });
+listener.RegisterHandler(() => model.Input2, (s, e) => { }, (s, e) => { }); // Multiple handlers allowed
+
+// Unsubscribe (use DisposableCollection mentioned above when unsubscribing on ViewModel disposal)
+listener.Dispose();
 ```
 
-## Model サポート
-
-Model は MVVM の関心領域ではないため、Livet でも特に手厚いサポートはありません。
-しかし最低限の機能として、変更通知イベント基底クラスとなる NotificationObject と、スレッドセーフな変更通知コレクションである ObservableSynchronizedCollection を用意してあります。
-ObservableSyncronizedCollection は Monitor ベースのスレッドセーフなコレクションではなく、ReaderWriterLockSlim によるスレッドセーフなコレクションであり、読み書きが等しく複数スレッドから煩雑に行われるシナリオにおいて、パフォーマンスと変更通知のタイミングの偏りのバランスが良い様に設計されています。
-前述した ViewModel の DispatcherCollection はただのラッパーであるため、Model では通常の ObservableCollection と ObservableSyncronizedCollection を用途に応じて使い分け、それを ViewModel では同様に扱う事ができます。
-
-NotificationObject にはプロパティの定義を簡略化するための以下のメソッドが定義されています。また、NotificationObject は ViewModel クラスにも継承されているため、ここで説明する内容は ViewModel でも使用できます。
-
-#### RaisePropertyChanged メソッド
-
-プロパティ名指定で PropertyChanged イベントを発行します。
+### CollectionChangedEventListener
+For collection change notification (INotifyCollectionChanged) events
 
 ```cs
-private string _Name;
-public string Name
-{
-    get => _Name;
-    set
-    {
-        _Name = value;
-        RaisePropertyChanged(); // CallerMemberName により自動でプロパティ名が設定されます
-    }
+var model = new Model(); // INotifyCollectionChanged
+var listener = new CollectionChangedEventListener( model ) {
+	// Set event handler for all actions
+	( sender, e ) => { },
+
+	// Set event handler for specific action
+	{ NotifyCollectionChangedAction.Add, (s,e)=>{ } },
+	{ NotifyCollectionChangedAction.Add, [(s,e)=>{ }, (s,e)=>{ }] }, // Multiple handlers allowed
+};
+
+listener.RegisterHandler((s, e) => { });
+listener.RegisterHandler(NotifyCollectionChangedAction.Add, (s, e) => { });
+listener.RegisterHandler(NotifyCollectionChangedAction.Add, (s, e) => { }, (s, e) => { }); // Multiple handlers allowed
+
+// Unsubscribe
+listener.Dispose();
+```
+
+## WeakEventListener&lt;THandler, TEventArgs&gt;
+In Sylpha, WeakEventListener has been modified to minimize remaining references as much as possible.
+
+- WeakEventListener&lt;THandler, TEventArgs&gt;
+- PropertyChangedWeakEventListener
+- CollectionChangedWeakEventListener
+
+WeakEventListener is designed to be accident-resistant even if you forget to Dispose.  
+As the name "Weak" suggests, it's an EventListener that incorporates weak references.  
+By making the event target and the event handler parts weak references, it prevents the event handler from executing when the target is released.
+
+In Livet, the actual event unsubscription wasn't performed, causing a slight memory leak-like situation.  
+Sylpha's WeakEventListener has been changed to execute unsubscription processing on events that occur after the target is released.
+
+## MessageListener
+This existed since Livet but was hidden without documentation.  
+MessageListener detects Messenger receive events and executes registered functions.
+
+This is recommended when you want to handle Messenger receive events in code.
+```cs
+new MessageListener( messanger ) { 
+	m => { /* Some processing */ }
+ }
+```
+
+## Command
+Sylpha's Command provides DelegateCommand and DelegateCommand&lt;T&gt;.  
+It conforms to ICommand.  
+The CurrentCanExecute property holds the result of the last CanExecute execution.
+
+Sylpha extension provides code snippets.
+- scom : DelegateCommand
+- scomn : DelegateCommand (without CanExecute)
+- scomx : DelegateCommand&lt;T&gt; (with parameter)
+- scomxn : DelegateCommand&lt;T&gt; (with parameter, without CanExecute)
+
+
+## Model Support
+
+Like Livet, Sylpha uses NotificationObject for Models.  
+NotificationObject is also inherited by the ViewModel class, so the content explained here can also be used in ViewModels.  
+  
+NotificationObject has the following methods defined to simplify property definitions.
+
+#### SetProperty
+Updates the field and raises the PropertyChanged event.  
+Using this method, property definitions look like this.  
+Using the field keyword introduced in C# 14 allows for concise notation.
+
+This property definition can be generated with the sprop code snippet.
+```cs
+public string MyProperty { get; set => SetProperty( ref field, value ); }
+```
+
+#### RaisePropertyChanged Method
+
+Raises PropertyChanged event with the specified property name.
+
+```cs
+public string MyProperty {
+	get;
+	set {
+		if( field != value ) {
+			field = value;
+			RaisePropertyChanged(); // Property name is automatically set by CallerMemberName
+			
+			// You can also specify explicitly.
+			RaisePropertyChanged( nameof( MyProperty ) );
+			RaisePropertyChanged( ()=> MyProperty );
+		}
+	}
 }
 ```
-
-明示的に指定することも出来ます。
-
+Or use it to raise events for other properties.
 ```cs
-RaisePropertyChanged(nameof(Name));
-```
-
-#### RaisePropertyChangedIfSet メソッド
-
-フィールドの更新と PropertyChanged イベントの発行を行います。このメソッドを使うとプロパティの定義は以下のようになります。このプロパティの定義は、コードスニペットの lsprop で生成できます。
-
-```cs
-private string _Name;
-public string Name
-{
-    get => _Name;
-    set => RaisePropertyChangedIfSet(ref _Name, value);
-}
-```
-
-RaisePropertyChangedIfSet メソッドでは、第三引数に関連するプロパティ名を渡すことで、そのプロパティに対しても PropertyChanged イベントを発行出来ます。
-
-```cs
-private string _FirstName;
-public string FirstName
-{
-    get => _FirstName;
-    // FirstName の他に FullName の PropertyChanged イベントも発行する
-    set => RaisePropertyChangedIfSet(ref _FirstName, value, nameof(FullName));
+public string MyProperty {
+	get; set {
+		if( SetProperty( ref field, value ) ){
+			RaisePropertyChanged( nameof( Text ) );
+		}
+	}
 }
 
-private string _LastName;
-public string LastName
-{
-    get => _LastName;
-    // FirstName の他に FullName の PropertyChanged イベントも発行する
-    set => RaisePropertyChangedIfSet(ref _LastName, value, nameof(FullName));
-}
-
-public string FullName => $"{FirstName} {LastName}";
+public string Text => MyProperty + " Changed";
 ```
 
-関連するプロパティが複数ある場合は配列で渡します。
+## Others
 
-```cs
-public string _Hoge;
-public string Hoge
-{
-    get => _Hoge;
-    set => RaisePropertyChangedIfSet(ref _Hoge, value, new[]
-    {
-        nameof(Foo),
-        nameof(Bar),
-        nameof(Baz),
-    });
-}
-```
+### Thread-Safe and UI Thread Support Removed
+Sylpha has removed thread-safe processing and UI thread check processing.  
+In Livet, this processing was performed in Command and Messenger, but it has been discontinued as processing is basically done on the UI thread.
 
-## オリジナルドキュメント
+Therefore, in Sylpha, always send Messages to Messenger from the UI thread.
 
-本ドキュメントは下記のオリジナルドキュメントを元に加筆修正を行ったものです。
+### RestoreDirectoryGroup
 
-[Livet Project Home](http://ugaya40.hateblo.jp/entry/Livet)
+Added functionality to remember the last opened directory in file and folder selection dialogs.
+- OpenFileDialogMessage
+- OpenFolderDialogMessage (.NET8 and later)
+- SaveFileDialogMessage
+- CommonOpenFileDialogMessage (Sylpha.Messaging.Extension)
 
-## 今後のサポート方針
+Setting a string key in the Message's RestoreDirectoryGroup property will remember and restore the confirmed dialog's directory.
 
-基本的に WPF がサポートされているプラットフォームに対する対応を行います。
-新機能の積極的な追加などは行う予定はありません。
+This is similar functionality to the RestoreDirectory property in WinForm's OpenFileDialog.
 
-新機能が必要な場合は PullRequest をお願いします。機能追加の PullRequest には単体テストをつけて動作確認が出来る状態でお願いします。
+<br/>
+<br/>
 
-Issue にはなるべく目を通すつもりですが、メール通知などを見落とすことがあります。
-ノーレスポンスにするつもりはないので、もし一週間程度反応が無い場合は Twitter の @okazuki 宛にメンションください。気付くまで定期的に送ることをお勧めします。
+## Changes from Livet
 
-# Authors/Mentainers
+Sylpha is created based on [Livet v4.0.2](https://github.com/runceel/Livet/tree/v4.0.2).
 
-- Original author: 尾上 雅則 (Masanori Onoue) Twitter ID: ugaya40
-- Mentainer: 大田　一希（Kazuki Ota） Twitter ID: okazuki
+### Added
++ Added Nullable support
++ Added RestoreDirectoryGroup functionality
++ Added MultiMessageAction
++ Added extension methods for each Message to Messenger
++ Added virtual Initialize() to ViewModel
++ Added AddTo() extension method for IDisposable
 
+### Changed
+
++ Unified commands from ListenerCommand, ViewModelCommand to DelegateCommand
++ Simplified namespaces around Sylpha.Messaging
++ Changed CallMethodAction to support 4 patterns: with/without parameters, with/without return value
++ Improved WeakEventListener
++ Changed code snippets to use the field keyword
+
+### Removed
++ Removed thread-safe support
++ Removed UI thread support<br/>
+DispatcherHelper, etc.
++ Removed RaisePropertyChangedIfSet method from NotificationObject
++ Removed the word "Interaction"<br/>
+[Example] InteractionMessage -> Message
++ Removed InvokeActionOnlyWhenWindowIsActive property from InteractionMessageAction&lt;T&gt;
++ Removed InvokeActionsOnlyWhileAttatchedObjectLoaded, IsEnable properties from InteractionMessageTrigger
++ Removed WinForms FolderBrowserDialog support
++ Removed projects under the following namespaces<br/>
+LivetCask2<br/>
+LivetCask.Collections<br/>
+LivetCask.StatefulModel<br/>
+LivetCask.Behaviors<br/>
+LivetCask.Converters<br/>
+
+
+## Acknowledgements
+
+This project is based on the excellent work of the original library ([Livet](https://github.com/runceel/Livet)) author.  
+We sincerely thank them for publishing such a useful library.
