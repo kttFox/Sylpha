@@ -3,16 +3,19 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005"
             xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
+    <TemplateID>E622FF24-3E13-4C13-9182-5C86E048D8F8</TemplateID>
     <Name>Sylpha WPF アプリケーション(.NET 6)</Name>
     <Description>Sylpha用の.NET WPFアプリケーションを作成するためのプロジェクト(.NET 6)</Description>
-    <Icon>Sylpha64.png</Icon>
+    <Icon>Sylpha32.png</Icon>
     <ProjectType>CSharp</ProjectType>
     <SortOrder>1000</SortOrder>
-    <TemplateID>E622FF24-3E13-4C13-9182-5C86E048D8F8</TemplateID>
-    <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>SylphaApp</DefaultName>
+    <CreateNewFolder>true</CreateNewFolder>
     <ProvideDefaultName>true</ProvideDefaultName>
     <CreateInPlace>true</CreateInPlace>
+	<LanguageTag>CSharp</LanguageTag>
+	<PlatformTag>windows</PlatformTag>
+	<ProjectTypeTag>desktop</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
     <Project File="ProjectTemplate.csproj" ReplaceParameters="true">

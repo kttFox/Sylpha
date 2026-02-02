@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
-    <Name>Sylpha ViewModel</Name>
+    <Name>Sylpha Class - ViewModel</Name>
     <Description>Create a ViewModel class for Sylpha.</Description>
     <ProjectType>CSharp</ProjectType>
     <AppliesTo>CSharp + WPF</AppliesTo>
     <SortOrder>100</SortOrder>
     <TemplateID>Sylpha.ViewModel</TemplateID>
-    <RequiredFrameworkVersion>4.5.2</RequiredFrameworkVersion>
+    <RequiredFrameworkVersion>4.6.2</RequiredFrameworkVersion>
     <DefaultName>ViewModel.cs</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
-    <Icon>Sylpha64.png</Icon>
+    <Icon>Sylpha32.png</Icon>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
     <ShowByDefault>false</ShowByDefault>
   </TemplateData>

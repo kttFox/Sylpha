@@ -3,7 +3,7 @@
   <TemplateData>
     <Name>Sylpha ウインドウ (WPF)</Name>
     <Description>Sylpha用のWindowを作成します。</Description>
-    <Icon>Sylpha64.png</Icon>
+    <Icon>Sylpha32.png</Icon>
     <TemplateID>Sylpha.Window</TemplateID>
     <ProjectType>CSharp</ProjectType>
     <SortOrder>100</SortOrder>

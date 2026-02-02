@@ -2,10 +2,10 @@
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2008/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>Sylpha ListenerCommand</Title>
+      <Title>Sylpha DelegateCommand&lt;T&gt;</Title>
       <Shortcut>scomx</Shortcut>
       <Author>kttFox</Author>
-      <Description>Create a ListenerCommand</Description>
+      <Description>DelegateCommand&lt;T&gt;を作成します</Description>
       <SnippetTypes>
         <SnippetType>Expansion</SnippetType>
       </SnippetTypes>
@@ -19,45 +19,34 @@
       <Declarations>
         <Literal>
           <ID>type</ID>
-          <ToolTip>Parameter type</ToolTip>
+          <ToolTip>パラメータの型</ToolTip>
           <Default>string</Default>
         </Literal>
         <Literal>
           <ID>name</ID>
-          <ToolTip>Command name</ToolTip>
-          <Default>Do</Default>
+          <ToolTip>コマンド名</ToolTip>
+          <Default>Command</Default>
         </Literal>
         <Literal Editable="false">
-          <ID>ListenerCommand</ID>
-          <!-- WORKAROUND: VS does not handle open generic type with parameter smartly. -->
-          <Default>ListenerCommand</Default>
-          <!--<Function>SimpleTypeName(global::Sylpha.Commands.ListenerCommand)</Function>-->
+          <ID>DelegateCommand</ID>
+          <Default>DelegateCommand</Default>
         </Literal>
       </Declarations>
       <Code Language="csharp">
 <![CDATA[
-private $ListenerCommand$<$type$> _$name$Command;
+#region $name$
+public DelegateCommand<$type$> $name$ => field ??= new (Do$name$, Can$name$);
 
-public $ListenerCommand$<$type$> $name$Command
+private bool Can$name$( $type$ value )
 {
-get
-{
-if (_$name$Command == null)
-{
-_$name$Command = new $ListenerCommand$<$type$>($name$, Can$name$);
-}
-return _$name$Command;
-}
+return true;
 }
 
-public bool Can$name$()
-{
-}
-
-public void $name$($type$ parameter)
+private void Do$name$( $type$ value )
 {
 $end$
 }
+#endregion
 ]]>
       </Code>
     </Snippet>

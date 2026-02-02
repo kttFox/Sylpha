@@ -2,10 +2,10 @@
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2008/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>Sylpha property</Title>
+      <Title>Sylpha プロパティ</Title>
       <Shortcut>sprop</Shortcut>
       <Author>kttFox</Author>
-      <Description>Create a Sylpha property</Description>
+      <Description>Sylpha プロパティを作成します</Description>
       <SnippetTypes>
         <SnippetType>Expansion</SnippetType>
       </SnippetTypes>
@@ -19,31 +19,18 @@
       <Declarations>
         <Literal>
           <ID>type</ID>
-          <ToolTip>Value of property</ToolTip>
+          <ToolTip>プロパティの型</ToolTip>
           <Default>string</Default>
         </Literal>
         <Literal>
           <ID>name</ID>
-          <ToolTip>Name of property</ToolTip>
+          <ToolTip>プロパティ名</ToolTip>
           <Default>MyProperty</Default>
         </Literal>
       </Declarations>
       <Code Language="csharp">
 <![CDATA[
-private $type$ _$name$;
-
-public $type$ $name$
-{
-get
-{ return _$name$; }
-set
-{ $end$
-if(_$name$ == value)
-return; 
-_$name$ = value; 
-RaisePropertyChanged();
-}
-}
+public $type$ $name$ {get; set => SetProperty( ref field, value );}$end$
 ]]>
       </Code>
     </Snippet>

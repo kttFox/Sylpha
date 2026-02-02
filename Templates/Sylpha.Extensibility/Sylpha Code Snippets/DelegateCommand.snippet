@@ -2,10 +2,10 @@
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2008/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>Sylpha ViewModelCommand</Title>
+      <Title>Sylpha DelegateCommand</Title>
       <Shortcut>scom</Shortcut>
       <Author>kttFox</Author>
-      <Description>Create a ViewModelCommand</Description>
+      <Description>DelegateCommandを作成します</Description>
       <SnippetTypes>
         <SnippetType>Expansion</SnippetType>
       </SnippetTypes>
@@ -19,38 +19,23 @@
       <Declarations>
         <Literal>
           <ID>name</ID>
-          <ToolTip>Command name</ToolTip>
-          <Default>Do</Default>
+          <ToolTip>コマンド名</ToolTip>
+          <Default>Command</Default>
         </Literal>
         <Literal Editable="false">
-          <ID>ViewModelCommand</ID>
-          <Function>SimpleTypeName(global::Sylpha.Commands.ViewModelCommand)</Function> 
+          <ID>DelegateCommand</ID>
         </Literal>
       </Declarations>
       <Code Language="csharp">
 <![CDATA[
-private $ViewModelCommand$ _$name$Command;
+#region $name$
+public DelegateCommand $name$ => field ??= new (Do$name$);
 
-public $ViewModelCommand$ $name$Command
-{
-get
-{
-if (_$name$Command == null)
-{
-_$name$Command = new $ViewModelCommand$($name$, Can$name$);
-}
-return _$name$Command;
-}
-}
-
-public bool Can$name$()
-{
-}
-
-public void $name$()
+private void Do$name$()
 {
 $end$
 }
+#endregion
 ]]>
       </Code>
     </Snippet>

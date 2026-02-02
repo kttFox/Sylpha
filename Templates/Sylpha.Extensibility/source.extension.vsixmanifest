@@ -3,21 +3,18 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011"
                  xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Sylpha.Extensibility.C7094021-182A-4C48-9B3E-AD2050C478A6" Version="1.0.0" Language="en-US"
+        <Identity Id="Sylpha.Extensibility.C7094021-182A-4C48-9B3E-AD2050C478A6" Version="1.0.2" Language="en-US"
                   Publisher="kttFox" />
         <DisplayName>Sylpha</DisplayName>
-        <Description xml:space="preserve">Provide a project template and code snippets for development WPF app using Sylpha and C#.</Description>
+        <Description xml:space="preserve">Sylphaを使用したWPFアプリケーション開発のためのプロジェクトテンプレートとコードスニペットを提供します。</Description>
         <MoreInfo>https://github.com/kttFox/Sylpha</MoreInfo>
         <License>license-en.txt</License>
         <Icon>Sylpha.ico</Icon>
         <PreviewImage>Sylpha.png</PreviewImage>
-        <Tags>WPF, MVVM, Sylpha</Tags>
+        <Tags>Sylpha, C#, WPF, MVVM, Messenger, ProjectTemplate, ItemTemplate, Snippets</Tags>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0, 17.0)">
-            <ProductArchitecture>x86</ProductArchitecture>
-        </InstallationTarget>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.14, )">
             <ProductArchitecture>amd64</ProductArchitecture>
         </InstallationTarget>
     </Installation>
@@ -40,6 +37,6 @@
         <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="Sylpha.Model" d:TargetPath="|Sylpha.Model;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
     </Assets>
     <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0, 18.0)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0, )" DisplayName="Visual Studio core editor" />
     </Prerequisites>
 </PackageManifest>

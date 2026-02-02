@@ -60,28 +60,24 @@
       <DependentUpon>App.xaml</DependentUpon>
     </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <VSTemplate Include="Sylpha.ProjectTemplate.NETCore.vstemplate" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <VSTemplate Include="Sylpha.ProjectTemplate.NETCore.vstemplate" />
     <VSTemplate Include="Sylpha.ProjectTemplate.NETCore.ja-JP.vstemplate">
       <Culture>1041</Culture>
     </VSTemplate>
-    <Content Include="Sylpha64.png" />
     <None Include="ProjectTemplate.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sylpha32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

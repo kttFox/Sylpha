@@ -70,27 +70,24 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaListenerCommandNoCanExecute_CSharp.snippet">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaListenerCommand_CSharp.snippet">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaProperty_CSharp.snippet">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaViewModelCommandNoCanExecute_CSharp.snippet">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaViewModelCommand_CSharp.snippet">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Snippets\CSharp\SylphaSnippets\SylphaShortProperty_CSharp.snippet">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Sylpha Code Snippets\DelegateCommand.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Sylpha Code Snippets\DelegateCommandNoCanExecute.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Sylpha Code Snippets\DelegateCommandT.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Sylpha Code Snippets\DelegateCommandTNoCanExecute.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Sylpha Code Snippets\Property.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\Images\Sylpha.ico">
