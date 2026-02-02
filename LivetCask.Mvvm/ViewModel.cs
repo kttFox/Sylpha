@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
-using Livet.Annotations;
+using JetBrains.Annotations;
 using Livet.Messaging;
 
 namespace Livet

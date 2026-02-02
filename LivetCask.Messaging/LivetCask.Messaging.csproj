@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Livet.Annotations\Livet.Annotations.projitems" Label="Shared" />
   <Import Project="..\Livet.props" />
   <PropertyGroup>
     <TargetFrameworks>net6.0-windows;netcoreapp3.1;net452</TargetFrameworks>
@@ -38,6 +37,7 @@ This package is for useful messaging features between View layer and ViewModel l
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
   </ItemGroup>
 

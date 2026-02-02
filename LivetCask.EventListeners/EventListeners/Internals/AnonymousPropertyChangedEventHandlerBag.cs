@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using Livet.Annotations;
+using JetBrains.Annotations;
 
 namespace Livet.EventListeners.Internals
 {

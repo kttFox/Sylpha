@@ -46,6 +46,5 @@ It supports .NET Framework 4.5.2 or later, .NET Core 3.1, .NET 6 and licensed as
     <ProjectReference Include="..\LivetCask.Messaging\LivetCask.Messaging.csproj" />
     <ProjectReference Include="..\LivetCask.Mvvm\LivetCask.Mvvm.csproj" />
   </ItemGroup>
-  <Import Project="..\Livet.Annotations\Livet.Annotations.projitems" Label="Shared" />
 
 </Project>

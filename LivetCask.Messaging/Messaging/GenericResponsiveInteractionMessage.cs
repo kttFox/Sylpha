@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Livet.Annotations;
+using JetBrains.Annotations;
 
 namespace Livet.Messaging
 {

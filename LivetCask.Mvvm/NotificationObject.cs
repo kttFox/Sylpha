@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using Livet.Annotations;
+using JetBrains.Annotations;
 
 namespace Livet
 {

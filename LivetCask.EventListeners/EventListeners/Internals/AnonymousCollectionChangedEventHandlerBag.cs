@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Livet.Annotations;
+using JetBrains.Annotations;
 
 namespace Livet.EventListeners.Internals
 {

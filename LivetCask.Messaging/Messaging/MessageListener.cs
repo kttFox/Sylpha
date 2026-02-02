@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
-using Livet.Annotations;
+using JetBrains.Annotations;
 using Livet.EventListeners.WeakEvents;
 
 namespace Livet.Messaging

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using Livet.Annotations;
+using JetBrains.Annotations;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Livet.Dialogs

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Markup;
-using Livet.Annotations;
+using JetBrains.Annotations;
 
 namespace Livet.Messaging
 {

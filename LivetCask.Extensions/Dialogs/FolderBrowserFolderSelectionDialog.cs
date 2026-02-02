@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
-using Livet.Annotations;
+using JetBrains.Annotations;
 using IWin32Window = System.Windows.Forms.IWin32Window;
 
 namespace Livet.Dialogs

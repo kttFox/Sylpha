@@ -20,7 +20,6 @@
     <Project Path="Templates/ItemTemplates/LivetViewModel.CSharp/LivetViewModel.CSharp.csproj" Id="7de713e7-01c0-4223-ac06-cb53ac65a78c" />
     <Project Path="Templates/ItemTemplates/LivetWindow.CSharp/LivetWindow.CSharp.csproj" Id="794a2b28-e4aa-4cc8-bcd0-acf3d2068cde" />
   </Folder>
-  <Project Path="Livet.Annotations/Livet.Annotations.shproj" />
   <Project Path="Livet.Test/Livet.Test.csproj" />
   <Project Path="LivetCask.EventListeners/LivetCask.EventListeners.csproj" />
   <Project Path="LivetCask.Extensions/LivetCask.Extensions.csproj" />

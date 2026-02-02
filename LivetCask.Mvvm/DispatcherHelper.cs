@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Threading;
-using Livet.Annotations;
+using JetBrains.Annotations;
 
 namespace Livet
 {

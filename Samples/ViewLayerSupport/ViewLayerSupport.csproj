@@ -39,5 +39,4 @@
     </Reference>
   </ItemGroup>
 
-  <Import Project="..\..\Livet.Annotations\Livet.Annotations.projitems" Label="Shared" />
 </Project>

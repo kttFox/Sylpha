@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Livet;
-using Livet.Annotations;
+using JetBrains.Annotations;
 using Livet.Messaging;
 using Livet.Messaging.IO;
 

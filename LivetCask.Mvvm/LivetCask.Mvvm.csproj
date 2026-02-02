@@ -42,8 +42,11 @@ It supports .NET Framework 4.5.2 or later, .NET Core 3.1, and licensed as zlib/l
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LivetCask.Messaging\LivetCask.Messaging.csproj" />
   </ItemGroup>
-  <Import Project="..\Livet.Annotations\Livet.Annotations.projitems" Label="Shared" />
 
 </Project>

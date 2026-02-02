@@ -1,5 +1,5 @@
 ﻿using System;
-using Livet.Annotations;
+using JetBrains.Annotations;
 
 namespace Livet.EventListeners.WeakEvents
 {

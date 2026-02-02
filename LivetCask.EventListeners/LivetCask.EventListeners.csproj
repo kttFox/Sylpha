@@ -34,6 +34,9 @@ This package is for useful event listeners using weak event pattern for MVVM pat
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  <Import Project="..\Livet.Annotations\Livet.Annotations.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
+  </ItemGroup>
 
 </Project>

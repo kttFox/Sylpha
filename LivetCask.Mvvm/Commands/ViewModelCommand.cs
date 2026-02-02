@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Input;
-using Livet.Annotations;
+using JetBrains.Annotations;
 
 namespace Livet.Commands
 {

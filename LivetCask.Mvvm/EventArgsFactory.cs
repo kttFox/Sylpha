@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.ComponentModel;
-using Livet.Annotations;
+using JetBrains.Annotations;
 
 namespace Livet
 {

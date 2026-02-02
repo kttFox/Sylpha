@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Microsoft.Xaml.Behaviors;
-using Livet.Annotations;
+using JetBrains.Annotations;
 using Livet.EventListeners.WeakEvents;
 using Livet.Messaging;
 

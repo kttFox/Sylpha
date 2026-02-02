@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using Livet.Annotations;
+using JetBrains.Annotations;
 using Livet.EventListeners.Internals;
 
 namespace Livet.EventListeners.WeakEvents

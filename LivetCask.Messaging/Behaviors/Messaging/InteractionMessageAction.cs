@@ -2,7 +2,7 @@
 using System.Windows;
 using Microsoft.Xaml.Behaviors;
 using System.Windows.Markup;
-using Livet.Annotations;
+using JetBrains.Annotations;
 using Livet.Messaging;
 
 namespace Livet.Behaviors.Messaging

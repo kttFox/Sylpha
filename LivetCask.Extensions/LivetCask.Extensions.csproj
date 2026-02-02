@@ -52,6 +52,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="InternalReservedAttributeGenerator" Version="0.1.2" />
+		<PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31">
 		</PackageReference>
 	</ItemGroup>
@@ -90,5 +91,4 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 		</EmbeddedResource>
 	</ItemGroup>
-	<Import Project="..\Livet.Annotations\Livet.Annotations.projitems" Label="Shared" />
 </Project>
