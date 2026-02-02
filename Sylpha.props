@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Version>1.0</Version>
     <PackageVersion>$(Version)</PackageVersion>
-	<TargetFrameworks>net6.0-windows;net462;net48</TargetFrameworks>
+	<TargetFrameworks>net10.0-windows;net9.0-windows;net8.0-windows;net6.0-windows;net462;net48</TargetFrameworks>
 	<LangVersion>14</LangVersion>
   </PropertyGroup>
 </Project>
