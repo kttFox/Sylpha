@@ -16,7 +16,6 @@
     <Project Path="Templates/Livet.ProjectTemplate.CSharp/Livet.ProjectTemplate.CSharp.csproj" Id="7c69d055-0538-4f7c-a11f-623dfeeab1a7" />
   </Folder>
   <Folder Name="/Templates/ItemTemplates/">
-    <Project Path="Templates/ItemTemplates/Livet.ItemTemplateExtension/Livet.ItemTemplateExtension.csproj" Id="37a0605c-c950-4446-9b2a-94e6b3d6c0b5" />
     <Project Path="Templates/ItemTemplates/LivetModel.CSharp/LivetModel.CSharp.csproj" Id="af7a7eaa-0999-4619-80fe-41bbc58fbbb0" />
     <Project Path="Templates/ItemTemplates/LivetViewModel.CSharp/LivetViewModel.CSharp.csproj" Id="7de713e7-01c0-4223-ac06-cb53ac65a78c" />
     <Project Path="Templates/ItemTemplates/LivetWindow.CSharp/LivetWindow.CSharp.csproj" Id="794a2b28-e4aa-4cc8-bcd0-acf3d2068cde" />
