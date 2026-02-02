@@ -13,11 +13,11 @@ namespace Sylpha {
 		/// このViewModelクラスの基本CompositeDisposableです。
 		/// </summary>
 		[XmlIgnore]
-		public CompositeDisposable CompositeDisposable {
-			get => _compositeDisposable ??= [];
-			set => _compositeDisposable = value;
+		public DisposableCollection DisposableCollection {
+			get => _disposableCollection ??= [];
+			set => _disposableCollection = value;
 		}
-		[NonSerialized] private CompositeDisposable? _compositeDisposable;
+		[NonSerialized] private DisposableCollection? _disposableCollection;
 
 		/// <summary>
 		/// このViewModelクラスの基本Messengerインスタンスです。
@@ -34,7 +34,7 @@ namespace Sylpha {
 			if( !_disposed ) {
 				_disposed = true;
 				if( disposing ) {
-					_compositeDisposable?.Dispose();
+					_disposableCollection?.Dispose();
 				}
 			}
 		}
