@@ -6,7 +6,6 @@ using ViewLayerSupport.Views;
 
 namespace ViewLayerSupport.ViewModels {
 	public class MultiMessageActionWindowViewModel : ViewModel {
-		public void Initialize() { }
 
 		#region MessageBoxCommand
 		public DelegateCommand MessageBoxCommand => field ??= new DelegateCommand( DoMessageBox );

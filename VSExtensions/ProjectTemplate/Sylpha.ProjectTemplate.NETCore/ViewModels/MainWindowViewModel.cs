@@ -15,7 +15,7 @@ namespace $safeprojectname$.ViewModels
 {
     public class MainWindowViewModel : ViewModel
     {
-        public void Initialize()
+        public override void Initialize()
         {
         }
     }

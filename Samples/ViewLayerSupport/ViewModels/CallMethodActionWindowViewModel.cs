@@ -5,7 +5,7 @@ using Sylpha.Messaging;
 
 namespace ViewLayerSupport.ViewModels {
 	public class CallMethodActionWindowViewModel : ViewModel {
-		public void Initialize() { }
+		public override void Initialize() { }
 
 		public string Text { get; set => SetProperty( ref field, value ); }
 

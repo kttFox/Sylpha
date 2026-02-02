@@ -9,6 +9,8 @@ namespace Sylpha {
 	[Serializable]
 	public abstract class ViewModel : NotificationObject, IDisposable {
 
+		public virtual void Initialize() { }
+
 		/// <summary>
 		/// このViewModelクラスの基本CompositeDisposableです。
 		/// </summary>

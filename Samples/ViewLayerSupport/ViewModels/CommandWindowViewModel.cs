@@ -16,8 +16,6 @@ namespace ViewLayerSupport.ViewModels {
 			}.AddTo( this.DisposableCollection );
 		}
 
-		public void Initialize() { }
-
 		public string? Text { get; set => SetProperty( ref field, value ); }
 
 		public bool Command1Flag {

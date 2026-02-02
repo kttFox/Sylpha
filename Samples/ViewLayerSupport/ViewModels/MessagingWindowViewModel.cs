@@ -8,9 +8,6 @@ using Sylpha.Messaging.Behaviors;
 
 namespace ViewLayerSupport.ViewModels {
 	public class MessagingWindowViewModel : ViewModel {
-		public void Initialize() { }
-
-
 		public string OutputMessage { get; set => SetProperty( ref field, value ); }
 
 		public void MessageBoxFromViewModel() {
