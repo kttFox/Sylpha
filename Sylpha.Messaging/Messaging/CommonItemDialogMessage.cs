@@ -18,6 +18,20 @@ namespace Sylpha.Messaging {
 			DependencyProperty.Register( nameof( InitialDirectory ), typeof( string ), typeof( CommonItemDialogMessage ), new PropertyMetadata( "" ) );
 		#endregion
 
+		#region Register RestoreDirectoryGroup
+		/// <summary>
+		/// 以前に選択したディレクトリ情報が共有されるグループを設定または取得します。<br/>
+		/// このプロパティが有効な場合、InitialDirectoryプロパティより優先されます。
+		/// </summary>
+		public string RestoreDirectoryGroup {
+			get { return (string)GetValue( RestoreDirectoryGroupProperty ); }
+			set { SetValue( RestoreDirectoryGroupProperty, value ); }
+		}
+
+		public static readonly DependencyProperty RestoreDirectoryGroupProperty =
+			DependencyProperty.Register( nameof( RestoreDirectoryGroup ), typeof( string ), typeof( CommonItemDialogMessage ), new PropertyMetadata( "" ) );
+		#endregion
+
 
 		#region Register Title
 		/// <summary>

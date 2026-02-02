@@ -1,25 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Windows;
-using JetBrains.Annotations;
 using Microsoft.Win32;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// 「ファイルを保存する」ダイアログを表示するアクションです。
 	/// </summary>
-	[PublicAPI]
 	public class SaveFileDialogMessageAction : MessageAction<DependencyObject, SaveFileDialogMessage> {
+		static readonly Dictionary<string, string?> RestoreDirectoryGroupList = [];
+
 		protected override void InvokeAction( SaveFileDialogMessage message ) {
 			Action( this.AssociatedObject, message );
 		}
 
 		public static void Action( DependencyObject element, SaveFileDialogMessage message ) {
 			var window = Window.GetWindow( element );
-			
+			var group = message.RestoreDirectoryGroup;
+
+			var initialDirectory = message.InitialDirectory;
+			if( !string.IsNullOrEmpty( group ) && RestoreDirectoryGroupList.TryGetValue( group, out var value ) ) {
+				initialDirectory = value;
+			}
+
 			var dialog = new SaveFileDialog {
 				Title = message.Title,
-				InitialDirectory = message.InitialDirectory,
+				InitialDirectory = !string.IsNullOrEmpty( initialDirectory ) ? Path.GetFullPath( initialDirectory ) : initialDirectory,
 				FilterIndex = message.FilterIndex,
 				Filter = message.Filter,
 				FileName = message.FileName,
@@ -36,6 +42,10 @@ namespace Sylpha.Messaging.Behaviors {
 
 			if( dialog.ShowDialog( window ) == true ) {
 				message.Response = dialog.FileNames;
+
+				if( !string.IsNullOrEmpty( group ) ) {
+					RestoreDirectoryGroupList[group] = Path.GetDirectoryName( dialog.FileName );
+				}
 			} else {
 				message.Response = null;
 			}
