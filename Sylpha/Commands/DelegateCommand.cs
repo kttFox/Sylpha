@@ -7,7 +7,7 @@ namespace Sylpha.Commands {
 	/// <summary>
 	/// 汎用的コマンドを表します。
 	/// </summary>
-	public sealed class DelegateCommand : Command, ICommand, INotifyPropertyChanged {
+	public sealed class DelegateCommand : NotificationObject, ICommand, INotifyPropertyChanged {
 		private readonly Action _execute;
 		private readonly Func<bool>? _canExecute;
 
@@ -22,22 +22,14 @@ namespace Sylpha.Commands {
 		}
 
 		/// <summary>
+		/// 現在のコマンドが実行可能かどうかを取得します。<br />CanExecute()の呼び出しによって更新されます。
+		/// </summary>
+		public bool CurrentCanExecute { get; private set => SetProperty( ref field, value ); }
+
+		/// <summary>
 		/// コマンドが実行可能かどうかを取得します。
 		/// </summary>
 		public bool CanExecute() => CurrentCanExecute = ( _canExecute?.Invoke() ?? true );
-
-		/// <summary>
-		/// 現在のコマンドが実行可能かどうかを取得します。
-		/// </summary>
-		public bool CurrentCanExecute {
-			get;
-			private set {
-				if( field != value ) {
-					field = value;
-					OnPropertyChanged();
-				}
-			}
-		}
 
 		/// <summary>
 		/// コマンドを実行します。
@@ -57,24 +49,16 @@ namespace Sylpha.Commands {
 
 		bool ICommand.CanExecute( object? parameter ) => CanExecute();
 
-
 		/// <summary>
 		/// コマンドが実行可能かどうかが変化した時に発生します。
 		/// </summary>
-		public event PropertyChangedEventHandler? PropertyChanged;
-
-
-		[NotifyPropertyChangedInvocator]
-		private void OnPropertyChanged() {
-			PropertyChanged?.Invoke( this, EventArgsFactory.GetPropertyChangedEventArgs( nameof( CurrentCanExecute ) ) );
-		}
+		public event EventHandler? CanExecuteChanged;
 
 		/// <summary>
 		/// コマンドが実行可能かどうかが変化したことを通知します。
 		/// </summary>
 		public void RaiseCanExecuteChanged() {
-			OnPropertyChanged();
-			OnCanExecuteChanged();
+			CanExecuteChanged?.Invoke( this, EventArgs.Empty );
 		}
 	}
 }

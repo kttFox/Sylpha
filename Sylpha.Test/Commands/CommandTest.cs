@@ -8,6 +8,7 @@ using System.Threading;
 namespace Sylpha.NUnit.Commands {
 	[TestFixture()]
 	public class CommandTest {
+
 		[Test()]
 		[Timeout( 3000 )]
 		public void CanExecuteHandlerBasicTest() {
@@ -42,6 +43,22 @@ namespace Sylpha.NUnit.Commands {
 
 			handlerResultList.Count.Is( 2 );
 			handlerResultList.Is( "Handler1", "Handler3" );
+		}
+
+		[Test]
+		public void CurrentCanExecuteTest() {
+			var canExecute = false;
+			var command = new DelegateCommand<int>( x => { }, x => canExecute );
+
+			command.CurrentCanExecute.Is( false );
+
+			canExecute = true;
+			command.CanExecute( 0 );
+			command.CurrentCanExecute.Is( true );
+
+			canExecute = false;
+			command.CanExecute( 0 );
+			command.CurrentCanExecute.Is( false );
 		}
 	}
 }

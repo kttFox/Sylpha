@@ -36,6 +36,18 @@
 		<TextBlock FontSize="32"
 				   Text="Sylpha Sample" />
 
+		<Button Content="Command">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Click">
+					<s:ShowWindowMessageAction>
+						<s:DirectMessage>
+							<s:ShowWindowMessage WindowType="{x:Type v:CommandWindow}" />
+						</s:DirectMessage>
+					</s:ShowWindowMessageAction>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</Button>
+
 		<Button Content="CallMethodAction">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
