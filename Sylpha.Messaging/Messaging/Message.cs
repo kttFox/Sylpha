@@ -7,18 +7,18 @@ namespace Sylpha.Messaging {
 	/// Viewからのアクション実行後、戻り値情報が必要ない相互作用メッセージを作成する場合はこのクラスを継承して相互作用メッセージを作成します。
 	/// </summary>
 	[PublicAPI]
-	public class InteractionMessage : Freezable {
+	public class Message : Freezable {
 		// Using a DependencyProperty as the backing store for MessageKey.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty MessageKeyProperty =
-			DependencyProperty.Register( nameof( MessageKey ), typeof( string ), typeof( InteractionMessage ), new PropertyMetadata( null ) );
+			DependencyProperty.Register( nameof( MessageKey ), typeof( string ), typeof( Message ), new PropertyMetadata( null ) );
 
-		public InteractionMessage() { }
+		public Message() { }
 
 		/// <summary>
 		/// メッセージキーを指定して新しい相互作用メッセージのインスタンスを生成します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
-		public InteractionMessage( string? messageKey ) {
+		public Message( string? messageKey ) {
 			MessageKey = messageKey;
 		}
 
@@ -36,7 +36,7 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		/// <returns>自身の新しいインスタンス</returns>
 		protected override Freezable CreateInstanceCore() {
-			return new InteractionMessage( MessageKey );
+			return new Message( MessageKey );
 		}
 	}
 }

@@ -6,8 +6,8 @@ namespace Sylpha.Messaging.Behaviors {
 	/// 情報ダイアログを表示するアクションです。InformationMessageに対応します。
 	/// </summary>
 	[PublicAPI]
-	public class InformationDialogInteractionMessageAction : InteractionMessageAction<FrameworkElement> {
-		protected override void InvokeAction( InteractionMessage message ) {
+	public class InformationDialogMessageAction : MessageAction<FrameworkElement> {
+		protected override void InvokeAction( Message message ) {
 			if( message is InformationMessage informationMessage ) {
 				MessageBox.Show(
 					informationMessage.Text,

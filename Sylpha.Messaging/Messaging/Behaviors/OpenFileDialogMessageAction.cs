@@ -5,8 +5,8 @@ namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// 「ファイルを開く」ダイアログを表示するアクションです。<see cref="OpeningFileSelectionMessage" />に対応します。
 	/// </summary>
-	public class OpenFileDialogInteractionMessageAction : InteractionMessageAction<DependencyObject> {
-		protected override void InvokeAction( InteractionMessage message ) {
+	public class OpenFileDialogMessageAction : MessageAction<DependencyObject> {
+		protected override void InvokeAction( Message message ) {
 			// ReSharper disable once InvertIf
 			if( message is OpeningFileSelectionMessage openFileMessage ) {
 				var dialog = new OpenFileDialog {

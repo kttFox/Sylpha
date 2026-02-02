@@ -6,10 +6,10 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// 戻り値のある相互作用メッセージの抽象基底クラスです。
 	/// </summary>
-	public abstract class ResponsiveInteractionMessage : InteractionMessage {
-		internal ResponsiveInteractionMessage() { }
+	public abstract class RequestMessage : Message {
+		internal RequestMessage() { }
 
-		internal ResponsiveInteractionMessage( string? messageKey ) : base( messageKey ) { }
+		internal RequestMessage( string? messageKey ) : base( messageKey ) { }
 
 		internal object? Response { get; set; }
 	}
@@ -17,22 +17,22 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// 戻り値のある相互作用メッセージの基底クラスです。
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="TResult"></typeparam>
 	[PublicAPI]
-	public class ResponsiveInteractionMessage<T> : ResponsiveInteractionMessage {
-		public ResponsiveInteractionMessage() { }
+	public class RequestMessage<TResult> : RequestMessage {
+		public RequestMessage() { }
 
 		/// <summary>
 		/// メッセージキーを使用して、戻り値のある新しい相互作用メッセージのインスタンスを生成します
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
-		public ResponsiveInteractionMessage( string? messageKey ) : base( messageKey ) { }
+		public RequestMessage( string? messageKey ) : base( messageKey ) { }
 
 		/// <summary>
 		/// 戻り値情報
 		/// </summary>
-		public new T? Response {
-			get { return (T?)base.Response; }
+		public new TResult? Response {
+			get { return (TResult?)base.Response; }
 			set { base.Response = value; }
 		}
 
@@ -42,7 +42,7 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		/// <returns>自身の新しいインスタンス</returns>
 		protected override Freezable CreateInstanceCore() {
-			return new ResponsiveInteractionMessage<T>();
+			return new RequestMessage<TResult>();
 		}
 	}
 }

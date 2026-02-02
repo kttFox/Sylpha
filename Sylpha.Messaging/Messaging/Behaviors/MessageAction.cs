@@ -9,22 +9,22 @@ namespace Sylpha.Messaging.Behaviors {
 	/// 独自のアクションを定義する場合はこのクラスを継承してください。
 	/// </summary>
 	/// <typeparam name="T">このアクションがアタッチ可能な型を示します。</typeparam>
-	[ContentProperty( nameof(DirectInteractionMessage) )]
-	public abstract class InteractionMessageAction<T> : TriggerAction<T> where T : DependencyObject {
-		// Using a DependencyProperty as the backing store for DirectInteractionMessage.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty DirectInteractionMessageProperty =
-			DependencyProperty.Register( nameof(DirectInteractionMessage), typeof( DirectInteractionMessage ), typeof( InteractionMessageAction<T> ), new PropertyMetadata() );
+	[ContentProperty( nameof(DirectMessage) )]
+	public abstract class MessageAction<T> : TriggerAction<T> where T : DependencyObject {
+		// Using a DependencyProperty as the backing store for DirectMessage.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty DirectMessageProperty =
+			DependencyProperty.Register( nameof(DirectMessage), typeof( DirectMessage ), typeof( MessageAction<T> ), new PropertyMetadata() );
 
 		// Using a DependencyProperty as the backing store for InvokeActionOnlyWhenWindowIsActive.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty InvokeActionOnlyWhenWindowIsActiveProperty =
-			DependencyProperty.Register( nameof(InvokeActionOnlyWhenWindowIsActive), typeof( bool ), typeof( InteractionMessageAction<T> ), new PropertyMetadata( true ) );
+			DependencyProperty.Register( nameof(InvokeActionOnlyWhenWindowIsActive), typeof( bool ), typeof( MessageAction<T> ), new PropertyMetadata( true ) );
 
 		/// <summary>
-		/// Viewで直接相互作用メッセージを定義する場合に使用する、DirectInteractionMessageを指定、または取得します。
+		/// Viewで直接メッセージを定義する場合に使用する、DirectMessageを指定、または取得します。
 		/// </summary>
-		public DirectInteractionMessage DirectInteractionMessage {
-			get { return (DirectInteractionMessage)GetValue( DirectInteractionMessageProperty ); }
-			set { SetValue( DirectInteractionMessageProperty, value ); }
+		public DirectMessage DirectMessage {
+			get { return (DirectMessage)GetValue( DirectMessageProperty ); }
+			set { SetValue( DirectMessageProperty, value ); }
 		}
 
 		/// <summary>
@@ -39,9 +39,9 @@ namespace Sylpha.Messaging.Behaviors {
 			var metadata = DesignerProperties.IsInDesignModeProperty.GetMetadata( typeof( DependencyObject ) );
 			if( (bool)( metadata?.DefaultValue ?? false ) ) return;
 
-			var message = parameter as InteractionMessage;
+			var message = parameter as Message;
 
-			if( DirectInteractionMessage != null ) message = DirectInteractionMessage.Message;
+			if( this.DirectMessage != null ) message = this.DirectMessage.Message;
 
 			if( AssociatedObject == null ) return;
 
@@ -51,9 +51,9 @@ namespace Sylpha.Messaging.Behaviors {
 			if( message == null ) return;
 
 			InvokeAction( message );
-			DirectInteractionMessage?.InvokeCallbacks( message );
+			this.DirectMessage?.InvokeCallbacks( message );
 		}
 
-		protected abstract void InvokeAction( InteractionMessage message );
+		protected abstract void InvokeAction( Message message );
 	}
 }

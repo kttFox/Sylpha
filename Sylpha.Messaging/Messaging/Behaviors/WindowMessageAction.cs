@@ -7,8 +7,8 @@ namespace Sylpha.Messaging.Behaviors {
 	/// Windowの最小化・最大化・閉じるを行うアクションです。WindowActionMessageに対応します。
 	/// </summary>
 	[PublicAPI]
-	public class WindowInteractionMessageAction : InteractionMessageAction<FrameworkElement> {
-		protected override void InvokeAction( InteractionMessage message ) {
+	public class WindowMessageAction : MessageAction<FrameworkElement> {
+		protected override void InvokeAction( Message message ) {
 			// ReSharper disable once InvertIf
 			if( message is WindowActionMessage windowMessage && AssociatedObject != null ) {
 				var window = Window.GetWindow( AssociatedObject );

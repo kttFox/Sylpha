@@ -7,30 +7,30 @@ namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// ViewModelからの相互作用メッセージを受信し、アクションを実行します。
 	/// </summary>
-	public class InteractionMessageTrigger : TriggerBase<FrameworkElement>, IDisposable {
+	public class MessageTrigger : TriggerBase<FrameworkElement>, IDisposable {
 		// Using a DependencyProperty as the backing store for Messenger.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty MessengerProperty =
-			DependencyProperty.Register( nameof( Messenger ), typeof( InteractionMessenger ), typeof( InteractionMessageTrigger ), new PropertyMetadata( MessengerChanged ) );
+			DependencyProperty.Register( nameof( Messenger ), typeof( Messenger ), typeof( MessageTrigger ), new PropertyMetadata( MessengerChanged ) );
 
 		// Using a DependencyProperty as the backing store for FireActionsOnlyWhileAttachedObjectLoading.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty InvokeActionsOnlyWhileAttachedObjectLoadedProperty =
-			DependencyProperty.Register( nameof( InvokeActionsOnlyWhileAttachedObjectLoaded ), typeof( bool ), typeof( InteractionMessageTrigger ), new PropertyMetadata( false ) );
+			DependencyProperty.Register( nameof( InvokeActionsOnlyWhileAttachedObjectLoaded ), typeof( bool ), typeof( MessageTrigger ), new PropertyMetadata( false ) );
 
 		// Using a DependencyProperty as the backing store for IsEnable.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty IsEnableProperty =
-			DependencyProperty.Register( nameof( IsEnable ), typeof( bool ), typeof( InteractionMessageTrigger ), new PropertyMetadata( true ) );
+			DependencyProperty.Register( nameof( IsEnable ), typeof( bool ), typeof( MessageTrigger ), new PropertyMetadata( true ) );
 
 		private bool _disposed;
 
-		private WeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>, InteractionMessageRaisedEventArgs>? _listener;
+		private WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs>? _listener;
 
 		private bool _loaded = true;
 
 		/// <summary>
 		/// ViewModelのMessengerを指定、または取得します。
 		/// </summary>
-		public InteractionMessenger Messenger {
-			get { return (InteractionMessenger)GetValue( MessengerProperty ); }
+		public Messenger Messenger {
+			get { return (Messenger)GetValue( MessengerProperty ); }
 			set { SetValue( MessengerProperty, value ); }
 		}
 
@@ -63,30 +63,30 @@ namespace Sylpha.Messaging.Behaviors {
 
 		private static void MessengerChanged( DependencyObject d, DependencyPropertyChangedEventArgs e ) {
 			if( d == null ) throw new ArgumentNullException( nameof( d ) );
-			var thisReference = (InteractionMessageTrigger)d;
+			var thisReference = (MessageTrigger)d;
 
 			if( e.OldValue == e.NewValue ) return;
 
 			if( e.OldValue != null ) thisReference._listener?.Dispose();
 
 			if( e.NewValue == null ) return;
-			var newMessenger = (InteractionMessenger)e.NewValue;
+			var newMessenger = (Messenger)e.NewValue;
 
 			thisReference._listener =
-				new WeakEventListener<EventHandler<InteractionMessageRaisedEventArgs>,
-					InteractionMessageRaisedEventArgs>(
+				new WeakEventListener<EventHandler<MessageRaisedEventArgs>,
+					MessageRaisedEventArgs>(
 					h => h,
 					h => newMessenger.Raised += h,
 					h => newMessenger.Raised -= h,
 					thisReference.MessageReceived );
 		}
 
-		private void MessageReceived( object? sender, InteractionMessageRaisedEventArgs e ) {
+		private void MessageReceived( object? sender, MessageRaisedEventArgs e ) {
 			if( e == null ) throw new ArgumentNullException( nameof( e ) );
 
 			var message = e.Message;
 
-			var cloneMessage = (InteractionMessage)message.Clone();
+			var cloneMessage = (Message)message.Clone();
 
 			cloneMessage.Freeze();
 
@@ -107,9 +107,9 @@ namespace Sylpha.Messaging.Behaviors {
 			DoActionOnDispatcher( () => InvokeActions( cloneMessage ) );
 
 
-			if( message is ResponsiveInteractionMessage responsiveMessage ) {
+			if( message is RequestMessage responsiveMessage ) {
 				object? response;
-				if( ( response = ( (ResponsiveInteractionMessage)cloneMessage ).Response ) != null )
+				if( ( response = ( (RequestMessage)cloneMessage ).Response ) != null )
 					responsiveMessage.Response = response;
 			}
 		}

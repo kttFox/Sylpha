@@ -6,7 +6,7 @@ namespace Sylpha.Messaging {
 	/// ファイルを開くアクションをViewに行わせたい場合は、<see cref="FileSelectionMessage" />を使用してください。<br />
 	/// ファイルを保存するアクションをViewに行わせたい場合は、<see cref="SavingFileSelectionMessage" />を使用してください。
 	/// </summary>
-	public abstract class FileSelectionMessage : ResponsiveInteractionMessage<string[]> {
+	public abstract class FileSelectionMessage : RequestMessage<string[]> {
 		// Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty TitleProperty =
 			DependencyProperty.Register( nameof( Title ), typeof( string ), typeof( FileSelectionMessage ), new PropertyMetadata( null ) );

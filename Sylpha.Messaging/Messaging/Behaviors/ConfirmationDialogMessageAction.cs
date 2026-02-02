@@ -4,8 +4,8 @@ namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// 確認ダイアログを表示するアクションです。<see cref="ConfirmationMessage" />に対応します。
 	/// </summary>
-	public class ConfirmationDialogInteractionMessageAction : InteractionMessageAction<FrameworkElement> {
-		protected override void InvokeAction( InteractionMessage message ) {
+	public class ConfirmationDialogMessageAction : MessageAction<FrameworkElement> {
+		protected override void InvokeAction( Message message ) {
 			// ReSharper disable once InvertIf
 			if( message is ConfirmationMessage confirmMessage ) {
 				var result = MessageBox.Show(

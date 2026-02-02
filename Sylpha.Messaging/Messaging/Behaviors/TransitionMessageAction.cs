@@ -7,18 +7,18 @@ namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
 	/// 画面遷移(Window)を行うアクションです。<see cref="TransitionMessage" />に対応します。
 	/// </summary>
-	public class TransitionInteractionMessageAction : InteractionMessageAction<FrameworkElement> {
+	public class TransitionMessageAction : MessageAction<FrameworkElement> {
 		// Using a DependencyProperty as the backing store for WindowType.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty WindowTypeProperty =
-			DependencyProperty.Register( nameof( WindowType ), typeof( Type ), typeof( TransitionInteractionMessageAction ), new PropertyMetadata() );
+			DependencyProperty.Register( nameof( WindowType ), typeof( Type ), typeof( TransitionMessageAction ), new PropertyMetadata() );
 
 		// Using a DependencyProperty as the backing store for Mode.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ModeProperty =
-			DependencyProperty.Register( nameof( Mode ), typeof( TransitionMode ), typeof( TransitionInteractionMessageAction ), new PropertyMetadata( TransitionMode.Normal ) );
+			DependencyProperty.Register( nameof( Mode ), typeof( TransitionMode ), typeof( TransitionMessageAction ), new PropertyMetadata( TransitionMode.Normal ) );
 
 		// Using a DependencyProperty as the backing store for OwnedFromThis.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty OwnedFromThisProperty =
-			DependencyProperty.Register( nameof( OwnedFromThis ), typeof( bool ), typeof( TransitionInteractionMessageAction ), new PropertyMetadata( true ) );
+			DependencyProperty.Register( nameof( OwnedFromThis ), typeof( bool ), typeof( TransitionMessageAction ), new PropertyMetadata( true ) );
 
 		/// <summary>
 		/// 遷移するウインドウの型を指定、または取得します。
@@ -52,7 +52,7 @@ namespace Sylpha.Messaging.Behaviors {
 				   && value.GetConstructor( Type.EmptyTypes ) != null;
 		}
 
-		protected override void InvokeAction( InteractionMessage message ) {
+		protected override void InvokeAction( Message message ) {
 			if( message is not TransitionMessage transitionMessage ) return;
 
 			var targetType = transitionMessage.WindowType ?? WindowType;
@@ -76,7 +76,9 @@ namespace Sylpha.Messaging.Behaviors {
 					if( transitionMessage.TransitionViewModel != null )
 						targetWindow.DataContext = transitionMessage.TransitionViewModel;
 
-					if( OwnedFromThis ) targetWindow.Owner = Window.GetWindow( associatedObject );
+					if( this.OwnedFromThis ) {
+						targetWindow.Owner = Window.GetWindow( associatedObject );
+					}
 
 					if( mode == TransitionMode.Normal ) {
 						targetWindow.Show();
@@ -95,17 +97,26 @@ namespace Sylpha.Messaging.Behaviors {
 
 						if( transitionMessage.TransitionViewModel != null )
 							window.DataContext = transitionMessage.TransitionViewModel;
-						if( OwnedFromThis ) window.Owner = Window.GetWindow( associatedObject );
+
+						if( this.OwnedFromThis ) {
+							window.Owner = Window.GetWindow( associatedObject );
+						}
+
 						window.Show();
 						transitionMessage.Response = null;
 					} else {
 						if( transitionMessage.TransitionViewModel != null )
 							window.DataContext = transitionMessage.TransitionViewModel;
-						if( OwnedFromThis ) window.Owner = Window.GetWindow( associatedObject );
+
+						if( this.OwnedFromThis ) {
+							window.Owner = Window.GetWindow( associatedObject );
+						}
+
 						window.Activate();
 
 						// 最小化中なら戻す
 						if( window.WindowState == WindowState.Minimized ) window.WindowState = WindowState.Normal;
+
 						transitionMessage.Response = null;
 					}
 

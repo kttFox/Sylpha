@@ -4,7 +4,7 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// Windowを最大化・最小化・閉じる・通常化させるための相互作用メッセージです。
 	/// </summary>
-	public class WindowActionMessage : InteractionMessage {
+	public class WindowActionMessage : Message {
 		// Using a DependencyProperty as the backing store for Action.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ActionProperty =
 			DependencyProperty.Register( nameof( Action ), typeof( WindowAction ), typeof( WindowActionMessage ), new PropertyMetadata() );

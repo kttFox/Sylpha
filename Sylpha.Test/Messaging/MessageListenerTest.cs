@@ -9,11 +9,11 @@ namespace Sylpha.NUnit.Messaging {
 		public void LifeCycleTest() {
 			var listenerSuccess = false;
 
-			var publisher = new InteractionMessenger();
-			var message = new GenericInteractionMessage<int>( 1 );
+			var publisher = new Messenger();
+			var message = new Message<int>( 1 );
 
 			var listener = new MessageListener( publisher, m => {
-				( (GenericInteractionMessage<int>)m ).Value.Is( 1 );
+				( (Message<int>)m ).Value.Is( 1 );
 				listenerSuccess = true;
 			} );
 
@@ -47,10 +47,10 @@ namespace Sylpha.NUnit.Messaging {
 			var handler4Called = false;
 			var handler5Called = false;
 
-			var publisher = new InteractionMessenger();
-			var message0 = new GenericInteractionMessage<int>( 1 );
-			var message1 = new GenericInteractionMessage<int>( 1, "Dummy1" );
-			var message2 = new GenericInteractionMessage<int>( 1, "Dummy2" );
+			var publisher = new Messenger();
+			var message0 = new Message<int>( 1 );
+			var message1 = new Message<int>( 1, "Dummy1" );
+			var message2 = new Message<int>( 1, "Dummy2" );
 
 			var listener1 = new MessageListener( publisher )
 			{
@@ -114,14 +114,14 @@ namespace Sylpha.NUnit.Messaging {
 		}
 
 		[Test()]
-		public void ResponsiveMessageTest() {
+		public void RequestMessageTest() {
 			var listenerSuccess = false;
 
-			var publisher = new InteractionMessenger();
-			var message = new GenericResponsiveInteractionMessage<int, string>( 1 );
+			var publisher = new Messenger();
+			var message = new RequestMessage<int, string>( 1 );
 
 			var listener = new MessageListener( publisher, m => {
-				var rm = (GenericResponsiveInteractionMessage<int, string>)m;
+				var rm = (RequestMessage<int, string>)m;
 				rm.Value.Is( 1 );
 				rm.Response = "test";
 				listenerSuccess = true;
@@ -138,9 +138,9 @@ namespace Sylpha.NUnit.Messaging {
 		public void SourceReferenceMemoryLeakTest() {
 			var handler1Called = false;
 
-			var publisherStrongReference = new InteractionMessenger();
-			var publisherWeakReference = new WeakReference<InteractionMessenger>( publisherStrongReference );
-			var message = new GenericInteractionMessage<int>( 1, "Dummy1" );
+			var publisherStrongReference = new Messenger();
+			var publisherWeakReference = new WeakReference<Messenger>( publisherStrongReference );
+			var message = new Message<int>( 1, "Dummy1" );
 
 			var listener = new MessageListener( publisherStrongReference );
 			listener.RegisterAction( "Dummy1", _ => handler1Called = true );

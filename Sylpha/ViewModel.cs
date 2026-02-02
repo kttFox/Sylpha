@@ -24,8 +24,8 @@ namespace Sylpha {
 		/// </summary>
 		[XmlIgnore]
 		[field: NonSerialized]
-		public InteractionMessenger Messenger { 
-			get => field ??= new InteractionMessenger();
+		public Messenger Messenger { 
+			get => field ??= new Messenger();
 			set;
 		}
 

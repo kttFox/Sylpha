@@ -10,7 +10,7 @@ namespace Sylpha.Messaging {
 	/// </summary>
 	[ContentProperty( nameof(TransitionViewModel) )]
 	[PublicAPI]
-	public class TransitionMessage : ResponsiveInteractionMessage<bool?> {
+	public class TransitionMessage : RequestMessage<bool?> {
 		// Using a DependencyProperty as the backing store for TransitionViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty TransitionViewModelProperty =
 			DependencyProperty.Register( nameof( TransitionViewModel ), typeof( INotifyPropertyChanged ), typeof( TransitionMessage ), new PropertyMetadata( null ) );

@@ -2,14 +2,14 @@
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// <see cref="ResponsiveInteractionMessage{T}" /> for folder selection with folder browser dialog.
+	/// <see cref="RequestMessage{TResult}" /> for folder selection with folder browser dialog.
 	/// </summary>
 	/// <remarks>
 	/// You should set both of <see cref="Title" /> and <see cref="Description" />
 	/// when you set each of them,
 	/// because some platform only supports one of them.
 	/// </remarks>
-	public sealed class FolderSelectionMessage : ResponsiveInteractionMessage<string[]> {
+	public sealed class FolderSelectionMessage : RequestMessage<string[]> {
 		/// <summary>
 		/// Defines <see cref="Description" /> dependency property.
 		/// </summary>

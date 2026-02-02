@@ -23,10 +23,10 @@
 			<s:DataContextDisposeAction />
 		</i:EventTrigger>
 
-		<s:InteractionMessageTrigger MessageKey="MessageKey_Confirm"
+		<s:MessageTrigger MessageKey="MessageKey_Confirm"
 									 Messenger="{Binding Messenger}">
-			<s:ConfirmationDialogInteractionMessageAction />
-		</s:InteractionMessageTrigger>
+			<s:ConfirmationDialogMessageAction />
+		</s:MessageTrigger>
 	</i:Interaction.Triggers>
 
 	<StackPanel>
@@ -41,13 +41,13 @@
 		<Button Content="ConfirmFromView">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
-					<s:ConfirmationDialogInteractionMessageAction>
-						<s:DirectInteractionMessage CallbackMethodName="ConfirmFromView"
+					<s:ConfirmationDialogMessageAction>
+						<s:DirectMessage CallbackMethodName="ConfirmFromView"
 													CallbackMethodTarget="{Binding}">
 							<s:ConfirmationMessage Caption="テスト"
 												   Text="これはテスト用メッセージです。" />
-						</s:DirectInteractionMessage>
-					</s:ConfirmationDialogInteractionMessageAction>
+						</s:DirectMessage>
+					</s:ConfirmationDialogMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
@@ -56,25 +56,25 @@
 				Content="Single FileDialog">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
-					<s:OpenFileDialogInteractionMessageAction>
-						<s:DirectInteractionMessage CallbackMethodName="FileSelected"
+					<s:OpenFileDialogMessageAction>
+						<s:DirectMessage CallbackMethodName="FileSelected"
 													CallbackMethodTarget="{Binding}">
 							<s:OpeningFileSelectionMessage Title="ファイルの選択" />
-						</s:DirectInteractionMessage>
-					</s:OpenFileDialogInteractionMessageAction>
+						</s:DirectMessage>
+					</s:OpenFileDialogMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
 		<Button Content="Multi FileDialog">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
-					<s:OpenFileDialogInteractionMessageAction>
-						<s:DirectInteractionMessage CallbackMethodName="FileSelected"
+					<s:OpenFileDialogMessageAction>
+						<s:DirectMessage CallbackMethodName="FileSelected"
 													CallbackMethodTarget="{Binding}">
 							<s:OpeningFileSelectionMessage Title="ファイルの選択"
 														   MultiSelect="True" />
-						</s:DirectInteractionMessage>
-					</s:OpenFileDialogInteractionMessageAction>
+						</s:DirectMessage>
+					</s:OpenFileDialogMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
@@ -82,40 +82,36 @@
 				Content="CommonOpenFileDialog">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
-					<s:FolderBrowserDialogInteractionMessageAction>
-						<s:DirectInteractionMessage CallbackMethodName="FolderSelected"
-													CallbackMethodTarget="{Binding}">
-							<s:FolderSelectionMessage Title="フォルダの選択"
-													  DialogPreference="CommonItemDialog" />
-						</s:DirectInteractionMessage>
-					</s:FolderBrowserDialogInteractionMessageAction>
+					<s:FolderBrowserDialogMessageAction>
+						<s:DirectMessage CallbackMethodName="FolderSelected"
+						                             CallbackMethodTarget="{Binding}">
+							<s:FolderSelectionMessage Title="フォルダの選択" DialogPreference="CommonItemDialog" />
+						</s:DirectMessage>
+					</s:FolderBrowserDialogMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
 		<Button Content="Single FolderBrowserDialog">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
-					<s:FolderBrowserDialogInteractionMessageAction>
-						<s:DirectInteractionMessage CallbackMethodName="FolderSelected"
+					<s:FolderBrowserDialogMessageAction>
+						<s:DirectMessage CallbackMethodName="FolderSelected"
 													CallbackMethodTarget="{Binding}">
-							<s:FolderSelectionMessage Description="フォルダーの選択"
-													  DialogPreference="FolderBrowser" />
-						</s:DirectInteractionMessage>
-					</s:FolderBrowserDialogInteractionMessageAction>
+							<s:FolderSelectionMessage Description="フォルダーの選択" DialogPreference="FolderBrowser" />
+						</s:DirectMessage>
+					</s:FolderBrowserDialogMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>
 		<Button Content="Multi FolderBrowserDialog">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
-					<s:FolderBrowserDialogInteractionMessageAction>
-						<s:DirectInteractionMessage CallbackMethodName="FolderSelected"
+					<s:FolderBrowserDialogMessageAction>
+						<s:DirectMessage CallbackMethodName="FolderSelected"
 													CallbackMethodTarget="{Binding}">
-							<s:FolderSelectionMessage Description="フォルダーの選択"
-													  DialogPreference="FolderBrowser"
-													  Multiselect="True" />
-						</s:DirectInteractionMessage>
-					</s:FolderBrowserDialogInteractionMessageAction>
+							<s:FolderSelectionMessage Description="フォルダーの選択" DialogPreference="FolderBrowser" Multiselect="True" />
+						</s:DirectMessage>
+					</s:FolderBrowserDialogMessageAction>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</Button>

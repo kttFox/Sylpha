@@ -4,7 +4,7 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// 確認相互作用メッセージを表します。
 	/// </summary>
-	public class ConfirmationMessage : ResponsiveInteractionMessage<bool?> {
+	public class ConfirmationMessage : RequestMessage<bool?> {
 		// Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty TextProperty =
 			DependencyProperty.Register( nameof( Text ), typeof( string ), typeof( ConfirmationMessage ), new PropertyMetadata( null ) );

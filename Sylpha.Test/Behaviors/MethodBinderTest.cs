@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Sylpha.Behaviors;
+using Sylpha.Messaging;
 using Sylpha.NUnit.TestInfrastructures;
 
 namespace Sylpha.NUnit.Behaviors {

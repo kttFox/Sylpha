@@ -7,8 +7,8 @@ namespace Sylpha.Messaging.Behaviors {
 	/// 「ファイルを保存する」ダイアログを表示するアクションです。<see cref="SavingFileSelectionMessage" />に対応します。
 	/// </summary>
 	[PublicAPI]
-	public class SaveFileDialogInteractionMessageAction : InteractionMessageAction<DependencyObject> {
-		protected override void InvokeAction( InteractionMessage message ) {
+	public class SaveFileDialogMessageAction : MessageAction<DependencyObject> {
+		protected override void InvokeAction( Message message ) {
 			// ReSharper disable once InvertIf
 			if( message is SavingFileSelectionMessage saveFileMessage ) {
 				var dialog = new SaveFileDialog {

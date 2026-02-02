@@ -6,20 +6,16 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// ViewModelで使用するMessengerクラスです。
 	/// </summary>
-	public class InteractionMessenger {
+	public class Messenger {
 		/// <summary>
 		/// 指定された相互作用メッセージを同期的に送信します。
 		/// </summary>
 		/// <param name="message">相互作用メッセージ</param>
-		public void Raise( InteractionMessage message ) {
+		public void Raise( Message message ) {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
-
-			var threadSafeHandler = Interlocked.CompareExchange( ref Raised, null, null );
-			if( threadSafeHandler == null ) return;
-
 			if( !message.IsFrozen ) message.Freeze();
 
-			threadSafeHandler( this, new InteractionMessageRaisedEventArgs( message ) );
+			Raised?.Invoke( this, new MessageRaisedEventArgs( message ) );
 		}
 
 		/// <summary>
@@ -28,28 +24,24 @@ namespace Sylpha.Messaging {
 		/// <typeparam name="T">戻り値情報のある相互作用メッセージの型</typeparam>
 		/// <param name="message">戻り値情報のある相互作用メッセージ</param>
 		/// <returns>アクション実行後に、戻り情報を含んだ相互作用メッセージ</returns>
-		public T? GetResponse<T>( T message ) where T : ResponsiveInteractionMessage {
+		public T GetResponse<T>( T message ) where T : RequestMessage {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
-
-			var threadSafeHandler = Interlocked.CompareExchange( ref Raised, null, null );
-			if( threadSafeHandler == null ) return null;
-
 			if( !message.IsFrozen ) message.Freeze();
 
-			threadSafeHandler( this, new InteractionMessageRaisedEventArgs( message ) );
+			Raised?.Invoke( this, new MessageRaisedEventArgs( message ) );
 			return message;
 		}
 
 		/// <summary>
 		/// 相互作用メッセージが送信された時に発生するイベントです。
 		/// </summary>
-		public event EventHandler<InteractionMessageRaisedEventArgs>? Raised;
+		public event EventHandler<MessageRaisedEventArgs>? Raised;
 
 		/// <summary>
 		/// 指定された相互作用メッセージを非同期で送信します。
 		/// </summary>
 		/// <param name="message">相互作用メッセージ</param>
-		public async Task RaiseAsync( InteractionMessage message ) {
+		public async Task RaiseAsync( Message message ) {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
 			if( !message.IsFrozen ) message.Freeze();
@@ -62,7 +54,7 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		/// <typeparam name="T">戻り値情報のある相互作用メッセージの型</typeparam>
 		/// <param name="message">戻り値情報のある相互作用メッセージ</param>
-		public async Task<T?> GetResponseAsync<T>( T message ) where T : ResponsiveInteractionMessage {
+		public async Task<T?> GetResponseAsync<T>( T message ) where T : RequestMessage {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 
 			if( !message.IsFrozen ) message.Freeze();
@@ -74,21 +66,21 @@ namespace Sylpha.Messaging {
 	/// <summary>
 	/// 相互作用メッセージ送信時イベント用のイベント引数です。
 	/// </summary>
-	public class InteractionMessageRaisedEventArgs : EventArgs {
-		private InteractionMessage _message;
+	public class MessageRaisedEventArgs : EventArgs {
+		private Message _message;
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		/// <param name="message">InteractionMessage</param>
-		public InteractionMessageRaisedEventArgs( InteractionMessage message ) {
+		/// <param name="message">Message</param>
+		public MessageRaisedEventArgs( Message message ) {
 			_message = message ?? throw new ArgumentNullException( nameof( message ) );
 		}
 
 		/// <summary>
 		/// 送信されたメッセージ
 		/// </summary>
-		public InteractionMessage Message {
+		public Message Message {
 			get { return _message; }
 			set { _message = value ?? throw new ArgumentNullException( nameof( value ) ); }
 		}
