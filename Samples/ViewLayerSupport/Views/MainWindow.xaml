@@ -16,7 +16,7 @@
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="ContentRendered">
 			<s:CallMethodAction MethodName="Initialize"
-								 MethodTarget="{Binding}" />
+								MethodTarget="{Binding}" />
 		</i:EventTrigger>
 
 		<i:EventTrigger EventName="Closed">

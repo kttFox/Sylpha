@@ -7,7 +7,7 @@ namespace ViewLayerSupport.ViewModels {
 	public class CallMethodActionWindowViewModel : ViewModel {
 		public override void Initialize() { }
 
-		public string Text { get; set => SetProperty( ref field, value ); }
+		public string? Text { get; set => SetProperty( ref field, value ); }
 
 		void ButtonClick() {
 			this.Text = $"[{DateTime.Now}] ViewModel - Button Clicked!";
