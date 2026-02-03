@@ -7,6 +7,7 @@ namespace Sylpha.Behaviors {
 	/// アタッチしたオブジェクトのDataContextがIDisposableである場合、Disposeします。
 	/// </summary>
 	public class DataContextDisposeAction : TriggerAction<FrameworkElement> {
+		/// <inheritdoc />
 		protected override void Invoke( object parameter ) {
 			var disposable = AssociatedObject?.DataContext as IDisposable;
 			disposable?.Dispose();

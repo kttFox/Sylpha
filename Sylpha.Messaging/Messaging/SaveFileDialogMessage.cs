@@ -2,7 +2,7 @@
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// ファイルを保存する 用のメッセージです。
+	/// ファイルを保存する 用のメッセージ
 	/// </summary>
 	public class SaveFileDialogMessage : FileDialogMessage {
 		#region CreatePromptProperty
@@ -10,10 +10,13 @@ namespace Sylpha.Messaging {
 		/// ユーザーが存在しないファイルを指定した場合に、ファイルを作成することを確認するメッセージを表示するかどうかを設定または取得します。既定値は <see langword="false"/> です。
 		/// </summary>
 		public bool CreatePrompt {
-			get { return (bool)( GetValue( CreatePromptProperty ) ); }
-			set { SetValue( CreatePromptProperty, value ); }
+			get => (bool)GetValue( CreatePromptProperty );
+			set => SetValue( CreatePromptProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="CreatePrompt"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty CreatePromptProperty =
 			DependencyProperty.Register( nameof( CreatePrompt ), typeof( bool ), typeof( SaveFileDialogMessage ), new PropertyMetadata( false ) );
 		#endregion
@@ -29,6 +32,9 @@ namespace Sylpha.Messaging {
 			set => SetValue( CreateTestFileProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="CreateTestFile"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty CreateTestFileProperty =
 			DependencyProperty.Register( nameof( CreateTestFile ), typeof( bool ), typeof( SaveFileDialogMessage ), new PropertyMetadata( default( bool ) ) );
 		#endregion
@@ -39,10 +45,13 @@ namespace Sylpha.Messaging {
 		/// ユーザーが指定したファイルが存在する場合、上書き確認メッセージを表示するかどうかを設定または取得します。既定値は <see langword="true"/> です。
 		/// </summary>
 		public bool OverwritePrompt {
-			get { return (bool)( GetValue( OverwritePromptProperty ) ); }
-			set { SetValue( OverwritePromptProperty, value ); }
+			get => (bool)GetValue( OverwritePromptProperty );
+			set => SetValue( OverwritePromptProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="OverwritePrompt"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty OverwritePromptProperty =
 			DependencyProperty.Register( nameof( OverwritePrompt ), typeof( bool ), typeof( SaveFileDialogMessage ), new PropertyMetadata( true ) );
 		#endregion
@@ -59,12 +68,15 @@ namespace Sylpha.Messaging {
 		public SaveFileDialogMessage( string? messageKey ) : base( messageKey ) { }
 
 		/// <summary>
-		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
-		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
+		/// 派生クラスでは必ずオーバーライドしてください。<see cref="Freezable"/> オブジェクトとして必要な実装です。<br />
+		/// 通常、このメソッドは自身の新しいインスタンスを返すように実装します。
 		/// </summary>
 		protected override Freezable CreateInstanceCore() => new SaveFileDialogMessage();
 	}
 
+	/// <summary>
+	/// <see cref="SaveFileDialogMessage"/> 用の拡張メソッドを提供します。
+	/// </summary>
 	public static class SaveFileDialogMessageExtensions {
 		/// <summary>
 		/// ファイル保存ダイアログを表示するメッセージを送信し、結果を取得します。

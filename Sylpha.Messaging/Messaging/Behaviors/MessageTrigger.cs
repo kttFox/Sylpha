@@ -5,7 +5,7 @@ using Sylpha.EventListeners.WeakEvents;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// ViewModelからのメッセージを受信し、アクションを実行します。
+	/// ViewModelからのメッセージを受信し、アクションを実行するトリガー
 	/// </summary>
 	public class MessageTrigger : TriggerBase<FrameworkElement>, IDisposable {
 		#region Register MessengerProperty
@@ -13,13 +13,16 @@ namespace Sylpha.Messaging.Behaviors {
 		/// ViewModelのMessengerを指定、または取得します。
 		/// </summary>
 		public Messenger? Messenger {
-			get { return (Messenger?)GetValue( MessengerProperty ); }
-			set { SetValue( MessengerProperty, value ); }
+			get => (Messenger?)GetValue( MessengerProperty );
+			set => SetValue( MessengerProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="Messenger"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty MessengerProperty =
 					DependencyProperty.Register( nameof( Messenger ), typeof( Messenger ), typeof( MessageTrigger ), new PropertyMetadata( null, MessengerChanged ) );
-		
+
 		private static void MessengerChanged( DependencyObject d, DependencyPropertyChangedEventArgs e ) {
 			var sender = (MessageTrigger)d;
 
@@ -68,31 +71,30 @@ namespace Sylpha.Messaging.Behaviors {
 		/// </summary>
 		public string? MessageKey { get; set; }
 
-
+		/// <inheritdoc />
 		protected override void OnAttached() {
 			base.OnAttached();
 		}
 
+		/// <inheritdoc />
 		protected override void OnDetaching() {
-			if( Messenger != null ) _listener?.Dispose();
+			if( Messenger != null ) Dispose();
 
 			base.OnDetaching();
 		}
 
 		#region Dispose
-		protected virtual void Dispose( bool disposing ) {
-			if( !_disposed ) {
-				_disposed = true;
-				if( disposing ) {
-					_listener?.Dispose();
-				}
-			}
-		}
-
 		private bool _disposed;
 
-		public void Dispose() {
-			Dispose( true );
+		/// <summary>
+		/// リスナーを破棄します。
+		/// </summary>
+		public virtual void Dispose() {
+			if( !_disposed ) {
+				_disposed = true;
+
+				_listener?.Dispose();
+			}
 		}
 		#endregion
 	}

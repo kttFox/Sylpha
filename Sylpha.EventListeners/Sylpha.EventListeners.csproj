@@ -23,6 +23,9 @@ This package provides EventListeners.</Description>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SylphaSnk\opensource.snk</AssemblyOriginatorKeyFile>
     <PackageIcon>Sylpha.png</PackageIcon>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\Images\Sylpha.png">

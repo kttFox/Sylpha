@@ -2,35 +2,24 @@
 
 namespace Sylpha {
 	/// <summary>
-	/// 指定されたリソース解放用のActionをIDisposableとして扱います。
+	/// 指定されたリソース解放用の <see cref="Action"/> を <see cref="IDisposable"/> として扱います。
 	/// </summary>
-	public class AnonymousDisposable : IDisposable {
-		private readonly Action _releaseAction;
-
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="releaseAction">リソースを解放するためのアクション</param>
-		public AnonymousDisposable( Action releaseAction ) {
-			_releaseAction = releaseAction ?? throw new ArgumentNullException( nameof( releaseAction ) );
-		}
+	/// <param name="releaseAction">リソースを解放するためのアクション</param>
+	public class AnonymousDisposable( Action releaseAction ) : IDisposable {
+		private readonly Action _releaseAction = releaseAction ?? throw new ArgumentNullException( nameof( releaseAction ) );
 
 		#region Dispose
-		protected virtual void Dispose( bool disposing ) {
-			if( _disposed ) return;
-
-			if( disposing ) _releaseAction();
-			_disposed = true;
-		}
-
 		private bool _disposed;
 
 		/// <summary>
-		/// コンストラクタで指定されたアクションを呼び出します。
+		/// コンストラクターで指定されたアクションを呼び出します。
 		/// </summary>
-		public void Dispose() {
-			Dispose( true );
-			GC.SuppressFinalize( this );
+		public virtual void Dispose() {
+			if( !_disposed ) {
+				_disposed = true;
+
+				_releaseAction();
+			}
 		}
 		#endregion
 	}

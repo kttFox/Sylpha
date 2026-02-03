@@ -3,13 +3,19 @@ using System.Windows;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// Windowの最小化、最大化、閉じる などを行うアクションです。
+	/// ウインドウの最小化、最大化、閉じる などを行うアクション
 	/// </summary>
 	public class WindowActionMessageAction : MessageAction<FrameworkElement, WindowActionMessage> {
+		/// <inheritdoc />
 		protected override void InvokeAction( WindowActionMessage message ) {
 			Action( this.AssociatedObject, message );
 		}
 
+		/// <summary>
+		/// ウインドウの最小化、最大化、閉じる などを行うアクション
+		/// </summary>
+		/// <param name="element">対象の<see cref="DependencyObject"/></param>
+		/// <param name="message">ウインドウの設定と結果を格納するメッセージ</param>
 		public static void Action( FrameworkElement element, WindowActionMessage message ) {
 			var window = Window.GetWindow( element );
 			if( window != null ) {

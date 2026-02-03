@@ -7,15 +7,21 @@ using Microsoft.Win32;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// 「ファイルを開く」ダイアログを表示するアクションです。
+	/// 「ファイルを開く」ダイアログを表示するアクション
 	/// </summary>
 	public class OpenFolderDialogMessageAction : MessageAction<DependencyObject, OpenFolderDialogMessage> {
 		static readonly Dictionary<string, string?> RestoreDirectoryGroupList = [];
 
+		/// <inheritdoc />
 		protected override void InvokeAction( OpenFolderDialogMessage message ) {
 			Action( AssociatedObject, message );
 		}
 
+		/// <summary>
+		/// 「ファイルを開く」ダイアログを表示するアクション
+		/// </summary>
+		/// <param name="element">対象の<see cref="DependencyObject"/></param>
+		/// <param name="message">ダイアログの設定と結果を格納するメッセージ</param>
 		public static void Action( DependencyObject element, OpenFolderDialogMessage message ) {
 			var window = Window.GetWindow( element );
 			var group = message.RestoreDirectoryGroup;

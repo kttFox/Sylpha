@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Sylpha.Messaging {
 
 	/// <summary>
-	/// 単一引数を持つインスタンスメソッドをリフレクションで取得し、呼び出すクラスです。
+	/// 単一引数を持つインスタンスメソッドをリフレクションで取得し、呼び出すクラス
 	/// </summary>
 	public class MethodBinderWithArgument {
 		private static readonly ConcurrentDictionary<(Type targetType, string methodName, Type argumentType), Action<object, object?>> ActionCacheDictionary = [];
@@ -18,7 +18,7 @@ namespace Sylpha.Messaging {
 		private static readonly List<Task> TaskList = [];
 
 		/// <summary>
-		/// 現在バックグラウンドで実行中のデリゲート生成タスクの列挙を取得します。
+		/// キャッシュ中のデリゲート生成タスクの列挙を取得します。
 		/// </summary>
 		public static IEnumerable<Task> Tasks => TaskList;
 
@@ -28,6 +28,15 @@ namespace Sylpha.Messaging {
 
 		private MethodInfo? _methodInfoCache;
 
+		/// <summary>
+		/// 引数を１つ持つインスタンスメソッドをリフレクションで取得し、呼び出すクラス
+		/// </summary>
+		/// <param name="target">メソッドを呼び出すインスタンス</param>
+		/// <param name="methodName">呼び出すメソッドの名前</param>
+		/// <param name="argument">実際に渡す引数のインスタンス</param>
+		/// <returns>呼び出し結果。戻り値が void の場合は null を返します。</returns>
+		/// <exception cref="ArgumentNullException">引数のいずれかが null の場合</exception>
+		/// <exception cref="ArgumentException">指定したメソッドが見つからない場合</exception>
 		public object? Invoke( object target, string methodName, object argument ) {
 			if( target == null ) throw new ArgumentNullException( nameof( target ) );
 			if( methodName == null ) throw new ArgumentNullException( nameof( methodName ) );
@@ -37,7 +46,7 @@ namespace Sylpha.Messaging {
 		}
 
 		/// <summary>
-		/// 引数を１つ持つインスタンスメソッドをリフレクションで取得し、呼び出すクラスです。
+		/// 引数を１つ持つインスタンスメソッドをリフレクションで取得し、呼び出すクラス
 		/// </summary>
 		/// <param name="target">メソッドを呼び出すインスタンス</param>
 		/// <param name="methodName">呼び出すメソッドの名前</param>
@@ -51,7 +60,7 @@ namespace Sylpha.Messaging {
 			if( methodName == null ) throw new ArgumentNullException( nameof( methodName ) );
 			if( argumentType == null ) throw new ArgumentNullException( nameof( argumentType ) );
 
-			var key = (TargetType: target.GetType(), MethodName: methodName,  ArgumentType: argumentType );
+			var key = (TargetType: target.GetType(), MethodName: methodName, ArgumentType: argumentType);
 			if( key == _MethodCache ) {
 				if( _actionCache != null ) {
 					_actionCache( target, argument );

@@ -6,15 +6,21 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// フォルダ選択ダイアログを表示するアクションです。
+	/// フォルダ選択ダイアログを表示するアクション
 	/// </summary>
 	public class CommonOpenFileDialogMessageAction : MessageAction<FrameworkElement, CommonOpenFileDialogMessage> {
 		static readonly Dictionary<string, string?> RestoreDirectoryGroupList = [];
 
+		/// <inheritdoc />
 		protected override void InvokeAction( CommonOpenFileDialogMessage message ) {
 			Action( AssociatedObject, message );
 		}
 
+		/// <summary>
+		/// フォルダ選択ダイアログを表示するアクション
+		/// </summary>
+		/// <param name="element">対象の<see cref="DependencyObject"/></param>
+		/// <param name="message">ダイアログの設定と結果を格納するメッセージ</param>
 		public static void Action( FrameworkElement element, CommonOpenFileDialogMessage message ) {
 			if( !CommonFileDialog.IsPlatformSupported ) return;
 

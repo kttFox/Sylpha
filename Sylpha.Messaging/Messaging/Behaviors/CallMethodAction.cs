@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// 引数を一つだけ持つメソッドに対応したアクションです。
+	/// 引数を一つだけ持つメソッドに対応したアクション
 	/// </summary>
 	public class CallMethodAction : MessageAction<FrameworkElement, CallMethodMessage> {
 		#region Register TargetType
@@ -16,6 +16,9 @@ namespace Sylpha.Messaging.Behaviors {
 			set => SetValue( MethodTargetProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="MethodTarget"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty MethodTargetProperty =
 			DependencyProperty.Register( nameof( MethodTarget ), typeof( object ), typeof( CallMethodAction ), new PropertyMetadata( null ) );
 		#endregion
@@ -29,6 +32,9 @@ namespace Sylpha.Messaging.Behaviors {
 			set => SetValue( MethodNameProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="MethodName"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty MethodNameProperty =
 			DependencyProperty.Register( nameof( MethodName ), typeof( string ), typeof( CallMethodAction ), new PropertyMetadata( null ) );
 		#endregion
@@ -42,16 +48,24 @@ namespace Sylpha.Messaging.Behaviors {
 			set => SetValue( MethodParameterProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="MethodParameter"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty MethodParameterProperty =
 			DependencyProperty.Register( nameof( MethodParameter ), typeof( object ), typeof( CallMethodAction ), new PropertyMetadata( null ) );
 		#endregion
 
 		#region Register MethodParameterType
+		/// <summary>
+		/// 呼び出すメソッドに渡す引数の型を指定、または取得します。
+		/// </summary>
 		public Type? MethodParameterType {
 			get => (Type?)GetValue( MethodParameterTypeProperty );
 			set => SetValue( MethodParameterTypeProperty, value );
 		}
-
+		/// <summary>
+		/// <see cref="MethodParameterType"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty MethodParameterTypeProperty =
 			DependencyProperty.Register( nameof( MethodParameterType ), typeof( Type ), typeof( CallMethodAction ), new PropertyMetadata( null ) );
 		#endregion
@@ -59,10 +73,12 @@ namespace Sylpha.Messaging.Behaviors {
 		private static readonly MethodBinder Method = new();
 		private static readonly MethodBinderWithArgument ArgMethod = new();
 
+		/// <inheritdoc />
 		protected override void InvokeAction( object? parameter ) {
 			Action( MethodTarget ?? this.AssociatedObject, MethodName, MethodParameterType, MethodParameter, null );
 		}
 
+		/// <inheritdoc />
 		protected override void InvokeAction( CallMethodMessage message ) {
 			Action( MethodTarget ?? this.AssociatedObject, MethodName, MethodParameterType, MethodParameter, message );
 		}

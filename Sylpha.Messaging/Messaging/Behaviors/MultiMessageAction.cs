@@ -1,7 +1,11 @@
 ﻿using System.Windows;
 
 namespace Sylpha.Messaging.Behaviors {
+	/// <summary>
+	/// 複数のメッセージアクションをまとめて扱うアクション
+	/// </summary>
 	public class MultiMessageAction : MessageAction<FrameworkElement, Message> {
+		/// <inheritdoc />
 		protected override void InvokeAction( Message message ) {
 			switch( message ) {
 				case MessageBoxMessage msg: {
