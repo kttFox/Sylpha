@@ -80,19 +80,17 @@ namespace Sylpha.Messaging.Behaviors {
 		}
 
 		#region Dispose
-		protected virtual void Dispose( bool disposing ) {
-			if( !_disposed ) {
-				_disposed = true;
-				if( disposing ) {
-					_listener?.Dispose();
-				}
-			}
-		}
-
 		private bool _disposed;
 
-		public void Dispose() {
-			Dispose( true );
+		/// <summary>
+		/// リスナーを破棄します。
+		/// </summary>
+		public virtual void Dispose() {
+			if( !_disposed ) {
+				_disposed = true;
+
+				_listener?.Dispose();
+			}
 		}
 		#endregion
 	}

@@ -16,21 +16,17 @@ namespace Sylpha {
 		}
 
 		#region Dispose
-		protected virtual void Dispose( bool disposing ) {
-			if( _disposed ) return;
-
-			if( disposing ) _releaseAction();
-			_disposed = true;
-		}
-
 		private bool _disposed;
 
 		/// <summary>
 		/// コンストラクタで指定されたアクションを呼び出します。
 		/// </summary>
-		public void Dispose() {
-			Dispose( true );
-			GC.SuppressFinalize( this );
+		public virtual void Dispose() {
+			if( !_disposed ) {
+				_disposed = true;
+
+				_releaseAction();
+			}
 		}
 		#endregion
 	}

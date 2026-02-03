@@ -67,23 +67,15 @@ namespace Sylpha.EventListeners.WeakEvents {
 		#region Dispose
 		private bool _disposed;
 
-		protected virtual void Dispose( bool disposing ) {
+		public virtual void Dispose() {
 			if( !_disposed ) {
 				_disposed = true;
-				if( disposing ) {
+
 					_remove( _attachHandler );
 					_handler = default!;
 					_remove = default!;
 					_attachHandler = default!;
 				}
-			}
-		}
-
-		/// <summary>
-		/// イベントソースとの接続を解除します。
-		/// </summary>
-		public void Dispose() {
-			Dispose( true );
 		}
 
 		protected void ThrowExceptionIfDisposed() {

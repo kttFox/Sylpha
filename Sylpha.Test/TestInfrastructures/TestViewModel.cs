@@ -32,9 +32,10 @@ namespace Sylpha.NUnit.TestInfrastructures {
 			_test2Action( argument );
 		}
 
-		protected override void Dispose( bool disposing ) {
+		public override void Dispose() {
 			_disposeAction();
-			base.Dispose( disposing );
+
+			base.Dispose();
 		}
 	}
 }

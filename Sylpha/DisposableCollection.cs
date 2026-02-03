@@ -25,29 +25,21 @@ namespace Sylpha {
 			}
 		}
 
-
 		#region Dispose
-		protected virtual void Dispose( bool disposing ) {
-			if( !_disposed ) {
-				_disposed = true;
-
-				if( disposing ) {
-					foreach( var item in this ) {
-						item.Dispose();
-					}
-				}
-			}
-		}
-
 		private bool _disposed;
 
 		/// <summary>
 		/// このコレクションに含まれるすべての要素をDisposeします。
 		/// </summary>
-		public void Dispose() {
-			Dispose( true );
-		}
+		public virtual void Dispose() {
+			if( !_disposed ) {
+				_disposed = true;
 
+					foreach( var item in this ) {
+						item.Dispose();
+					}
+				}
+		}
 		#endregion
 
 	}

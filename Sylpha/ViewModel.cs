@@ -32,22 +32,17 @@ namespace Sylpha {
 		}
 
 		#region Dispose
-		protected virtual void Dispose( bool disposing ) {
-			if( !_disposed ) {
-				_disposed = true;
-				if( disposing ) {
-					_disposableCollection?.Dispose();
-				}
-			}
-		}
-
 		[NonSerialized] private bool _disposed;
 
 		/// <summary>
 		/// このインスタンスによって使用されているすべてのリソースを解放します。
 		/// </summary>
-		public void Dispose() {
-			Dispose( true );
+		public virtual void Dispose() {
+			if( !_disposed ) {
+				_disposed = true;
+
+				_disposableCollection?.Dispose();
+			}
 		}
 		#endregion
 	}
