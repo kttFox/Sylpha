@@ -1,4 +1,6 @@
-﻿$ErrorActionPreference = "Stop"
+﻿# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+
+$ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
 # Sylpha.props から Version を取得
@@ -22,6 +24,7 @@ $packages = @(
 
 foreach ($pkg in $packages) {
     Copy-Item "..\$pkg\bin\Release\$pkg.$Version.nupkg" $distPath
+    Copy-Item "..\$pkg\bin\Release\$pkg.$Version.snupkg" $distPath
 }
 
 Write-Host "Packages copied to $distPath"

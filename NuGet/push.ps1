@@ -7,9 +7,20 @@ $Version = $doc.Project.PropertyGroup.Version
 
 $DistPath = ".\dist\$Version"
 
-# Please get an API Key from nuget.org, and set the key using: dotnet nuget setApiKey xxxx
-Get-ChildItem -Path $DistPath -Filter "*.nupkg" | ForEach-Object {
-    Write-Host "Pushing $($_.Name)..." -ForegroundColor Cyan
-    dotnet nuget push $_.FullName -s https://www.nuget.org/api/v2/package
+# nuget.config から APIKey を取得
+$nugetConfig = [XML](Get-Content ".\nuget.config")
+$apiKey = $nugetConfig.configuration.apikeys.add | 
+    Where-Object { $_.key -eq "https://api.nuget.org/v3/index.json" } | 
+    Select-Object -ExpandProperty value
+
+if (-not $apiKey) {
+    Write-Host "Error: API Key not found in nuget.config" -ForegroundColor Red
+    exit 1
 }
+
+Get-ChildItem -Path $DistPath\* -Include "*.nupkg" | ForEach-Object {
+    Write-Host "Pushing $($_.Name)..." -ForegroundColor Cyan
+    dotnet nuget push $_.FullName -s nuget --api-key $apiKey --skip-duplicate
+}
+
 
