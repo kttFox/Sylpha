@@ -4,15 +4,17 @@ using Sylpha.Messaging;
 
 namespace Sylpha {
 	/// <summary>
-	/// ViewModelの基底クラスです。
+	/// ViewModel の基底クラス
 	/// </summary>
 	[Serializable]
 	public abstract class ViewModel : NotificationObject, IDisposable {
-
+		/// <summary>
+		/// View の <see cref="System.Windows.Window.ContentRendered"/> イベントに対応する初期化メソッド
+		/// </summary>
 		public virtual void Initialize() { }
 
 		/// <summary>
-		/// このViewModelクラスの基本CompositeDisposableです。
+		/// 破棄可能なオブジェクトのコレクションを取得または設定します。
 		/// </summary>
 		[XmlIgnore]
 		public DisposableCollection DisposableCollection {
@@ -22,11 +24,11 @@ namespace Sylpha {
 		[NonSerialized] private DisposableCollection? _disposableCollection;
 
 		/// <summary>
-		/// このViewModelクラスの基本Messengerインスタンスです。
+		/// <see cref="Sylpha.Messaging.Messenger"/> インスタンスを取得または設定します。
 		/// </summary>
 		[XmlIgnore]
 		[field: NonSerialized]
-		public Messenger Messenger { 
+		public Messenger Messenger {
 			get => field ??= new Messenger();
 			set;
 		}

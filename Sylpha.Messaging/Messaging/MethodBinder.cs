@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// 引数の無いインスタンスメソッドをリフレクションで取得し、呼び出すクラスです。
+	/// 引数の無いインスタンスメソッドをリフレクションで取得し、呼び出すクラス
 	/// </summary>
 	public class MethodBinder {
 		private static readonly ConcurrentDictionary<(Type targetType, string methodName), Action<object>> ActionCacheDictionary = [];
 		private static readonly ConcurrentDictionary<(Type targetType, string methodName), Func<object, object>> FuncCacheDictionary = [];
 		private static readonly List<Task> TaskList = [];
 
+		/// <summary>
+		/// キャッシュ中のデリゲート生成タスクの列挙を取得します。
+		/// </summary>
 		public static IEnumerable<Task> Tasks => TaskList;
 
 		private (Type TargetType, string MethodName)? _MethodCache;
@@ -25,7 +28,7 @@ namespace Sylpha.Messaging {
 		private MethodInfo? _methodInfoCache;
 
 		/// <summary>
-		/// 引数の無いインスタンスメソッドをリフレクションで取得し、呼び出すクラスです。
+		/// 引数の無いインスタンスメソッドをリフレクションで取得し、呼び出すクラス
 		/// </summary>
 		/// <param name="target">メソッドを呼び出すインスタンス</param>
 		/// <param name="methodName">呼び出すメソッドの名前</param>

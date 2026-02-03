@@ -1,24 +1,24 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Sylpha.Messaging {
+	
 	/// <summary>
-	/// ViewModelで使用するMessengerクラスです。
+	/// メッセージングシステムの中心となるクラス<br />
+	/// メッセージを送信し、リスナーに通知します。
 	/// </summary>
 	public class Messenger {
 		/// <summary>
-		/// メッセージが送信された時に発生するイベントです。
+		/// メッセージが送信されたときに発生するイベント
 		/// </summary>
 		public event EventHandler<MessageRaisedEventArgs>? Raised;
-
 
 		/// <summary>
 		/// 指定されたメッセージを送信します。
 		/// </summary>
 		/// <typeparam name="T">メッセージの型</typeparam>
-		/// <param name="message">メッセージ</param>
-		/// <returns>アクション実行後のメッセージ(引数と同じ)</returns>
+		/// <param name="message">送信するメッセージ</param>
+		/// <returns>送信されたメッセージ（引数と同じインスタンス）</returns>
+		/// <exception cref="ArgumentNullException"><paramref name="message"/> が <c>null</c> の場合に発生します。</exception>
 		public T Raise<T>( T message ) where T : Message {
 			if( message == null ) throw new ArgumentNullException( nameof( message ) );
 			if( !message.IsFrozen ) message.Freeze();
@@ -30,11 +30,10 @@ namespace Sylpha.Messaging {
 	}
 
 	/// <summary>
-	/// メッセージ送信時イベント用のイベント引数です。
+	/// メッセージ送信時のイベント引数
 	/// </summary>
-	/// <param name="message">Message</param>
+	/// <param name="message">送信されたメッセージ</param>
 	public class MessageRaisedEventArgs( Message message ) : EventArgs {
-
 		/// <summary>
 		/// 送信されたメッセージ
 		/// </summary>

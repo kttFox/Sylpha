@@ -2,15 +2,21 @@
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// ファイルを開く、保存するアクション用の共通メッセージ基底抽象クラスです。
+	/// ファイルを開く、保存するアクション用の共通メッセージ基底抽象クラス
 	/// </summary>
 	public abstract class FileDialogMessage : CommonItemDialogMessage {
 		#region Register FilterIndex
+		/// <summary>
+		/// ファイル ダイアログで現在選択されているフィルターのインデックスを取得または設定します。
+		/// </summary>
 		public int FilterIndex {
-			get { return (int)GetValue( FilterIndexProperty ); }
-			set { SetValue( FilterIndexProperty, value ); }
+			get => (int)GetValue( FilterIndexProperty );
+			set => SetValue( FilterIndexProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="FilterIndex"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty FilterIndexProperty =
 			DependencyProperty.Register( nameof( FilterIndex ), typeof( int ), typeof( FileDialogMessage ), new PropertyMetadata( 1 ) );
 		#endregion
@@ -20,10 +26,13 @@ namespace Sylpha.Messaging {
 		/// ファイルの拡張子Filterを指定、または取得します。
 		/// </summary>
 		public string? Filter {
-			get { return (string?)GetValue( FilterProperty ); }
-			set { SetValue( FilterProperty, value ); }
+			get => (string?)GetValue( FilterProperty );
+			set => SetValue( FilterProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="Filter"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty FilterProperty =
 			DependencyProperty.Register( nameof( Filter ), typeof( string ), typeof( FileDialogMessage ), new PropertyMetadata( null ) );
 		#endregion
@@ -33,10 +42,13 @@ namespace Sylpha.Messaging {
 		/// ファイルダイアログで指定されたファイルのパスを含む文字列を指定、または取得します。
 		/// </summary>
 		public string? FileName {
-			get { return (string?)GetValue( FileNameProperty ); }
-			set { SetValue( FileNameProperty, value ); }
+			get => (string?)GetValue( FileNameProperty );
+			set => SetValue( FileNameProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="FileName"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty FileNameProperty =
 			DependencyProperty.Register( nameof( FileName ), typeof( string ), typeof( FileDialogMessage ), new PropertyMetadata( null ) );
 		#endregion
@@ -49,12 +61,15 @@ namespace Sylpha.Messaging {
 		/// 既定のファイル名の拡張子を取得または設定します。
 		/// </summary>
 		public string DefaultExt {
-			get { return (string)GetValue( DefaultExtProperty ); }
-			set { SetValue( DefaultExtProperty, value ); }
+			get => (string)GetValue( DefaultExtProperty );
+			set => SetValue( DefaultExtProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="DefaultExt"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty DefaultExtProperty =
-			DependencyProperty.Register( nameof(DefaultExt), typeof( string ), typeof( FileDialogMessage ), new PropertyMetadata( string.Empty ) );
+			DependencyProperty.Register( nameof( DefaultExt ), typeof( string ), typeof( FileDialogMessage ), new PropertyMetadata( string.Empty ) );
 		#endregion
 
 		#region Register CheckPathExists
@@ -67,6 +82,9 @@ namespace Sylpha.Messaging {
 			set => SetValue( CheckPathExistsProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="CheckPathExists"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty CheckPathExistsProperty =
 			DependencyProperty.Register( nameof( CheckPathExists ), typeof( bool ), typeof( FileDialogMessage ), new PropertyMetadata( true ) );
 		#endregion
@@ -81,6 +99,9 @@ namespace Sylpha.Messaging {
 			set => SetValue( CheckFileExistsProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="CheckFileExists"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty CheckFileExistsProperty =
 			DependencyProperty.Register( nameof( CheckFileExists ), typeof( bool ), typeof( FileDialogMessage ), new PropertyMetadata( false ) );
 		#endregion
@@ -90,10 +111,13 @@ namespace Sylpha.Messaging {
 		/// 拡張子を指定しなかった場合、自動で拡張子を追加するかどうかを指定、または取得します。デフォルトはtrueです。
 		/// </summary>
 		public bool AddExtension {
-			get { return (bool)( GetValue( AddExtensionProperty ) ); }
-			set { SetValue( AddExtensionProperty, value ); }
+			get => (bool)GetValue( AddExtensionProperty );
+			set => SetValue( AddExtensionProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="AddExtension"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty AddExtensionProperty =
 			DependencyProperty.Register( nameof( AddExtension ), typeof( bool ), typeof( FileDialogMessage ), new PropertyMetadata( true ) );
 		#endregion
@@ -109,6 +133,6 @@ namespace Sylpha.Messaging {
 		/// <param name="messageKey">メッセージキー</param>
 		protected FileDialogMessage( string? messageKey ) : base( messageKey ) { }
 
-		
+
 	}
 }

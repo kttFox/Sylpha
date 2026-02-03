@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Sylpha {
 	/// <summary>
-	/// 複数のIDisposableオブジェクトをまとめて操作するための機能を提供します。
+	/// 複数の <see cref="IDisposable"/> オブジェクトをまとめて操作するための機能を提供します。
 	/// </summary>
 	public class DisposableCollection : Collection<IDisposable>, IDisposable {
+		/// <inheritdoc />
 		protected override void InsertItem( int index, IDisposable item ) {
 			base.InsertItem( index, item );
 
@@ -17,6 +15,7 @@ namespace Sylpha {
 			}
 		}
 
+		/// <inheritdoc />
 		protected override void SetItem( int index, IDisposable item ) {
 			base.SetItem( index, item );
 
@@ -29,18 +28,17 @@ namespace Sylpha {
 		private bool _disposed;
 
 		/// <summary>
-		/// このコレクションに含まれるすべての要素をDisposeします。
+		/// コレクション内のすべての <see cref="IDisposable"/> オブジェクトを解放します。
 		/// </summary>
 		public virtual void Dispose() {
 			if( !_disposed ) {
 				_disposed = true;
 
-					foreach( var item in this ) {
-						item.Dispose();
-					}
+				foreach( var item in this ) {
+					item.Dispose();
 				}
+			}
 		}
 		#endregion
-
 	}
 }

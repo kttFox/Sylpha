@@ -6,12 +6,17 @@ using Sylpha.EventListeners.WeakEvents;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// <see cref="MessageListener.Raised"/> を受信するためのWeakイベントリスナーです。
+	/// <see cref="Messenger.Raised"/> イベントを受信するための Weak イベントリスナー
 	/// </summary>
 	public sealed class MessageListener : WeakEventListener<EventHandler<MessageRaisedEventArgs>, MessageRaisedEventArgs>, IEnumerable<KeyValuePair<string, List<Action<Message>>>>, IDisposable {
 		readonly Dictionary<string, List<Action<Message>>> _actionDictionary = [];
 		readonly WeakReference<Messenger> _source;
 
+		/// <summary>
+		/// <see cref="MessageListener"/> の新しいインスタンスを初期化します。
+		/// </summary>
+		/// <param name="messenger">イベントを受信する対象のメッセンジャー</param>
+		/// <exception cref="ArgumentNullException"><paramref name="messenger"/> が <c>null</c> の場合に発生します。</exception>
 		public MessageListener( Messenger messenger ) {
 			if( messenger == null ) throw new ArgumentNullException( nameof( messenger ) );
 			_source = new( messenger );
@@ -59,17 +64,20 @@ namespace Sylpha.Messaging {
 			=> _actionDictionary.GetEnumerator();
 
 		/// <summary>
-		/// アクションを登録します。
+		/// <see cref="Action{Message}"/> デリゲートを登録します。
 		/// </summary>
-		/// <param name="action"></param>
+		/// <param name="action">登録する <see cref="Action{Message}"/> デリゲート</param>
+		/// <exception cref="ArgumentNullException">引数 が <c>null</c>、または <c>null</c> を含む場合に発生します。</exception>
+		/// <exception cref="ObjectDisposedException">このオブジェクトが既に破棄されている場合に発生します。</exception>
 		public void RegisterAction( params IEnumerable<Action<Message>> action ) => RegisterAction( string.Empty, action );
 
 		/// <summary>
-		/// メッセージキーに対応するアクションを登録します。
+		/// メッセージキーに応答する <see cref="Action{Message}"/> デリゲートを登録します。
 		/// </summary>
-		/// <param name="messageKey"></param>
-		/// <param name="actions"></param>
-		/// <exception cref="ArgumentNullException"></exception>
+		/// <param name="messageKey">応答するメッセージキー</param>
+		/// <param name="actions">登録する <see cref="Action{Message}"/> デリゲート</param>
+		/// <exception cref="ArgumentNullException">引数 が <c>null</c>、または <c>null</c> を含む場合に発生します。</exception>
+		/// <exception cref="ObjectDisposedException">このオブジェクトが既に破棄されている場合に発生します。</exception>
 		public void RegisterAction( string messageKey, params IEnumerable<Action<Message>> actions ) {
 			if( messageKey == null ) throw new ArgumentNullException( nameof( messageKey ) );
 			if( actions == null || actions.Contains( null ) ) throw new ArgumentNullException( nameof( actions ) );
@@ -82,8 +90,28 @@ namespace Sylpha.Messaging {
 			bag.AddRange( actions );
 		}
 
+		/// <summary>
+		/// <see cref="Action{Message}"/> デリゲートを登録します。
+		/// </summary>
+		/// <param name="action">登録する <see cref="Action{Message}"/> デリゲート</param>
+		/// <exception cref="ArgumentNullException">引数 が <c>null</c>、または <c>null</c> を含む場合に発生します。</exception>
+		/// <exception cref="ObjectDisposedException">このオブジェクトが既に破棄されている場合に発生します。</exception>
 		public void Add( Action<Message> action ) => this.RegisterAction( string.Empty, action );
+		/// <summary>
+		/// メッセージキーに応答する <see cref="Action{Message}"/> デリゲートを登録します。
+		/// </summary>
+		/// <param name="messageKey">応答するメッセージキー</param>
+		/// <param name="action">登録する <see cref="Action{Message}"/> デリゲート</param>
+		/// <exception cref="ArgumentNullException">引数 が <c>null</c>、または <c>null</c> を含む場合に発生します。</exception>
+		/// <exception cref="ObjectDisposedException">このオブジェクトが既に破棄されている場合に発生します。</exception>
 		public void Add( string messageKey, Action<Message> action ) => this.RegisterAction( messageKey, action );
+		/// <summary>
+		/// メッセージキーに応答する <see cref="Action{Message}"/> デリゲートを登録します。
+		/// </summary>
+		/// <param name="messageKey">応答するメッセージキー</param>
+		/// <param name="actions">登録する <see cref="Action{Message}"/> デリゲート</param>
+		/// <exception cref="ArgumentNullException">引数 が <c>null</c>、または <c>null</c> を含む場合に発生します。</exception>
+		/// <exception cref="ObjectDisposedException">このオブジェクトが既に破棄されている場合に発生します。</exception>
 		public void Add( string messageKey, IEnumerable<Action<Message>> actions ) => this.RegisterAction( messageKey, actions );
 
 	}

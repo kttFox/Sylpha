@@ -2,7 +2,7 @@
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// フォルダ選択ダイアログ用のメッセージです。
+	/// フォルダ選択ダイアログ用のメッセージ
 	/// </summary>
 	public class CommonOpenFileDialogMessage : CommonItemDialogMessage {
 		#region Register Multiselect
@@ -14,30 +14,33 @@ namespace Sylpha.Messaging {
 			set => SetValue( MultiselectProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="Multiselect"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty MultiselectProperty =
 			DependencyProperty.Register( nameof( Multiselect ), typeof( bool ), typeof( CommonOpenFileDialogMessage ), new UIPropertyMetadata( false ) );
 		#endregion
 
 
 		/// <summary>
-		/// 新しいメッセージのインスタンスを生成します。
+		/// <see cref="CommonOpenFileDialogMessage"/> の新しいインスタンスを初期化します。
 		/// </summary>
 		public CommonOpenFileDialogMessage() { }
 
 		/// <summary>
-		/// メッセージキーを指定して新しいメッセージのインスタンスを生成します。
+		/// メッセージキーを指定して、<see cref="CommonOpenFileDialogMessage"/> の新しいインスタンスを初期化します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public CommonOpenFileDialogMessage( string? messageKey ) : base( messageKey ) { }
 
 
-		/// <summary>
-		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
-		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
-		/// </summary>
+		/// <inheritdoc />
 		protected override Freezable CreateInstanceCore() => new CommonOpenFileDialogMessage();
 	}
 
+	/// <summary>
+	/// <see cref="CommonOpenFileDialogMessage"/> 用の拡張メソッドを提供します。
+	/// </summary>
 	public static class CommonOpenFileDialogMessageExtensions {
 		/// <summary>
 		/// フォルダ選択ダイアログを表示するメッセージを送信し、結果を取得します。

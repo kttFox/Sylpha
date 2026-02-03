@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Sylpha.EventListeners {
 	/// <summary>
-	/// <see cref="INotifyCollectionChanged.CollectionChanged"/> を受信するためのイベントリスナーです。
+	/// <see cref="INotifyCollectionChanged.CollectionChanged"/> イベントを受信するためのイベントリスナー。
 	/// </summary>
 	public sealed class CollectionChangedEventListener : EventListener<NotifyCollectionChangedEventHandler>, IEnumerable<KeyValuePair<NotifyCollectionChangedAction, List<NotifyCollectionChangedEventHandler>>>, IDisposable {
 		private readonly List<NotifyCollectionChangedEventHandler> _allHandlerList = [];
@@ -14,12 +14,13 @@ namespace Sylpha.EventListeners {
 		private readonly WeakReference<INotifyCollectionChanged> _source;
 
 		/// <summary>
-		/// コンストラクタ
+		/// <see cref="CollectionChangedEventListener"/> の新しいインスタンスを初期化します。
 		/// </summary>
-		/// <param name="source">INotifyCollectionChangedオブジェクト</param>
+		/// <param name="source">イベントを受信する対象のオブジェクト</param>
+		/// <exception cref="ArgumentNullException"><paramref name="source"/> が <c>null</c> の場合に発生します。</exception>
 		public CollectionChangedEventListener( INotifyCollectionChanged source ) {
 			if( source == null ) throw new ArgumentNullException( nameof( source ) );
-			_source = new ( source );
+			_source = new( source );
 
 			Initialize(
 				h => source.CollectionChanged += h,
@@ -49,24 +50,27 @@ namespace Sylpha.EventListeners {
 			=> _handlerDictionary.GetEnumerator();
 
 		/// <summary>
-		/// このリスナーインスタンスに新たなハンドラを追加します。
+		/// 共通のイベント ハンドラーを登録します。
 		/// </summary>
-		/// <param name="handlers">NotifyCollectionChangedイベントハンドラ</param>
+		/// <param name="handlers">登録するイベント ハンドラー</param>
+		/// <exception cref="ArgumentNullException">引数 が <c>null</c> 、または <c>null</c> を含む場合に発生します。</exception>
+		/// <exception cref="ObjectDisposedException">このオブジェクトが既に破棄されている場合に発生します。</exception>
 		public void RegisterHandler( params IEnumerable<NotifyCollectionChangedEventHandler> handlers ) {
 			if( handlers == null || handlers.Contains( null ) ) throw new ArgumentNullException( nameof( handlers ) );
-
 			ThrowExceptionIfDisposed();
+
 			_allHandlerList.AddRange( handlers );
 		}
 
 		/// <summary>
-		/// このリスナーインスタンスにプロパティ名でフィルタリング済のハンドラを追加します。
+		/// <see cref="NotifyCollectionChangedAction"/> でフィルタリング済みのイベント ハンドラーを登録します。
 		/// </summary>
-		/// <param name="action">ハンドラを登録したいNotifyCollectionChangedAction</param>
-		/// <param name="handlers">actionで指定されたNotifyCollectionChangedActionに対応したNotifyCollectionChangedイベントハンドラ</param>
+		/// <param name="action">イベント ハンドラーを登録したい <see cref="NotifyCollectionChangedAction"/></param>
+		/// <param name="handlers">登録するイベント ハンドラー</param>
+		/// <exception cref="ArgumentNullException">引数 が <c>null</c> 、または <c>null</c> を含む場合に発生します。</exception>
+		/// <exception cref="ObjectDisposedException">このオブジェクトが既に破棄されている場合に発生します。</exception>
 		public void RegisterHandler( NotifyCollectionChangedAction action, params IEnumerable<NotifyCollectionChangedEventHandler> handlers ) {
 			if( handlers == null || handlers.Contains( null ) ) throw new ArgumentNullException( nameof( handlers ) );
-
 			ThrowExceptionIfDisposed();
 
 			if( !_handlerDictionary.TryGetValue( action, out var list ) ) {
@@ -75,8 +79,28 @@ namespace Sylpha.EventListeners {
 			list.AddRange( handlers );
 		}
 
+		/// <summary>
+		/// 共通のイベント ハンドラーを登録します。
+		/// </summary>
+		/// <param name="handler">登録するイベント ハンドラー</param>
+		/// <exception cref="ArgumentNullException">引数 が <c>null</c> 、または <c>null</c> を含む場合に発生します。</exception>
+		/// <exception cref="ObjectDisposedException">このオブジェクトが既に破棄されている場合に発生します。</exception>
 		public void Add( NotifyCollectionChangedEventHandler handler ) => RegisterHandler( handler );
+		/// <summary>
+		/// <see cref="NotifyCollectionChangedAction"/> でフィルタリング済みのイベント ハンドラーを登録します。
+		/// </summary>
+		/// <param name="action">イベント ハンドラーを登録したい <see cref="NotifyCollectionChangedAction"/></param>
+		/// <param name="handler">登録するイベント ハンドラー</param>
+		/// <exception cref="ArgumentNullException">引数 が <c>null</c> 、または <c>null</c> を含む場合に発生します。</exception>
+		/// <exception cref="ObjectDisposedException">このオブジェクトが既に破棄されている場合に発生します。</exception>
 		public void Add( NotifyCollectionChangedAction action, NotifyCollectionChangedEventHandler handler ) => RegisterHandler( action, handler );
+		/// <summary>
+		/// <see cref="NotifyCollectionChangedAction"/> でフィルタリング済みのイベント ハンドラーを登録します。
+		/// </summary>
+		/// <param name="action">イベント ハンドラーを登録したい <see cref="NotifyCollectionChangedAction"/></param>
+		/// <param name="handlers">登録するイベント ハンドラー</param>
+		/// <exception cref="ArgumentNullException">引数 が <c>null</c> 、または <c>null</c> を含む場合に発生します。</exception>
+		/// <exception cref="ObjectDisposedException">このオブジェクトが既に破棄されている場合に発生します。</exception>
 		public void Add( NotifyCollectionChangedAction action, IEnumerable<NotifyCollectionChangedEventHandler> handlers ) => RegisterHandler( action, handlers );
 	}
 }

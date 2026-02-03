@@ -6,13 +6,19 @@ using System.Windows;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// ウィンドウの表示を行うアクションです。
+	/// ウィンドウの表示を行うアクション
 	/// </summary>
 	public class ShowWindowMessageAction : MessageAction<FrameworkElement, ShowWindowMessage> {
+		/// <inheritdoc />
 		protected override void InvokeAction( ShowWindowMessage message ) {
 			Action( AssociatedObject, message );
 		}
 
+		/// <summary>
+		/// ウィンドウの表示を行うアクション
+		/// </summary>
+		/// <param name="element">対象の<see cref="DependencyObject"/></param>
+		/// <param name="message">ダイアログの設定と結果を格納するメッセージ</param>
 		public static void Action( FrameworkElement element, ShowWindowMessage message ) {
 			var targetType = message.WindowType;
 			var defaultConstructor = GetConstructor( targetType ) ?? throw new Exception();
@@ -84,7 +90,7 @@ namespace Sylpha.Messaging.Behaviors {
 
 					message.Response = window.ShowDialog();
 				}
-				
+
 				message.WindowViewModel = window.DataContext as INotifyPropertyChanged;
 			}
 		}

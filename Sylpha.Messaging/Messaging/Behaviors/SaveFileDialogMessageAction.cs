@@ -5,15 +5,21 @@ using Microsoft.Win32;
 
 namespace Sylpha.Messaging.Behaviors {
 	/// <summary>
-	/// 「ファイルを保存する」ダイアログを表示するアクションです。
+	/// 「ファイルを保存する」ダイアログを表示するアクション
 	/// </summary>
 	public class SaveFileDialogMessageAction : MessageAction<DependencyObject, SaveFileDialogMessage> {
 		static readonly Dictionary<string, string?> RestoreDirectoryGroupList = [];
 
+		/// <inheritdoc />
 		protected override void InvokeAction( SaveFileDialogMessage message ) {
 			Action( this.AssociatedObject, message );
 		}
 
+		/// <summary>
+		/// 「ファイルを保存する」ダイアログを表示するアクション
+		/// </summary>
+		/// <param name="element">対象の<see cref="DependencyObject"/></param>
+		/// <param name="message">ダイアログの設定と結果を格納するメッセージ</param>
 		public static void Action( DependencyObject element, SaveFileDialogMessage message ) {
 			var window = Window.GetWindow( element );
 			var group = message.RestoreDirectoryGroup;

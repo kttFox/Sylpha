@@ -2,7 +2,7 @@
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// ファイルを開く アクション用のメッセージです。
+	/// ファイルを開く アクション用のメッセージ
 	/// </summary>
 	public class OpenFileDialogMessage : FileDialogMessage {
 		#region Register MultiSelect
@@ -10,34 +10,37 @@ namespace Sylpha.Messaging {
 		/// 複数ファイルを選択可能かを取得、または設定します。
 		/// </summary>
 		public bool MultiSelect {
-			get { return (bool)( GetValue( MultiSelectProperty ) ); }
-			set { SetValue( MultiSelectProperty, value ); }
+			get => (bool)GetValue( MultiSelectProperty );
+			set => SetValue( MultiSelectProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="MultiSelect"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty MultiSelectProperty =
 			DependencyProperty.Register( nameof( MultiSelect ), typeof( bool ), typeof( OpenFileDialogMessage ), new PropertyMetadata( false ) );
 		#endregion
 
 
 		/// <summary>
-		/// 新しいメッセージのインスタンスを生成します。
+		/// <see cref="OpenFileDialogMessage"/> の新しいインスタンスを初期化します。
 		/// </summary>
 		public OpenFileDialogMessage() { }
 
 		/// <summary>
-		/// メッセージキーを指定して、新しいメッセージのインスタンスを生成します。
+		/// メッセージキーを指定して、<see cref="OpenFileDialogMessage"/> の新しいインスタンスを初期化します。
 		/// </summary>
 		/// <param name="messageKey">メッセージキー</param>
 		public OpenFileDialogMessage( string? messageKey ) : base( messageKey ) { }
 
-		/// <summary>
-		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
-		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
-		/// </summary>
+		/// <inheritdoc />
 		protected override Freezable CreateInstanceCore() => new OpenFileDialogMessage();
 
 	}
 
+	/// <summary>
+	/// <see cref="OpenFileDialogMessage"/> 用の拡張メソッドを提供します。
+	/// </summary>
 	public static class OpenFileDialogMessageExtensions {
 		/// <summary>
 		/// ファイルを開くダイアログを表示するメッセージを送信し、結果を取得します。

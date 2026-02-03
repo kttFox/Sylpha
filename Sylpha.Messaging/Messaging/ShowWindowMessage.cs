@@ -5,7 +5,7 @@ using System.Windows.Markup;
 
 namespace Sylpha.Messaging {
 	/// <summary>
-	/// 画面遷移アクション用のメッセージです。
+	/// 画面遷移アクション用のメッセージ
 	/// </summary>
 	[ContentProperty( nameof( ViewModel ) )]
 	public class ShowWindowMessage : RequestMessage<bool?> {
@@ -18,6 +18,9 @@ namespace Sylpha.Messaging {
 			set => SetValue( ViewModelProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="ViewModel"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty ViewModelProperty =
 					DependencyProperty.Register( nameof( ViewModel ), typeof( INotifyPropertyChanged ), typeof( ShowWindowMessage ), new PropertyMetadata( null ) );
 		#endregion
@@ -28,9 +31,13 @@ namespace Sylpha.Messaging {
 		/// 初期値は <see cref="ShowWindowMode.Modal"/> です。
 		/// </summary>
 		public ShowWindowMode Mode {
-			get => (ShowWindowMode)( GetValue( ModeProperty ) );
+			get => (ShowWindowMode)GetValue( ModeProperty );
 			set => SetValue( ModeProperty, value );
 		}
+
+		/// <summary>
+		/// <see cref="Mode"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty ModeProperty =
 									DependencyProperty.Register( nameof( Mode ), typeof( ShowWindowMode? ), typeof( ShowWindowMessage ), new PropertyMetadata( ShowWindowMode.Modal ) );
 		#endregion
@@ -44,6 +51,9 @@ namespace Sylpha.Messaging {
 			set => SetValue( WindowTypeProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="WindowType"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty WindowTypeProperty =
 					DependencyProperty.Register( nameof( WindowType ), typeof( Type ), typeof( ShowWindowMessage ), new PropertyMetadata( null ) );
 		#endregion
@@ -57,6 +67,9 @@ namespace Sylpha.Messaging {
 			set => SetValue( IsOwnedProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="IsOwned"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty IsOwnedProperty =
 			DependencyProperty.Register( nameof( IsOwned ), typeof( bool ), typeof( ShowWindowMessage ), new PropertyMetadata( true ) );
 		#endregion
@@ -70,6 +83,9 @@ namespace Sylpha.Messaging {
 			set => SetValue( WindowSettingActionProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="WindowSettingAction"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty WindowSettingActionProperty =
 			DependencyProperty.Register( nameof( WindowSettingAction ), typeof( Action<Window> ), typeof( ShowWindowMessage ), new PropertyMetadata( null ) );
 		#endregion
@@ -83,21 +99,24 @@ namespace Sylpha.Messaging {
 			set => SetValue( InitializeActionProperty, value );
 		}
 
+		/// <summary>
+		/// <see cref="InitializeAction"/> 依存関係プロパティ
+		/// </summary>
 		public static readonly DependencyProperty InitializeActionProperty =
 			DependencyProperty.Register( nameof( InitializeAction ), typeof( Action<Window> ), typeof( ShowWindowMessage ), new PropertyMetadata( null ) );
 		#endregion
 
 
 		/// <summary>
-		/// メッセージのインスタンスを生成します。
+		/// <see cref="ShowWindowMessage"/> の新しいインスタンスを初期化します。
 		/// </summary>
 		public ShowWindowMessage() { }
 
 		/// <summary>
-		/// 新しいWindowの型と新しいWindowに設定するViewModel、画面遷移モードとメッセージキーを指定して新しいメッセージのインスタンスを生成します。
+		/// 新しいウインドウの型と新しいウインドウのDataContextに設定するViewModelとメッセージキーを指定して、<see cref="ShowWindowMessage"/> の新しいインスタンスを初期化します。
 		/// </summary>
-		/// <param name="windowType">新しいWindowの型</param>
-		/// <param name="viewModel">新しいWindowのDataContextに設定するViewModel</param>
+		/// <param name="windowType">新しいウインドウの型</param>
+		/// <param name="viewModel">新しいウインドウのDataContextに設定するViewModel</param>
 		/// <param name="messageKey">メッセージキー</param>
 		public ShowWindowMessage( Type? windowType = null, INotifyPropertyChanged? viewModel = null, string? messageKey = null ) : base( messageKey ) {
 			this.ViewModel = viewModel;
@@ -115,21 +134,26 @@ namespace Sylpha.Messaging {
 		/// </summary>
 		public INotifyPropertyChanged? WindowViewModel { get; internal set; }
 
-		/// <summary>
-		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br />
-		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
-		/// </summary>
+		/// <inheritdoc />
 		protected override Freezable CreateInstanceCore() => new ShowWindowMessage();
 	}
 
 	/// <summary>
-	/// 画面遷移アクション用のメッセージです。
+	/// 画面遷移アクション用のメッセージ
 	/// </summary>
-	/// <typeparam name="TWindow">ウインドウタイプ</typeparam>
+	/// <typeparam name="TWindow">ウインドウの型</typeparam>
 	[ContentProperty( nameof( ViewModel ) )]
 	public class ShowWindowMessage<TWindow> : ShowWindowMessage where TWindow : Window {
+		/// <summary>
+		/// <see cref="ShowWindowMessage{TWindow}"/> の新しいインスタンスを初期化します。
+		/// </summary>
 		public ShowWindowMessage() : base( typeof( TWindow ) ) { }
 
+		/// <summary>
+		/// 新しいウインドウのDataContextに設定するViewModelとメッセージキーを指定して、<see cref="ShowWindowMessage{TWindow}"/> の新しいインスタンスを初期化します。
+		/// </summary>
+		/// <param name="viewModel">新しいウインドウのDataContextに設定するViewModel</param>
+		/// <param name="messageKey">メッセージキー</param>
 		public ShowWindowMessage( INotifyPropertyChanged? viewModel = null, string? messageKey = null ) : base( typeof( TWindow ), viewModel, messageKey ) {
 
 		}
@@ -150,22 +174,27 @@ namespace Sylpha.Messaging {
 			set => base.InitializeAction = window => value?.Invoke( (TWindow)window );
 		}
 
-		/// <summary>
-		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br/>
-		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
-		/// </summary>
+		/// <inheritdoc />
 		protected override Freezable CreateInstanceCore() => new ShowWindowMessage<TWindow>();
 	}
 
 	/// <summary>
-	/// 画面遷移アクション用のメッセージです。
+	/// 画面遷移アクション用のメッセージ
 	/// </summary>
 	/// <typeparam name="TWindow">ウインドウタイプ</typeparam>
 	/// <typeparam name="TViewModel">ViewModelのタイプ</typeparam>
 	[ContentProperty( nameof( ViewModel ) )]
 	public class ShowWindowMessage<TWindow, TViewModel> : ShowWindowMessage<TWindow> where TWindow : Window where TViewModel : INotifyPropertyChanged {
+		/// <summary>
+		/// <see cref="ShowWindowMessage{TWindow, TViewModel}"/> の新しいインスタンスを初期化します。
+		/// </summary>
 		public ShowWindowMessage() { }
 
+		/// <summary>
+		/// 新しいウインドウのDataContextに設定するViewModelとメッセージキーを指定して、<see cref="ShowWindowMessage{TWindow, TViewModel}"/> の新しいインスタンスを初期化します。
+		/// </summary>
+		/// <param name="viewModel">新しいウインドウのDataContextに設定するViewModel</param>
+		/// <param name="messageKey">メッセージキー</param>
 		public ShowWindowMessage( TViewModel viewModel, string? messageKey = null ) : base( viewModel, messageKey ) {
 
 		}
@@ -178,18 +207,49 @@ namespace Sylpha.Messaging {
 			set => base.ViewModel = value;
 		}
 
-		/// <summary>
-		/// 派生クラスでは必ずオーバーライドしてください。Freezableオブジェクトとして必要な実装です。<br/>
-		/// 通常このメソッドは、自身の新しいインスタンスを返すように実装します。
-		/// </summary>
+		/// <inheritdoc />
 		protected override Freezable CreateInstanceCore() => new ShowWindowMessage<TWindow, TViewModel>();
 	}
+
+	/// <summary>
+	/// 新しいウインドウの表示方法を決定する列挙体
+	/// </summary>
+	public enum ShowWindowMode {
+		/// <summary>
+		/// 新しいウインドウをモーダルウインドウとして開きます。
+		/// </summary>
+		Modal,
+		/// <summary>
+		/// 新しいウインドウをモーダレスウインドウとして開きます。
+		/// </summary>
+		Modeless,
+		/// <summary>
+		/// すでに同じ型のウインドウが開かれている場合はそのウインドウをアクティブにします。<br />
+		/// 同じ型のウインドウが開かれていなかった場合、新しくウインドウを開きます。
+		/// </summary>
+		NewOrActive,
+	}
+
+	/// <summary>
+	/// <see cref="ShowWindowMessage{TWindow, TViewModel}"/> のインスタンスを生成するためのヘルパークラス
+	/// </summary>
+	/// <typeparam name="TWindow">表示するウィンドウの型</typeparam>
 	public static class ShowWindowMessageGenerator<TWindow> where TWindow : Window {
+		/// <summary>
+		/// 指定されたViewModelとメッセージキーを指定して、<see cref="ShowWindowMessage{TWindow, TViewModel}"/> のインスタンスを生成します。
+		/// </summary>
+		/// <typeparam name="TViewModel">ウィンドウに設定するViewModelの型</typeparam>
+		/// <param name="viewModel">新しいウインドウのDataContextに設定するViewModel</param>
+		/// <param name="messageKey">メッセージキー</param>
+		/// <returns>生成された <see cref="ShowWindowMessage{TWindow, TViewModel}"/> インスタンス</returns>
 		public static ShowWindowMessage<TWindow, TViewModel> Create<TViewModel>( TViewModel viewModel, string? messageKey = null ) where TViewModel : INotifyPropertyChanged {
 			return new ShowWindowMessage<TWindow, TViewModel>( viewModel, messageKey );
 		}
 	}
 
+	/// <summary>
+	/// <see cref="ShowWindowMessage"/> 用の拡張メソッドを提供します。
+	/// </summary>
 	public static class ShowWindowExtensions {
 		/// <summary>
 		/// ウインドウ表示メッセージを送信し、ウインドウを表示します。
