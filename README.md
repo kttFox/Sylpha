@@ -415,7 +415,7 @@ public string MyProperty {
 public string Text => MyProperty + " Changed";
 ```
 
-## その他
+## その他の変更
 
 ### スレッドセーフ、UIスレッド のサポートを削除
 Sylpha では スレッドセーフな処理、UIスレッドのチェック処理を削除しています。  
@@ -443,26 +443,26 @@ WinForm の OpenFileDialog にある RestoreDirectoryプロパティと同様の
 Sylpha は [Livet v4.0.2](https://github.com/runceel/Livet/tree/v4.0.2) をベースにして作られています。
 
 ### 追加
-+ Nullableに対応しました
++ Nullable に対応しました
 + RestoreDirectoryGroup 機能を追加しました
 + MultiMessageAction を追加しました
 + Messenger に対して 各Message用の拡張メソッドを追加しました
 + ViewModel に virtual Initialize() を追加しました
 + IDisposable に対して AddTo() 拡張メソッドを追加しました
++ シンボル パッケージ (.snupkg) に対応しました（NuGet.org）
 
 ### 変更
-
 + コマンドを ListenerCommand, ViewModelCommand から DelegateCommand に統一しました
 + Sylpha.Messaging 周りの名前空間を簡潔化しました
 + CallMethodAction で 引数の有無、戻り値の有無の 4パターン対応するように変更しました
 + WeakEventListener を改善しました
-+ コードスニペットを field キーワードを使用するように変更しました
++ コードスニペットは field キーワードを使用するように変更しました
++ NotificationObject の RaisePropertyChangedIfSet メソッドから SetProperty メソッドに変更しました
++ ConfirmationMessage, InformationMessage から MessageBoxMessage に統一しました
 
 ### 削除
-+ スレッドセーフのサポートを削除しました
-+ UIスレッドのサポートを削除しました<br/>
-DispatcherHelper など
-+ NotificationObject の RaisePropertyChangedIfSet メソッドを削除しました
++ スレッドセーフの対応を削除しました
++ UIスレッドのサポートを削除しました（DispatcherHelper など）
 + "Interaction" という文字を削除しました<br/>
 [例] InteractionMessage -> Message
 + InteractionMessageAction&lt;T&gt; の InvokeActionOnlyWhenWindowIsActive プロパティを削除しました
